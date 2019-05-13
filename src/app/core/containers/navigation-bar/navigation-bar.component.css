@@ -1,0 +1,13 @@
+.application-navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.application-title {
+  font-size: 25px;
+  margin-left: 5px;
+}
+
+.application-navbar-brand img {
+  height: 40px;
+}

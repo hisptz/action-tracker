@@ -1,5 +1,5 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { User, ErrorMessage } from '../../core';
+import { User, ErrorMessage } from '../../models';
 import { UserActions, UserActionTypes } from '../actions/user.actions';
 
 export interface State extends EntityState<User> {

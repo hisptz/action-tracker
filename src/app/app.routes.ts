@@ -1,11 +1,19 @@
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { HomeComponent } from './pages';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    redirectTo: 'data-entry',
+    pathMatch: 'full'
+  },
+  {
+    path: 'data-entry',
+    loadChildren: './pages/data-entry/data-entry.module#DataEntryModule'
+  },
+  {
+    path: 'report',
+    loadChildren: './pages/report/report.module#ReportModule'
   }
 ];
 

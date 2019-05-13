@@ -5,9 +5,7 @@ import { init, getInstance } from 'd2';
 export class Dhis2ApiService {
   constructor() {}
 
-  async initialize() {
-    init();
-  }
+  async initialize() {}
 
   getD2Instance() {
     return getInstance();
