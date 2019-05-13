@@ -1,10 +1,10 @@
 {
-  "name": "ngx-seed-app",
+  "name": "action-tracker",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod --aot && cd dist/ngx-seed-app && zip -r -D ngx-seed-app.zip .",
+    "build": "ng build --prod --aot && cd dist/action-tracker && zip -r -D action-tracker.zip .",
     "test": "ng test",
     "test:travis": "ng test -- --no-watch --no-progress --code-coverage --browsers=ChromeHeadlessCI",
     "lint": "ng lint",
@@ -39,7 +39,7 @@
     "core-js": "^2.6.4",
     "d2": "^31.5.0",
     "dexie": "^2.0.4",
-    "rxjs": "~6.5.1",
+    "rxjs": "~6.5.2",
     "tslib": "^1.9.0",
     "zone.js": "^0.8.29"
   },
