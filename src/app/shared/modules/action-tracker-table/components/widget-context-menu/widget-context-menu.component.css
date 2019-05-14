@@ -1,0 +1,13 @@
+.custom-card {
+  position: absolute;
+  width: 150px;
+}
+
+.custom-list {
+  list-style: none;
+}
+
+.custom-list-group-item {
+  cursor: pointer;
+  padding: 3px 10px;
+}
