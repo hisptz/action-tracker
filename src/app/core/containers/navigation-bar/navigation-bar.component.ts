@@ -14,6 +14,6 @@ export class NavigationBarComponent implements OnInit {
   constructor(private readonly store: Store<State>) {}
 
   ngOnInit() {
-    this.currentPage$ = this.store.select(getRouteUrl);
+    this.currentPage$ = this.store.select(getRouteUrl(true));
   }
 }

@@ -5,7 +5,8 @@ import {
   OnChanges,
   OnInit,
   Output,
-  SimpleChanges
+  SimpleChanges,
+  OnDestroy
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -21,7 +22,8 @@ import { getInterventions } from '../../store/selectors/intervention.selectors';
   templateUrl: './intervention-filter.component.html',
   styleUrls: ['./intervention-filter.component.css']
 })
-export class InterventionFilterComponent implements OnInit, OnChanges {
+export class InterventionFilterComponent
+  implements OnInit, OnChanges, OnDestroy {
   @Input() selectedInterventions: any[];
   @Input()
   interventionFilterConfig: any = {
@@ -146,5 +148,9 @@ export class InterventionFilterComponent implements OnInit, OnChanges {
     this.availableInterventions$ = this.store.select(
       getInterventions(this.selectedInterventions)
     );
+  }
+
+  ngOnDestroy() {
+    this.close.emit(this._getInterventionSelection());
   }
 }

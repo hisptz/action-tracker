@@ -7,8 +7,12 @@ export const getRouteState = createSelector(
   (state: State) => state.route
 );
 
-export const getRouteUrl = createSelector(
-  getRouteState,
-  (routeState: RouterReducerState) =>
-    routeState && routeState.state ? routeState.state.url : ''
-);
+export const getRouteUrl = (stripParams?: boolean) =>
+  createSelector(
+    getRouteState,
+    (routeState: RouterReducerState) => {
+      const routeUrl =
+        routeState && routeState.state ? routeState.state.url : '';
+      return (routeUrl || '').split('?')[0];
+    }
+  );
