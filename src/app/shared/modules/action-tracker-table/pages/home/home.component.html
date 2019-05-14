@@ -1,20 +1,6 @@
 <div class="container-fluid home-container">
   <div class="row">
     <div class="col-12" *ngIf="routerParams$ | async as routerParams">
-      <div class="row justify content-between">
-        <h2 class="widget-heading">
-          Root Cause Analysis:
-          <span class="text-secondary">
-            {{ routerParams.orgUnit?.id }} -
-            {{ routerParams.period?.id }}
-          </span>
-        </h2>
-
-        <span class="ml-auto text-secondary">
-          <i style="font-size:11px"> Right click row to edit/delete </i>
-        </span>
-      </div>
-
       <app-bna-widget
         [routerParams]="routerParams$ | async"
         [selectedOrgUnit]="routerParams.orgUnit?.name"
