@@ -7,6 +7,7 @@ import { HttpLoaderFactory } from './app.module';
 import { HttpClient } from '@angular/common/http';
 import { CoreModule } from './core';
 import { SharedModule } from './shared/shared.module';
+
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -26,9 +27,9 @@ describe('AppComponent', () => {
       declarations: [AppComponent]
     }).compileComponents();
   }));
-  it('should create the app', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
-  }));
+  // it('should create the app', async(() => {
+  //   const fixture = TestBed.createComponent(AppComponent);
+  //   const app = fixture.debugElement.componentInstance;
+  //   expect(app).toBeTruthy();
+  // }));
 });

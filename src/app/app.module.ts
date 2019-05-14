@@ -10,8 +10,10 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core';
+import { sharedModules } from './shared';
 import { SharedModule } from './shared/shared.module';
 
+/** Importing Shared modules */
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -36,7 +38,8 @@ export function HttpLoaderFactory(http: HttpClient) {
      * Menu  module
      */
     NgxDhis2MenuModule,
-
+    /**Shared Modules */
+    ...sharedModules,
     /**
      * Translation module
      */

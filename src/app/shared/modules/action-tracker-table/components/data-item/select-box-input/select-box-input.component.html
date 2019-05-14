@@ -1,0 +1,6 @@
+<select class="form-control table-cell-data" [(ngModel)]="dataItemValue" (change)="onDataValueChange($event)">
+    {{dataItemValue}}
+    <option *ngFor="let option of selectionsOptions" [selected]="selectionsOptions.length === 1">{{ option.name
+        }}
+    </option>
+</select>

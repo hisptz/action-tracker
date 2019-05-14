@@ -8,7 +8,7 @@ import { getQueryParams } from './core/helpers/get-query-params.helper';
 import { Go } from './core/store/actions';
 import { UpsertDataSelectionsAction } from './core/store/actions/global-selection.actions';
 import { State } from './core/store/reducers';
-import { getRouteUrl } from './core/store/selectors';
+import { getRouterParams, getRouteUrl } from './core/store/selectors';
 
 @Component({
   selector: 'app-root',
@@ -17,10 +17,11 @@ import { getRouteUrl } from './core/store/selectors';
 })
 export class AppComponent {
   constructor(
+    private store: Store<State>,
     private translate: TranslateService,
-    private titleService: Title,
-    private store: Store<State>
+    private titleService: Title
   ) {
+    this.store.select(getRouterParams).subscribe();
     // this language will be used as a fallback when a translation isn't found in the current language
     this.translate.setDefaultLang('en');
 
