@@ -1,6 +1,41 @@
 <div class="application-container">
   <ngx-dhis2-menu></ngx-dhis2-menu>
   <div class="application-content">
-    <router-outlet></router-outlet>
+    <!-- application header -->
+    <app-navigation-bar></app-navigation-bar>
+    <!-- end of application header -->
+
+    <div class="container-fluid">
+      <!-- application filter -->
+      <div class="row mt-3">
+        <div class="col-12 d-flex justify-content-between">
+          <div class="">
+            <button class="btn btn-outline-secondary">
+              Intervention
+              <span class="badge badge-secondary">ANC and 2 more</span></button
+            >&nbsp;
+            <button class="btn btn-outline-secondary">
+              Period
+              <span class="badge badge-secondary">2019 and 2 more</span></button
+            >&nbsp;
+            <button class="btn btn-outline-secondary">
+              OrgUnit
+              <span class="badge badge-secondary">Tanzania and 2 more</span>
+            </button>
+          </div>
+          <div>
+            <button class="btn btn-outline-secondary">
+              <i class="fa fa-cog"></i> Settings
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- end of application filter -->
+      <div class="row">
+        <div class="col-12">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

@@ -5,12 +5,14 @@ import { NgxDhis2MenuModule } from '@hisptz/ngx-dhis2-menu';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpLoaderFactory } from './app.module';
 import { HttpClient } from '@angular/common/http';
+import { CoreModule } from './core';
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         NgxDhis2MenuModule,
         RouterTestingModule,
+        CoreModule,
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,

@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { SystemInfo, ErrorMessage } from '../../core';
+import { SystemInfo, ErrorMessage } from '../../models';
 
 export enum SystemInfoActionTypes {
   LoadSystemInfo = '[SystemInfo] Load System info',

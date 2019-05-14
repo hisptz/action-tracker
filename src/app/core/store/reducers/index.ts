@@ -5,11 +5,11 @@ import {
   createSelector,
   MetaReducer
 } from '@ngrx/store';
-import { environment } from '../../../environments/environment';
 
-import * as fromUser from '../reducers/user.reducer';
-import * as fromSystemInfo from '../reducers/system-info.reducer';
+import * as fromUser from './user.reducer';
+import * as fromSystemInfo from './system-info.reducer';
 import { RouterReducerState, routerReducer } from '@ngrx/router-store';
+import { environment } from 'src/environments/environment';
 
 export interface State {
   /**

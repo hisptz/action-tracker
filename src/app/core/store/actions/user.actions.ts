@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { User, ErrorMessage, SystemInfo } from '../../core';
+import { User, ErrorMessage, SystemInfo } from '../../models';
 
 export enum UserActionTypes {
   LoadCurrentUser = '[User] Load current User',

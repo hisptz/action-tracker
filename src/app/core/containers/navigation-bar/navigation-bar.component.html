@@ -1,0 +1,28 @@
+<nav class="navbar navbar-light border-bottom">
+  <a class="navbar-brand application-navbar-brand" href="#">
+    <img src="assets/icons/icon-96x96.png" alt="" />
+    <span class="application-title">Action Tracker</span>
+  </a>
+  <div class="d-flex">
+    <div class="btn-group">
+      <a
+        [routerLink]="['/data-entry']"
+        class="btn {{
+          (currentPage$ | async) === '/data-entry'
+            ? 'btn-primary'
+            : 'btn-outline-primary'
+        }}"
+        ><i class="fa fa-pencil"></i> Data Entry</a
+      >
+      <a
+        routerLink="/report"
+        class="btn {{
+          (currentPage$ | async) === '/report'
+            ? 'btn-primary'
+            : 'btn-outline-primary'
+        }}"
+        ><i class="fa fa-file"></i> Report</a
+      >
+    </div>
+  </div>
+</nav>
