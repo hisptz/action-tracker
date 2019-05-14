@@ -1,0 +1,26 @@
+<div>
+    <div class="card custom-card" [ngStyle]="{'left.px': x, 'top.px': y}">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item custom-list-group-item" (click)="onToggleEdit($event,dataItem)">
+                <div class="row justify-content-between">
+                    <div class="col-8">
+                        Edit
+                    </div>
+                    <div class="col-4">
+                        <i class="icon-edit pull-right text-success"></i>
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item custom-list-group-item" (click)="onToggleDelete($event,dataItem)">
+                <div class="row justify-content-between">
+                    <div class="col-8">
+                        Delete
+                    </div>
+                    <div class="col-4">
+                        <i class="icon-delete pull-right text-danger"></i>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

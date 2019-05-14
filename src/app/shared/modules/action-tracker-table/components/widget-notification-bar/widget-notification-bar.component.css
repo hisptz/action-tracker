@@ -1,0 +1,40 @@
+.widget-notification-alert {
+  font-size: 13px;
+  position: absolute;
+  z-index: 101;
+  top: -20px;
+  left: 25%;
+  right: 25%;
+  text-align: center;
+  overflow: hidden;
+  color: #000;
+  background-color: #fbf5ca;
+}
+
+@-webkit-keyframes slideDown {
+  0%,
+  100% {
+    -webkit-transform: translateY(-50px);
+  }
+  10%,
+  90% {
+    -webkit-transform: translateY(0px);
+  }
+}
+@-moz-keyframes slideDown {
+  0%,
+  100% {
+    -moz-transform: translateY(-50px);
+  }
+  10%,
+  90% {
+    -moz-transform: translateY(0px);
+  }
+}
+
+.cssanimations.csstransforms #widget-notification-alert {
+  -webkit-transform: translateY(-50px);
+  -webkit-animation: slideDown 2.5s 1s 1 ease forwards;
+  -moz-transform: translateY(-50px);
+  -moz-animation: slideDown 2.5s 1s 1 ease forwards;
+}
