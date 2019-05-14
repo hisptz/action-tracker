@@ -6,6 +6,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpLoaderFactory } from './app.module';
 import { HttpClient } from '@angular/common/http';
 import { CoreModule } from './core';
+import { SharedModule } from './shared/shared.module';
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -13,6 +14,7 @@ describe('AppComponent', () => {
         NgxDhis2MenuModule,
         RouterTestingModule,
         CoreModule,
+        SharedModule,
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,
