@@ -1,3 +1,3 @@
-import { BnaWidgetComponent } from './bna-widget/bna-widget.component';
+import { ActionTrackerWidgetComponent } from './bna-widget/action-tracker-widget.component';
 
-export const pages: any = [BnaWidgetComponent];
+export const pages: any = [ActionTrackerWidgetComponent];

@@ -35,9 +35,9 @@ import {
 import { State } from 'src/app/core/store/reducers';
 
 @Component({
-  selector: 'app-bna-widget',
-  templateUrl: './bna-widget.component.html',
-  styleUrls: ['./bna-widget.component.css'],
+  selector: 'app-action-tracker-widget',
+  templateUrl: './action-tracker-widget.component.html',
+  styleUrls: ['./action-tracker-widget.component.css'],
   animations: [
     listEnterAnimation,
     trigger('fadeInOut', [
@@ -53,7 +53,7 @@ import { State } from 'src/app/core/store/reducers';
     ])
   ]
 })
-export class BnaWidgetComponent implements OnInit {
+export class ActionTrackerWidgetComponent implements OnInit {
   @Input()
   routerParams;
   @Input()

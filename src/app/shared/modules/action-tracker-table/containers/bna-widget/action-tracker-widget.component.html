@@ -36,8 +36,6 @@
             let j = index
           "
           [ngClass]="{ 'auto-filled': dataElement.valueType == 'AUTO_FILLED' }"
-          (dblclick)="onToggleEdit($event, dataItem)"
-          (contextmenu)="onEnableContextMenu($event, dataItem)"
         >
           <div
             *ngIf="
