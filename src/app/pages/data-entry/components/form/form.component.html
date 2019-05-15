@@ -1,0 +1,19 @@
+<div *ngIf="actionTrackerConfiguration as configurations">
+  <div class="row">
+    <div
+      *ngFor="
+        let column of actionTrackerConfiguration.dataElements;
+        let last = last
+      "
+      [ngClass]="{ 'col-4': !last, 'custom-text-area': last }"
+    >
+      <form-input-item
+        [hidden]="column.isHidden"
+        [inputItemType]="column.valueType"
+        [inputItemId]="column.id"
+        [inputItemName]="column.name"
+      >
+      </form-input-item>
+    </div>
+  </div>
+</div>

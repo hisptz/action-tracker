@@ -1,13 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
-import { DataEntryRoutingModule } from './data-entry-routing.module';
+import { DataEntryRoutingModule } from "./data-entry-routing.module";
+import { dataEntryComponents } from "./components";
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    DataEntryRoutingModule
-  ]
+  declarations: [...dataEntryComponents],
+  exports: [...dataEntryComponents],
+  imports: [CommonModule, DataEntryRoutingModule]
 })
-export class DataEntryModule { }
+export class DataEntryModule {}
