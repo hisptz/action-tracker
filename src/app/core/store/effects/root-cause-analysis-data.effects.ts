@@ -46,23 +46,15 @@ export class RootCauseAnalysisDataEffects {
       fromRootCauseAnalysisDataActions.RootCauseAnalysisDataActionTypes
         .LoadRootCauseAnalysisDatas
     ),
-    withLatestFrom(this.rootStore.select(getRouterParams)),
     mergeMap(
-      ([action, routerParams]: [
-        fromRootCauseAnalysisDataActions.LoadRootCauseAnalysisDatas,
-        any
-      ]) => {
-        const namespaceParams = _.pick(routerParams, [
-          'orgUnit',
-          'period',
-          'dashboard'
-        ]);
+      (action: fromRootCauseAnalysisDataActions.LoadRootCauseAnalysisDatas) => {
+        console.log(action.dataParams);
         return this.rootCauseAnalysisDataService
           .getRootCauseAnalysisData(
-            action.configurationId,
-            namespaceParams.orgUnit.id,
-            namespaceParams.period.id,
-            namespaceParams.dashboard.id
+            action.dataParams.rootCauseConfig,
+            action.dataParams.orgUnit,
+            action.dataParams.period,
+            action.dataParams.intervention
           )
           .pipe(
             map(

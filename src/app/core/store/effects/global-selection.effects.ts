@@ -10,24 +10,26 @@ import {
 import { switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { State } from '../reducers';
 import { getCurrentRootCauseAnalysisConfiguration } from '../selectors/root-cause-analysis-configuration.selectors';
+import { getCurrentActionTrackerConfig } from '../selectors/action-tracker-configuration.selectors';
+import { getDataParams } from '../../helpers/get-data-params.helper';
+import { LoadRootCauseAnalysisDatas } from '../actions/root-cause-analysis-data.actions';
 
 @Injectable()
 export class GlobalSelectionEffects {
   @Effect({ dispatch: false })
   upsertDataSelections$: Observable<any> = this.actions$.pipe(
     ofType(GlobalSelectionActionTypes.UpsertDataSelections),
-    withLatestFrom(this.store.select(getCurrentRootCauseAnalysisConfiguration)),
-    tap(([action, rootCauseConfig]: [UpsertDataSelectionsAction, any]) => {
-      console.log(action.dataSelections, rootCauseConfig);
-      const interventionObject = _.find(action.dataSelections, [
-        'dimension',
-        'intervention'
-      ]);
-
-      const periodObject = _.find(action.dataSelections, ['dimension', 'pe']);
-      const orgUnitObject = _.find(action.dataSelections, ['dimension', 'ou']);
-
-      console.log(interventionObject, periodObject, orgUnitObject);
+    withLatestFrom(this.store.select(getCurrentActionTrackerConfig)),
+    tap(([action, actionTrackerConfig]: [UpsertDataSelectionsAction, any]) => {
+      if (action.dataSelections && actionTrackerConfig) {
+        const dataParams = getDataParams(
+          action.dataSelections,
+          actionTrackerConfig
+        );
+        dataParams.forEach((params: any) => {
+          this.store.dispatch(new LoadRootCauseAnalysisDatas(params));
+        });
+      }
     })
   );
   constructor(private actions$: Actions, private store: Store<State>) {}
