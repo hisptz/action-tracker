@@ -1,40 +1,52 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from "@angular/core";
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import {
   style,
   state,
   animate,
   transition,
   trigger
-} from "@angular/animations";
+} from '@angular/animations';
 
-import { listEnterAnimation } from "../../../../animations/list-enter-animation";
+import { listEnterAnimation } from '../../../../animations/list-enter-animation';
 
-import { Store } from "@ngrx/store";
-import { ActionTrackerWidgetState } from "../../store";
-import { Observable, of } from "rxjs";
-import { filter, map, switchMap } from "rxjs/operators";
-import * as _ from "lodash";
-import * as fromHelpers from "../../helpers";
-import * as fromModels from "../../store/models";
-import * as fromRootCauseAnalysisDataActions from "../../store/actions/root-cause-analysis-data.actions";
-import * as fromSelectors from "../../store/selectors";
-import { RootCauseAnalysisData } from "../../store/models";
+import { Store } from '@ngrx/store';
+import { ActionTrackerWidgetState } from '../../store';
+import { Observable, of } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
+import * as _ from 'lodash';
+import * as fromHelpers from '../../helpers';
+import * as fromModels from '../../store/models';
+import * as fromRootCauseAnalysisDataActions from '../../../../../core/store/actions/root-cause-analysis-data.actions';
+import { RootCauseAnalysisData } from '../../store/models';
 
-import { DownloadWidgetService } from "../../services/downloadWidgetService.service";
+import { DownloadWidgetService } from '../../services/downloadWidgetService.service';
+import { getCurrentRootCauseAnalysisWidget } from '../../store/selectors/root-cause-analysis-widget.selectors';
+import {
+  getCurrentRootCauseAnalysisConfiguration,
+  getConfigurationLoadingStatus,
+  getConfigurationLoadedStatus
+} from 'src/app/core/store/selectors/root-cause-analysis-configuration.selectors';
+import {
+  getAllRootCauseAnalysisData,
+  getRootCauseAnalysisDataLoadedStatus,
+  getRootCauseAnalysisDataLoadingStatus,
+  getRootCauseAnalysisDataNotificationStatus
+} from 'src/app/core/store/selectors/root-cause-analysis-data.selectors';
+import { State } from 'src/app/core/store/reducers';
 
 @Component({
-  selector: "app-bna-widget",
-  templateUrl: "./bna-widget.component.html",
-  styleUrls: ["./bna-widget.component.css"],
+  selector: 'app-bna-widget',
+  templateUrl: './bna-widget.component.html',
+  styleUrls: ['./bna-widget.component.css'],
   animations: [
     listEnterAnimation,
-    trigger("fadeInOut", [
-      transition(":enter", [
+    trigger('fadeInOut', [
+      transition(':enter', [
         // :enter is alias to 'void => *'
         style({ opacity: 0 }),
         animate(500, style({ opacity: 1 }))
       ]),
-      transition(":leave", [
+      transition(':leave', [
         // :leave is alias to '* => void'
         animate(500, style({ opacity: 0 }))
       ])
@@ -49,7 +61,7 @@ export class BnaWidgetComponent implements OnInit {
   @Input()
   selectedPeriod;
 
-  @ViewChild("rootCauseAnalysisTable")
+  @ViewChild('rootCauseAnalysisTable')
   table: ElementRef;
 
   configuration$: Observable<fromModels.RootCauseAnalysisConfiguration>;
@@ -63,11 +75,11 @@ export class BnaWidgetComponent implements OnInit {
   // savingColor$: Observable<string>;
 
   newRootCauseAnalysisData: fromModels.RootCauseAnalysisData;
-  showContextMenu: boolean = false;
+  showContextMenu = false;
   contextmenuDataItem: RootCauseAnalysisData;
   contextmenuX: any;
   contextmenuY: any;
-  confirmDelete: boolean = false;
+  confirmDelete = false;
   unSavedDataItemValues: any;
 
   /**
@@ -76,30 +88,20 @@ export class BnaWidgetComponent implements OnInit {
   toBeDeleted = {};
 
   constructor(
-    private store: Store<ActionTrackerWidgetState>,
+    private store: Store<State>,
     private downloadWidgetService: DownloadWidgetService
   ) {
-    this.widget$ = store.select(
-      fromSelectors.getCurrentRootCauseAnalysisWidget
-    );
+    this.widget$ = store.select(getCurrentRootCauseAnalysisWidget);
     this.configuration$ = store.select(
-      fromSelectors.getCurrentRootCauseAnalysisConfiguration
+      getCurrentRootCauseAnalysisConfiguration
     );
-    this.data$ = store.select(fromSelectors.getAllRootCauseAnalysisData);
-    this.configurationLoading$ = store.select(
-      fromSelectors.getConfigurationLoadingState
-    );
-    this.configurationLoaded$ = store.select(
-      fromSelectors.getConfigurationLoadingState
-    );
-    this.dataLoaded$ = store.select(
-      fromSelectors.getRootCauseAnalysisDataLoadedState
-    );
-    this.dataLoading$ = store.select(
-      fromSelectors.getRootCauseAnalysisDataLoadingState
-    );
+    this.data$ = store.select(getAllRootCauseAnalysisData);
+    this.configurationLoading$ = store.select(getConfigurationLoadingStatus);
+    this.configurationLoaded$ = store.select(getConfigurationLoadedStatus);
+    this.dataLoaded$ = store.select(getRootCauseAnalysisDataLoadedStatus);
+    this.dataLoading$ = store.select(getRootCauseAnalysisDataLoadingStatus);
     this.notification$ = store.select(
-      fromSelectors.getRootCauseAnalysisDataNotificationState
+      getRootCauseAnalysisDataNotificationStatus
     );
 
     // this.savingColor$ = store.select(
@@ -147,25 +149,25 @@ export class BnaWidgetComponent implements OnInit {
       const dateTime = new Date();
       const el = this.table.nativeElement;
       const filename =
-        "Root causes - " +
+        'Root causes - ' +
         this.routerParams.dashboard.name +
-        " - " +
+        ' - ' +
         this.selectedOrgUnit +
-        " - " +
+        ' - ' +
         this.selectedPeriod +
-        " gen. on " +
+        ' gen. on ' +
         dateTime.getFullYear() +
-        (dateTime.getMonth() + 1 < 10 ? "-0" : "-") +
+        (dateTime.getMonth() + 1 < 10 ? '-0' : '-') +
         (dateTime.getMonth() + 1) +
-        (dateTime.getDay() < 10 ? "-0" : "-") +
+        (dateTime.getDay() < 10 ? '-0' : '-') +
         dateTime.getDay() +
-        " " +
-        (dateTime.getHours() < 10 ? ":0" : ":") +
+        ' ' +
+        (dateTime.getHours() < 10 ? ':0' : ':') +
         dateTime.getHours() +
-        (dateTime.getMinutes() < 10 ? ":0" : ":") +
+        (dateTime.getMinutes() < 10 ? ':0' : ':') +
         dateTime.getMinutes() +
-        "hrs";
-      if (downloadFormat === "XLSX") {
+        'hrs';
+      if (downloadFormat === 'XLSX') {
         if (el) {
           this.downloadWidgetService.exportXLS(filename, el.outerHTML);
         }
@@ -201,7 +203,7 @@ export class BnaWidgetComponent implements OnInit {
   generateConfigurations(configurationDataElements) {
     let dataValues: any = {};
     configurationDataElements.forEach((element, i) => {
-      dataValues[element.id] = "";
+      dataValues[element.id] = '';
     });
     return dataValues;
   }
@@ -226,7 +228,7 @@ export class BnaWidgetComponent implements OnInit {
       new fromRootCauseAnalysisDataActions.UpdateRootCauseAnalysisData({
         ...dataItem,
         showDeleteConfirmation:
-          action === "DELETE" ? false : dataItem.showDeleteConfirmation,
+          action === 'DELETE' ? false : dataItem.showDeleteConfirmation,
         isActive: false
       })
     );
@@ -280,7 +282,7 @@ export class BnaWidgetComponent implements OnInit {
       e.stopPropagation();
     }
     const dataValue = e ? e.target.value.trim() : dataItemValue;
-    if (dataValue !== "") {
+    if (dataValue !== '') {
       const unSavedDataItem = this.unSavedDataItemValues[dataItem.id];
       this.unSavedDataItemValues[dataItem.id] = unSavedDataItem
         ? {
@@ -304,9 +306,9 @@ export class BnaWidgetComponent implements OnInit {
       : null;
     if (unsavedDataItemObject) {
       const dataValues = _.forEach(
-        _.values(unsavedDataItemObject["dataValues"] || {})
+        _.values(unsavedDataItemObject['dataValues'] || {})
       );
-      const dataIsIncomplete = _.includes(dataValues, "");
+      const dataIsIncomplete = _.includes(dataValues, '');
       const newDataItem = this.unSavedDataItemValues[dataItem.id];
 
       this.store.dispatch(
@@ -374,7 +376,7 @@ export class BnaWidgetComponent implements OnInit {
       e.stopPropagation();
     }
     const newEnteredData = e.target.value.trim();
-    if (newEnteredData !== "") {
+    if (newEnteredData !== '') {
       const dataValueId = dataElement;
 
       this.newRootCauseAnalysisData.dataValues[dataElement] = newEnteredData;

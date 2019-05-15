@@ -1,9 +1,9 @@
 import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
-import { RootCauseAnalysisConfiguration } from '../models/root-cause-analysis-configuration.model';
+import { RootCauseAnalysisConfiguration } from '../../models/root-cause-analysis-configuration.model';
 
 export enum RootCauseAnalysisConfigurationActionTypes {
-  LoadRootCauseAnalysisConfigurations = '[RootCauseAnalysisConfiguration] Load RootCauseAnalysisConfigurations',
+  LoadRootCauseAnalysisConfiguration = '[RootCauseAnalysisConfiguration] Load RootCauseAnalysisConfiguration',
   LoadRootCauseAnalysisConfigurationFail = '[RootCauseAnalysisConfiguration] Load RootCauseAnalysisConfiguration Fail',
   AddRootCauseAnalysisConfiguration = '[RootCauseAnalysisConfiguration] Add RootCauseAnalysisConfiguration',
   UpsertRootCauseAnalysisConfiguration = '[RootCauseAnalysisConfiguration] Upsert RootCauseAnalysisConfiguration',
@@ -18,11 +18,11 @@ export enum RootCauseAnalysisConfigurationActionTypes {
   ClearRootCauseAnalysisConfigurations = '[RootCauseAnalysisConfiguration] Clear RootCauseAnalysisConfigurations'
 }
 
-export class LoadRootCauseAnalysisConfigurations implements Action {
+export class LoadRootCauseAnalysisConfigurationAction implements Action {
   readonly type =
-    RootCauseAnalysisConfigurationActionTypes.LoadRootCauseAnalysisConfigurations;
+    RootCauseAnalysisConfigurationActionTypes.LoadRootCauseAnalysisConfiguration;
 
-  constructor(public configurationId: any, public widgetId: string) {}
+  constructor(public configurationId: any) {}
 }
 
 export class AddRootCauseAnalysisConfiguration implements Action {
@@ -45,13 +45,12 @@ export class UpsertRootCauseAnalysisConfiguration implements Action {
   ) {}
 }
 
-export class AddRootCauseAnalysisConfigurations implements Action {
+export class AddRootCauseAnalysisConfigurationAction implements Action {
   readonly type =
-    RootCauseAnalysisConfigurationActionTypes.AddRootCauseAnalysisConfigurations;
+    RootCauseAnalysisConfigurationActionTypes.AddRootCauseAnalysisConfiguration;
 
   constructor(
-    public rootCauseAnalysisConfigurations: RootCauseAnalysisConfiguration[],
-    public currentRootCauseWidgetId: string
+    public rootCauseAnalysisConfiguration: RootCauseAnalysisConfiguration
   ) {}
 }
 
@@ -134,11 +133,11 @@ export class LoadRootCauseAnalysisConfigurationFail implements Action {
 }
 
 export type RootCauseAnalysisConfigurationActions =
-  | LoadRootCauseAnalysisConfigurations
+  | LoadRootCauseAnalysisConfigurationAction
   | LoadRootCauseAnalysisConfigurationFail
   | AddRootCauseAnalysisConfiguration
   | UpsertRootCauseAnalysisConfiguration
-  | AddRootCauseAnalysisConfigurations
+  | AddRootCauseAnalysisConfigurationAction
   | AddRootCauseAnalysisConfigurationsSuccess
   | AddRootCauseAnalysisConfigurationsFail
   | UpsertRootCauseAnalysisConfigurations

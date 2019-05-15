@@ -1,5 +1,5 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { RootCauseAnalysisConfiguration } from '../models/root-cause-analysis-configuration.model';
+import { RootCauseAnalysisConfiguration } from '../../models/root-cause-analysis-configuration.model';
 import {
   RootCauseAnalysisConfigurationActions,
   RootCauseAnalysisConfigurationActionTypes
@@ -43,8 +43,11 @@ export function reducer(
       );
     }
 
-    case RootCauseAnalysisConfigurationActionTypes.AddRootCauseAnalysisConfigurations: {
-      return adapter.addMany(action.rootCauseAnalysisConfigurations, {
+    case RootCauseAnalysisConfigurationActionTypes.AddRootCauseAnalysisConfiguration: {
+      if (!action.rootCauseAnalysisConfiguration) {
+        return state;
+      }
+      return adapter.addOne(action.rootCauseAnalysisConfiguration, {
         ...state,
         loading: true,
         loaded: false
@@ -107,14 +110,3 @@ export function reducer(
     }
   }
 }
-
-export const {
-  selectEntities: getRootCauseAnalysisConfigurationEntitiesState
-} = adapter.getSelectors();
-
-export const getConfigurationLoadingState = (state: State) => state.loading;
-export const getConfigurationLoadedState = (state: State) => state.loaded;
-export const getConfigurationHasErrorState = (state: State) => state.hasError;
-export const getConfigurationErrorState = (state: State) => state.error;
-export const getConfigurationNotificationState = (state: State) =>
-  state.notification;

@@ -1,16 +1,16 @@
-import { Injectable } from "@angular/core";
-import { NgxDhis2HttpClientService } from "@hisptz/ngx-dhis2-http-client";
-import { RootCauseAnalysisConfigurationsService } from "./root-cause-analysis-configurations.service";
-import { catchError, switchMap } from "rxjs/operators";
-import { throwError, forkJoin, of } from "rxjs";
-import { RootCauseAnalysisData } from "../store/models/root-cause-analysis-data.model";
-import * as _ from "lodash";
+import { Injectable } from '@angular/core';
+import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
+import { RootCauseAnalysisConfigurationsService } from './root-cause-analysis-configurations.service';
+import { catchError, switchMap } from 'rxjs/operators';
+import { throwError, forkJoin, of } from 'rxjs';
+import * as _ from 'lodash';
+import { RootCauseAnalysisData } from '../models/root-cause-analysis-data.model';
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class RootCauseAnalysisDataService {
   configurationId: string;
-  private _dataStoreUrl = "dataStore/rca-data";
+  private _dataStoreUrl = 'dataStore/rca-data';
   constructor(
     private http: NgxDhis2HttpClientService,
     public rcaConfigurationService: RootCauseAnalysisConfigurationsService
@@ -56,11 +56,11 @@ export class RootCauseAnalysisDataService {
         rootCauseAnalysisData.configurationId
       }_${orgUnitId}_${periodId}_${dashBoardId}_${rootCauseAnalysisData.id}`,
       _.omit(rootCauseAnalysisData, [
-        "showEditNotification",
-        "isActive",
-        "unsaved",
-        "savingColor",
-        "isNew"
+        'showEditNotification',
+        'isActive',
+        'unsaved',
+        'savingColor',
+        'isNew'
       ])
     );
   }
@@ -72,11 +72,11 @@ export class RootCauseAnalysisDataService {
     dashBoardId
   ) {
     const newRootCauseAnalysisData = _.omit(rootCauseAnalysisData, [
-      "showEditNotification",
-      "isActive",
-      "unsaved",
-      "savingColor",
-      "isNew"
+      'showEditNotification',
+      'isActive',
+      'unsaved',
+      'savingColor',
+      'isNew'
     ]);
 
     return this.addRootCauseAnalysisData(
@@ -96,7 +96,7 @@ export class RootCauseAnalysisDataService {
     return this.http.get(this._dataStoreUrl).pipe(
       switchMap((dataIds: string[]) => {
         const filteredDataIds = _.filter(dataIds, (dataId: string) => {
-          const spliteDataId = dataId.split("_");
+          const spliteDataId = dataId.split('_');
 
           return (
             configurationId === spliteDataId[0] &&

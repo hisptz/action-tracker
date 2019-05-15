@@ -1,18 +1,10 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-
-/** RxJS Imports */
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
-/** Feature Store Imports */
-import { ActionTrackerWidgetState } from './shared/modules/action-tracker-table/store';
-import { SetCurrentRootCauseAnalysisWidget } from './shared/modules/action-tracker-table/store/actions/root-cause-analysis-widget.actions';
-import { LoadRootCauseAnalysisConfigurations } from './shared/modules/action-tracker-table/store/actions/root-cause-analysis-configuration.actions';
-
-/** Main Store Imports */
 import { getQueryParams } from './core/helpers/get-query-params.helper';
 import { Go } from './core/store/actions';
 import { UpsertDataSelectionsAction } from './core/store/actions/global-selection.actions';
@@ -36,7 +28,6 @@ export class AppComponent {
 
   constructor(
     private store: Store<State>,
-    private actionTrackerStore: Store<ActionTrackerWidgetState>,
     private translate: TranslateService,
     private titleService: Title
   ) {
@@ -53,17 +44,6 @@ export class AppComponent {
 
   public setTitle(newTitle: string) {
     this.titleService.setTitle(newTitle);
-
-    this.actionTrackerStore.dispatch(
-      new LoadRootCauseAnalysisConfigurations(
-        this.configurationId,
-        this.routeParams.dashboardItemId
-      )
-    );
-
-    this.actionTrackerStore.dispatch(
-      new SetCurrentRootCauseAnalysisWidget(this.routeParams.dashboardItemId)
-    );
 
     this.routerParams$ = this.store.select(getRouterParams);
   }
