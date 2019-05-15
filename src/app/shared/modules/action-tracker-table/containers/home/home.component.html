@@ -1,8 +1,0 @@
-<div *ngIf="routerParams$ | async as routerParams">
-  <app-bna-widget
-    [routerParams]="routerParams$ | async"
-    [selectedOrgUnit]="routerParams.orgUnit?.name"
-    [selectedPeriod]="routerParams.period?.name"
-  >
-  </app-bna-widget>
-</div>

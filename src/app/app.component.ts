@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { getQueryParams } from './core/helpers/get-query-params.helper';
@@ -16,6 +17,15 @@ import { getRouterParams, getRouteUrl } from './core/store/selectors';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  routeParams = {
+    dashboardItemId: 'rcawidget'
+  };
+  configurationId = 'rcaconfig';
+
+  routerParams$: Observable<any>;
+  selectedOrgUnit$: Observable<string>;
+  selectedPeriod$: Observable<string>;
+
   constructor(
     private store: Store<State>,
     private translate: TranslateService,
@@ -34,6 +44,8 @@ export class AppComponent {
 
   public setTitle(newTitle: string) {
     this.titleService.setTitle(newTitle);
+
+    this.routerParams$ = this.store.select(getRouterParams);
   }
 
   onFilterUpdate(dataSelections) {
