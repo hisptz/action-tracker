@@ -4,6 +4,7 @@ import { ActionTrackerData } from '../../models/action-tracker-data.model';
 
 export enum ActionTrackerDataActionTypes {
   LoadActionTrackerDatas = '[ActionTrackerData] Load ActionTrackerDatas',
+  LoadActionTrackerDatasFail = '[ActionTrackerData] Load ActionTrackerData fail',
   AddActionTrackerData = '[ActionTrackerData] Add ActionTrackerData',
   UpsertActionTrackerData = '[ActionTrackerData] Upsert ActionTrackerData',
   AddActionTrackerDatas = '[ActionTrackerData] Add ActionTrackerDatas',
@@ -17,8 +18,13 @@ export enum ActionTrackerDataActionTypes {
 
 export class LoadActionTrackerDatas implements Action {
   readonly type = ActionTrackerDataActionTypes.LoadActionTrackerDatas;
+  constructor(public dataParams: any) {}
+}
 
-  constructor(public payload: { actionTrackerDatas: ActionTrackerData[] }) {}
+export class LoadActionTrackerDatasFail implements Action {
+  readonly type = ActionTrackerDataActionTypes.LoadActionTrackerDatasFail;
+
+  constructor(public error: any) {}
 }
 
 export class AddActionTrackerData implements Action {
@@ -36,7 +42,7 @@ export class UpsertActionTrackerData implements Action {
 export class AddActionTrackerDatas implements Action {
   readonly type = ActionTrackerDataActionTypes.AddActionTrackerDatas;
 
-  constructor(public payload: { actionTrackerDatas: ActionTrackerData[] }) {}
+  constructor(public actionTrackerDatas: ActionTrackerData[]) {}
 }
 
 export class UpsertActionTrackerDatas implements Action {
@@ -79,6 +85,7 @@ export class ClearActionTrackerDatas implements Action {
 
 export type ActionTrackerDataActions =
   | LoadActionTrackerDatas
+  | LoadActionTrackerDatasFail
   | AddActionTrackerData
   | UpsertActionTrackerData
   | AddActionTrackerDatas

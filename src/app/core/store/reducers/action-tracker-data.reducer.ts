@@ -7,6 +7,16 @@ import {
 
 export interface State extends EntityState<ActionTrackerData> {
   // additional entities state properties
+  // additional entities state properties
+  isActive: boolean;
+  loading: boolean;
+  loaded: boolean;
+  notification: { message: string };
+  savingColor: string;
+  showNotification: boolean;
+  showDeleteConfirmation: boolean;
+  hasError: boolean;
+  error: any;
 }
 
 export const adapter: EntityAdapter<ActionTrackerData> = createEntityAdapter<
@@ -15,6 +25,16 @@ export const adapter: EntityAdapter<ActionTrackerData> = createEntityAdapter<
 
 export const initialState: State = adapter.getInitialState({
   // additional entity state properties
+  // additional entity state properties
+  isActive: false,
+  loading: false,
+  loaded: false,
+  notification: null,
+  showDeleteConfirmation: false,
+  showNotification: false,
+  savingColor: 'transparent',
+  hasError: false,
+  error: null
 });
 
 export function reducer(
@@ -31,7 +51,19 @@ export function reducer(
     }
 
     case ActionTrackerDataActionTypes.AddActionTrackerDatas: {
-      return adapter.addMany(action.payload.actionTrackerDatas, state);
+      return adapter.addAll(action.actionTrackerDatas, {
+        ...state,
+        loading: false,
+        loaded: true,
+        showNotification: false,
+        notification: {
+          message: 'Action Data Loaded'
+        }
+      });
+    }
+
+    case ActionTrackerDataActionTypes.LoadActionTrackerDatasFail: {
+      return { ...state, loading: false, hasError: true, error: action.error };
     }
 
     case ActionTrackerDataActionTypes.UpsertActionTrackerDatas: {
@@ -52,10 +84,6 @@ export function reducer(
 
     case ActionTrackerDataActionTypes.DeleteActionTrackerDatas: {
       return adapter.removeMany(action.payload.ids, state);
-    }
-
-    case ActionTrackerDataActionTypes.LoadActionTrackerDatas: {
-      return adapter.addAll(action.payload.actionTrackerDatas, state);
     }
 
     case ActionTrackerDataActionTypes.ClearActionTrackerDatas: {

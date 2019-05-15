@@ -20,26 +20,6 @@ import { getRouterParams } from '../selectors';
 
 @Injectable()
 export class RootCauseAnalysisDataEffects {
-  // @Effect({ dispatch: false })
-  // routerChanged$: Observable<any> = this.actions$.pipe(
-  //   ofType(ROUTER_NAVIGATION),
-  //   withLatestFrom(this.store.select(getCurrentRootCauseAnalysisConfiguration)),
-  //   tap(
-  //     ([action, currentConfiguration]: [
-  //       RouterNavigationAction,
-  //       RootCauseAnalysisConfiguration
-  //     ]) => {
-  //       if (currentConfiguration) {
-  //         this.store.dispatch(
-  //           new fromRootCauseAnalysisDataActions.LoadRootCauseAnalysisDatas(
-  //             currentConfiguration.id
-  //           )
-  //         );
-  //       }
-  //     }
-  //   )
-  // );
-
   @Effect()
   loadRootCauseAnalysisDatas$: Observable<any> = this.actions$.pipe(
     ofType(
@@ -48,7 +28,6 @@ export class RootCauseAnalysisDataEffects {
     ),
     mergeMap(
       (action: fromRootCauseAnalysisDataActions.LoadRootCauseAnalysisDatas) => {
-        console.log(action.dataParams);
         return this.rootCauseAnalysisDataService
           .getRootCauseAnalysisData(
             action.dataParams.rootCauseConfig,

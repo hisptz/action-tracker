@@ -13,6 +13,7 @@ import { getCurrentRootCauseAnalysisConfiguration } from '../selectors/root-caus
 import { getCurrentActionTrackerConfig } from '../selectors/action-tracker-configuration.selectors';
 import { getDataParams } from '../../helpers/get-data-params.helper';
 import { LoadRootCauseAnalysisDatas } from '../actions/root-cause-analysis-data.actions';
+import { LoadActionTrackerDatas } from '../actions/action-tracker-data.actions';
 
 @Injectable()
 export class GlobalSelectionEffects {
@@ -27,7 +28,10 @@ export class GlobalSelectionEffects {
           actionTrackerConfig
         );
         dataParams.forEach((params: any) => {
+          // Load root cause analysis data
           this.store.dispatch(new LoadRootCauseAnalysisDatas(params));
+          // Load action tracker data
+          this.store.dispatch(new LoadActionTrackerDatas(params));
         });
       }
     })
