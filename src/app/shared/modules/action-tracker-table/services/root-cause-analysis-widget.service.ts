@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
 import { RootCauseAnalysisWidget } from '../store/models/root-cause-analysis-widget.model';
-import { RootCauseAnalysisConfigurationsService } from './root-cause-analysis-configurations.service';
+import { RootCauseAnalysisConfigurationsService } from '../../../../core/services/root-cause-analysis-configurations.service';
 import { catchError, map } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 

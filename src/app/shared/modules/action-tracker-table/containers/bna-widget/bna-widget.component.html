@@ -1,6 +1,6 @@
 <div *ngIf="dataLoaded$ | async">
   <table
-    class="table table-bordered table-responsive custom-table-padding"
+    class="table table-bordered table-responsive"
     #rootCauseAnalysisTable
     *ngIf="configuration$ | async as rootCauseAnalysisConfiguration"
   >
@@ -131,31 +131,6 @@
       </tr>
     </tbody>
   </table>
-
-  <div
-    class="d-flex justify-content-between"
-    *ngIf="configuration$ | async as dataConfiguration"
-  >
-    <div class="mr-3 text-secondary">
-      <button
-        class="btn btn-sm btn-outline-secondary rounded"
-        *ngIf="dataLoaded$ | async"
-        (click)="downloadTable('XLSX')"
-      >
-        <i class="icon-download"></i>
-      </button>
-    </div>
-    <div class="mr-3 text-secondary">
-      <i style="font-size:11px"> Autosave is on, leave a cell to save </i>
-      <button
-        class="btn btn-sm btn-outline-secondary"
-        *ngIf="dataLoaded$ | async"
-        (click)="onToggleAddNewRootCauseAnalysisData(dataConfiguration)"
-      >
-        Add New
-      </button>
-    </div>
-  </div>
 </div>
 
 <div *ngIf="showContextMenu === true">

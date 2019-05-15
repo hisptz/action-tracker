@@ -7,7 +7,7 @@ import { NgPipesModule } from 'ngx-pipes';
 
 import { components } from './components';
 import { directives } from './directives';
-import { pages } from './pages';
+import { pages } from './containers';
 import { effects } from './store/effects';
 import { reducers } from './store/reducers';
 

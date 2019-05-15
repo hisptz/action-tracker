@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 
-import * as fromRouterSelector from '../selectors';
+import { RootCauseAnalysisWidgetService } from '../../services';
+import { LoadRootCauseAnalysisDatas } from '../../../../../core/store/actions/root-cause-analysis-data.actions';
 import * as fromRootCauseAnalysisWidgetActions from '../actions/root-cause-analysis-widget.actions';
 import { RootCauseAnalysisWidget } from '../models/root-cause-analysis-widget.model';
-import { RootCauseAnalysisWidgetService } from '../../services';
-import { map, catchError, mergeMap } from 'rxjs/operators';
-import { LoadRootCauseAnalysisDatas } from '../actions/root-cause-analysis-data.actions';
 
 @Injectable()
 export class RootCauseAnalysisWidgetEffects {

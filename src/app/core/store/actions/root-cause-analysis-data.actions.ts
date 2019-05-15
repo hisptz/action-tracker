@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
-import { RootCauseAnalysisData } from '../models/root-cause-analysis-data.model';
-import * as fromRootCauseAnalysisConfiguration from '../models/root-cause-analysis-configuration.model';
+import { RootCauseAnalysisData } from '../../models/root-cause-analysis-data.model';
+import * as fromRootCauseAnalysisConfiguration from '../../models/root-cause-analysis-configuration.model';
 
 export enum RootCauseAnalysisDataActionTypes {
   LoadRootCauseAnalysisDatas = '[RootCauseAnalysisData] Load RootCauseAnalysisDatas',

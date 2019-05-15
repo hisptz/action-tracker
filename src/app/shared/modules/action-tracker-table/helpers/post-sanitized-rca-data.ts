@@ -1,4 +1,4 @@
-import { RootCauseAnalysisData } from '../store/models/root-cause-analysis-data.model';
+import { RootCauseAnalysisData } from '../../../../core/models/root-cause-analysis-data.model';
 
 export function postSanitizedRcaData(
   rcaDataPayload: any

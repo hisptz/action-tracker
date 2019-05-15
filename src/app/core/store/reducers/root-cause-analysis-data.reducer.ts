@@ -1,9 +1,9 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { RootCauseAnalysisData } from '../../../../../core/models/root-cause-analysis-data.model';
+import { RootCauseAnalysisData } from '../../models/root-cause-analysis-data.model';
 import {
   RootCauseAnalysisDataActions,
   RootCauseAnalysisDataActionTypes
-} from '../../../../../core/store/actions/root-cause-analysis-data.actions';
+} from '../actions/root-cause-analysis-data.actions';
 
 export interface State extends EntityState<RootCauseAnalysisData> {
   // additional entities state properties
@@ -231,20 +231,3 @@ export function reducer(
     }
   }
 }
-
-export const {
-  selectEntities: getRootCauseAnalysisDataEntitiesState,
-  selectAll: getAllRootCauseAnalysisDataState
-} = adapter.getSelectors();
-
-export const getRootCauseAnalysisDataLoadingState = (state: State) =>
-  state.loading;
-export const getRootCauseAnalysisDataLoadedState = (state: State) =>
-  state.loaded;
-export const getRootCauseAnalysisDataHasErrorState = (state: State) =>
-  state.hasError;
-export const getRootCauseAnalysisDataSavingColorState = (state: State) =>
-  state.savingColor;
-export const getRootCauseAnalysisDataErrorState = (state: State) => state.error;
-export const getRootCauseAnalysisDataNotificationState = (state: State) =>
-  state.notification;

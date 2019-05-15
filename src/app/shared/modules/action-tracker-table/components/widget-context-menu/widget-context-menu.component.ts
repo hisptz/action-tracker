@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { RootCauseAnalysisData } from '../../store/models/root-cause-analysis-data.model';
+import { RootCauseAnalysisData } from '../../../../../core/models/root-cause-analysis-data.model';
 
 @Component({
   selector: 'app-widget-context-menu',
