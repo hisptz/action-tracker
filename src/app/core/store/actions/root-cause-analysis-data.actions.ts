@@ -36,7 +36,7 @@ export class ResetRootCauseAnalysisData implements Action {
 export class LoadRootCauseAnalysisDatas implements Action {
   readonly type = RootCauseAnalysisDataActionTypes.LoadRootCauseAnalysisDatas;
 
-  constructor(public configurationId: string) {}
+  constructor(public dataParams: any) {}
 }
 
 export class LoadRootCauseAnalysisDatasFail implements Action {

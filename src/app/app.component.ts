@@ -50,21 +50,5 @@ export class AppComponent {
 
   onFilterUpdate(dataSelections) {
     this.store.dispatch(new UpsertDataSelectionsAction(dataSelections));
-    const queryParams: any = getQueryParams(dataSelections);
-    this.store
-      .select(getRouteUrl(true))
-      .pipe(take(1))
-      .subscribe(routeUrl => {
-        this.store.dispatch(
-          new Go({
-            path: [routeUrl],
-            query: {
-              orgUnit: queryParams.ou,
-              period: queryParams.pe,
-              intervention: queryParams.intervention
-            }
-          })
-        );
-      });
   }
 }

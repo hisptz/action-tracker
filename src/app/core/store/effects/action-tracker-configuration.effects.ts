@@ -7,15 +7,12 @@ import { map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { ActionTrackerConfigurationService } from '../../services';
 import {
   ActionTrackerConfigurationActionTypes,
-  LoadActionTrackerConfigurationAction,
-  AddActionTrackerConfigurationAction
+  AddActionTrackerConfigurationAction,
+  LoadActionTrackerConfigurationAction
 } from '../actions/action-tracker-configuration.actions';
+import { LoadRootCauseAnalysisConfigurationAction } from '../actions/root-cause-analysis-configuration.actions';
 import { State } from '../reducers';
 import { getCurrentActionTrackerConfigId } from '../selectors/action-tracker-configuration.selectors';
-import {
-  LoadRootCauseAnalysisConfigurationAction,
-  RootCauseAnalysisConfigurationActionTypes
-} from '../actions/root-cause-analysis-configuration.actions';
 
 @Injectable()
 export class ActionTrackerConfigurationEffects {

@@ -12,6 +12,7 @@ export interface State extends EntityState<RootCauseAnalysisConfiguration> {
   hasError: boolean;
   error: any;
   notification: any;
+  currentConfig: string;
 }
 
 export const adapter: EntityAdapter<
@@ -24,7 +25,8 @@ export const initialState: State = adapter.getInitialState({
   loaded: false,
   hasError: false,
   error: null,
-  notification: ''
+  notification: '',
+  currentConfig: ''
 });
 
 export function reducer(
@@ -33,7 +35,13 @@ export function reducer(
 ): State {
   switch (action.type) {
     case RootCauseAnalysisConfigurationActionTypes.AddRootCauseAnalysisConfiguration: {
-      return adapter.addOne(action.rootCauseAnalysisConfiguration, state);
+      if (!action.rootCauseAnalysisConfiguration) {
+        return state;
+      }
+      return adapter.addOne(action.rootCauseAnalysisConfiguration, {
+        ...state,
+        currentConfig: action.rootCauseAnalysisConfiguration.id
+      });
     }
 
     case RootCauseAnalysisConfigurationActionTypes.UpsertRootCauseAnalysisConfiguration: {
