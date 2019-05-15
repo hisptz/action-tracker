@@ -14,11 +14,16 @@ export const {
   selectEntities: getRootCauseAnalysisConfigurationEntities
 } = adapter.getSelectors(getRootCauseAnalysisConfigurationState);
 
+export const getCurrentConfigId = createSelector(
+  getRootCauseAnalysisConfigurationState,
+  (state: State) => state.currentConfig
+);
+
 export const getCurrentRootCauseAnalysisConfiguration = createSelector(
   getRootCauseAnalysisConfigurationEntities,
-  (rootCauseAnalysisConfigurationEntities: any) => {
-    const configurationId = '';
-    return rootCauseAnalysisConfigurationEntities[configurationId];
+  getCurrentConfigId,
+  (rootCauseAnalysisConfigurationEntities: any, configId: string) => {
+    return rootCauseAnalysisConfigurationEntities[configId];
   }
 );
 
