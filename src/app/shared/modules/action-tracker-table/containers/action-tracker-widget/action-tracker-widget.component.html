@@ -28,7 +28,7 @@
           let i = index;
           trackBy: dataItem?.id
         "
-        id="{{ dataItem?.id }}"
+        id="{{ dataItem?.id || dataItem?.rootCauseDataId }}"
       >
         <td>{{ i + 1 }}</td>
         <td
@@ -38,7 +38,6 @@
             let j = index
           "
           [ngClass]="{
-            'auto-filled': dataElement.valueType == 'AUTO_FILLED',
             'action-tracker-column': dataElement.isActionTrackerColumn
           }"
         >

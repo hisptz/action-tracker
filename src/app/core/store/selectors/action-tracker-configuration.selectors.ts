@@ -1,14 +1,12 @@
+import { createSelector } from '@ngrx/store';
+import * as _ from 'lodash';
+
+import { getRootState, State as RootState } from '../reducers';
 import {
   adapter,
   State
 } from '../reducers/action-tracker-configuration.reducer';
-import { getRootState, State as RootState } from '../reducers';
-import { createSelector } from '@ngrx/store';
-import * as _ from 'lodash';
-import {
-  getRootCauseAnalysisConfigurationEntities,
-  getCurrentRootCauseAnalysisConfiguration
-} from './root-cause-analysis-configuration.selectors';
+import { getCurrentRootCauseAnalysisConfiguration } from './root-cause-analysis-configuration.selectors';
 
 const getActionTrackerConfigurationState = createSelector(
   getRootState,
@@ -33,17 +31,10 @@ export const getCurrentActionTrackerConfig = createSelector(
       : null
 );
 
-export const mergeCurrentActionTrackerConfigWithCurrentRootCauseConfig = createSelector(
-  getActionTrackerConfigurationEntities,
+export const getMergedActionTrackerConfiguration = createSelector(
   getCurrentActionTrackerConfig,
-  getRootCauseAnalysisConfigurationEntities,
   getCurrentRootCauseAnalysisConfiguration,
-  (
-    actionTrackerConfigurationEntities,
-    currentActionTrackerConfig,
-    rootCauseAnalysisConfigurationEntities,
-    currentRootCauseAnalysisConfiguration
-  ) => {
+  (currentActionTrackerConfig, currentRootCauseAnalysisConfiguration) => {
     if (currentRootCauseAnalysisConfiguration && currentActionTrackerConfig) {
       const actionTrackerDataElements = currentActionTrackerConfig.dataElements;
       _.map(actionTrackerDataElements, actionTrackerDataElement => {
@@ -55,8 +46,6 @@ export const mergeCurrentActionTrackerConfigWithCurrentRootCauseConfig = createS
         ...currentRootCauseAnalysisConfiguration.dataElements,
         ...actionTrackerDataElements
       );
-    } else {
-      currentActionTrackerConfig;
     }
     return currentActionTrackerConfig;
   }

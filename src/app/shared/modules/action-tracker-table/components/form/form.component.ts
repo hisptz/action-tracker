@@ -52,7 +52,7 @@ export class FormComponent implements OnInit {
         : '';
     });
     actionTrackerData['dataValues'] = dataValueStructure;
-    selectionParams['rootCauseDataId'] = dataItem.id;
+    selectionParams['rootCauseDataId'] = dataItem.rootCauseDataId;
 
     this.save.emit({ ...actionTrackerData, selectionParams });
   }
