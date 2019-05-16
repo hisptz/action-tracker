@@ -1,0 +1,79 @@
+<div class="intervention-filter-container">
+  <!--intervention available and selected section-->
+  <div class="intervention-header">
+    <div class="intervention-available-header">
+      <span
+        [title]="
+          (availableInterventions$ | async)?.length + ' Available for selection'
+        "
+        class="badge badge-secondary intervention-badge"
+        >{{ (availableInterventions$ | async)?.length }} Available</span
+      >
+      <button
+        title="Select all interventions"
+        *ngIf="availableInterventions$ | async as availableInterventions"
+        class="btn btn-sm btn-light"
+        (click)="onSelectAllInterventions($event, availableInterventions)"
+      >
+        &raquo;
+      </button>
+    </div>
+    <div class="intervention-selected-header">
+      <button
+        title="Unselect all interventions"
+        class="btn btn-sm btn-light"
+        (click)="onDeselectAllInterventions($event)"
+      >
+        &laquo;
+      </button>
+      <span class="badge badge-primary intervention-badge">
+        {{ selectedInterventions.length }} Selected</span
+      >
+    </div>
+  </div>
+  <!--end of intervention available and selected section-->
+
+  <!--intervention body-->
+  <div class="intervention-body">
+    <div class="intervention-available-body">
+      <ul class="intervention-list">
+        <li
+          *ngFor="let availableIntervention of availableInterventions$ | async"
+        >
+          <a (click)="onSelectIntervention(availableIntervention, $event)">
+            {{ availableIntervention.name }}
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="intervention-selected-body">
+      <ul class="intervention-list">
+        <li *ngFor="let selectedIntervention of selectedInterventions">
+          <a (click)="onDeselectIntervention(selectedIntervention, $event)">
+            <span class="badge badge-info">{{ selectedIntervention.type }}</span
+            >&nbsp;
+            <span>{{ selectedIntervention.name }}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!--end of intervention body-->
+
+  <!--intervention footer-->
+  <div class="ngx-dhis2-intervention__intervention-buttons">
+    <div>
+      <button class="btn btn-light btn-sm" (click)="onClose($event)">
+        CLOSE</button
+      >&nbsp;
+      <button
+        class="btn btn-light btn-sm"
+        [disabled]="selectedInterventions?.length === 0"
+        (click)="onUpdate($event)"
+      >
+        UPDATE
+      </button>
+    </div>
+  </div>
+  <!--end of intervention footer-->
+</div>

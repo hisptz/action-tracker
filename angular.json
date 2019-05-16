@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ngx-seed-app": {
+    "action-tracker": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ngx-seed-app",
+            "outputPath": "dist/action-tracker",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -26,6 +26,7 @@
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.css",
+              "node_modules/font-awesome/css/font-awesome.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -54,19 +55,19 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ngx-seed-app:build",
+            "browserTarget": "action-tracker:build",
             "proxyConfig": "proxy-config.json"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ngx-seed-app:build:production"
+              "browserTarget": "action-tracker:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ngx-seed-app:build"
+            "browserTarget": "action-tracker:build"
           }
         },
         "test": {
@@ -91,7 +92,7 @@
         }
       }
     },
-    "ngx-seed-app-e2e": {
+    "action-tracker-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "architect": {
@@ -99,11 +100,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "ngx-seed-app:serve"
+            "devServerTarget": "action-tracker:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "ngx-seed-app:serve:production"
+              "devServerTarget": "action-tracker:serve:production"
             }
           }
         },
@@ -117,7 +118,7 @@
       }
     }
   },
-  "defaultProject": "ngx-seed-app",
+  "defaultProject": "action-tracker",
   "cli": {
     "defaultCollection": "@ngrx/schematics"
   }
