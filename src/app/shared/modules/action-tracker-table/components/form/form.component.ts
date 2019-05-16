@@ -1,76 +1,59 @@
-import { Component, OnInit } from "@angular/core";
-
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import * as _ from 'lodash';
 @Component({
-  selector: "action-tracker-form",
-  templateUrl: "./form.component.html",
-  styleUrls: ["./form.component.css"]
+  selector: 'action-tracker-form',
+  templateUrl: './form.component.html',
+  styleUrls: ['./form.component.css']
 })
 export class FormComponent implements OnInit {
-  actionTrackerConfiguration: any = {
-    id: "actiontrackerconfig",
-    dataElements: [
-      {
-        id: "fnwIiq3TNki",
-        name: "Action Description",
-        valueType: "TEXTAREA",
-        optionSetValue: false
-      },
-      {
-        id: "UlTqe4EWEgi",
-        name: "Action Period",
-        valueType: "PERIOD",
-        optionSetValue: false
-      },
-      {
-        id: "MjHAVwKni19",
-        name: "Responsible Person",
-        valueType: "TEXT",
-        optionSetValue: false
-      },
-      {
-        id: "P4xS2frCGfv",
-        name: "Designation Title",
-        valueType: "TEXT",
-        optionSetValue: false
-      },
-      {
-        id: "MF6npXkFfgu",
-        name: "Action Status",
-        valueType: "PERIOD",
-        optionSetValue: false
-      },
-      {
-        id: "wksQFZVn3bn",
-        name: "Review Date",
-        valueType: "TEXT",
-        optionSetValue: false
-      },
-      {
-        id: "EPl9QPSKbkH",
-        name: "Remarks",
-        valueType: "TEXTAREA",
-        optionSetValue: false
-      }
-    ],
-    rootCauseConfigurationId: "rcaconfig"
-  };
-  actionTrackerData: any = [
-    {
-      id: "SlqG9G00HJD",
-      dataValues: {
-        fnwIiq3TNki: "Look at me describing my action",
-        UlTqe4EWEgi: "I will do it in two months",
-        MjHAVwKni19: "Mr. Rwechungura Mutabuzi",
-        P4xS2frCGfv: "DMO",
-        MF6npXkFfgu: "In Progress",
-        wksQFZVn3bn: "21-01-1998",
-        EPl9QPSKbkH: "Here are my remarks"
-      },
-      configurationId: "rcaconfig"
-    }
-  ];
+  @Input() dataItem;
+  @Input() configurations;
+
+  @Output() save: EventEmitter<any> = new EventEmitter<any>();
+
+  actionDescription = '';
+  actionPeriod = '';
+  responsiblePerson = '';
+  designationTitle = '';
+  actionStatus = '';
+  reviewDate = '';
+  remarks = '';
 
   constructor() {}
 
   ngOnInit() {}
+
+  onDataEntrySave(event, dataItem, dataElement) {
+    if (event) {
+      event.stopPropagation();
+    }
+
+    const actionTrackerData = {};
+    const selectionParams = {};
+    const dataValueStructure = {};
+
+    if (dataItem && dataElement) {
+      selectionParams['orgUnit'] =
+        dataItem.dataValues[
+          _.get(_.find(dataElement, { name: 'orgUnitId' }), 'id')
+        ];
+      selectionParams['period'] =
+        dataItem.dataValues[
+          _.get(_.find(dataElement, { name: 'periodId' }), 'id')
+        ];
+      selectionParams['dashboard'] =
+        dataItem.dataValues[
+          _.get(_.find(dataElement, { name: 'interventionId' }), 'id')
+        ];
+    }
+    _.map(_.filter(dataElement, 'isActionTrackerColumn'), dataValue => {
+      dataValueStructure[dataValue.id] = dataValue.formControlName
+        ? dataValue.formControlName
+        : '';
+    });
+    actionTrackerData['dataValues'] = dataValueStructure;
+    selectionParams['rootCauseDataId'] = dataItem.id;
+
+    this.save.emit({ ...actionTrackerData, selectionParams });
+  }
 }

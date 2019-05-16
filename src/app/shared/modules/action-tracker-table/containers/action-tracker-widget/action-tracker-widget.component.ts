@@ -1,30 +1,15 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import {
-  style,
-  state,
-  animate,
-  transition,
-  trigger
-} from '@angular/animations';
-
-import { listEnterAnimation } from '../../../../animations/list-enter-animation';
-
+import { animate, style, transition, trigger } from '@angular/animations';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { ActionTrackerWidgetState } from '../../store';
-import { Observable, of } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { State } from 'src/app/core/store/reducers';
 import * as _ from 'lodash';
-import * as fromHelpers from '../../helpers';
-import * as fromModels from '../../store/models';
-import * as fromRootCauseAnalysisDataActions from '../../../../../core/store/actions/root-cause-analysis-data.actions';
-import { RootCauseAnalysisData } from '../../store/models';
-
-import { DownloadWidgetService } from '../../services/downloadWidgetService.service';
-import { getCurrentRootCauseAnalysisWidget } from '../../store/selectors/root-cause-analysis-widget.selectors';
 import {
-  getCurrentRootCauseAnalysisConfiguration,
-  getConfigurationLoadingStatus,
-  getConfigurationLoadedStatus
+  getCurrentActionTrackerConfig,
+  mergeCurrentActionTrackerConfigWithCurrentRootCauseConfig
+} from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
+import {
+  getConfigurationLoadedStatus,
+  getConfigurationLoadingStatus
 } from 'src/app/core/store/selectors/root-cause-analysis-configuration.selectors';
 import {
   getAllRootCauseAnalysisData,
@@ -32,9 +17,21 @@ import {
   getRootCauseAnalysisDataLoadingStatus,
   getRootCauseAnalysisDataNotificationStatus
 } from 'src/app/core/store/selectors/root-cause-analysis-data.selectors';
-import { State } from 'src/app/core/store/reducers';
 
-import { mergeCurrentActionTrackerConfigWithCurrentRootCauseConfig } from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
+import * as fromRootCauseAnalysisDataActions from '../../../../../core/store/actions/root-cause-analysis-data.actions';
+import { listEnterAnimation } from '../../../../animations/list-enter-animation';
+import { DownloadWidgetService } from '../../services/downloadWidgetService.service';
+import {
+  RootCauseAnalysisData,
+  RootCauseAnalysisConfiguration,
+  RootCauseAnalysisWidget
+} from '../../store/models';
+import { getCurrentRootCauseAnalysisWidget } from '../../store/selectors/root-cause-analysis-widget.selectors';
+import { Observable, of } from 'rxjs';
+import { switchMap, map } from 'rxjs/operators';
+import { generateUid } from '../../helpers';
+import { SaveActionTrackerData } from 'src/app/core/store/actions/action-tracker-data.actions';
+
 @Component({
   selector: 'app-bna-widget',
   templateUrl: './action-tracker-widget.component.html',
@@ -65,9 +62,10 @@ export class ActionTrackerWidgetComponent implements OnInit {
   @ViewChild('rootCauseAnalysisTable')
   table: ElementRef;
 
-  configuration$: Observable<fromModels.RootCauseAnalysisConfiguration>;
-  widget$: Observable<fromModels.RootCauseAnalysisWidget>;
-  data$: Observable<fromModels.RootCauseAnalysisData[]>;
+  configuration$: Observable<RootCauseAnalysisConfiguration>;
+  widget$: Observable<RootCauseAnalysisWidget>;
+  data$: Observable<RootCauseAnalysisData[]>;
+  actionTrackerConfiguration$: Observable<any>;
   configurationLoading$: Observable<boolean>;
   configurationLoaded$: Observable<boolean>;
   dataLoading$: Observable<boolean>;
@@ -75,14 +73,13 @@ export class ActionTrackerWidgetComponent implements OnInit {
   notification$: Observable<any>;
   // savingColor$: Observable<string>;
 
-  newRootCauseAnalysisData: fromModels.RootCauseAnalysisData;
+  newRootCauseAnalysisData: RootCauseAnalysisData;
   showContextMenu = false;
   contextmenuDataItem: RootCauseAnalysisData;
   contextmenuX: any;
   contextmenuY: any;
   confirmDelete = false;
   unSavedDataItemValues: any;
-
   /**
    * key value pair object for each row to show/hide during deletion
    */
@@ -95,6 +92,9 @@ export class ActionTrackerWidgetComponent implements OnInit {
     this.widget$ = store.select(getCurrentRootCauseAnalysisWidget);
     this.configuration$ = store.select(
       mergeCurrentActionTrackerConfigWithCurrentRootCauseConfig
+    );
+    this.actionTrackerConfiguration$ = store.select(
+      getCurrentActionTrackerConfig
     );
     this.data$ = store.select(getAllRootCauseAnalysisData);
     this.configurationLoading$ = store.select(getConfigurationLoadingStatus);
@@ -178,10 +178,21 @@ export class ActionTrackerWidgetComponent implements OnInit {
       'action-tracker-column'
     );
     _.map(actionTrackerItems, (actionTrackerColumn, index) => {
-      if (index !== 0) {
+      if (index !== actionTrackerItems.length - 1) {
         actionTrackerColumn.setAttribute('hidden', true);
       } else {
         actionTrackerColumn.colSpan = _.toString(actionTrackerItems.length);
+        const buttonElement = _.head(
+          actionTrackerColumn.getElementsByClassName('btn-add-action')
+        );
+
+        const formElement = _.head(
+          actionTrackerColumn.getElementsByClassName(
+            'action-tracker-form-wrapper'
+          )
+        );
+        buttonElement.setAttribute('hidden', true);
+        formElement.removeAttribute('hidden');
       }
     });
   }
@@ -202,7 +213,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
 
     this.store.dispatch(
       new fromRootCauseAnalysisDataActions.AddRootCauseAnalysisData({
-        id: fromHelpers.generateUid(),
+        id: generateUid(),
         isActive: true,
         isNew: true,
         configurationId: configuration.id,
@@ -212,7 +223,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
   }
 
   generateConfigurations(configurationDataElements) {
-    let dataValues: any = {};
+    const dataValues: any = {};
     configurationDataElements.forEach((element, i) => {
       dataValues[element.id] = '';
     });
@@ -281,13 +292,6 @@ export class ActionTrackerWidgetComponent implements OnInit {
     );
   }
 
-  /**
-   * Update single data value
-   * @param dataValueId
-   * @param dataItem
-   * @param e
-   * @param dataItemValue
-   */
   onDataValueUpdate(dataValueId, dataItem, e, dataElements, dataItemValue?) {
     if (e) {
       e.stopPropagation();
@@ -349,6 +353,12 @@ export class ActionTrackerWidgetComponent implements OnInit {
     );
     this.unSavedDataItemValues = {};
   }
+
+  // Hook your saving logic here
+  onSave(actionTrackerData: any) {
+    this.store.dispatch(new SaveActionTrackerData(actionTrackerData));
+  }
+
   onResetNotification(emptyNotificationMessage) {
     this.store.dispatch(
       new fromRootCauseAnalysisDataActions.ResetRootCauseAnalysisData({
