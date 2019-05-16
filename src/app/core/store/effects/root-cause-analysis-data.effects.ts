@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { ROUTER_NAVIGATION, RouterNavigationAction } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { Observable, of } from 'rxjs';
@@ -9,18 +8,15 @@ import {
   map,
   mergeMap,
   switchMap,
-  tap,
   withLatestFrom
 } from 'rxjs/operators';
 import { State } from 'src/app/core/store/reducers';
+import { ActionTrackerWidgetState } from 'src/app/shared/modules/action-tracker-table/store';
 
-import * as fromRootCauseAnalysisDataActions from '../actions/root-cause-analysis-data.actions';
-import { getCurrentRootCauseAnalysisConfiguration } from '../selectors/root-cause-analysis-configuration.selectors';
-import { RootCauseAnalysisConfiguration } from '../../models/root-cause-analysis-configuration.model';
-import { getRouterParams } from '../selectors';
 import { RootCauseAnalysisData } from '../../models/root-cause-analysis-data.model';
 import { RootCauseAnalysisDataService } from '../../services/root-cause-analysis-data.service';
-import { ActionTrackerWidgetState } from 'src/app/shared/modules/action-tracker-table/store';
+import * as fromRootCauseAnalysisDataActions from '../actions/root-cause-analysis-data.actions';
+import { getRouterParams } from '../selectors';
 
 @Injectable()
 export class RootCauseAnalysisDataEffects {
@@ -50,23 +46,15 @@ export class RootCauseAnalysisDataEffects {
       fromRootCauseAnalysisDataActions.RootCauseAnalysisDataActionTypes
         .LoadRootCauseAnalysisDatas
     ),
-    withLatestFrom(this.rootStore.select(getRouterParams)),
     mergeMap(
-      ([action, routerParams]: [
-        fromRootCauseAnalysisDataActions.LoadRootCauseAnalysisDatas,
-        any
-      ]) => {
-        const namespaceParams = _.pick(routerParams, [
-          'orgUnit',
-          'period',
-          'dashboard'
-        ]);
+      (action: fromRootCauseAnalysisDataActions.LoadRootCauseAnalysisDatas) => {
+        console.log(action.dataParams);
         return this.rootCauseAnalysisDataService
           .getRootCauseAnalysisData(
-            action.configurationId,
-            namespaceParams.orgUnit.id,
-            namespaceParams.period.id,
-            namespaceParams.dashboard.id
+            action.dataParams.rootCauseConfig,
+            action.dataParams.orgUnit,
+            action.dataParams.period,
+            action.dataParams.intervention
           )
           .pipe(
             map(
