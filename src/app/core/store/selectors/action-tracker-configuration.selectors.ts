@@ -41,6 +41,20 @@ export const getMergedActionTrackerConfiguration = createSelector(
         actionTrackerDataElement['isActionTrackerColumn'] = true;
         return actionTrackerDataElement;
       });
+
+      _.map(
+        currentRootCauseAnalysisConfiguration.dataElements,
+        rootCauseConfig => {
+          if (
+            rootCauseConfig.name == 'OrgUnit' ||
+            rootCauseConfig.name == 'Period'
+          ) {
+            rootCauseConfig['isHidden'] = true;
+          }
+          return rootCauseConfig;
+        }
+      );
+
       currentActionTrackerConfig.dataElements = [];
       currentActionTrackerConfig.dataElements.push(
         ...currentRootCauseAnalysisConfiguration.dataElements,

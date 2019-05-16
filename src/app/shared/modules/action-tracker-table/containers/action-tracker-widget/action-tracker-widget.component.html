@@ -75,6 +75,7 @@
               [dataItem]="dataItem"
               [configurations]="actionTrackerConfiguration$ | async"
               (save)="onSave($event)"
+              (cancel)="cancelDataEntryForm($event)"
             ></action-tracker-form>
           </div>
           <button
