@@ -22,18 +22,8 @@
         </div>
       </div>
       <!-- end of application filter -->
-      <div class="row">
+      <div class="row mt-3">
         <div class="col-12">
-          <span
-            class="col-12"
-            *ngIf="dataSelections$ | async as dataSelections"
-          >
-            <app-bna-widget
-              [selectedOrgUnit]="dataSelections.orgUnit"
-              [selectedPeriod]="dataSelections.period"
-            >
-            </app-bna-widget>
-          </span>
           <router-outlet></router-outlet>
         </div>
       </div>
