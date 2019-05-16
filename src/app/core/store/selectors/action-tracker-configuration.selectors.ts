@@ -58,7 +58,6 @@ export const mergeCurrentActionTrackerConfigWithCurrentRootCauseConfig = createS
     } else {
       currentActionTrackerConfig;
     }
-    console.log(currentActionTrackerConfig);
     return currentActionTrackerConfig;
   }
 );
