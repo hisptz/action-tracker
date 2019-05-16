@@ -34,8 +34,9 @@ import {
 } from 'src/app/core/store/selectors/root-cause-analysis-data.selectors';
 import { State } from 'src/app/core/store/reducers';
 
+import { mergeCurrentActionTrackerConfigWithCurrentRootCauseConfig } from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
 @Component({
-  selector: 'app-action-tracker-widget',
+  selector: 'app-bna-widget',
   templateUrl: './action-tracker-widget.component.html',
   styleUrls: ['./action-tracker-widget.component.css'],
   animations: [
@@ -93,7 +94,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
   ) {
     this.widget$ = store.select(getCurrentRootCauseAnalysisWidget);
     this.configuration$ = store.select(
-      getCurrentRootCauseAnalysisConfiguration
+      mergeCurrentActionTrackerConfigWithCurrentRootCauseConfig
     );
     this.data$ = store.select(getAllRootCauseAnalysisData);
     this.configurationLoading$ = store.select(getConfigurationLoadingStatus);
@@ -103,10 +104,6 @@ export class ActionTrackerWidgetComponent implements OnInit {
     this.notification$ = store.select(
       getRootCauseAnalysisDataNotificationStatus
     );
-
-    // this.savingColor$ = store.select(
-    //   fromSelectors.getRootCauseAnalysisDataSavingColorState
-    // );
 
     this.unSavedDataItemValues = {};
 
@@ -173,6 +170,20 @@ export class ActionTrackerWidgetComponent implements OnInit {
         }
       }
     }
+  }
+
+  openActionTrackerEntryForm(event, dataItem) {
+    const dataItemRowElement = document.getElementById(`${dataItem.id}`);
+    const actionTrackerItems = dataItemRowElement.getElementsByClassName(
+      'action-tracker-column'
+    );
+    _.map(actionTrackerItems, (actionTrackerColumn, index) => {
+      if (index !== 0) {
+        actionTrackerColumn.setAttribute('hidden', true);
+      } else {
+        actionTrackerColumn.colSpan = _.toString(actionTrackerItems.length);
+      }
+    });
   }
 
   onDeleteRootCauseAnalysisData(rootCauseAnalysisData: any) {
