@@ -34,7 +34,10 @@ import {
 } from 'src/app/core/store/selectors/root-cause-analysis-data.selectors';
 import { State } from 'src/app/core/store/reducers';
 
-import { mergeCurrentActionTrackerConfigWithCurrentRootCauseConfig } from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
+import {
+  getCurrentActionTrackerConfig,
+  mergeCurrentActionTrackerConfigWithCurrentRootCauseConfig
+} from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
 @Component({
   selector: 'app-bna-widget',
   templateUrl: './action-tracker-widget.component.html',
@@ -68,6 +71,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
   configuration$: Observable<fromModels.RootCauseAnalysisConfiguration>;
   widget$: Observable<fromModels.RootCauseAnalysisWidget>;
   data$: Observable<fromModels.RootCauseAnalysisData[]>;
+  actionTrackerConfiguration$: Observable<any>;
   configurationLoading$: Observable<boolean>;
   configurationLoaded$: Observable<boolean>;
   dataLoading$: Observable<boolean>;
@@ -82,7 +86,6 @@ export class ActionTrackerWidgetComponent implements OnInit {
   contextmenuY: any;
   confirmDelete = false;
   unSavedDataItemValues: any;
-
   /**
    * key value pair object for each row to show/hide during deletion
    */
@@ -95,6 +98,9 @@ export class ActionTrackerWidgetComponent implements OnInit {
     this.widget$ = store.select(getCurrentRootCauseAnalysisWidget);
     this.configuration$ = store.select(
       mergeCurrentActionTrackerConfigWithCurrentRootCauseConfig
+    );
+    this.actionTrackerConfiguration$ = store.select(
+      getCurrentActionTrackerConfig
     );
     this.data$ = store.select(getAllRootCauseAnalysisData);
     this.configurationLoading$ = store.select(getConfigurationLoadingStatus);

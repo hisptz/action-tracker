@@ -67,10 +67,15 @@
             <i class="icon-ok-circled2"></i
           ></a>
         </td>
-
+        {{
+          dataElement
+        }}
         <td class="action-tracker-column">
           <div class="action-tracker-form-wrapper" hidden="true">
-            <action-tracker-form></action-tracker-form>
+            <action-tracker-form
+              [dataItems]="dataItem"
+              [configurations]="actionTrackerConfiguration$ | async"
+            ></action-tracker-form>
           </div>
           <button
             class="btn btn-outline-secondary btn-add-action"
