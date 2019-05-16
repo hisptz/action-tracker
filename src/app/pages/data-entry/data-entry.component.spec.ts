@@ -8,6 +8,7 @@ import { ActionTrackerWidgetComponent } from 'src/app/shared/modules/action-trac
 import { FormComponent } from 'src/app/shared/modules/action-tracker-table/components/form/form.component';
 import { WidgetItemLoaderComponent } from 'src/app/shared/modules/action-tracker-table/components/widget-item-loader/widget-item-loader.component';
 import { FormInputItemComponent } from 'src/app/shared/modules/action-tracker-table/components/form-input-item/form-input-item.component';
+import { FormsModule } from '@angular/forms';
 
 describe('DataEntryComponent', () => {
   let component: DataEntryComponent;
@@ -15,7 +16,7 @@ describe('DataEntryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot(reducers, { metaReducers })],
+      imports: [FormsModule, StoreModule.forRoot(reducers, { metaReducers })],
       declarations: [
         DataEntryComponent,
         ActionTrackerWidgetComponent,
