@@ -5,9 +5,7 @@ import { DataEntryRoutingModule } from './data-entry-routing.module';
 
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    DataEntryRoutingModule
-  ]
+  exports: [],
+  imports: [CommonModule, DataEntryRoutingModule]
 })
-export class DataEntryModule { }
+export class DataEntryModule {}

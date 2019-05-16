@@ -10,6 +10,7 @@ import { Go } from './core/store/actions';
 import { UpsertDataSelectionsAction } from './core/store/actions/global-selection.actions';
 import { State } from './core/store/reducers';
 import { getRouterParams, getRouteUrl } from './core/store/selectors';
+import { getDataSelections } from 'src/app/core/store/selectors/global-selection.selectors';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,7 @@ export class AppComponent {
   };
   configurationId = 'rcaconfig';
 
-  routerParams$: Observable<any>;
+  dataSelections$: Observable<any>;
   selectedOrgUnit$: Observable<string>;
   selectedPeriod$: Observable<string>;
 
@@ -39,13 +40,13 @@ export class AppComponent {
     this.translate.use('en');
 
     // Set application title
-    this.setTitle('Seed application');
+    this.setTitle('Action Tracker');
   }
 
   public setTitle(newTitle: string) {
     this.titleService.setTitle(newTitle);
 
-    this.routerParams$ = this.store.select(getRouterParams);
+    this.dataSelections$ = this.store.select(getDataSelections);
   }
 
   onFilterUpdate(dataSelections) {
