@@ -97,7 +97,6 @@ export class RootCauseAnalysisDataService {
       switchMap((dataIds: string[]) => {
         const filteredDataIds = _.filter(dataIds, (dataId: string) => {
           const spliteDataId = dataId.split('_');
-
           return (
             configurationId === spliteDataId[0] &&
             orgUnitId === spliteDataId[1] &&
