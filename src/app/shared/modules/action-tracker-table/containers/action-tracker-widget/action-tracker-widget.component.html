@@ -8,9 +8,6 @@
       <tr>
         <th width="1%">SN.</th>
         <th
-          width="{{
-            100 / (rootCauseAnalysisConfiguration.dataElements.length + 1)
-          }}%"
           [hidden]="dataElement.isHidden"
           *ngFor="
             let dataElement of rootCauseAnalysisConfiguration.dataElements

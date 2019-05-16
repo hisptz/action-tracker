@@ -202,7 +202,9 @@ export class ActionTrackerWidgetComponent implements OnInit {
     this.closeDataEntryForm(dataItem);
   }
   closeDataEntryForm(dataItem) {
-    const dataItemRowElement = document.getElementById(`${dataItem.id}`);
+    const dataItemRowElement = document.getElementById(
+      `${dataItem.id || dataItem.rootCauseDataId}`
+    );
     const actionTrackerItems = dataItemRowElement.getElementsByClassName(
       'action-tracker-column'
     );
