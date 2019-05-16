@@ -5,5 +5,11 @@
 
 <div class="col" *ngIf="inputItemType == 'TEXTAREA'">
   <label for="inputItemId">{{ inputItemName }}</label>
-  <textarea class="form-control" id="inputItemId" rows="1"></textarea>
+  <text-area-input
+    class="form-control"
+    id="inputItemId"
+    rows="1"
+    (keyup)="onEditRootCauseAnalysisData($event)"
+    autofocus
+  ></text-area-input>
 </div>

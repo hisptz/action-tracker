@@ -178,10 +178,21 @@ export class ActionTrackerWidgetComponent implements OnInit {
       'action-tracker-column'
     );
     _.map(actionTrackerItems, (actionTrackerColumn, index) => {
-      if (index !== 0) {
+      if (index !== actionTrackerItems.length - 1) {
         actionTrackerColumn.setAttribute('hidden', true);
       } else {
         actionTrackerColumn.colSpan = _.toString(actionTrackerItems.length);
+        const buttonElement = _.head(
+          actionTrackerColumn.getElementsByClassName('btn-add-action')
+        );
+
+        const formElement = _.head(
+          actionTrackerColumn.getElementsByClassName(
+            'action-tracker-form-wrapper'
+          )
+        );
+        buttonElement.setAttribute('hidden', true);
+        formElement.removeAttribute('hidden');
       }
     });
   }

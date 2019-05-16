@@ -1,6 +1,4 @@
 <div *ngIf="dataLoaded$ | async">
-  <action-tracker-form></action-tracker-form>
-
   <table
     class="table table-bordered table-responsive"
     #rootCauseAnalysisTable
@@ -71,8 +69,11 @@
         </td>
 
         <td class="action-tracker-column">
+          <div class="action-tracker-form-wrapper" hidden="true">
+            <action-tracker-form></action-tracker-form>
+          </div>
           <button
-            class="btn btn-outline-secondary"
+            class="btn btn-outline-secondary btn-add-action"
             (click)="openActionTrackerEntryForm($event, dataItem)"
           >
             <i class="fa fa-plus"></i>
