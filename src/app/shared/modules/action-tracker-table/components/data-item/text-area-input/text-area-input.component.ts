@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'app-text-area-input',
+  selector: 'text-area-input',
   templateUrl: './text-area-input.component.html',
   styleUrls: ['./text-area-input.component.css']
 })

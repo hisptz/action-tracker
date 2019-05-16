@@ -51,7 +51,7 @@ export function reducer(
     }
 
     case ActionTrackerDataActionTypes.AddActionTrackerDatas: {
-      return adapter.addAll(action.actionTrackerDatas, {
+      return adapter.upsertMany(action.actionTrackerDatas, {
         ...state,
         loading: false,
         loaded: true,
@@ -88,6 +88,13 @@ export function reducer(
 
     case ActionTrackerDataActionTypes.ClearActionTrackerDatas: {
       return adapter.removeAll(state);
+    }
+
+    case ActionTrackerDataActionTypes.SaveActionTrackerDataSuccess: {
+      if (!action.actionTrackerData) {
+        return state;
+      }
+      return adapter.upsertOne(action.actionTrackerData, state);
     }
 
     default: {

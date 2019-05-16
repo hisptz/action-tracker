@@ -1,23 +1,63 @@
-<div *ngIf="actionTrackerConfiguration as configurations">
+<div *ngIf="configurations as actionTrackerConfiguration">
   <div class="row">
     <div
       *ngFor="
-        let column of actionTrackerConfiguration.dataElements;
+        let dataElement of actionTrackerConfiguration.dataElements;
         let last = last
       "
       [ngClass]="{ 'col-4': !last, 'custom-text-area': last }"
+      [hidden]="!dataElement.isActionTrackerColumn"
     >
-      <form-input-item
-        [hidden]="column.isHidden"
-        [inputItemType]="column.valueType"
-        [inputItemId]="column.id"
-        [inputItemName]="column.name"
+      <div
+        class="col"
+        *ngIf="
+          dataElement?.valueType == 'TEXT' || dataElement?.valueType == 'PERIOD'
+        "
       >
-      </form-input-item>
+        <label for="{{ dataItem?.id }}_{{ dataElement?.id }}">{{
+          dataElement?.name
+        }}</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="dataElement.formControlName"
+          id="{{ dataItem?.id }}_{{ dataElement?.id }}"
+        />
+      </div>
+      <div class="col" *ngIf="dataElement?.valueType == 'TEXTAREA'">
+        <label for="{{ dataItem?.id }}_{{ dataElement?.id }}">{{
+          dataElement?.name
+        }}</label>
+        <textarea
+          class="form-control"
+          [(ngModel)]="dataElement.formControlName"
+          id="{{ dataItem?.id }}_{{ dataElement?.id }}"
+          placeholder="{{ dataElement?.name }}"
+          tabindex="j-9"
+          autofocus
+        ></textarea>
+      </div>
     </div>
-    <div>
-      <button class="btn btn-secondary">Save</button>
-      <button class="btn btn-secondary">Cancel</button>
+    <div class="mx-4 my-3 px-2">
+      <button
+        class="btn btn-outline-secondary mr-2"
+        (click)="
+          onDataEntrySave(
+            $event,
+            dataItem,
+            actionTrackerConfiguration.dataElements
+          )
+        "
+        type="submit"
+      >
+        Save
+      </button>
+      <button
+        class="btn btn-outline-secondary"
+        (click)="onDataEntryCancel($event, dataItem)"
+      >
+        Cancel
+      </button>
     </div>
   </div>
 </div>

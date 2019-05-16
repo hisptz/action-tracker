@@ -1,6 +1,4 @@
 <div *ngIf="dataLoaded$ | async">
-  <action-tracker-form></action-tracker-form>
-
   <table
     class="table table-bordered table-responsive"
     #rootCauseAnalysisTable
@@ -10,9 +8,6 @@
       <tr>
         <th width="1%">SN.</th>
         <th
-          width="{{
-            100 / (rootCauseAnalysisConfiguration.dataElements.length + 1)
-          }}%"
           [hidden]="dataElement.isHidden"
           *ngFor="
             let dataElement of rootCauseAnalysisConfiguration.dataElements
@@ -30,7 +25,7 @@
           let i = index;
           trackBy: dataItem?.id
         "
-        id="{{ dataItem?.id }}"
+        id="{{ dataItem?.id || dataItem?.rootCauseDataId }}"
       >
         <td>{{ i + 1 }}</td>
         <td
@@ -40,7 +35,6 @@
             let j = index
           "
           [ngClass]="{
-            'auto-filled': dataElement.valueType == 'AUTO_FILLED',
             'action-tracker-column': dataElement.isActionTrackerColumn
           }"
         >
@@ -69,10 +63,20 @@
             <i class="icon-ok-circled2"></i
           ></a>
         </td>
-
+        {{
+          dataElement
+        }}
         <td class="action-tracker-column">
+          <div class="action-tracker-form-wrapper" hidden="true">
+            <action-tracker-form
+              [dataItem]="dataItem"
+              [configurations]="actionTrackerConfiguration$ | async"
+              (save)="onSave($event)"
+              (cancel)="cancelDataEntryForm($event)"
+            ></action-tracker-form>
+          </div>
           <button
-            class="btn btn-outline-secondary"
+            class="btn btn-outline-secondary btn-add-action"
             (click)="openActionTrackerEntryForm($event, dataItem)"
           >
             <i class="fa fa-plus"></i>

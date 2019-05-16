@@ -1,16 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { ActionTrackerConfigurationActionTypes } from '../actions/action-tracker-configuration.actions';
-import {
-  ActionTrackerDataActionTypes,
-  LoadActionTrackerDatas,
-  AddActionTrackerDatas,
-  LoadActionTrackerDatasFail
-} from '../actions/action-tracker-data.actions';
-import { mergeMap, map, catchError } from 'rxjs/operators';
+import { catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
+
 import { ActionTrackerData } from '../../models/action-tracker-data.model';
 import { ActionTrackerDataService } from '../../services/action-tracker-data.service';
+import {
+  ActionTrackerDataActionTypes,
+  AddActionTrackerDatas,
+  SaveActionTrackerData,
+  SaveActionTrackerDataFail,
+  SaveActionTrackerDataSuccess,
+  LoadActionTrackerDatas,
+  LoadActionTrackerDatasFail
+} from '../actions/action-tracker-data.actions';
+import { State } from '../reducers';
+import { getCurrentActionTrackerConfig } from '../selectors/action-tracker-configuration.selectors';
 
 @Injectable()
 export class ActionTrackerDataEffects {
@@ -35,8 +41,45 @@ export class ActionTrackerDataEffects {
     })
   );
 
+  @Effect()
+  saveActionTrackerData$: Observable<any> = this.actions$.pipe(
+    ofType(ActionTrackerDataActionTypes.SaveActionTrackerData),
+    withLatestFrom(this.store.select(getCurrentActionTrackerConfig)),
+    mergeMap(([action, actionTrackerConfig]: [SaveActionTrackerData, any]) => {
+      const actionTrackerDataValues = action.actionTrackerData
+        ? action.actionTrackerData.dataValues
+        : null;
+      const selectionParams = action.actionTrackerData
+        ? action.actionTrackerData.selectionParams
+        : null;
+
+      return (action.actionTrackerDataId
+        ? this.actionTrackerDataService.updateData(
+            actionTrackerConfig,
+            actionTrackerDataValues,
+            selectionParams,
+            action.actionTrackerDataId
+          )
+        : this.actionTrackerDataService.addData(
+            actionTrackerConfig,
+            actionTrackerDataValues,
+            selectionParams
+          )
+      ).pipe(
+        map(
+          (actionTrackerData: any) =>
+            new SaveActionTrackerDataSuccess(actionTrackerData, {
+              [actionTrackerData.savingColor]: 'green'
+            })
+        ),
+        catchError((error: any) => of(new SaveActionTrackerDataFail(error)))
+      );
+    })
+  );
+
   constructor(
     private actions$: Actions,
+    private store: Store<State>,
     private actionTrackerDataService: ActionTrackerDataService
   ) {}
 }
