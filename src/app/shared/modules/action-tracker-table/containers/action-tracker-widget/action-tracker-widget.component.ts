@@ -1,36 +1,37 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { State } from 'src/app/core/store/reducers';
 import * as _ from 'lodash';
+import { Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { SaveActionTrackerData } from 'src/app/core/store/actions/action-tracker-data.actions';
+import { State } from 'src/app/core/store/reducers';
 import {
   getCurrentActionTrackerConfig,
-  mergeCurrentActionTrackerConfigWithCurrentRootCauseConfig
+  getMergedActionTrackerConfiguration
 } from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
 import {
   getConfigurationLoadedStatus,
   getConfigurationLoadingStatus
 } from 'src/app/core/store/selectors/root-cause-analysis-configuration.selectors';
 import {
-  getAllRootCauseAnalysisData,
   getRootCauseAnalysisDataLoadedStatus,
   getRootCauseAnalysisDataLoadingStatus,
-  getRootCauseAnalysisDataNotificationStatus
+  getRootCauseAnalysisDataNotificationStatus,
+  getRootCauseAnalysisDatas
 } from 'src/app/core/store/selectors/root-cause-analysis-data.selectors';
 
 import * as fromRootCauseAnalysisDataActions from '../../../../../core/store/actions/root-cause-analysis-data.actions';
 import { listEnterAnimation } from '../../../../animations/list-enter-animation';
+import { generateUid } from '../../helpers';
 import { DownloadWidgetService } from '../../services/downloadWidgetService.service';
 import {
-  RootCauseAnalysisData,
   RootCauseAnalysisConfiguration,
+  RootCauseAnalysisData,
   RootCauseAnalysisWidget
 } from '../../store/models';
 import { getCurrentRootCauseAnalysisWidget } from '../../store/selectors/root-cause-analysis-widget.selectors';
-import { Observable, of } from 'rxjs';
-import { switchMap, map } from 'rxjs/operators';
-import { generateUid } from '../../helpers';
-import { SaveActionTrackerData } from 'src/app/core/store/actions/action-tracker-data.actions';
+import { getMergedActionTrackerDatas } from 'src/app/core/store/selectors/action-tracker-data.selectors';
 
 @Component({
   selector: 'app-bna-widget',
@@ -90,13 +91,11 @@ export class ActionTrackerWidgetComponent implements OnInit {
     private downloadWidgetService: DownloadWidgetService
   ) {
     this.widget$ = store.select(getCurrentRootCauseAnalysisWidget);
-    this.configuration$ = store.select(
-      mergeCurrentActionTrackerConfigWithCurrentRootCauseConfig
-    );
+    this.configuration$ = store.select(getMergedActionTrackerConfiguration);
     this.actionTrackerConfiguration$ = store.select(
       getCurrentActionTrackerConfig
     );
-    this.data$ = store.select(getAllRootCauseAnalysisData);
+    this.data$ = store.select(getMergedActionTrackerDatas);
     this.configurationLoading$ = store.select(getConfigurationLoadingStatus);
     this.configurationLoaded$ = store.select(getConfigurationLoadedStatus);
     this.dataLoaded$ = store.select(getRootCauseAnalysisDataLoadedStatus);
@@ -173,7 +172,9 @@ export class ActionTrackerWidgetComponent implements OnInit {
   }
 
   openActionTrackerEntryForm(event, dataItem) {
-    const dataItemRowElement = document.getElementById(`${dataItem.id}`);
+    const dataItemRowElement = document.getElementById(
+      `${dataItem.id || dataItem.rootCauseDataId}`
+    );
     const actionTrackerItems = dataItemRowElement.getElementsByClassName(
       'action-tracker-column'
     );
@@ -201,7 +202,9 @@ export class ActionTrackerWidgetComponent implements OnInit {
     this.closeDataEntryForm(dataItem);
   }
   closeDataEntryForm(dataItem) {
-    const dataItemRowElement = document.getElementById(`${dataItem.id}`);
+    const dataItemRowElement = document.getElementById(
+      `${dataItem.id || dataItem.rootCauseDataId}`
+    );
     const actionTrackerItems = dataItemRowElement.getElementsByClassName(
       'action-tracker-column'
     );
