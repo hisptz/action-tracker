@@ -90,8 +90,7 @@ export class SaveActionTrackerData implements Action {
   readonly type = ActionTrackerDataActionTypes.SaveActionTrackerData;
 
   constructor(
-    public actionTrackerDataValues: any,
-    public selectionParams: any,
+    public actionTrackerData: any,
     public actionTrackerDataId?: string
   ) {}
 }

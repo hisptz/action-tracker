@@ -9,13 +9,15 @@ export class FormComponent implements OnInit {
   @Input() dataItem;
   @Input() configurations;
 
-  actionDescription: string = '';
-  actionPeriod: string = '';
-  responsiblePerson: string = '';
-  designationTitle: string = '';
-  actionStatus: string = '';
-  reviewDate: string = '';
-  remarks: string = '';
+  @Output() save: EventEmitter<any> = new EventEmitter<any>();
+
+  actionDescription = '';
+  actionPeriod = '';
+  responsiblePerson = '';
+  designationTitle = '';
+  actionStatus = '';
+  reviewDate = '';
+  remarks = '';
 
   constructor() {}
 
@@ -23,21 +25,23 @@ export class FormComponent implements OnInit {
 
   onDataEntrySave(event, dataItem, dataElement) {
     if (event) {
-      event.stopPropagation;
+      event.stopPropagation();
     }
+
     const actionTrackerData = {};
+    const selectionParams = {};
     const dataValueStructure = {};
 
     if (dataItem && dataElement) {
-      actionTrackerData['orgUnit'] =
+      selectionParams['orgUnit'] =
         dataItem.dataValues[
           _.get(_.find(dataElement, { name: 'orgUnitId' }), 'id')
         ];
-      actionTrackerData['period'] =
+      selectionParams['period'] =
         dataItem.dataValues[
           _.get(_.find(dataElement, { name: 'periodId' }), 'id')
         ];
-      actionTrackerData['dashboard'] =
+      selectionParams['dashboard'] =
         dataItem.dataValues[
           _.get(_.find(dataElement, { name: 'interventionId' }), 'id')
         ];
@@ -48,8 +52,8 @@ export class FormComponent implements OnInit {
         : '';
     });
     actionTrackerData['dataValues'] = dataValueStructure;
-    actionTrackerData['rootCauseDataId'] = dataItem.id;
+    selectionParams['rootCauseDataId'] = dataItem.id;
 
-    console.log(actionTrackerData);
+    this.save.emit({ ...actionTrackerData, selectionParams });
   }
 }

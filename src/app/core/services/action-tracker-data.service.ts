@@ -45,15 +45,23 @@ export class ActionTrackerDataService {
   }
 
   addData(actionTrackerConfig, actionTrackerDataValues, selectionParams: any) {
+    if (!actionTrackerDataValues && !selectionParams) {
+      console.warn(
+        'Could not save action tracker data, data values and parameters are not supplied'
+      );
+      return of(null);
+    }
     const actionTrackerData = this._prepareDataForSaving(
       actionTrackerDataValues,
-      actionTrackerConfig
+      actionTrackerConfig,
+      selectionParams.rootCauseDataId
     );
+
     return this.http
       .post(
         `${this._dataStoreUrl}/${actionTrackerConfig.id}_${
-          selectionParams.orgUnitId
-        }_${selectionParams.periodId}_${selectionParams.dashboardId}_${
+          selectionParams.orgUnit
+        }_${selectionParams.period}_${selectionParams.dashboard}_${
           actionTrackerData.id
         }`,
         actionTrackerData
@@ -67,16 +75,23 @@ export class ActionTrackerDataService {
     selectionParams: any,
     actionTrackerDataId: string
   ) {
+    if (!actionTrackerDataValues && !selectionParams) {
+      console.warn(
+        'Could not save action tracker data, data values and parameters are not supplied'
+      );
+      return of(null);
+    }
     const actionTrackerData = this._prepareDataForSaving(
       actionTrackerDataValues,
       actionTrackerConfig,
+      selectionParams.rootCauseDataId,
       actionTrackerDataId
     );
     return this.http
       .put(
         `${this._dataStoreUrl}/${actionTrackerConfig.id}_${
-          selectionParams.orgUnitId
-        }_${selectionParams.periodId}_${selectionParams.dashboardId}_${
+          selectionParams.orgUnit
+        }_${selectionParams.period}_${selectionParams.dashboard}_${
           actionTrackerData.id
         }`,
         actionTrackerData
@@ -87,13 +102,14 @@ export class ActionTrackerDataService {
   private _prepareDataForSaving(
     actionTrackerDataValues: any,
     actionTrackerConfig: any,
+    rootCauseDataId: string,
     dataId?: string
   ) {
     const dataValueId = dataId || generateUid();
     return {
       id: dataValueId,
       dataValues: actionTrackerDataValues,
-      rootCauseId: actionTrackerConfig.rootCauseConfigurationId,
+      rootCauseDataId,
       actionTrackerConfigId: actionTrackerConfig.id
     };
   }

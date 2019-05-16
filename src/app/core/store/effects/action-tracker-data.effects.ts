@@ -46,17 +46,24 @@ export class ActionTrackerDataEffects {
     ofType(ActionTrackerDataActionTypes.SaveActionTrackerData),
     withLatestFrom(this.store.select(getCurrentActionTrackerConfig)),
     mergeMap(([action, actionTrackerConfig]: [SaveActionTrackerData, any]) => {
+      const actionTrackerDataValues = action.actionTrackerData
+        ? action.actionTrackerData.dataValues
+        : null;
+      const selectionParams = action.actionTrackerData
+        ? action.actionTrackerData.selectionParams
+        : null;
+
       return (action.actionTrackerDataId
         ? this.actionTrackerDataService.updateData(
             actionTrackerConfig,
-            action.actionTrackerDataValues,
-            action.selectionParams,
+            actionTrackerDataValues,
+            selectionParams,
             action.actionTrackerDataId
           )
         : this.actionTrackerDataService.addData(
             actionTrackerConfig,
-            action.actionTrackerDataValues,
-            action.selectionParams
+            actionTrackerDataValues,
+            selectionParams
           )
       ).pipe(
         map(
