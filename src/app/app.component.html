@@ -24,11 +24,13 @@
       <!-- end of application filter -->
       <div class="row">
         <div class="col-12">
-          <span class="col-12" *ngIf="routerParams$ | async as routerParams">
+          <span
+            class="col-12"
+            *ngIf="dataSelections$ | async as dataSelections"
+          >
             <app-bna-widget
-              [routerParams]="routerParams$ | async"
-              [selectedOrgUnit]="routerParams.orgUnit?.name"
-              [selectedPeriod]="routerParams.period?.name"
+              [selectedOrgUnit]="dataSelections.orgUnit"
+              [selectedPeriod]="dataSelections.period"
             >
             </app-bna-widget>
           </span>

@@ -1,4 +1,6 @@
 <div *ngIf="dataLoaded$ | async">
+  <action-tracker-form></action-tracker-form>
+
   <table
     class="table table-bordered table-responsive"
     #rootCauseAnalysisTable
@@ -18,6 +20,7 @@
         >
           {{ dataElement.name }}
         </th>
+        <th width="2%">Actions</th>
       </tr>
     </thead>
     <tbody *ngIf="data$ | async as rootCauseAnalysisData" [@listEnter]>
@@ -27,6 +30,7 @@
           let i = index;
           trackBy: dataItem?.id
         "
+        id="{{ dataItem?.id }}"
       >
         <td>{{ i + 1 }}</td>
         <td
@@ -35,57 +39,24 @@
             let dataElement of rootCauseAnalysisConfiguration.dataElements;
             let j = index
           "
-          [ngClass]="{ 'auto-filled': dataElement.valueType == 'AUTO_FILLED' }"
-          (dblclick)="onToggleEdit($event, dataItem)"
-          (contextmenu)="onEnableContextMenu($event, dataItem)"
+          [ngClass]="{
+            'auto-filled': dataElement.valueType == 'AUTO_FILLED',
+            'action-tracker-column': dataElement.isActionTrackerColumn
+          }"
         >
-          <div
-            *ngIf="
-              (!dataItem.isActive && !dataItem.isHidden) ||
-              (dataItem.isActive &&
-                !dataElement.optionSetValue &&
-                dataElement.valueType == 'AUTO_FILLED')
-            "
-            class="form-control auto-filled-label table-cell-data"
-          >
-            {{ dataItem.dataValues[dataElement.id] }}
-          </div>
-          <app-select-box-input
-            [backgroundColor]="savingColor"
-            *ngIf="dataItem.isActive && dataElement.optionSetValue"
-            [dataItemValue]="dataItem.dataValues[dataElement.id]"
-            [dataElement]="dataElement"
-            [dataValues]="dataItem.dataValues"
-            (updateDataValues)="
-              onDataValuesUpdate(
-                $event,
-                dataItem,
-                rootCauseAnalysisConfiguration.dataElement
-              )
-            "
-            [groups]="routerParams?.groups"
-          ></app-select-box-input>
-          <textarea
-            class="form-control table-cell-data custom-text-area"
-            (blur)="
-              onDataValueUpdate(
-                dataElement.id,
-                dataItem,
-                $event,
-                rootCauseAnalysisConfiguration.dataElement
-              )
-            "
-            *ngIf="
-              dataItem.isActive &&
-              !dataElement.optionSetValue &&
-              dataElement.valueType == 'TEXT'
-            "
-            placeholder="{{ dataElement.name }}"
-            tabindex="j-9"
-            autofocus
-          >
- {{ dataItem.dataValues[dataElement.id] }}</textarea
-          >
+          <ng-container id="dataItem?.id_dataElement?.id">
+            <div
+              *ngIf="
+                (!dataItem.isActive && !dataItem.isHidden) ||
+                (dataItem.isActive &&
+                  !dataElement.optionSetValue &&
+                  dataElement.valueType == 'AUTO_FILLED')
+              "
+              class="form-control auto-filled-label table-cell-data"
+            >
+              {{ dataItem.dataValues[dataElement.id] }}
+            </div>
+          </ng-container>
           <a
             title="Save when done"
             class="text-secondary custom-done-icon"
@@ -98,23 +69,13 @@
             <i class="icon-ok-circled2"></i
           ></a>
         </td>
-        <td
-          class="delete-message"
-          *ngIf="toBeDeleted[dataItem.id]"
-          colspan="100%"
-        >
-          Are you sure wish to delete this data? <br />
+
+        <td class="action-tracker-column">
           <button
-            class="btn btn-sm btn-success"
-            (click)="onToggleCancelAction($event, dataItem, 'DELETE')"
+            class="btn btn-outline-secondary"
+            (click)="openActionTrackerEntryForm($event, dataItem)"
           >
-            <i class="icon-cancel"></i> No</button
-          >&nbsp;
-          <button
-            class="btn btn-sm btn-danger"
-            (click)="onDeleteRootCauseAnalysisData(dataItem)"
-          >
-            <i class="icon-ok-circled2"></i> Yes
+            <i class="fa fa-plus"></i>
           </button>
         </td>
       </tr>
