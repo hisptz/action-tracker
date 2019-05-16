@@ -90,6 +90,13 @@ export function reducer(
       return adapter.removeAll(state);
     }
 
+    case ActionTrackerDataActionTypes.SaveActionTrackerDataSuccess: {
+      if (!action.actionTrackerData) {
+        return state;
+      }
+      return adapter.upsertOne(action.actionTrackerData, state);
+    }
+
     default: {
       return state;
     }
