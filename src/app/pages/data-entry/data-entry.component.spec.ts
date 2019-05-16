@@ -8,6 +8,7 @@ import { ActionTrackerWidgetComponent } from 'src/app/shared/modules/action-trac
 import { FormComponent } from 'src/app/shared/modules/action-tracker-table/components/form/form.component';
 import { WidgetItemLoaderComponent } from 'src/app/shared/modules/action-tracker-table/components/widget-item-loader/widget-item-loader.component';
 import { FormInputItemComponent } from 'src/app/shared/modules/action-tracker-table/components/form-input-item/form-input-item.component';
+import { TextAreaInputComponent } from 'src/app/shared/modules/action-tracker-table/components/data-item/text-area-input/text-area-input.component';
 
 describe('DataEntryComponent', () => {
   let component: DataEntryComponent;
@@ -21,7 +22,8 @@ describe('DataEntryComponent', () => {
         ActionTrackerWidgetComponent,
         FormComponent,
         WidgetItemLoaderComponent,
-        FormInputItemComponent
+        FormInputItemComponent,
+        TextAreaInputComponent
       ]
     }).compileComponents();
   }));
