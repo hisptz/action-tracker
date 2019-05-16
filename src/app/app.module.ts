@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core';
 import { sharedModules } from './shared';
 import { SharedModule } from './shared/shared.module';
+import { DataEntryComponent } from './pages/data-entry/data-entry.component';
 
 /** Importing Shared modules */
 // AoT requires an exported function for factories
@@ -20,7 +21,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, DataEntryComponent],
   imports: [
     BrowserModule,
     HttpClientModule,

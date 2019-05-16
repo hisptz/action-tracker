@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { DataEntryComponent } from './pages/data-entry/data-entry.component';
 
 export const routes: Routes = [
   {
@@ -9,7 +10,7 @@ export const routes: Routes = [
   },
   {
     path: 'data-entry',
-    loadChildren: './pages/data-entry/data-entry.module#DataEntryModule'
+    component: DataEntryComponent
   },
   {
     path: 'report',
