@@ -1,0 +1,19 @@
+<div
+  class="col"
+  *ngIf="dataElement?.valueType == 'TEXT' || dataElement?.valueType == 'PERIOD'"
+>
+  <label for="dataElement?.id">{{ dataElement?.name }}</label>
+  <input type="text" class="form-control" id="dataElement?.id" />
+</div>
+
+<div class="col" *ngIf="dataElement?.valueType == 'TEXTAREA'">
+  <label for="dataElement?.id">{{ dataElement?.name }}</label>
+  <textarea
+    class="form-control"
+    id="dataElement?.id"
+    rows="1"
+    placeholder="{{ dataElement?.name }}"
+    tabindex="j-9"
+    autofocus
+  ></textarea>
+</div>

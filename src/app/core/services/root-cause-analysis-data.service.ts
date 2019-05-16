@@ -96,10 +96,11 @@ export class RootCauseAnalysisDataService {
     return this.http.get(this._dataStoreUrl).pipe(
       switchMap((dataIds: string[]) => {
         const filteredDataIds = _.filter(dataIds, (dataId: string) => {
+          orgUnitId = 'Hq1ZHMHGvQE';
           const spliteDataId = dataId.split('_');
           return (
             configurationId === spliteDataId[0] &&
-            orgUnitId === spliteDataId[1] &&
+            orgUnitId === 'Hq1ZHMHGvQE' &&
             periodId.toString() === spliteDataId[2] &&
             dashBoardId === spliteDataId[3]
           );
