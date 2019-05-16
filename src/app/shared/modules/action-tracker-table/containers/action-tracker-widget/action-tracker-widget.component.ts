@@ -203,6 +203,34 @@ export class ActionTrackerWidgetComponent implements OnInit {
     });
   }
 
+  cancelDataEntryForm(dataItem) {
+    this.closeDataEntryForm(dataItem);
+  }
+  closeDataEntryForm(dataItem) {
+    const dataItemRowElement = document.getElementById(`${dataItem.id}`);
+    const actionTrackerItems = dataItemRowElement.getElementsByClassName(
+      'action-tracker-column'
+    );
+    _.map(actionTrackerItems, (actionTrackerColumn, index) => {
+      if (index !== actionTrackerItems.length - 1) {
+        actionTrackerColumn.removeAttribute('hidden', false);
+      } else {
+        actionTrackerColumn.colSpan = _.toString(1);
+        const buttonElement = _.head(
+          actionTrackerColumn.getElementsByClassName('btn-add-action')
+        );
+
+        const formElement = _.head(
+          actionTrackerColumn.getElementsByClassName(
+            'action-tracker-form-wrapper'
+          )
+        );
+        buttonElement.removeAttribute('hidden');
+        formElement.setAttribute('hidden', true);
+      }
+    });
+  }
+
   onDeleteRootCauseAnalysisData(rootCauseAnalysisData: any) {
     this.store.dispatch(
       new fromRootCauseAnalysisDataActions.DeleteRootCauseAnalysisData(

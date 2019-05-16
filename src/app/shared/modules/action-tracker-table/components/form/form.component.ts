@@ -8,6 +8,7 @@ import * as _ from 'lodash';
 export class FormComponent implements OnInit {
   @Input() dataItem;
   @Input() configurations;
+  @Output() cancel: EventEmitter<any> = new EventEmitter<any>();
 
   actionDescription: string = '';
   actionPeriod: string = '';
@@ -21,6 +22,9 @@ export class FormComponent implements OnInit {
 
   ngOnInit() {}
 
+  onDataEntryCancel(event, dataItem) {
+    this.cancel.emit(dataItem);
+  }
   onDataEntrySave(event, dataItem, dataElement) {
     if (event) {
       event.stopPropagation;
@@ -49,7 +53,5 @@ export class FormComponent implements OnInit {
     });
     actionTrackerData['dataValues'] = dataValueStructure;
     actionTrackerData['rootCauseDataId'] = dataItem.id;
-
-    console.log(actionTrackerData);
   }
 }

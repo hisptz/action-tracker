@@ -52,7 +52,10 @@
       >
         Save
       </button>
-      <button class="btn btn-outline-secondary" (click)="onDataEntryCancel()">
+      <button
+        class="btn btn-outline-secondary"
+        (click)="onDataEntryCancel($event, dataItem)"
+      >
         Cancel
       </button>
     </div>
