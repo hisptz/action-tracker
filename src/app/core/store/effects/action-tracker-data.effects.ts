@@ -9,9 +9,9 @@ import { ActionTrackerDataService } from '../../services/action-tracker-data.ser
 import {
   ActionTrackerDataActionTypes,
   AddActionTrackerDatas,
-  CreateActionTrackerData,
-  CreateActionTrackerDataFail,
-  CreateActionTrackerDataSuccess,
+  SaveActionTrackerData,
+  SaveActionTrackerDataFail,
+  SaveActionTrackerDataSuccess,
   LoadActionTrackerDatas,
   LoadActionTrackerDatasFail
 } from '../actions/action-tracker-data.actions';
@@ -42,30 +42,32 @@ export class ActionTrackerDataEffects {
   );
 
   @Effect()
-  createActionTrackerData$: Observable<any> = this.actions$.pipe(
-    ofType(ActionTrackerDataActionTypes.CreateActionTrackerData),
+  saveActionTrackerData$: Observable<any> = this.actions$.pipe(
+    ofType(ActionTrackerDataActionTypes.SaveActionTrackerData),
     withLatestFrom(this.store.select(getCurrentActionTrackerConfig)),
-    mergeMap(
-      ([action, actionTrackerConfig]: [CreateActionTrackerData, any]) => {
-        return this.actionTrackerDataService
-          .addData(
+    mergeMap(([action, actionTrackerConfig]: [SaveActionTrackerData, any]) => {
+      return (action.actionTrackerDataId
+        ? this.actionTrackerDataService.updateData(
+            actionTrackerConfig,
+            action.actionTrackerDataValues,
+            action.selectionParams,
+            action.actionTrackerDataId
+          )
+        : this.actionTrackerDataService.addData(
             actionTrackerConfig,
             action.actionTrackerDataValues,
             action.selectionParams
           )
-          .pipe(
-            map(
-              (actionTrackerData: any) =>
-                new CreateActionTrackerDataSuccess(actionTrackerData, {
-                  [actionTrackerData.savingColor]: 'green'
-                })
-            ),
-            catchError((error: any) =>
-              of(new CreateActionTrackerDataFail(error))
-            )
-          );
-      }
-    )
+      ).pipe(
+        map(
+          (actionTrackerData: any) =>
+            new SaveActionTrackerDataSuccess(actionTrackerData, {
+              [actionTrackerData.savingColor]: 'green'
+            })
+        ),
+        catchError((error: any) => of(new SaveActionTrackerDataFail(error)))
+      );
+    })
   );
 
   constructor(

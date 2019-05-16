@@ -14,9 +14,9 @@ export enum ActionTrackerDataActionTypes {
   DeleteActionTrackerData = '[ActionTrackerData] Delete ActionTrackerData',
   DeleteActionTrackerDatas = '[ActionTrackerData] Delete ActionTrackerDatas',
   ClearActionTrackerDatas = '[ActionTrackerData] Clear ActionTrackerDatas',
-  CreateActionTrackerData = '[ActionTrackerData] Create ActionTrackerData',
-  CreateActionTrackerDataSuccess = '[ActionTrackerData] Create ActionTrackerData Success',
-  CreateActionTrackerDataFail = '[ActionTrackerData] Create ActionTrackerData Fail'
+  SaveActionTrackerData = '[ActionTrackerData] Save ActionTrackerData',
+  SaveActionTrackerDataSuccess = '[ActionTrackerData] Save ActionTrackerData Success',
+  SaveActionTrackerDataFail = '[ActionTrackerData] Save ActionTrackerData Fail'
 }
 
 export class LoadActionTrackerDatas implements Action {
@@ -86,23 +86,24 @@ export class ClearActionTrackerDatas implements Action {
   readonly type = ActionTrackerDataActionTypes.ClearActionTrackerDatas;
 }
 
-export class CreateActionTrackerData implements Action {
-  readonly type = ActionTrackerDataActionTypes.CreateActionTrackerData;
+export class SaveActionTrackerData implements Action {
+  readonly type = ActionTrackerDataActionTypes.SaveActionTrackerData;
 
   constructor(
     public actionTrackerDataValues: any,
-    public selectionParams: any
+    public selectionParams: any,
+    public actionTrackerDataId?: string
   ) {}
 }
 
-export class CreateActionTrackerDataSuccess implements Action {
-  readonly type = ActionTrackerDataActionTypes.CreateActionTrackerDataSuccess;
+export class SaveActionTrackerDataSuccess implements Action {
+  readonly type = ActionTrackerDataActionTypes.SaveActionTrackerDataSuccess;
 
   constructor(public actionTrackerData: ActionTrackerData, state) {}
 }
 
-export class CreateActionTrackerDataFail implements Action {
-  readonly type = ActionTrackerDataActionTypes.CreateActionTrackerDataFail;
+export class SaveActionTrackerDataFail implements Action {
+  readonly type = ActionTrackerDataActionTypes.SaveActionTrackerDataFail;
 
   constructor(public error: any) {}
 }
@@ -118,4 +119,7 @@ export type ActionTrackerDataActions =
   | UpdateActionTrackerDatas
   | DeleteActionTrackerData
   | DeleteActionTrackerDatas
-  | ClearActionTrackerDatas;
+  | ClearActionTrackerDatas
+  | SaveActionTrackerData
+  | SaveActionTrackerDataSuccess
+  | SaveActionTrackerDataFail;
