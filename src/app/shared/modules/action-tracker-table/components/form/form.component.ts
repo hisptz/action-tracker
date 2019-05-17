@@ -26,18 +26,13 @@ export class FormComponent implements OnInit {
       this.formArray[dataElement.formControlName] = '';
     });
     this.actionTrackerForm = this.formBuilder.group(this.formArray);
-
-    this.actionTrackerForm.valueChanges.subscribe(console.log);
   }
 
   onDataEntryCancel(event, dataItem) {
     this.cancel.emit(dataItem);
   }
-  onDataEntrySave(event, dataItem, dataElement) {
-    if (event) {
-      event.stopPropagation();
-    }
-
+  onDataEntrySave(dataItem, dataElement) {
+    console.log();
     const actionTrackerData = {};
     const selectionParams = {};
     const dataValueStructure = {};
@@ -57,9 +52,10 @@ export class FormComponent implements OnInit {
         ];
     }
     _.map(_.filter(dataElement, 'isActionTrackerColumn'), dataValue => {
-      dataValueStructure[dataValue.id] = dataValue.formControlName
-        ? dataValue.formControlName
-        : '';
+      dataValueStructure[dataValue.id] =
+        dataValue.formControlName && this.actionTrackerForm.value
+          ? this.actionTrackerForm.value[dataValue.formControlName]
+          : '';
     });
     actionTrackerData['dataValues'] = dataValueStructure;
     selectionParams['rootCauseDataId'] = dataItem.rootCauseDataId;

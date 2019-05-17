@@ -1,5 +1,8 @@
 <div *ngIf="configurations">
-  <form [formGroup]="actionTrackerForm">
+  <form
+    [formGroup]="actionTrackerForm"
+    (ngSubmit)="onDataEntrySave(dataItem, configurations.dataElements)"
+  >
     <div class="row">
       <div
         *ngFor="let dataElement of configurations.dataElements; let last = last"
@@ -22,7 +25,7 @@
             class="form-control"
             *ngIf="dataElement.formControlName"
             placeholder="{{ dataElement?.name }}"
-            formControlName="{{ dataElement?.formControlName }}"
+            formControlName="{{ dataElement.formControlName }}"
             id="{{ dataItem?.id }}_{{ dataElement?.id }}"
             required
           />
@@ -33,6 +36,7 @@
           }}</label>
           <textarea
             class="form-control"
+            *ngIf="dataElement.formControlName"
             formControlName="{{ dataElement.formControlName }}"
             id="{{ dataItem?.id }}_{{ dataElement?.id }}"
             placeholder="{{ dataElement?.name }}"
@@ -41,26 +45,18 @@
           ></textarea>
         </div>
       </div>
-      <div class="mx-4 my-3 px-2">
-        <button
-          class="btn btn-outline-secondary mr-2"
-          (click)="
-            onDataEntrySave(
-              $event,
-              dataItem,
-              actionTrackerConfiguration.dataElements
-            )
-          "
-          type="submit"
-        >
-          Save
-        </button>
-        <button
-          class="btn btn-outline-secondary"
-          (click)="onDataEntryCancel($event, dataItem)"
-        >
-          Cancel
-        </button>
+      <div class="row">
+        <div class="mx-4 my-3 px-2" style="float: right">
+          <button class="btn btn-outline-secondary mr-2" type="submit">
+            Save
+          </button>
+          <button
+            class="btn btn-outline-secondary"
+            (click)="onDataEntryCancel($event, dataItem)"
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
   </form>
