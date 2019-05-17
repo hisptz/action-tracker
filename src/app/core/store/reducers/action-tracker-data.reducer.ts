@@ -51,7 +51,7 @@ export function reducer(
     }
 
     case ActionTrackerDataActionTypes.AddActionTrackerDatas: {
-      return adapter.addAll(action.actionTrackerDatas, {
+      return adapter.upsertMany(action.actionTrackerDatas, {
         ...state,
         loading: false,
         loaded: true,
