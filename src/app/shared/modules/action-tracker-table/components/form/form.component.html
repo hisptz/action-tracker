@@ -1,63 +1,67 @@
-<div *ngIf="configurations as actionTrackerConfiguration">
-  <div class="row">
-    <div
-      *ngFor="
-        let dataElement of actionTrackerConfiguration.dataElements;
-        let last = last
-      "
-      [ngClass]="{ 'col-4': !last, 'custom-text-area': last }"
-      [hidden]="!dataElement.isActionTrackerColumn"
-    >
+<div *ngIf="configurations">
+  <form [formGroup]="actionTrackerForm">
+    <div class="row">
       <div
-        class="col"
-        *ngIf="
-          dataElement?.valueType == 'TEXT' || dataElement?.valueType == 'PERIOD'
-        "
+        *ngFor="let dataElement of configurations.dataElements; let last = last"
+        [ngClass]="{ 'col-4': !last, 'custom-text-area': last }"
+        [hidden]="!dataElement.isActionTrackerColumn"
       >
-        <label for="{{ dataItem?.id }}_{{ dataElement?.id }}">{{
-          dataElement?.name
-        }}</label>
-        <input
-          type="text"
-          class="form-control"
-          [(ngModel)]="dataElement.formControlName"
-          id="{{ dataItem?.id }}_{{ dataElement?.id }}"
-        />
+        <div
+          class="col"
+          *ngIf="
+            dataElement &&
+            (dataElement?.valueType == 'TEXT' ||
+              dataElement?.valueType == 'PERIOD')
+          "
+        >
+          <label for="{{ dataItem?.id }}_{{ dataElement?.id }}"
+            >{{ dataElement?.name }}
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            *ngIf="dataElement.formControlName"
+            placeholder="{{ dataElement?.name }}"
+            formControlName="{{ dataElement?.formControlName }}"
+            id="{{ dataItem?.id }}_{{ dataElement?.id }}"
+            required
+          />
+        </div>
+        <div class="col" *ngIf="dataElement?.valueType == 'TEXTAREA'">
+          <label for="{{ dataItem?.id }}_{{ dataElement?.id }}">{{
+            dataElement?.name
+          }}</label>
+          <textarea
+            class="form-control"
+            formControlName="{{ dataElement.formControlName }}"
+            id="{{ dataItem?.id }}_{{ dataElement?.id }}"
+            placeholder="{{ dataElement?.name }}"
+            tabindex="j-9"
+            autofocus
+          ></textarea>
+        </div>
       </div>
-      <div class="col" *ngIf="dataElement?.valueType == 'TEXTAREA'">
-        <label for="{{ dataItem?.id }}_{{ dataElement?.id }}">{{
-          dataElement?.name
-        }}</label>
-        <textarea
-          class="form-control"
-          [(ngModel)]="dataElement.formControlName"
-          id="{{ dataItem?.id }}_{{ dataElement?.id }}"
-          placeholder="{{ dataElement?.name }}"
-          tabindex="j-9"
-          autofocus
-        ></textarea>
+      <div class="mx-4 my-3 px-2">
+        <button
+          class="btn btn-outline-secondary mr-2"
+          (click)="
+            onDataEntrySave(
+              $event,
+              dataItem,
+              actionTrackerConfiguration.dataElements
+            )
+          "
+          type="submit"
+        >
+          Save
+        </button>
+        <button
+          class="btn btn-outline-secondary"
+          (click)="onDataEntryCancel($event, dataItem)"
+        >
+          Cancel
+        </button>
       </div>
     </div>
-    <div class="mx-4 my-3 px-2">
-      <button
-        class="btn btn-outline-secondary mr-2"
-        (click)="
-          onDataEntrySave(
-            $event,
-            dataItem,
-            actionTrackerConfiguration.dataElements
-          )
-        "
-        type="submit"
-      >
-        Save
-      </button>
-      <button
-        class="btn btn-outline-secondary"
-        (click)="onDataEntryCancel($event, dataItem)"
-      >
-        Cancel
-      </button>
-    </div>
-  </div>
+  </form>
 </div>

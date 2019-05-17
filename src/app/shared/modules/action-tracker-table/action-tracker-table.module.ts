@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -14,10 +14,11 @@ import { reducers } from './store/reducers';
 
 @NgModule({
   declarations: [...containers, ...components, ...directives],
-  exports: [...containers, ...components],
+  exports: [...containers, ...components, ReactiveFormsModule],
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     NgPipesModule,
     StoreModule.forFeature('actionTrackerWidget', reducers),
     EffectsModule.forFeature(effects)

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import * as _ from 'lodash';
 @Component({
   selector: 'action-tracker-form',
@@ -12,17 +13,22 @@ export class FormComponent implements OnInit {
 
   @Output() save: EventEmitter<any> = new EventEmitter<any>();
 
-  actionDescription = '';
-  actionPeriod = '';
-  responsiblePerson = '';
-  designationTitle = '';
-  actionStatus = '';
-  reviewDate = '';
-  remarks = '';
+  actionTrackerForm: FormGroup;
+  formArray: {};
+  constructor(private formBuilder: FormBuilder) {}
 
-  constructor() {}
+  ngOnInit() {
+    this.formArray = {};
+    const dataElements = this.configurations
+      ? this.configurations.dataElements
+      : [];
+    _.map(_.filter(dataElements, 'isActionTrackerColumn'), dataElement => {
+      this.formArray[dataElement.formControlName] = '';
+    });
+    this.actionTrackerForm = this.formBuilder.group(this.formArray);
 
-  ngOnInit() {}
+    this.actionTrackerForm.valueChanges.subscribe(console.log);
+  }
 
   onDataEntryCancel(event, dataItem) {
     this.cancel.emit(dataItem);
