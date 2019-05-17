@@ -32,7 +32,6 @@ export class FormComponent implements OnInit {
     this.cancel.emit(dataItem);
   }
   onDataEntrySave(dataItem, dataElement) {
-    console.log();
     const actionTrackerData = {};
     const selectionParams = {};
     const dataValueStructure = {};
