@@ -18,6 +18,9 @@ export enum ActionTrackerDataActionTypes {
   DeleteActionTrackerDataFail = '[ActionTrackerData] Delete ActionTrackerData Fail',
   DeleteActionTrackerDatas = '[ActionTrackerData] Delete ActionTrackerDatas',
   ClearActionTrackerDatas = '[ActionTrackerData] Clear ActionTrackerDatas',
+  CancelActionTrackerData = '[ActionTrackerData] Cancel ActionTrackerData',
+  CancelActionTrackerDataSuccess = '[ActionTrackerData] Cancel ActionTrackerData Success',
+  CancelActionTrackerDataFail = '[ActionTrackerData] Cancel ActionTrackerData Fail',
   SaveActionTrackerData = '[ActionTrackerData] Save ActionTrackerData',
   SaveActionTrackerDataSuccess = '[ActionTrackerData] Save ActionTrackerData Success',
   SaveActionTrackerDataFail = '[ActionTrackerData] Save ActionTrackerData Fail'
@@ -48,6 +51,23 @@ export class AddActionTrackerDataFail implements Action {
 
 export class AddActionTrackerDataSuccess implements Action {
   readonly type = ActionTrackerDataActionTypes.AddActionTrackerDataSuccess;
+
+  constructor(public actionTrackerData: ActionTrackerData) {}
+}
+export class CancelActionTrackerData implements Action {
+  readonly type = ActionTrackerDataActionTypes.CancelActionTrackerData;
+
+  constructor(public actionTrackerData: any) {}
+}
+
+export class CancelActionTrackerDataFail implements Action {
+  readonly type = ActionTrackerDataActionTypes.CancelActionTrackerDataFail;
+
+  constructor(public actionTrackerData: ActionTrackerData) {}
+}
+
+export class CancelActionTrackerDataSuccess implements Action {
+  readonly type = ActionTrackerDataActionTypes.CancelActionTrackerDataSuccess;
 
   constructor(public actionTrackerData: ActionTrackerData) {}
 }
@@ -143,6 +163,9 @@ export type ActionTrackerDataActions =
   | AddActionTrackerData
   | AddActionTrackerDataSuccess
   | AddActionTrackerDataFail
+  | CancelActionTrackerData
+  | CancelActionTrackerDataSuccess
+  | CancelActionTrackerDataFail
   | UpsertActionTrackerData
   | AddActionTrackerDatas
   | UpsertActionTrackerDatas

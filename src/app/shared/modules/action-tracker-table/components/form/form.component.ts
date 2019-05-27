@@ -61,6 +61,6 @@ export class FormComponent implements OnInit {
     selectionParams['rootCauseDataId'] = dataItem.rootCauseDataId;
 
     this.save.emit({ ...actionTrackerData, selectionParams });
-    actionTrackerData['rootCauseDataId'] = dataItem.id;
+    // actionTrackerData['rootCauseDataId'] = dataItem.id;
   }
 }

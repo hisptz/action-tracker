@@ -79,7 +79,7 @@
             <action-tracker-form
               [dataItem]="dataItem"
               [configurations]="actionTrackerConfiguration$ | async"
-              (save)="onSave($event)"
+              (save)="onSave($event, dataItem)"
               (cancel)="cancelDataEntryForm($event, rootCauseAnalysisData)"
             ></action-tracker-form>
           </div>

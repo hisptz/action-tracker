@@ -15,6 +15,7 @@ import {
   SaveActionTrackerData,
   SaveActionTrackerDataFail,
   SaveActionTrackerDataSuccess,
+  CancelActionTrackerData,
   DeleteActionTrackerData,
   DeleteActionTrackerDataFail,
   DeleteActionTrackerDataSuccess,
