@@ -300,9 +300,9 @@ export class ActionTrackerWidgetComponent implements OnInit {
   }
 
   // Hook your saving logic here
-  onSave(actionTrackerData: any) {
+  onSave(actionTrackerData: any, placeHolderData?: any) {
     this.store.dispatch(new SaveActionTrackerData(actionTrackerData));
-    this.store.dispatch(new CancelActionTrackerData(actionTrackerData));
+    this.store.dispatch(new CancelActionTrackerData(placeHolderData));
   }
 
   onResetNotification(emptyNotificationMessage) {

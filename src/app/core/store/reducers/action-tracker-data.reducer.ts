@@ -86,7 +86,6 @@ export function reducer(
     }
 
     case ActionTrackerDataActionTypes.CancelActionTrackerData: {
-      console.log(action.actionTrackerData);
       return adapter.removeOne(action.actionTrackerData.id, state);
     }
 
