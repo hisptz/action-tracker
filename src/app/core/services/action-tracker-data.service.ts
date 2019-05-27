@@ -99,6 +99,28 @@ export class ActionTrackerDataService {
       .pipe(map(() => actionTrackerData));
   }
 
+  deleteData(
+    actionTrackerConfig,
+    actionTrackerDataValues,
+    selectionParams: any,
+    actionTrackerDataId: string
+  ) {
+    if (!actionTrackerDataValues && !selectionParams) {
+      console.warn(
+        'Could not delete action tracker data, data values and parameters are not supplied'
+      );
+      return of(null);
+    }
+
+    return this.http.delete(
+      `${this._dataStoreUrl}/${actionTrackerConfig.id}_${
+        selectionParams.orgUnit
+      }_${selectionParams.period}_${
+        selectionParams.dashboard
+      }_${actionTrackerDataId}`
+    );
+  }
+
   private _prepareDataForSaving(
     actionTrackerDataValues: any,
     actionTrackerConfig: any,

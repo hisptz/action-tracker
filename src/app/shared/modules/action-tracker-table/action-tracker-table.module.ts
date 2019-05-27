@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ContextMenuModule } from 'ngx-contextmenu';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { EffectsModule } from '@ngrx/effects';
@@ -19,6 +21,7 @@ import { reducers } from './store/reducers';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    ContextMenuModule.forRoot(),
     NgPipesModule,
     StoreModule.forFeature('actionTrackerWidget', reducers),
     EffectsModule.forFeature(effects)

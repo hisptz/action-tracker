@@ -12,6 +12,8 @@ export enum ActionTrackerDataActionTypes {
   UpdateActionTrackerData = '[ActionTrackerData] Update ActionTrackerData',
   UpdateActionTrackerDatas = '[ActionTrackerData] Update ActionTrackerDatas',
   DeleteActionTrackerData = '[ActionTrackerData] Delete ActionTrackerData',
+  DeleteActionTrackerDataSuccess = '[ActionTrackerData] Delete ActionTrackerData Success',
+  DeleteActionTrackerDataFail = '[ActionTrackerData] Delete ActionTrackerData Fail',
   DeleteActionTrackerDatas = '[ActionTrackerData] Delete ActionTrackerDatas',
   ClearActionTrackerDatas = '[ActionTrackerData] Clear ActionTrackerDatas',
   SaveActionTrackerData = '[ActionTrackerData] Save ActionTrackerData',
@@ -33,7 +35,7 @@ export class LoadActionTrackerDatasFail implements Action {
 export class AddActionTrackerData implements Action {
   readonly type = ActionTrackerDataActionTypes.AddActionTrackerData;
 
-  constructor(public payload: { actionTrackerData: ActionTrackerData }) {}
+  constructor(public actionTrackerData: ActionTrackerData) {}
 }
 
 export class UpsertActionTrackerData implements Action {
@@ -73,7 +75,21 @@ export class UpdateActionTrackerDatas implements Action {
 export class DeleteActionTrackerData implements Action {
   readonly type = ActionTrackerDataActionTypes.DeleteActionTrackerData;
 
-  constructor(public payload: { id: string }) {}
+  constructor(
+    public actionTrackerData: any,
+    public actionTrackerDataId?: string
+  ) {}
+}
+
+export class DeleteActionTrackerDataSuccess implements Action {
+  readonly type = ActionTrackerDataActionTypes.DeleteActionTrackerDataSuccess;
+
+  constructor(public id: string) {}
+}
+
+export class DeleteActionTrackerDataFail implements Action {
+  readonly type = ActionTrackerDataActionTypes.DeleteActionTrackerDataFail;
+  constructor(public actionTrackerData: ActionTrackerData, public error: any) {}
 }
 
 export class DeleteActionTrackerDatas implements Action {
@@ -117,6 +133,8 @@ export type ActionTrackerDataActions =
   | UpdateActionTrackerData
   | UpdateActionTrackerDatas
   | DeleteActionTrackerData
+  | DeleteActionTrackerDataFail
+  | DeleteActionTrackerDataSuccess
   | DeleteActionTrackerDatas
   | ClearActionTrackerDatas
   | SaveActionTrackerData

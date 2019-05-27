@@ -12,6 +12,9 @@ import {
   SaveActionTrackerData,
   SaveActionTrackerDataFail,
   SaveActionTrackerDataSuccess,
+  DeleteActionTrackerData,
+  DeleteActionTrackerDataFail,
+  DeleteActionTrackerDataSuccess,
   LoadActionTrackerDatas,
   LoadActionTrackerDatasFail
 } from '../actions/action-tracker-data.actions';
@@ -75,6 +78,40 @@ export class ActionTrackerDataEffects {
         catchError((error: any) => of(new SaveActionTrackerDataFail(error)))
       );
     })
+  );
+
+  @Effect()
+  deleteActionTrackerData$: Observable<any> = this.actions$.pipe(
+    ofType(ActionTrackerDataActionTypes.DeleteActionTrackerData),
+    withLatestFrom(this.store.select(getCurrentActionTrackerConfig)),
+    mergeMap(
+      ([action, actionTrackerConfig]: [DeleteActionTrackerData, any]) => {
+        const actionTrackerDataValues = action.actionTrackerData
+          ? action.actionTrackerData.dataValues
+          : null;
+        const selectionParams = action.actionTrackerData
+          ? action.actionTrackerData.selectionParams
+          : null;
+        return this.actionTrackerDataService
+          .deleteData(
+            actionTrackerConfig,
+            actionTrackerDataValues,
+            selectionParams,
+            action.actionTrackerDataId
+          )
+          .pipe(
+            map(
+              () =>
+                new DeleteActionTrackerDataSuccess(action.actionTrackerDataId)
+            ),
+            catchError((error: any) =>
+              of(
+                new DeleteActionTrackerDataFail(action.actionTrackerData, error)
+              )
+            )
+          );
+      }
+    )
   );
 
   constructor(

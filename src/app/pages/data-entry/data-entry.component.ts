@@ -67,8 +67,24 @@ export class DataEntryComponent implements OnInit {
     _.map(this.formConfig, actionTrackerDE => {
       this.formArray[actionTrackerDE.formControlName] = '';
     });
-    this.actionTrackerForm = this.formBuilder.group(this.formArray);
+    this.actionTrackerForm = this.formBuilder.group(
+      { actions: this.formBuilder.array([]) }
+      // this.formArray
+    );
 
     this.actionTrackerForm.valueChanges.subscribe(console.log);
+  }
+
+  get actionForms() {
+    return this.actionTrackerForm.get('actions') as FormArray;
+  }
+
+  addAction() {
+    const action = this.formBuilder.group(this.formArray);
+    this.actionForms.push(action);
+  }
+
+  delete(actionId) {
+    this.actionForms.removeAt(actionId);
   }
 }

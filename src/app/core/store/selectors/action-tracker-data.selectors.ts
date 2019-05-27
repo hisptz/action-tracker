@@ -50,3 +50,32 @@ export const getMergedActionTrackerDatas = createSelector(
     );
   }
 );
+
+export const getMergedActionTrackerDatasWithRowspanAttribute = createSelector(
+  getRootCauseAnalysisDatas,
+  getMergedActionTrackerDatas,
+  (rootCauseDatas, getMergedActionTrackerDatas) => {
+    _.map(
+      _.groupBy(getMergedActionTrackerDatas, 'rootCauseDataId'),
+      groupedActions => {
+        const firstElementOfGroup = _.head(groupedActions);
+        firstElementOfGroup.id
+          ? _.set(
+              _.find(getMergedActionTrackerDatas, {
+                id: firstElementOfGroup.id
+              }),
+              'rowspan',
+              groupedActions.length
+            )
+          : _.set(
+              _.find(getMergedActionTrackerDatas, {
+                rootCauseDataId: firstElementOfGroup.rootCauseDataId
+              }),
+              'rowspan',
+              groupedActions.length
+            );
+      }
+    );
+    return getMergedActionTrackerDatas;
+  }
+);
