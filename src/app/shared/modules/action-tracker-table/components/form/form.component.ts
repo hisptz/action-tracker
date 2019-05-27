@@ -57,10 +57,11 @@ export class FormComponent implements OnInit {
           ? this.actionTrackerForm.value[dataValue.formControlName]
           : '';
     });
+    actionTrackerData['temporaryId'] = dataItem.id;
     actionTrackerData['dataValues'] = dataValueStructure;
     selectionParams['rootCauseDataId'] = dataItem.rootCauseDataId;
 
     this.save.emit({ ...actionTrackerData, selectionParams });
-    actionTrackerData['rootCauseDataId'] = dataItem.id;
+    // actionTrackerData['rootCauseDataId'] = dataItem.id;
   }
 }

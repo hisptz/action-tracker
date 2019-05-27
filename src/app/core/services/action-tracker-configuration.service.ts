@@ -34,7 +34,6 @@ export class ActionTrackerConfigurationService {
   }
 
   add(actionTrackerConfig: any) {
-  console.log(actionTrackerConfig);
     return this.http
       .post(
         `${this._dataStoreUrl}/${actionTrackerConfig.id}`,

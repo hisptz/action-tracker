@@ -85,6 +85,16 @@ export function reducer(
       return adapter.updateMany(action.payload.actionTrackerDatas, state);
     }
 
+    case ActionTrackerDataActionTypes.CancelActionTrackerData: {
+      console.log(action.actionTrackerData);
+      return adapter.removeOne(action.actionTrackerData.id, state);
+    }
+
+    case ActionTrackerDataActionTypes.CancelActionTrackerDataSuccess: {
+      // openEntryForm(action.actionTrackerData);
+      return state;
+    }
+
     case ActionTrackerDataActionTypes.DeleteActionTrackerData: {
       if (!action.actionTrackerData) {
         return state;

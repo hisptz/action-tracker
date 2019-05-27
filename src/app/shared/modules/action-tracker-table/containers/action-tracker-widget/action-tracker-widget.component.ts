@@ -7,6 +7,7 @@ import { map, switchMap } from 'rxjs/operators';
 import {
   SaveActionTrackerData,
   AddActionTrackerData,
+  CancelActionTrackerData,
   DeleteActionTrackerData
 } from 'src/app/core/store/actions/action-tracker-data.actions';
 import { State } from 'src/app/core/store/reducers';
@@ -21,8 +22,7 @@ import {
 import {
   getRootCauseAnalysisDataLoadedStatus,
   getRootCauseAnalysisDataLoadingStatus,
-  getRootCauseAnalysisDataNotificationStatus,
-  getRootCauseAnalysisDatas
+  getRootCauseAnalysisDataNotificationStatus
 } from 'src/app/core/store/selectors/root-cause-analysis-data.selectors';
 import { ContextMenuComponent } from 'ngx-contextmenu';
 
@@ -36,10 +36,7 @@ import {
   RootCauseAnalysisWidget
 } from '../../store/models';
 import { getCurrentRootCauseAnalysisWidget } from '../../store/selectors/root-cause-analysis-widget.selectors';
-import {
-  getMergedActionTrackerDatas,
-  getMergedActionTrackerDatasWithRowspanAttribute
-} from 'src/app/core/store/selectors/action-tracker-data.selectors';
+import { getMergedActionTrackerDatasWithRowspanAttribute } from 'src/app/core/store/selectors/action-tracker-data.selectors';
 
 @Component({
   selector: 'app-bna-widget',
@@ -263,7 +260,8 @@ export class ActionTrackerWidgetComponent implements OnInit {
     if (this.checkIfSolutionHasAnAction(dataItem) == false) {
       this.closeDataEntryForm(dataItem);
     } else {
-      _.pullAllBy(allDataItems, [dataItem], 'id');
+      this.closeDataEntryForm(dataItem);
+      this.store.dispatch(new CancelActionTrackerData(dataItem));
     }
   }
   closeDataEntryForm(dataItem) {
@@ -287,7 +285,6 @@ export class ActionTrackerWidgetComponent implements OnInit {
             'action-tracker-form-wrapper'
           )
         );
-        actionTrackerColumn.setAttribute('hidden', 'true');
         buttonElement.removeAttribute('hidden');
         formElement.setAttribute('hidden', true);
       }
@@ -305,6 +302,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
   // Hook your saving logic here
   onSave(actionTrackerData: any) {
     this.store.dispatch(new SaveActionTrackerData(actionTrackerData));
+    this.store.dispatch(new CancelActionTrackerData(actionTrackerData));
   }
 
   onResetNotification(emptyNotificationMessage) {
