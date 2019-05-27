@@ -9,6 +9,9 @@ import { ActionTrackerDataService } from '../../services/action-tracker-data.ser
 import {
   ActionTrackerDataActionTypes,
   AddActionTrackerDatas,
+  AddActionTrackerData,
+  AddActionTrackerDataFail,
+  AddActionTrackerDataSuccess,
   SaveActionTrackerData,
   SaveActionTrackerDataFail,
   SaveActionTrackerDataSuccess,
@@ -41,6 +44,20 @@ export class ActionTrackerDataEffects {
           ),
           catchError((error: any) => of(new LoadActionTrackerDatasFail(error)))
         );
+    })
+  );
+
+  @Effect()
+  addActionTrackerData$: Observable<any> = this.actions$.pipe(
+    ofType(ActionTrackerDataActionTypes.AddActionTrackerData),
+    mergeMap((action: AddActionTrackerData) => {
+      return of(action.actionTrackerData).pipe(
+        map(
+          (actionTrackerData: any) =>
+            new AddActionTrackerDataSuccess(actionTrackerData)
+        ),
+        catchError((error: any) => of(new AddActionTrackerDataFail(error)))
+      );
     })
   );
 

@@ -208,7 +208,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
         });
         return emptyColumnCount < 8 ? true : false;
       } else {
-        return false;
+        return true;
       }
     }
   }
@@ -222,13 +222,13 @@ export class ActionTrackerWidgetComponent implements OnInit {
         dataItem.dataValues
       );
       const newDataItem = {
-        actionTrackerConfigId: dataItem.actionTrackerConfigId,
+        id: generateUid(),
         dataValues: emptyDataValues,
         rootCauseDataId: dataItem.rootCauseDataId,
-        id: generateUid()
+        actionTrackerConfigId: dataItem.actionTrackerConfigId,
+        parentAction: dataItem.id
       };
       this.store.dispatch(new AddActionTrackerData(newDataItem));
-      this.openActionTrackerEntryForm(dataItem);
     }
   }
   openActionTrackerEntryForm(dataItem) {
@@ -259,8 +259,12 @@ export class ActionTrackerWidgetComponent implements OnInit {
     });
   }
 
-  cancelDataEntryForm(dataItem) {
-    this.closeDataEntryForm(dataItem);
+  cancelDataEntryForm(dataItem, allDataItems) {
+    if (this.checkIfSolutionHasAnAction(dataItem) == false) {
+      this.closeDataEntryForm(dataItem);
+    } else {
+      _.pullAllBy(allDataItems, [dataItem], 'id');
+    }
   }
   closeDataEntryForm(dataItem) {
     const dataItemRowElement = document.getElementById(
@@ -283,6 +287,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
             'action-tracker-form-wrapper'
           )
         );
+        actionTrackerColumn.setAttribute('hidden', 'true');
         buttonElement.removeAttribute('hidden');
         formElement.setAttribute('hidden', true);
       }
@@ -299,7 +304,6 @@ export class ActionTrackerWidgetComponent implements OnInit {
 
   // Hook your saving logic here
   onSave(actionTrackerData: any) {
-    console.log(actionTrackerData);
     this.store.dispatch(new SaveActionTrackerData(actionTrackerData));
   }
 

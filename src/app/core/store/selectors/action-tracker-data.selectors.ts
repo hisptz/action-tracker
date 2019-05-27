@@ -57,7 +57,7 @@ export const getMergedActionTrackerDatasWithRowspanAttribute = createSelector(
   (rootCauseDatas, getMergedActionTrackerDatas) => {
     _.map(
       _.groupBy(getMergedActionTrackerDatas, 'rootCauseDataId'),
-      groupedActions => {
+      (groupedActions, index) => {
         const firstElementOfGroup = _.head(groupedActions);
         firstElementOfGroup.id
           ? _.set(
@@ -74,6 +74,11 @@ export const getMergedActionTrackerDatasWithRowspanAttribute = createSelector(
               'rowspan',
               groupedActions.length
             );
+        _.map(groupedActions, actionElement => {
+          if (firstElementOfGroup.id != actionElement.id) {
+            _.set(actionElement, 'parentAction', firstElementOfGroup.id);
+          }
+        });
       }
     );
     return getMergedActionTrackerDatas;

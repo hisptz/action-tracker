@@ -72,7 +72,7 @@
         }}
         <td
           class="action-tracker-column"
-          *ngIf="dataItem.rowspan"
+          [hidden]="!dataItem.rowspan"
           [attr.rowspan]="dataItem.rowspan"
         >
           <div class="action-tracker-form-wrapper" hidden="true">
@@ -80,7 +80,7 @@
               [dataItem]="dataItem"
               [configurations]="actionTrackerConfiguration$ | async"
               (save)="onSave($event)"
-              (cancel)="cancelDataEntryForm($event)"
+              (cancel)="cancelDataEntryForm($event, rootCauseAnalysisData)"
             ></action-tracker-form>
           </div>
           <button

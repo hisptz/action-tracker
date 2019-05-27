@@ -5,6 +5,7 @@ import {
   ActionTrackerDataActionTypes
 } from '../actions/action-tracker-data.actions';
 import * as _ from 'lodash';
+import { openEntryForm } from '../../helpers/open-entry-form.helper';
 
 export interface State extends EntityState<ActionTrackerData> {
   // additional entities state properties
@@ -47,6 +48,11 @@ export function reducer(
       return adapter.addOne(action.actionTrackerData, state);
     }
 
+    case ActionTrackerDataActionTypes.AddActionTrackerDataSuccess: {
+      openEntryForm(action.actionTrackerData);
+      return state;
+    }
+
     case ActionTrackerDataActionTypes.UpsertActionTrackerData: {
       return adapter.upsertOne(action.payload.actionTrackerData, state);
     }
@@ -87,7 +93,7 @@ export function reducer(
     }
 
     case ActionTrackerDataActionTypes.DeleteActionTrackerDataSuccess: {
-      return _.pullAllBy(state.entities, state.entities, action);
+      return adapter.removeOne(action.id, { ...state });
     }
 
     case ActionTrackerDataActionTypes.DeleteActionTrackerDatas: {

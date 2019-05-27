@@ -47,6 +47,7 @@ export const getMergedActionTrackerConfiguration = createSelector(
         rootCauseConfig => {
           if (
             rootCauseConfig.name == 'OrgUnit' ||
+            rootCauseConfig.name == 'Possible root cause' ||
             rootCauseConfig.name == 'Period'
           ) {
             rootCauseConfig['isHidden'] = true;
