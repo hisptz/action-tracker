@@ -25,6 +25,7 @@ import {
   getRootCauseAnalysisDataNotificationStatus
 } from 'src/app/core/store/selectors/root-cause-analysis-data.selectors';
 import { ContextMenuComponent } from 'ngx-contextmenu';
+import { openEntryForm } from 'src/app/core/helpers/open-entry-form.helper';
 
 import * as fromRootCauseAnalysisDataActions from '../../../../../core/store/actions/root-cause-analysis-data.actions';
 import { listEnterAnimation } from '../../../../animations/list-enter-animation';
@@ -130,6 +131,19 @@ export class ActionTrackerWidgetComponent implements OnInit {
 
   ngOnInit() {}
 
+  onActionEdit(dataItem, dataElements) {
+    if (dataItem) {
+      console.log('before', dataItem);
+
+      !(dataItem.rowspan = 1)
+        ? console.log('I am a child or an independent Item')
+        : openEntryForm(dataItem);
+      // dataItem.parentAction
+      //   ? this.openActionTrackerEntryForm(dataItem)
+      //   : openEntryForm(dataItem);
+    }
+  }
+
   onActionDelete(dataItem, dataElements) {
     const selectionParams = {};
     if (dataItem && dataElements) {
@@ -221,6 +235,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
       const newDataItem = {
         id: generateUid(),
         dataValues: emptyDataValues,
+        isNewRow: true,
         rootCauseDataId: dataItem.rootCauseDataId,
         actionTrackerConfigId: dataItem.actionTrackerConfigId,
         parentAction: dataItem.id
@@ -228,6 +243,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
       this.store.dispatch(new AddActionTrackerData(newDataItem));
     }
   }
+
   openActionTrackerEntryForm(dataItem) {
     const dataItemRowElement = document.getElementById(
       `${dataItem.id || dataItem.rootCauseDataId}`
@@ -257,16 +273,21 @@ export class ActionTrackerWidgetComponent implements OnInit {
   }
 
   cancelDataEntryForm(dataItem, allDataItems) {
-    if (this.checkIfSolutionHasAnAction(dataItem) == false) {
-      this.closeDataEntryForm(dataItem);
-    } else {
+    if (dataItem.isNewRow) {
       this.closeDataEntryForm(dataItem);
       this.store.dispatch(new CancelActionTrackerData(dataItem));
+    } else {
+      console.log('after', dataItem);
+      this.closeDataEntryForm(dataItem);
     }
   }
   closeDataEntryForm(dataItem) {
     const dataItemRowElement = document.getElementById(
       `${dataItem.id || dataItem.rootCauseDataId}`
+    );
+
+    const parentDataItemElement = document.getElementById(
+      `${dataItem.parentAction || dataItem.id}`
     );
     const actionTrackerItems = dataItemRowElement.getElementsByClassName(
       'action-tracker-column'
@@ -287,6 +308,13 @@ export class ActionTrackerWidgetComponent implements OnInit {
         );
         buttonElement.removeAttribute('hidden');
         formElement.setAttribute('hidden', true);
+        if (dataItem.parentAction) {
+          const parentButtonElement = _.head(
+            parentDataItemElement.getElementsByClassName('btn-add-action')
+          ).parentNode;
+          parentButtonElement.removeAttribute('hidden');
+          buttonElement.setAttribute('hidden', true);
+        }
       }
     });
   }

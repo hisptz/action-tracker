@@ -6,7 +6,7 @@ export function openEntryForm(dataItem) {
       `${dataItem.id || dataItem.rootCauseDataId}`
     );
     const parentDataItemElement = document.getElementById(
-      `${dataItem.parentAction}`
+      `${dataItem.parentAction || dataItem.id}`
     );
     const actionTrackerItems = dataItemRowElement.getElementsByClassName(
       'action-tracker-column'
@@ -16,9 +16,6 @@ export function openEntryForm(dataItem) {
         actionTrackerColumn.setAttribute('hidden', true);
       } else {
         actionTrackerColumn.colSpan = _.toString(actionTrackerItems.length - 1);
-        const parentButtonElement = _.head(
-          parentDataItemElement.getElementsByClassName('btn-add-action')
-        ).parentNode;
 
         const buttonElement = _.head(
           actionTrackerColumn.getElementsByClassName('btn-add-action')
@@ -29,8 +26,15 @@ export function openEntryForm(dataItem) {
             'action-tracker-form-wrapper'
           )
         );
+
+        if (dataItem.parentAction) {
+          const parentButtonElement = _.head(
+            parentDataItemElement.getElementsByClassName('btn-add-action')
+          ).parentNode;
+          parentButtonElement.setAttribute('hidden', true);
+        }
+
         actionTrackerColumn.removeAttribute('hidden');
-        parentButtonElement.setAttribute('hidden', true);
         buttonElement.setAttribute('hidden', true);
         formElement.removeAttribute('hidden');
       }

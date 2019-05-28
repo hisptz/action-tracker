@@ -135,7 +135,9 @@
   <ng-template
     contextMenuItem
     class="text-muted px-2"
-    (execute)="showMessage('Now Editing')"
+    (execute)="
+      onActionEdit($event.item, rootCauseAnalysisConfiguration?.dataElements)
+    "
   >
     Edit
   </ng-template>
