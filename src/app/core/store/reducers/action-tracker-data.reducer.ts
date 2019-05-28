@@ -120,6 +120,18 @@ export function reducer(
       return adapter.upsertOne(action.actionTrackerData, state);
     }
 
+    case ActionTrackerDataActionTypes.LoadActionTrackerDatas: {
+      return {
+        ...state,
+        loading: true,
+        loaded: false,
+        showNotification: true,
+        notification: {
+          message: 'Loading Action Tracker Data'
+        }
+      };
+    }
+
     default: {
       return state;
     }

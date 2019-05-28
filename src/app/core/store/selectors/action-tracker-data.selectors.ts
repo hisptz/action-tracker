@@ -54,33 +54,33 @@ export const getMergedActionTrackerDatas = createSelector(
 export const getMergedActionTrackerDatasWithRowspanAttribute = createSelector(
   getRootCauseAnalysisDatas,
   getMergedActionTrackerDatas,
-  (rootCauseDatas, getMergedActionTrackerDatas) => {
+  (rootCauseDatas, mergedActionTrackerDatas) => {
     _.map(
-      _.groupBy(getMergedActionTrackerDatas, 'rootCauseDataId'),
+      _.groupBy(mergedActionTrackerDatas, 'rootCauseDataId'),
       (groupedActions, index) => {
         const firstElementOfGroup = _.head(groupedActions);
         firstElementOfGroup.id
           ? _.set(
-              _.find(getMergedActionTrackerDatas, {
+              _.find(mergedActionTrackerDatas, {
                 id: firstElementOfGroup.id
               }),
               'rowspan',
               groupedActions.length
             )
           : _.set(
-              _.find(getMergedActionTrackerDatas, {
+              _.find(mergedActionTrackerDatas, {
                 rootCauseDataId: firstElementOfGroup.rootCauseDataId
               }),
               'rowspan',
               groupedActions.length
             );
         _.map(groupedActions, actionElement => {
-          if (firstElementOfGroup.id != actionElement.id) {
+          if (firstElementOfGroup.id !== actionElement.id) {
             _.set(actionElement, 'parentAction', firstElementOfGroup.id);
           }
         });
       }
     );
-    return getMergedActionTrackerDatas;
+    return mergedActionTrackerDatas;
   }
 );

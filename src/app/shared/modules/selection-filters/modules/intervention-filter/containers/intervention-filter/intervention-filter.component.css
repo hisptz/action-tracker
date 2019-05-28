@@ -143,3 +143,16 @@
 .ngx-dhis2-intervention__intervention-buttons button {
   background-color: transparent;
 }
+
+.intervention-loading-block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 12px;
+  height: 220px;
+}
+
+.intervention-loading-block img {
+  height: 60px;
+}
