@@ -88,8 +88,20 @@ inActiveItem {
   }
 }
 
-.action-tracker-notification {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
+.action-tracker-column {
+  position: relative;
+}
+
+.add-action-block {
+  position: absolute;
+  display: block;
+  bottom: 10px;
+}
+
+.add-action-text {
+  display: none;
+}
+
+.btn-add-action:hover .add-action-text {
+  display: block;
 }
