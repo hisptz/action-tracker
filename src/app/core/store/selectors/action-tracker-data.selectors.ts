@@ -5,7 +5,8 @@ import { getRootState, State as RootState } from '../reducers';
 import { adapter, State } from '../reducers/action-tracker-data.reducer';
 import {
   getRootCauseAnalysisDatas,
-  getRootCauseAnalysisDataNotificationStatus
+  getRootCauseAnalysisDataNotificationStatus,
+  getRootCauseAnalysisDataLoadingStatus
 } from './root-cause-analysis-data.selectors';
 
 const getActionTrackerDataState = createSelector(
@@ -23,27 +24,40 @@ export const getActionTrackerDataNotificationStatus = createSelector(
   (state: State) => state.notification
 );
 
+export const getActionTrackerDataLoadingStatus = createSelector(
+  getActionTrackerDataState,
+  (state: State) => state.loading
+);
+
+export const getOveralLoadingStatus = createSelector(
+  getActionTrackerDataLoadingStatus,
+  getRootCauseAnalysisDataLoadingStatus,
+  (actionTrackerDataLoading: boolean, rootCauseDataLoading: boolean) => {
+    return actionTrackerDataLoading && rootCauseDataLoading;
+  }
+);
+
 export const getAllDataNotification = createSelector(
   getRootCauseAnalysisDataNotificationStatus,
   getActionTrackerDataNotificationStatus,
   (rootCauseNotification, actionTrackerNotification) => {
     const notifications = [rootCauseNotification, actionTrackerNotification];
     const currentNotification = (notifications || [])
-      .filter((notification: any) => !notification.completed)
+      .filter((notification: any) => notification && !notification.completed)
       .map((notification: any) => notification.message)[0];
 
     const completedCount = (notifications || []).filter(
-      (notification: any) => notification.completed
+      (notification: any) => notification && notification.completed
     ).length;
 
     const totalCount = (notifications || []).length;
 
     const percentCompleted =
-      totalCount > 0 ? (completedCount / totalCount).toFixed(0) : 0;
+      totalCount > 0 ? ((completedCount / totalCount) * 100).toFixed(0) : 0;
 
     return {
-      message: currentNotification || 'Loading',
-      percent: `${percentCompleted}%`
+      message: currentNotification,
+      percent: percentCompleted
     };
   }
 );
@@ -51,8 +65,9 @@ export const getAllDataNotification = createSelector(
 export const getMergedActionTrackerDatas = createSelector(
   getRootCauseAnalysisDatas,
   getActionTrackerDatas,
-  (rootCauseDatas, actionTrackerDatas) => {
-    if (rootCauseDatas.length === 0 && actionTrackerDatas.length === 0) {
+  getAllDataNotification,
+  (rootCauseDatas, actionTrackerDatas, notification) => {
+    if (notification.percent !== '100') {
       return [];
     }
 

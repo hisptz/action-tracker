@@ -34,16 +34,6 @@ export function reducer(
   action: RootCauseAnalysisConfigurationActions
 ): State {
   switch (action.type) {
-    case RootCauseAnalysisConfigurationActionTypes.AddRootCauseAnalysisConfiguration: {
-      if (!action.rootCauseAnalysisConfiguration) {
-        return state;
-      }
-      return adapter.addOne(action.rootCauseAnalysisConfiguration, {
-        ...state,
-        currentConfig: action.rootCauseAnalysisConfiguration.id
-      });
-    }
-
     case RootCauseAnalysisConfigurationActionTypes.UpsertRootCauseAnalysisConfiguration: {
       return adapter.upsertOne(
         action.payload.rootCauseAnalysisConfiguration,
@@ -57,8 +47,9 @@ export function reducer(
       }
       return adapter.addOne(action.rootCauseAnalysisConfiguration, {
         ...state,
-        loading: true,
-        loaded: false
+        loading: false,
+        loaded: true,
+        currentConfig: action.rootCauseAnalysisConfiguration.id
       });
     }
 

@@ -18,16 +18,14 @@ import {
 } from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
 import {
   getAllDataNotification,
-  getMergedActionTrackerDatasWithRowspanAttribute
+  getMergedActionTrackerDatasWithRowspanAttribute,
+  getOveralLoadingStatus
 } from 'src/app/core/store/selectors/action-tracker-data.selectors';
 import {
   getConfigurationLoadedStatus,
   getConfigurationLoadingStatus
 } from 'src/app/core/store/selectors/root-cause-analysis-configuration.selectors';
-import {
-  getRootCauseAnalysisDataLoadedStatus,
-  getRootCauseAnalysisDataLoadingStatus
-} from 'src/app/core/store/selectors/root-cause-analysis-data.selectors';
+import { getRootCauseAnalysisDataLoadedStatus } from 'src/app/core/store/selectors/root-cause-analysis-data.selectors';
 
 import * as fromRootCauseAnalysisDataActions from '../../../../../core/store/actions/root-cause-analysis-data.actions';
 import { listEnterAnimation } from '../../../../animations/list-enter-animation';
@@ -39,6 +37,7 @@ import {
   RootCauseAnalysisWidget
 } from '../../store/models';
 import { getCurrentRootCauseAnalysisWidget } from '../../store/selectors/root-cause-analysis-widget.selectors';
+import { getDataSelections } from 'src/app/core/store/selectors/global-selection.selectors';
 
 @Component({
   selector: 'app-bna-widget',
@@ -81,6 +80,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
   dataLoading$: Observable<boolean>;
   dataLoaded$: Observable<boolean>;
   notification$: Observable<any>;
+  dataSelections$: Observable<any>;
   // savingColor$: Observable<string>;
 
   newRootCauseAnalysisData: RootCauseAnalysisData;
@@ -108,8 +108,9 @@ export class ActionTrackerWidgetComponent implements OnInit {
     this.configurationLoading$ = store.select(getConfigurationLoadingStatus);
     this.configurationLoaded$ = store.select(getConfigurationLoadedStatus);
     this.dataLoaded$ = store.select(getRootCauseAnalysisDataLoadedStatus);
-    this.dataLoading$ = store.select(getRootCauseAnalysisDataLoadingStatus);
+    this.dataLoading$ = store.select(getOveralLoadingStatus);
     this.notification$ = store.select(getAllDataNotification);
+    this.dataSelections$ = store.select(getDataSelections);
 
     this.unSavedDataItemValues = {};
 
