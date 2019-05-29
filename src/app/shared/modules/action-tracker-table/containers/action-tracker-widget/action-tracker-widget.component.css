@@ -87,3 +87,9 @@ inActiveItem {
     opacity: 0;
   }
 }
+
+.action-tracker-notification {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}

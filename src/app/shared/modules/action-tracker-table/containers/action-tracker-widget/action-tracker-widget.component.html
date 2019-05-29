@@ -1,4 +1,4 @@
-<div *ngIf="dataLoaded$ | async">
+<div>
   <table
     class="table table-bordered table-responsive"
     #rootCauseAnalysisTable
@@ -18,6 +18,21 @@
         <th width="2%">Actions</th>
       </tr>
     </thead>
+    <tbody *ngIf="dataLoading$ | async">
+      <tr>
+        <td
+          [attr.colspan]="
+            rootCauseAnalysisConfiguration.dataElements.length + 1
+          "
+        >
+          <div class="action-tracker-notification">
+            <div>{{ (notification$ | async)?.message }}</div>
+            <div>{{ (notification$ | async)?.percent }}</div>
+          </div>
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </td>
+      </tr>
+    </tbody>
     <tbody *ngIf="data$ | async as rootCauseAnalysisData" [@listEnter]>
       <tr
         *ngFor="

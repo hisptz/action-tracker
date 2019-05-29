@@ -13,7 +13,7 @@ export interface State extends EntityState<ActionTrackerData> {
   isActive: boolean;
   loading: boolean;
   loaded: boolean;
-  notification: { message: string };
+  notification: { message: string; completed: boolean };
   savingColor: string;
   showNotification: boolean;
   showDeleteConfirmation: boolean;
@@ -64,6 +64,7 @@ export function reducer(
         loaded: true,
         showNotification: false,
         notification: {
+          completed: true,
           message: 'Action Data Loaded'
         }
       });
@@ -121,15 +122,16 @@ export function reducer(
     }
 
     case ActionTrackerDataActionTypes.LoadActionTrackerDatas: {
-      return {
+      return adapter.removeAll({
         ...state,
         loading: true,
         loaded: false,
         showNotification: true,
         notification: {
+          completed: false,
           message: 'Loading Action Tracker Data'
         }
-      };
+      });
     }
 
     default: {
