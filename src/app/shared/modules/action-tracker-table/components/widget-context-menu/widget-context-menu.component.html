@@ -1,14 +1,8 @@
 <context-menu #basicMenu>
-  <ng-template
-    contextMenuItem
-    (execute)="showMessage('Hi, ' + $event.item.name)"
-  >
+  <ng-template contextMenuItem>
     ...hi!
   </ng-template>
-  <ng-template
-    contextMenuItem
-    (execute)="showMessage('Hola, ' + $event.item.name)"
-  >
+  <ng-template contextMenuItem>
     ...hola!
   </ng-template>
 </context-menu>

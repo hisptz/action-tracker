@@ -1,8 +1,8 @@
 
 {
     "version": "1.0.0-alpha.1",
-    "name": "Seed App",
-    "description": "Seed App",
+    "name": "Action Tracker",
+    "description": "Action Tracker",
     "appType": "APP",
     "launch_path": "index.html",
     "icons": {
@@ -20,8 +20,5 @@
             "href": "../../../"
         }
     },
-     "authorities": [
-         "MY_APP_ADD_NEW",
-         "MY_APP_UPDATE",
-         "MY_APP_DELETE"]
+     "authorities": []
 }
