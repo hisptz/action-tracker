@@ -25,6 +25,8 @@ import {
   getConfigurationLoadedStatus,
   getConfigurationLoadingStatus
 } from 'src/app/core/store/selectors/root-cause-analysis-configuration.selectors';
+
+import { openEntryForm } from 'src/app/core/helpers/open-entry-form.helper';
 import { getRootCauseAnalysisDataLoadedStatus } from 'src/app/core/store/selectors/root-cause-analysis-data.selectors';
 
 import * as fromRootCauseAnalysisDataActions from '../../../../../core/store/actions/root-cause-analysis-data.actions';
@@ -131,6 +133,17 @@ export class ActionTrackerWidgetComponent implements OnInit {
 
   ngOnInit() {}
 
+  onActionEdit(dataItem, dataElements) {
+    if (dataItem) {
+      !(dataItem.rowspan = 1)
+        ? this.openActionTrackerEntryForm(dataItem)
+        : openEntryForm(dataItem);
+      // dataItem.parentAction
+      //   ? this.openActionTrackerEntryForm(dataItem)
+      //   : openEntryForm(dataItem);
+    }
+  }
+
   onActionDelete(dataItem, dataElements) {
     const selectionParams = {};
     if (dataItem && dataElements) {
@@ -193,6 +206,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
       var relatedSolutionDataItems = document.getElementsByClassName(
         dataItem.rootCauseDataId
       );
+
       if (relatedSolutionDataItems.length == 1) {
         let emptyColumnCount = 0;
         const tableRow = _.head(relatedSolutionDataItems);
@@ -204,7 +218,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
             emptyColumnCount++;
           }
         });
-        return emptyColumnCount < 8 ? true : false;
+        return emptyColumnCount > 6 ? false : true;
       } else {
         return true;
       }
@@ -222,6 +236,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
       const newDataItem = {
         id: generateUid(),
         dataValues: emptyDataValues,
+        isNewRow: true,
         rootCauseDataId: dataItem.rootCauseDataId,
         actionTrackerConfigId: dataItem.actionTrackerConfigId,
         parentAction: dataItem.id
@@ -229,6 +244,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
       this.store.dispatch(new AddActionTrackerData(newDataItem));
     }
   }
+
   openActionTrackerEntryForm(dataItem) {
     const dataItemRowElement = document.getElementById(
       `${dataItem.id || dataItem.rootCauseDataId}`
@@ -237,13 +253,14 @@ export class ActionTrackerWidgetComponent implements OnInit {
     const actionTrackerItems = dataItemRowElement.getElementsByClassName(
       'action-tracker-column'
     );
+
     _.map(actionTrackerItems, (actionTrackerColumn, index) => {
       if (index !== actionTrackerItems.length - 1) {
         actionTrackerColumn.setAttribute('hidden', true);
       } else {
         actionTrackerColumn.colSpan = _.toString(actionTrackerItems.length);
         const buttonElement = _.head(
-          actionTrackerColumn.getElementsByClassName('btn-add-action')
+          actionTrackerColumn.getElementsByClassName('add-action-block')
         );
 
         const formElement = _.head(
@@ -258,16 +275,20 @@ export class ActionTrackerWidgetComponent implements OnInit {
   }
 
   cancelDataEntryForm(dataItem, allDataItems) {
-    if (this.checkIfSolutionHasAnAction(dataItem) == false) {
-      this.closeDataEntryForm(dataItem);
-    } else {
+    if (dataItem.isNewRow) {
       this.closeDataEntryForm(dataItem);
       this.store.dispatch(new CancelActionTrackerData(dataItem));
+    } else {
+      this.closeDataEntryForm(dataItem);
     }
   }
   closeDataEntryForm(dataItem) {
     const dataItemRowElement = document.getElementById(
       `${dataItem.id || dataItem.rootCauseDataId}`
+    );
+
+    const parentDataItemElement = document.getElementById(
+      `${dataItem.parentAction || dataItem.id}`
     );
     const actionTrackerItems = dataItemRowElement.getElementsByClassName(
       'action-tracker-column'
@@ -288,6 +309,13 @@ export class ActionTrackerWidgetComponent implements OnInit {
         );
         buttonElement.removeAttribute('hidden');
         formElement.setAttribute('hidden', true);
+        if (dataItem.parentAction) {
+          const parentButtonElement = _.head(
+            parentDataItemElement.getElementsByClassName('btn-add-action')
+          ).parentNode;
+          parentButtonElement.removeAttribute('hidden');
+          buttonElement.setAttribute('hidden', true);
+        }
       }
     });
   }
@@ -302,7 +330,14 @@ export class ActionTrackerWidgetComponent implements OnInit {
 
   // Hook your saving logic here
   onSave(actionTrackerData: any, placeHolderData?: any) {
-    this.store.dispatch(new SaveActionTrackerData(actionTrackerData));
+    console.log(actionTrackerData);
+    actionTrackerData
+      ? actionTrackerData.id
+        ? this.store.dispatch(
+            new SaveActionTrackerData(actionTrackerData, actionTrackerData.id)
+          )
+        : this.store.dispatch(new SaveActionTrackerData(actionTrackerData))
+      : null;
     this.store.dispatch(new CancelActionTrackerData(placeHolderData));
   }
 

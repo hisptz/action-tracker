@@ -9,6 +9,7 @@ import * as _ from 'lodash';
 export class FormComponent implements OnInit {
   @Input() dataItem;
   @Input() configurations;
+
   @Output() cancel: EventEmitter<any> = new EventEmitter<any>();
 
   @Output() save: EventEmitter<any> = new EventEmitter<any>();
@@ -23,9 +24,16 @@ export class FormComponent implements OnInit {
       ? this.configurations.dataElements
       : [];
     _.map(_.filter(dataElements, 'isActionTrackerColumn'), dataElement => {
-      this.formArray[dataElement.formControlName] = '';
+      this.formArray[dataElement.formControlName] = this.dataItem
+        ? this.dataItem.dataValues
+          ? this.dataItem.dataValues[dataElement.id]
+          : ''
+        : '';
     });
     this.actionTrackerForm = this.formBuilder.group(this.formArray);
+    this.actionTrackerForm.valueChanges.subscribe(object => {
+      console.log(object);
+    });
   }
 
   onDataEntryCancel(event, dataItem) {
@@ -57,6 +65,9 @@ export class FormComponent implements OnInit {
           ? this.actionTrackerForm.value[dataValue.formControlName]
           : '';
     });
+    dataItem.id && !dataItem.isNewRow
+      ? (actionTrackerData['id'] = dataItem.id)
+      : null;
     actionTrackerData['dataValues'] = dataValueStructure;
     selectionParams['rootCauseDataId'] = dataItem.rootCauseDataId;
 
