@@ -18,7 +18,7 @@ export function openEntryForm(dataItem) {
         actionTrackerColumn.colSpan = _.toString(actionTrackerItems.length - 1);
 
         const buttonElement = _.head(
-          actionTrackerColumn.getElementsByClassName('btn-add-action')
+          actionTrackerColumn.getElementsByClassName('add-action-block')
         );
 
         const formElement = _.head(
@@ -29,7 +29,7 @@ export function openEntryForm(dataItem) {
 
         if (dataItem.parentAction) {
           const parentButtonElement = _.head(
-            parentDataItemElement.getElementsByClassName('btn-add-action')
+            parentDataItemElement.getElementsByClassName('add-action-block')
           ).parentNode;
           parentButtonElement.setAttribute('hidden', true);
         }
@@ -39,5 +39,5 @@ export function openEntryForm(dataItem) {
         formElement.removeAttribute('hidden');
       }
     });
-  }, 400);
+  }, 200);
 }

@@ -2,13 +2,14 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
+import { ContextMenuComponent } from 'ngx-contextmenu';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import {
-  SaveActionTrackerData,
   AddActionTrackerData,
   CancelActionTrackerData,
-  DeleteActionTrackerData
+  DeleteActionTrackerData,
+  SaveActionTrackerData
 } from 'src/app/core/store/actions/action-tracker-data.actions';
 import { State } from 'src/app/core/store/reducers';
 import {
@@ -16,16 +17,17 @@ import {
   getMergedActionTrackerConfiguration
 } from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
 import {
+  getAllDataNotification,
+  getMergedActionTrackerDatasWithRowspanAttribute,
+  getOveralLoadingStatus
+} from 'src/app/core/store/selectors/action-tracker-data.selectors';
+import {
   getConfigurationLoadedStatus,
   getConfigurationLoadingStatus
 } from 'src/app/core/store/selectors/root-cause-analysis-configuration.selectors';
-import {
-  getRootCauseAnalysisDataLoadedStatus,
-  getRootCauseAnalysisDataLoadingStatus,
-  getRootCauseAnalysisDataNotificationStatus
-} from 'src/app/core/store/selectors/root-cause-analysis-data.selectors';
-import { ContextMenuComponent } from 'ngx-contextmenu';
+
 import { openEntryForm } from 'src/app/core/helpers/open-entry-form.helper';
+import { getRootCauseAnalysisDataLoadedStatus } from 'src/app/core/store/selectors/root-cause-analysis-data.selectors';
 
 import * as fromRootCauseAnalysisDataActions from '../../../../../core/store/actions/root-cause-analysis-data.actions';
 import { listEnterAnimation } from '../../../../animations/list-enter-animation';
@@ -37,7 +39,7 @@ import {
   RootCauseAnalysisWidget
 } from '../../store/models';
 import { getCurrentRootCauseAnalysisWidget } from '../../store/selectors/root-cause-analysis-widget.selectors';
-import { getMergedActionTrackerDatasWithRowspanAttribute } from 'src/app/core/store/selectors/action-tracker-data.selectors';
+import { getDataSelections } from 'src/app/core/store/selectors/global-selection.selectors';
 
 @Component({
   selector: 'app-bna-widget',
@@ -80,6 +82,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
   dataLoading$: Observable<boolean>;
   dataLoaded$: Observable<boolean>;
   notification$: Observable<any>;
+  dataSelections$: Observable<any>;
   // savingColor$: Observable<string>;
 
   newRootCauseAnalysisData: RootCauseAnalysisData;
@@ -107,10 +110,9 @@ export class ActionTrackerWidgetComponent implements OnInit {
     this.configurationLoading$ = store.select(getConfigurationLoadingStatus);
     this.configurationLoaded$ = store.select(getConfigurationLoadedStatus);
     this.dataLoaded$ = store.select(getRootCauseAnalysisDataLoadedStatus);
-    this.dataLoading$ = store.select(getRootCauseAnalysisDataLoadingStatus);
-    this.notification$ = store.select(
-      getRootCauseAnalysisDataNotificationStatus
-    );
+    this.dataLoading$ = store.select(getOveralLoadingStatus);
+    this.notification$ = store.select(getAllDataNotification);
+    this.dataSelections$ = store.select(getDataSelections);
 
     this.unSavedDataItemValues = {};
 
@@ -206,6 +208,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
       var relatedSolutionDataItems = document.getElementsByClassName(
         dataItem.rootCauseDataId
       );
+
       if (relatedSolutionDataItems.length == 1) {
         let emptyColumnCount = 0;
         const tableRow = _.head(relatedSolutionDataItems);
@@ -217,7 +220,8 @@ export class ActionTrackerWidgetComponent implements OnInit {
             emptyColumnCount++;
           }
         });
-        return emptyColumnCount < 8 ? true : false;
+
+        return emptyColumnCount < 8 ? false : true;
       } else {
         return true;
       }
@@ -252,13 +256,14 @@ export class ActionTrackerWidgetComponent implements OnInit {
     const actionTrackerItems = dataItemRowElement.getElementsByClassName(
       'action-tracker-column'
     );
+
     _.map(actionTrackerItems, (actionTrackerColumn, index) => {
       if (index !== actionTrackerItems.length - 1) {
         actionTrackerColumn.setAttribute('hidden', true);
       } else {
         actionTrackerColumn.colSpan = _.toString(actionTrackerItems.length);
         const buttonElement = _.head(
-          actionTrackerColumn.getElementsByClassName('btn-add-action')
+          actionTrackerColumn.getElementsByClassName('add-action-block')
         );
 
         const formElement = _.head(
@@ -266,6 +271,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
             'action-tracker-form-wrapper'
           )
         );
+        console.log(buttonElement);
         buttonElement.setAttribute('hidden', true);
         formElement.removeAttribute('hidden');
       }

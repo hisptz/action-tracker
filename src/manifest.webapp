@@ -1,6 +1,6 @@
 
 {
-    "version": "1.0.0-alpha.1",
+    "version": "1.0.0-alpha.2",
     "name": "Action Tracker",
     "description": "Action Tracker",
     "appType": "APP",
@@ -20,8 +20,5 @@
             "href": "../../../"
         }
     },
-     "authorities": [
-         "MY_APP_ADD_NEW",
-         "MY_APP_UPDATE",
-         "MY_APP_DELETE"]
+     "authorities": []
 }

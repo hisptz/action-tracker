@@ -38,6 +38,15 @@
     <div class="intervention-available-body">
       <ul class="intervention-list">
         <li
+          class="intervention-loading-block"
+          *ngIf="loadingInterventions$ | async"
+        >
+          <div>
+            <img src="assets/icons/balls-3.svg" alt="" />
+            <div>Discovering interventions...</div>
+          </div>
+        </li>
+        <li
           *ngFor="let availableIntervention of availableInterventions$ | async"
         >
           <a (click)="onSelectIntervention(availableIntervention, $event)">

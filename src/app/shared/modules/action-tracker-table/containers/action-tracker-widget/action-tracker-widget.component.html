@@ -1,4 +1,4 @@
-<div *ngIf="dataLoaded$ | async">
+<div>
   <table
     class="table table-bordered table-responsive"
     #rootCauseAnalysisTable
@@ -15,9 +15,17 @@
         >
           {{ dataElement.name }}
         </th>
-        <th width="2%">Actions</th>
+        <th width="130px">Actions</th>
       </tr>
     </thead>
+    <tbody *ngIf="dataLoading$ | async">
+      <tr>
+        <td colspan="100%">
+          <div>{{ (notification$ | async)?.message }}</div>
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </td>
+      </tr>
+    </tbody>
     <tbody *ngIf="data$ | async as rootCauseAnalysisData" [@listEnter]>
       <tr
         *ngFor="
@@ -52,7 +60,13 @@
               "
               class="form-control auto-filled-label table-cell-data"
             >
-              {{ dataItem.dataValues[dataElement.id] }}
+              <app-text-view
+                *ngIf="dataElement.valueType === 'TEXTAREA'"
+                [text]="dataItem.dataValues[dataElement.id]"
+              ></app-text-view>
+              <div *ngIf="dataElement.valueType !== 'TEXTAREA'">
+                {{ dataItem.dataValues[dataElement.id] }}
+              </div>
             </div>
           </ng-container>
           <a
@@ -83,22 +97,26 @@
               (cancel)="cancelDataEntryForm($event, rootCauseAnalysisData)"
             ></action-tracker-form>
           </div>
-          <button
-            class="btn btn-outline-secondary btn-add-action"
-            (click)="
-              onAddAction($event, dataItem, rootCauseAnalysisConfiguration)
-            "
-          >
-            <i class="fa fa-plus"></i>
-          </button>
+          <div class="add-action-block">
+            <button
+              class="btn btn-sm btn-primary d-flex align-items-center btn-add-action"
+              title="Click to add new action"
+              (click)="
+                onAddAction($event, dataItem, rootCauseAnalysisConfiguration)
+              "
+            >
+              <i class="fa fa-plus"></i
+              ><span class="ml-1 add-action-text">Add Action</span>
+            </button>
+          </div>
         </td>
       </tr>
-      <tr *ngIf="!rootCauseAnalysisData.length">
+      <tr *ngIf="(dataSelections$ | async).length === 0">
         <td colspan="100%" class="text-sm text-secondary">
           <p class="text-center mb-0">
             <i>
-              No registered root causes for {{ selectedOrgUnit }} in
-              {{ selectedPeriod }}
+              Select Intervention, Period and Organisation unit to view manage
+              your actions
             </i>
           </p>
         </td>
@@ -106,25 +124,9 @@
     </tbody>
   </table>
 
-  <div *ngIf="(!configurationLoaded$ | async) && !(dataLoaded$ | async)">
-    <div class="d-flex my-1">
-      <div class="flex-fill mx-1" *ngFor="let count of [1, 2, 3, 4, 5, 6, 7]">
-        <app-widget-item-loader [height]="'40px'"></app-widget-item-loader>
-      </div>
-    </div>
-    <div class="d-flex my-1">
-      <div class="flex-fill mx-1" *ngFor="let count of [1, 2, 3, 4, 5, 6, 7]">
-        <app-widget-item-loader [height]="'40px'"></app-widget-item-loader>
-      </div>
-    </div>
-    <div class="d-flex justify-content-between my-2 mx-1">
-      <div style="width: 150px;">
-        <app-widget-item-loader [height]="'40px'"></app-widget-item-loader>
-      </div>
-      <div style="width: 150px;">
-        <app-widget-item-loader [height]="'40px'"></app-widget-item-loader>
-      </div>
-    </div>
+  <div *ngIf="(configurationLoading$ | async) || !(configuration$ | async)">
+    <div>Discovering Configurations</div>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </div>
 </div>
 

@@ -15,7 +15,10 @@ import { removeInterventionFromList } from '../../helpers/remove-intervention-fr
 import { Intervention } from '../../models/intervention.model';
 import { LoadInterventions } from '../../store/actions/intervention.actions';
 import { State } from '../../store/reducers/intervention.reducer';
-import { getInterventions } from '../../store/selectors/intervention.selectors';
+import {
+  getInterventions,
+  getInterventionsLoadingStatus
+} from '../../store/selectors/intervention.selectors';
 
 @Component({
   selector: 'app-intervention-filter',
@@ -36,6 +39,7 @@ export class InterventionFilterComponent
   @Output() close = new EventEmitter();
 
   availableInterventions$: Observable<Intervention[]>;
+  loadingInterventions$: Observable<boolean>;
 
   interventionTypes: any[];
 
@@ -57,6 +61,10 @@ export class InterventionFilterComponent
     }
 
     this.store.dispatch(new LoadInterventions());
+
+    this.loadingInterventions$ = this.store.select(
+      getInterventionsLoadingStatus
+    );
 
     this._setAvailableInterventions();
   }

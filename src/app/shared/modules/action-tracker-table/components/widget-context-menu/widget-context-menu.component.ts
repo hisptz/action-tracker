@@ -45,4 +45,8 @@ export class WidgetContextMenuComponent implements OnInit {
       isActive: true
     });
   }
+
+  showMessage(message: string) {
+    // TODO: Implement it
+  }
 }
