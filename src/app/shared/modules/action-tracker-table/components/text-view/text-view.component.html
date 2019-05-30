@@ -1,0 +1,15 @@
+<div>
+  {{ truncatedText }}
+  <a
+    class="text-primary truncate-btn"
+    (click)="onToggleText('SHOW_MORE')"
+    *ngIf="text && text.length > maxTextLength"
+    >show more</a
+  >
+  <a
+    class="text-primary truncate-btn"
+    (click)="onToggleText('SHOW_LESS')"
+    *ngIf="text && text.length === maxTextLength"
+    >show less</a
+  >
+</div>

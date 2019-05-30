@@ -60,7 +60,13 @@
               "
               class="form-control auto-filled-label table-cell-data"
             >
-              {{ dataItem.dataValues[dataElement.id] }}
+              <app-text-view
+                *ngIf="dataElement.valueType === 'TEXTAREA'"
+                [text]="dataItem.dataValues[dataElement.id]"
+              ></app-text-view>
+              <div *ngIf="dataElement.valueType !== 'TEXTAREA'">
+                {{ dataItem.dataValues[dataElement.id] }}
+              </div>
             </div>
           </ng-container>
           <a
