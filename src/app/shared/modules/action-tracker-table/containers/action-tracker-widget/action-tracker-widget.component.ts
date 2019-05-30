@@ -68,10 +68,10 @@ export class ActionTrackerWidgetComponent implements OnInit {
   @Input()
   selectedPeriod;
 
-  @ViewChild('rootCauseAnalysisTable')
+  @ViewChild('rootCauseAnalysisTable', { static: false })
   table: ElementRef;
 
-  @ViewChild(ContextMenuComponent) public extraActions: ContextMenuComponent;
+  @ViewChild(ContextMenuComponent, { static: false }) public extraActions: ContextMenuComponent;
 
   configuration$: Observable<RootCauseAnalysisConfiguration>;
   widget$: Observable<RootCauseAnalysisWidget>;

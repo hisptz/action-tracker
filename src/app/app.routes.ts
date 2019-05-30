@@ -14,7 +14,7 @@ export const routes: Routes = [
   },
   {
     path: 'report',
-    loadChildren: './pages/report/report.module#ReportModule'
+    loadChildren: () => import('./pages/report/report.module').then(m => m.ReportModule)
   }
 ];
 
