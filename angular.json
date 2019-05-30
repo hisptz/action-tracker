@@ -135,6 +135,7 @@
   },
   "defaultProject": "action-tracker",
   "cli": {
-    "defaultCollection": "@ngrx/schematics"
+    "defaultCollection": "@ngrx/schematics",
+    "analytics": false
   }
 }
