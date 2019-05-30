@@ -31,9 +31,6 @@ export class FormComponent implements OnInit {
         : '';
     });
     this.actionTrackerForm = this.formBuilder.group(this.formArray);
-    this.actionTrackerForm.valueChanges.subscribe(object => {
-      console.log(object);
-    });
   }
 
   onDataEntryCancel(event, dataItem) {

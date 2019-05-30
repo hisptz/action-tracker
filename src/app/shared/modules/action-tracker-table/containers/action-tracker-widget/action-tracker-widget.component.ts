@@ -330,7 +330,6 @@ export class ActionTrackerWidgetComponent implements OnInit {
 
   // Hook your saving logic here
   onSave(actionTrackerData: any, placeHolderData?: any) {
-    console.log(actionTrackerData);
     actionTrackerData
       ? actionTrackerData.id
         ? this.store.dispatch(
