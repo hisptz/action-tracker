@@ -65,6 +65,9 @@ export class FormComponent implements OnInit {
           ? this.actionTrackerForm.value[dataValue.formControlName]
           : '';
     });
+    dataItem.id && !dataItem.isNewRow
+      ? (actionTrackerData['id'] = dataItem.id)
+      : null;
     actionTrackerData['dataValues'] = dataValueStructure;
     selectionParams['rootCauseDataId'] = dataItem.rootCauseDataId;
 

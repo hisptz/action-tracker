@@ -135,10 +135,8 @@ export class ActionTrackerWidgetComponent implements OnInit {
 
   onActionEdit(dataItem, dataElements) {
     if (dataItem) {
-      console.log('before', dataItem);
-
       !(dataItem.rowspan = 1)
-        ? console.log('I am a child or an independent Item')
+        ? this.openActionTrackerEntryForm(dataItem)
         : openEntryForm(dataItem);
       // dataItem.parentAction
       //   ? this.openActionTrackerEntryForm(dataItem)
@@ -220,8 +218,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
             emptyColumnCount++;
           }
         });
-
-        return emptyColumnCount < 8 ? false : true;
+        return emptyColumnCount > 6 ? false : true;
       } else {
         return true;
       }
@@ -271,7 +268,6 @@ export class ActionTrackerWidgetComponent implements OnInit {
             'action-tracker-form-wrapper'
           )
         );
-        console.log(buttonElement);
         buttonElement.setAttribute('hidden', true);
         formElement.removeAttribute('hidden');
       }
@@ -283,7 +279,6 @@ export class ActionTrackerWidgetComponent implements OnInit {
       this.closeDataEntryForm(dataItem);
       this.store.dispatch(new CancelActionTrackerData(dataItem));
     } else {
-      console.log('after', dataItem);
       this.closeDataEntryForm(dataItem);
     }
   }
@@ -335,7 +330,14 @@ export class ActionTrackerWidgetComponent implements OnInit {
 
   // Hook your saving logic here
   onSave(actionTrackerData: any, placeHolderData?: any) {
-    this.store.dispatch(new SaveActionTrackerData(actionTrackerData));
+    console.log(actionTrackerData);
+    actionTrackerData
+      ? actionTrackerData.id
+        ? this.store.dispatch(
+            new SaveActionTrackerData(actionTrackerData, actionTrackerData.id)
+          )
+        : this.store.dispatch(new SaveActionTrackerData(actionTrackerData))
+      : null;
     this.store.dispatch(new CancelActionTrackerData(placeHolderData));
   }
 
