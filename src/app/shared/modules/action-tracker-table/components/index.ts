@@ -6,6 +6,7 @@ import { WidgetItemLoaderComponent } from './widget-item-loader/widget-item-load
 import { WidgetNotificationBarComponent } from './widget-notification-bar/widget-notification-bar.component';
 import { FormComponent } from './form/form.component';
 import { FormInputItemComponent } from './form-input-item/form-input-item.component';
+import { TextViewComponent } from './text-view/text-view.component';
 
 export const components: any = [
   AutoFilledInputComponent,
@@ -15,5 +16,6 @@ export const components: any = [
   WidgetItemLoaderComponent,
   WidgetNotificationBarComponent,
   FormComponent,
-  FormInputItemComponent
+  FormInputItemComponent,
+  TextViewComponent
 ];
