@@ -71,7 +71,8 @@ export class ActionTrackerWidgetComponent implements OnInit {
   @ViewChild('rootCauseAnalysisTable', { static: false })
   table: ElementRef;
 
-  @ViewChild(ContextMenuComponent, { static: false }) public extraActions: ContextMenuComponent;
+  @ViewChild(ContextMenuComponent, { static: false })
+  public extraActions: ContextMenuComponent;
 
   configuration$: Observable<RootCauseAnalysisConfiguration>;
   widget$: Observable<RootCauseAnalysisWidget>;
@@ -133,7 +134,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
 
   ngOnInit() {}
 
-  onActionEdit(dataItem, dataElements) {
+  onActionEdit(dataItem) {
     if (dataItem) {
       !(dataItem.rowspan = 1)
         ? this.openActionTrackerEntryForm(dataItem)
@@ -144,7 +145,37 @@ export class ActionTrackerWidgetComponent implements OnInit {
     }
   }
 
-  onActionDelete(dataItem, dataElements) {
+  onActionDelete(dataItem) {
+    var dataItemToDelete = document.getElementById(dataItem.id);
+    if (dataItemToDelete) {
+      var dataItemColumns = dataItemToDelete.querySelectorAll(
+        '.action-tracker-column, .solution-column'
+      );
+      _.map(dataItemColumns, dataItemColumn => {
+        dataItemColumn.hasAttribute('rowspan')
+          ? null
+          : dataItemColumn.setAttribute('hidden', 'true');
+      });
+      this.toBeDeleted[dataItem.id] = true;
+    }
+  }
+
+  onToggleCancelAction($event, dataItem) {
+    var dataItemToDelete = document.getElementById(dataItem.id);
+    if (dataItemToDelete) {
+      var dataItemColumns = dataItemToDelete.querySelectorAll(
+        '.action-tracker-column, .solution-column'
+      );
+      _.map(dataItemColumns, dataItemColumn => {
+        !dataItemColumn.hasAttribute('rowspan') &&
+        dataItemColumn.classList.contains('forDisplay')
+          ? dataItemColumn.removeAttribute('hidden')
+          : null;
+      });
+      this.toBeDeleted[dataItem.id] = false;
+    }
+  }
+  onConfirmActionDelete(dataItem, dataElements) {
     const selectionParams = {};
     if (dataItem && dataElements) {
       selectionParams['orgUnit'] =

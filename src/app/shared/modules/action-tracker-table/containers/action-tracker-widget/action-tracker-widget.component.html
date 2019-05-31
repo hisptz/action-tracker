@@ -39,6 +39,26 @@
         [contextMenuSubject]="dataItem"
       >
         <td>{{ i + 1 }}</td>
+        <td [attr.colspan]="11" *ngIf="toBeDeleted[dataItem.id]" align="center">
+          Are you sure wish to delete this data? <br />
+          <button
+            class="btn btn-sm btn-success"
+            (click)="onToggleCancelAction($event, dataItem)"
+          >
+            <i class="icon-cancel"></i> No</button
+          >&nbsp;
+          <button
+            class="btn btn-sm btn-danger"
+            (click)="
+              onConfirmActionDelete(
+                dataItem,
+                rootCauseAnalysisConfiguration.dataElements
+              )
+            "
+          >
+            <i class="icon-ok-circled2"></i> Yes
+          </button>
+        </td>
         <td
           [hidden]="dataElement.isHidden || toBeDeleted[dataItem.id]"
           *ngFor="
@@ -46,6 +66,7 @@
             let j = index
           "
           [ngClass]="{
+            'for-display': !dataElement.isHidden,
             'action-tracker-column': dataElement.isActionTrackerColumn,
             'solution-column': !dataElement.isActionTrackerColumn
           }"
@@ -69,21 +90,8 @@
               </div>
             </div>
           </ng-container>
-          <a
-            title="Save when done"
-            class="text-secondary custom-done-icon"
-            (click)="onDoneEditing($event, dataItem)"
-            *ngIf="
-              j == rootCauseAnalysisConfiguration.dataElements.length - 1 &&
-              dataItem.isActive
-            "
-          >
-            <i class="icon-ok-circled2"></i
-          ></a>
         </td>
-        {{
-          dataElement
-        }}
+
         <td
           class="action-tracker-column"
           [hidden]="!dataItem.rowspan"
@@ -137,9 +145,7 @@
   <ng-template
     contextMenuItem
     class="text-muted px-2"
-    (execute)="
-      onActionEdit($event.item, rootCauseAnalysisConfiguration?.dataElements)
-    "
+    (execute)="onActionEdit($event.item)"
   >
     Edit
   </ng-template>
