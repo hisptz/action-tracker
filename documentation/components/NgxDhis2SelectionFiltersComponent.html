@@ -1,0 +1,2172 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>action-tracker documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">action-tracker documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>NgxDhis2SelectionFiltersComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>ngx-dhis2-selection-filters</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./ngx-dhis2-selection-filters.component.css</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./ngx-dhis2-selection-filters.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#arrowDownIcon">arrowDownIcon</a>
+                            </li>
+                            <li>
+                                <a href="#arrowLeftIcon">arrowLeftIcon</a>
+                            </li>
+                            <li>
+                                <a href="#arrowRightIcon">arrowRightIcon</a>
+                            </li>
+                            <li>
+                                <a href="#dataIcon">dataIcon</a>
+                            </li>
+                            <li>
+                                <a href="#filterIcon">filterIcon</a>
+                            </li>
+                            <li>
+                                <a href="#orgUnitIcon">orgUnitIcon</a>
+                            </li>
+                            <li>
+                                <a href="#periodIcon">periodIcon</a>
+                            </li>
+                            <li>
+                                <a href="#selectedFilter">selectedFilter</a>
+                            </li>
+                            <li>
+                                <a href="#selectedInterventions">selectedInterventions</a>
+                            </li>
+                            <li>
+                                <a href="#selectedOrgUnits">selectedOrgUnits</a>
+                            </li>
+                            <li>
+                                <a href="#selectedPeriods">selectedPeriods</a>
+                            </li>
+                            <li>
+                                <a href="#showFilterBody">showFilterBody</a>
+                            </li>
+                            <li>
+                                <a href="#showFilters">showFilters</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_setSelectionParameters">_setSelectionParameters</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onClickOutside">onClickOutside</a>
+                            </li>
+                            <li>
+                                <a href="#onFilterClose">onFilterClose</a>
+                            </li>
+                            <li>
+                                <a href="#onFilterUpdate">onFilterUpdate</a>
+                            </li>
+                            <li>
+                                <a href="#onSave">onSave</a>
+                            </li>
+                            <li>
+                                <a href="#toggleCurrentFilter">toggleCurrentFilter</a>
+                            </li>
+                            <li>
+                                <a href="#toggleFilters">toggleFilters</a>
+                            </li>
+                            <li>
+                                <a href="#updateDataSelectionWithNewSelections">updateDataSelectionWithNewSelections</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#currentUserHasAuthorities">currentUserHasAuthorities</a>
+                            </li>
+                            <li>
+                                <a href="#dataSelections">dataSelections</a>
+                            </li>
+                            <li>
+                                <a href="#layout">layout</a>
+                            </li>
+                            <li>
+                                <a href="#saving">saving</a>
+                            </li>
+                            <li>
+                                <a href="#selectionFilterConfig">selectionFilterConfig</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#filterUpdate">filterUpdate</a>
+                            </li>
+                            <li>
+                                <a href="#save">save</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#selectedData">selectedData</a>
+                                </li>
+                                <li>
+                                    <a href="#selectedDataGroups">selectedDataGroups</a>
+                                </li>
+                                <li>
+                                    <a href="#selectedLegendSets">selectedLegendSets</a>
+                                </li>
+                                <li>
+                                    <a href="#layoutItem">layoutItem</a>
+                                </li>
+                                <li>
+                                    <a href="#filterConfig">filterConfig</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:58</a></div>
+                            </td>
+                        </tr>
+
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="currentUserHasAuthorities"></a>
+                        <b>currentUserHasAuthorities</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:34</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="dataSelections"></a>
+                        <b>dataSelections</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>any[]</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:24</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="layout"></a>
+                        <b>layout</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:27</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="saving"></a>
+                        <b>saving</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:31</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectionFilterConfig"></a>
+                        <b>selectionFilterConfig</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/SelectionFilterConfig.html" target="_self" >SelectionFilterConfig</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:29</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section>
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="filterUpdate"></a>
+                        <b>filterUpdate</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;any[]&gt;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:37</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="save"></a>
+                        <b>save</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:40</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_setSelectionParameters"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            _setSelectionParameters
+                        </b>
+                        <a href="#_setSelectionParameters"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>_setSelectionParameters()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="117"
+                            class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:117</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="108"
+                            class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:108</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onClickOutside"></a>
+                    <span class="name">
+                        <b>
+                            onClickOutside
+                        </b>
+                        <a href="#onClickOutside"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onClickOutside()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="158"
+                            class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:158</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onFilterClose"></a>
+                    <span class="name">
+                        <b>
+                            onFilterClose
+                        </b>
+                        <a href="#onFilterClose"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onFilterClose(selectedItems, selectedFilter)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="163"
+                            class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:163</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>selectedItems</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>selectedFilter</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onFilterUpdate"></a>
+                    <span class="name">
+                        <b>
+                            onFilterUpdate
+                        </b>
+                        <a href="#onFilterUpdate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onFilterUpdate(selectedItems, selectedFilter)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="183"
+                            class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:183</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>selectedItems</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>selectedFilter</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSave"></a>
+                    <span class="name">
+                        <b>
+                            onSave
+                        </b>
+                        <a href="#onSave"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onSave(e)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="204"
+                            class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:204</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>e</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleCurrentFilter"></a>
+                    <span class="name">
+                        <b>
+                            toggleCurrentFilter
+                        </b>
+                        <a href="#toggleCurrentFilter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleCurrentFilter(e, selectedFilter)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="147"
+                            class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:147</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>e</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>selectedFilter</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleFilters"></a>
+                    <span class="name">
+                        <b>
+                            toggleFilters
+                        </b>
+                        <a href="#toggleFilters"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleFilters(e)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="137"
+                            class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:137</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>e</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateDataSelectionWithNewSelections"></a>
+                    <span class="name">
+                        <b>
+                            updateDataSelectionWithNewSelections
+                        </b>
+                        <a href="#updateDataSelectionWithNewSelections"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateDataSelectionWithNewSelections(dataSelections: any[], selectedObject: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="211"
+                            class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:211</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>dataSelections</td>
+                                    <td>
+                                            <code>any[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>selectedObject</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>any[]</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="arrowDownIcon"></a>
+                        <span class="name">
+                            <b>
+                            arrowDownIcon</b>
+                            <a href="#arrowDownIcon"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:48</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="arrowLeftIcon"></a>
+                        <span class="name">
+                            <b>
+                            arrowLeftIcon</b>
+                            <a href="#arrowLeftIcon"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:46</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="arrowRightIcon"></a>
+                        <span class="name">
+                            <b>
+                            arrowRightIcon</b>
+                            <a href="#arrowRightIcon"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:47</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="dataIcon"></a>
+                        <span class="name">
+                            <b>
+                            dataIcon</b>
+                            <a href="#dataIcon"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:49</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="filterIcon"></a>
+                        <span class="name">
+                            <b>
+                            filterIcon</b>
+                            <a href="#filterIcon"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:45</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="orgUnitIcon"></a>
+                        <span class="name">
+                            <b>
+                            orgUnitIcon</b>
+                            <a href="#orgUnitIcon"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:51</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="periodIcon"></a>
+                        <span class="name">
+                            <b>
+                            periodIcon</b>
+                            <a href="#periodIcon"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:50</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectedFilter"></a>
+                        <span class="name">
+                            <b>
+                            selectedFilter</b>
+                            <a href="#selectedFilter"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:52</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectedInterventions"></a>
+                        <span class="name">
+                            <b>
+                            selectedInterventions</b>
+                            <a href="#selectedInterventions"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>any[]</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:58</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectedOrgUnits"></a>
+                        <span class="name">
+                            <b>
+                            selectedOrgUnits</b>
+                            <a href="#selectedOrgUnits"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>any[]</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:56</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectedPeriods"></a>
+                        <span class="name">
+                            <b>
+                            selectedPeriods</b>
+                            <a href="#selectedPeriods"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>any[]</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:54</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showFilterBody"></a>
+                        <span class="name">
+                            <b>
+                            showFilterBody</b>
+                            <a href="#showFilterBody"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:42</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showFilters"></a>
+                        <span class="name">
+                            <b>
+                            showFilters</b>
+                            <a href="#showFilters"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:41</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectedData"></a>
+                        <span class="name"><b>selectedData</b><a href="#selectedData"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>selectedData()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:74</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectedDataGroups"></a>
+                        <span class="name"><b>selectedDataGroups</b><a href="#selectedDataGroups"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>selectedDataGroups()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:79</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectedLegendSets"></a>
+                        <span class="name"><b>selectedLegendSets</b><a href="#selectedLegendSets"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>selectedLegendSets()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:84</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="layoutItem"></a>
+                        <span class="name"><b>layoutItem</b><a href="#layoutItem"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>layoutItem()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:88</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="filterConfig"></a>
+                        <span class="name"><b>filterConfig</b><a href="#filterConfig"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>filterConfig()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="101" class="link-to-prism">src/app/shared/modules/selection-filters/containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component.ts:101</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, EventEmitter, Input, OnInit, Output } from &#x27;@angular/core&#x27;;
+import * as _ from &#x27;lodash&#x27;;
+
+import { SELECTION_FILTER_CONFIG } from &#x27;../../constants/selection-filter-config.constant&#x27;;
+import {
+  ARROW_DOWN_ICON,
+  ARROW_LEFT_ICON,
+  ARROW_RIGHT_ICON,
+  DATA_ICON,
+  FILTER_ICON,
+  PERIOD_ICON,
+  TREE_ICON
+} from &#x27;../../icons&#x27;;
+import { SelectionFilterConfig } from &#x27;../../models/selected-filter-config.model&#x27;;
+
+@Component({
+  // tslint:disable-next-line:component-selector
+  selector: &#x27;ngx-dhis2-selection-filters&#x27;,
+  templateUrl: &#x27;./ngx-dhis2-selection-filters.component.html&#x27;,
+  styleUrls: [&#x27;./ngx-dhis2-selection-filters.component.css&#x27;]
+})
+export class NgxDhis2SelectionFiltersComponent implements OnInit {
+  @Input()
+  dataSelections: any[];
+
+  @Input()
+  layout: any;
+  @Input()
+  selectionFilterConfig: SelectionFilterConfig;
+  @Input()
+  saving: boolean;
+
+  @Input()
+  currentUserHasAuthorities: boolean;
+
+  @Output()
+  filterUpdate: EventEmitter&lt;any[]&gt; &#x3D; new EventEmitter&lt;any[]&gt;();
+
+  @Output()
+  save: EventEmitter&lt;any&gt; &#x3D; new EventEmitter&lt;any&gt;();
+  showFilters: boolean;
+  showFilterBody: boolean;
+
+  // icons
+  filterIcon: string;
+  arrowLeftIcon: string;
+  arrowRightIcon: string;
+  arrowDownIcon: string;
+  dataIcon: string;
+  periodIcon: string;
+  orgUnitIcon: string;
+  selectedFilter: string;
+
+  selectedPeriods: any[];
+
+  selectedOrgUnits: any[];
+
+  selectedInterventions: any[];
+
+  constructor() {
+    this.showFilters &#x3D; true;
+    this.showFilterBody &#x3D; false;
+
+    // icons initializations
+    this.filterIcon &#x3D; FILTER_ICON;
+    this.arrowLeftIcon &#x3D; ARROW_LEFT_ICON;
+    this.arrowRightIcon &#x3D; ARROW_RIGHT_ICON;
+    this.arrowDownIcon &#x3D; ARROW_DOWN_ICON;
+    this.dataIcon &#x3D; DATA_ICON;
+    this.periodIcon &#x3D; PERIOD_ICON;
+    this.orgUnitIcon &#x3D; TREE_ICON;
+  }
+
+  get selectedData(): any[] {
+    const dataObject &#x3D; _.find(this.dataSelections, [&#x27;dimension&#x27;, &#x27;dx&#x27;]);
+    return dataObject ? dataObject.items : [];
+  }
+
+  get selectedDataGroups(): any[] {
+    const dataObject &#x3D; _.find(this.dataSelections, [&#x27;dimension&#x27;, &#x27;dx&#x27;]);
+    return dataObject ? dataObject.groups : [];
+  }
+
+  get selectedLegendSets(): any[] {
+    return [];
+  }
+
+  get layoutItem(): any {
+    return _.groupBy(
+      _.map(this.dataSelections, dataSelection &#x3D;&gt; {
+        return {
+          name: dataSelection.name,
+          value: dataSelection.dimension,
+          layout: dataSelection.layout
+        };
+      }),
+      &#x27;layout&#x27;
+    );
+  }
+
+  get filterConfig(): SelectionFilterConfig {
+    return {
+      ...SELECTION_FILTER_CONFIG,
+      ...(this.selectionFilterConfig || {})
+    };
+  }
+
+  ngOnInit() {
+    if (!this.dataSelections) {
+      this.dataSelections &#x3D; [];
+    }
+
+    // Set selection parameters
+    this._setSelectionParameters();
+  }
+
+  private _setSelectionParameters() {
+    // get selected periods
+    const periodObject &#x3D; _.find(this.dataSelections, [&#x27;dimension&#x27;, &#x27;pe&#x27;]);
+    this.selectedPeriods &#x3D; periodObject ? periodObject.items : [];
+
+    // get selected orgunits
+    const orgUnitObject &#x3D; _.find(this.dataSelections, [&#x27;dimension&#x27;, &#x27;ou&#x27;]);
+    this.selectedOrgUnits &#x3D; orgUnitObject ? orgUnitObject.items : [];
+
+    // set interventions
+    const interventionObject &#x3D; _.find(this.dataSelections, [
+      &#x27;dimension&#x27;,
+      &#x27;intervention&#x27;
+    ]);
+
+    this.selectedInterventions &#x3D; interventionObject
+      ? interventionObject.items
+      : [];
+  }
+
+  toggleFilters(e) {
+    e.stopPropagation();
+    this.showFilters &#x3D; !this.showFilters;
+    if (this.showFilters) {
+      this.showFilterBody &#x3D; true;
+    } else {
+      this.showFilterBody &#x3D; false;
+    }
+  }
+
+  toggleCurrentFilter(e, selectedFilter) {
+    e.stopPropagation();
+    if (this.selectedFilter &#x3D;&#x3D;&#x3D; selectedFilter) {
+      this.selectedFilter &#x3D; &#x27;&#x27;;
+      this.showFilterBody &#x3D; false;
+    } else {
+      this.selectedFilter &#x3D; selectedFilter;
+      this.showFilterBody &#x3D; true;
+    }
+  }
+
+  onClickOutside() {
+    this.selectedFilter &#x3D; &#x27;&#x27;;
+    this.showFilterBody &#x3D; false;
+  }
+
+  onFilterClose(selectedItems, selectedFilter) {
+    if (selectedItems &amp;&amp; selectedItems.items.length &gt; 0) {
+      this.dataSelections &#x3D; !_.find(this.dataSelections, [
+        &#x27;dimension&#x27;,
+        selectedItems.dimension
+      ])
+        ? [...this.dataSelections, { ...selectedItems, layout: &#x27;columns&#x27; }]
+        : [
+            ...this.updateDataSelectionWithNewSelections(
+              this.dataSelections,
+              selectedItems
+            )
+          ];
+    }
+
+    if (this.selectedFilter &#x3D;&#x3D;&#x3D; selectedFilter) {
+      this.showFilterBody &#x3D; false;
+    }
+  }
+
+  onFilterUpdate(selectedItems, selectedFilter) {
+    this.dataSelections &#x3D; !_.find(this.dataSelections, [
+      &#x27;dimension&#x27;,
+      selectedItems.dimension
+    ])
+      ? [...this.dataSelections, { ...selectedItems, layout: &#x27;rows&#x27; }]
+      : [
+          ...this.updateDataSelectionWithNewSelections(
+            this.dataSelections,
+            selectedItems
+          )
+        ];
+
+    // also update selection parameters
+    this._setSelectionParameters();
+
+    this.filterUpdate.emit(this.dataSelections);
+    this.selectedFilter &#x3D; &#x27;&#x27;;
+    this.showFilterBody &#x3D; false;
+  }
+
+  onSave(e) {
+    e.stopPropagation();
+    this.selectedFilter &#x3D; &#x27;&#x27;;
+    this.showFilterBody &#x3D; false;
+    this.save.emit(null);
+  }
+
+  updateDataSelectionWithNewSelections(
+    dataSelections: any[],
+    selectedObject: any
+  ): any[] {
+    const selectedDimension &#x3D; _.find(dataSelections, [
+      &#x27;dimension&#x27;,
+      selectedObject.dimension
+    ]);
+    const selectedDimensionIndex &#x3D; selectedDimension
+      ? dataSelections.indexOf(selectedDimension)
+      : -1;
+    return selectedDimension
+      ? [
+          ...dataSelections.slice(0, selectedDimensionIndex),
+          { ...selectedDimension, ...selectedObject },
+          ...dataSelections.slice(selectedDimensionIndex + 1)
+        ]
+      : dataSelections
+      ? [...dataSelections, selectedObject]
+      : [selectedObject];
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div
+  class&#x3D;&quot;selection-filter-container&quot;
+  appClickOutside
+  (clickOutside)&#x3D;&quot;onClickOutside()&quot;
+&gt;
+  &lt;!--selection filter header--&gt;
+  &lt;div class&#x3D;&quot;selection-filter-header&quot;&gt;
+    &lt;div class&#x3D;&quot;selection-filter-btn-list&quot;&gt;
+      &lt;!--data filter button--&gt;
+      &lt;button
+        [disabled]&#x3D;&quot;saving&quot;
+        *ngIf&#x3D;&quot;filterConfig?.showDataFilter &amp;&amp; currentUserHasAuthorities&quot;
+        [ngClass]&#x3D;&quot;{
+          &#x27;selection-filter-btn&#x27;: true,
+          &#x27;active-filter&#x27;: selectedFilter &#x3D;&#x3D;&#x3D; &#x27;DATA&#x27;
+        }&quot;
+        [title]&#x3D;&quot;&#x27;Filter by data&#x27; | translate&quot;
+        (click)&#x3D;&quot;toggleCurrentFilter($event, &#x27;DATA&#x27;)&quot;
+      &gt;
+        &lt;img [src]&#x3D;&quot;dataIcon&quot; alt&#x3D;&quot;&quot; /&gt;&amp;nbsp;{{ &#x27;Data&#x27; | translate }}&amp;nbsp;
+        &lt;img
+          [ngClass]&#x3D;&quot;{ &#x27;arrow-up&#x27;: selectedFilter &#x3D;&#x3D;&#x3D; &#x27;DATA&#x27; }&quot;
+          [src]&#x3D;&quot;arrowDownIcon&quot;
+          alt&#x3D;&quot;&quot;
+        /&gt;
+      &lt;/button&gt;
+      &lt;!--end of data filter button--&gt;
+
+      &lt;!--data filter button--&gt;
+      &lt;button
+        [disabled]&#x3D;&quot;saving&quot;
+        *ngIf&#x3D;&quot;filterConfig?.showDataFilter&quot;
+        class&#x3D;&quot;btn btn-outline-secondary&quot;
+        [title]&#x3D;&quot;&#x27;Filter by data&#x27; | translate&quot;
+        (click)&#x3D;&quot;toggleCurrentFilter($event, &#x27;INTERVENTION&#x27;)&quot;
+      &gt;
+        &lt;i class&#x3D;&quot;fa fa-th&quot;&gt;&lt;/i&gt;&amp;nbsp;{{ &#x27;Intervention&#x27; | translate }}&amp;nbsp;
+        &lt;span class&#x3D;&quot;badge badge-secondary&quot;&gt;{{
+          selectedInterventions | summarizeSelection
+        }}&lt;/span
+        &gt;&amp;nbsp;
+        &lt;i
+          class&#x3D;&quot;fa {{
+            selectedFilter &#x3D;&#x3D;&#x3D; &#x27;INTERVENTION&#x27; ? &#x27;fa-caret-up&#x27; : &#x27;fa-caret-down&#x27;
+          }}&quot;
+        &gt;&lt;/i&gt;
+      &lt;/button&gt;
+      &lt;!--end of data filter button--&gt;
+
+      &lt;!--Legend configuration button--&gt;
+      &lt;button
+        *ngIf&#x3D;&quot;filterConfig?.showDataFilter &amp;&amp; currentUserHasAuthorities&quot;
+        [ngClass]&#x3D;&quot;{
+          &#x27;selection-filter-btn&#x27;: true,
+          &#x27;active-filter&#x27;: _selectedFilter &#x3D;&#x3D;&#x3D; &#x27;LEGEND_CONFIGURATION&#x27;
+        }&quot;
+        [title]&#x3D;&quot;&#x27;Configure legend&#x27; | translate&quot;
+        (click)&#x3D;&quot;toggleCurrentFilter($event, &#x27;LEGEND_CONFIGURATION&#x27;)&quot;
+      &gt;
+        &lt;img [src]&#x3D;&quot;dataIcon&quot; alt&#x3D;&quot;&quot; /&gt;&amp;nbsp;{{ &#x27;Legend&#x27; | translate }}&amp;nbsp;
+        &lt;img
+          [ngClass]&#x3D;&quot;{ &#x27;arrow-up&#x27;: _selectedFilter &#x3D;&#x3D;&#x3D; &#x27;LEGEND_CONFIGURATION&#x27; }&quot;
+          [src]&#x3D;&quot;arrowDownIcon&quot;
+          alt&#x3D;&quot;&quot;
+        /&gt;
+      &lt;/button&gt;
+      &lt;!--end of Legend configuration button--&gt;
+
+      &lt;!--period filter button--&gt;
+      &lt;button
+        [disabled]&#x3D;&quot;saving&quot;
+        *ngIf&#x3D;&quot;filterConfig?.showPeriodFilter&quot;
+        class&#x3D;&quot;btn btn-outline-secondary&quot;
+        [title]&#x3D;&quot;&#x27;Filter by period&#x27; | translate&quot;
+        (click)&#x3D;&quot;toggleCurrentFilter($event, &#x27;PERIOD&#x27;)&quot;
+      &gt;
+        &lt;i class&#x3D;&quot;fa fa-clock-o&quot;&gt;&lt;/i&gt;&amp;nbsp;{{ &#x27;Period&#x27; | translate }}&amp;nbsp;
+        &lt;span class&#x3D;&quot;badge badge-secondary&quot;&gt;{{
+          selectedPeriods | summarizeSelection
+        }}&lt;/span
+        &gt;&amp;nbsp;
+        &lt;i
+          class&#x3D;&quot;fa {{
+            selectedFilter &#x3D;&#x3D;&#x3D; &#x27;PERIOD&#x27; ? &#x27;fa-caret-up&#x27; : &#x27;fa-caret-down&#x27;
+          }}&quot;
+        &gt;&lt;/i&gt;
+      &lt;/button&gt;
+      &lt;!--end of period filter button--&gt;
+
+      &lt;!--org unit filter button--&gt;
+      &lt;button
+        [disabled]&#x3D;&quot;saving&quot;
+        *ngIf&#x3D;&quot;filterConfig?.showOrgUnitFilter&quot;
+        class&#x3D;&quot;btn btn-outline-secondary d-flex align-items-center&quot;
+        [title]&#x3D;&quot;&#x27;Filter by organisation unit&#x27; | translate&quot;
+        (click)&#x3D;&quot;toggleCurrentFilter($event, &#x27;ORG_UNIT&#x27;)&quot;
+      &gt;
+        &lt;img [src]&#x3D;&quot;orgUnitIcon&quot; alt&#x3D;&quot;&quot; /&gt;&amp;nbsp;{{ &#x27;Org-Unit&#x27; | translate }}
+        &amp;nbsp;
+        &lt;span class&#x3D;&quot;badge badge-secondary&quot;&gt;{{
+          selectedOrgUnits | summarizeSelection
+        }}&lt;/span&gt;
+        &amp;nbsp;&lt;i
+          class&#x3D;&quot;fa {{
+            selectedFilter &#x3D;&#x3D;&#x3D; &#x27;ORG_UNIT&#x27; ? &#x27;fa-caret-up&#x27; : &#x27;fa-caret-down&#x27;
+          }}&quot;
+        &gt;&lt;/i&gt;
+      &lt;/button&gt;
+
+      &lt;button
+        *ngIf&#x3D;&quot;filterConfig?.showLayout&quot;
+        [ngClass]&#x3D;&quot;{
+          &#x27;selection-filter-btn&#x27;: true,
+          &#x27;active-filter&#x27;: selectedFilter &#x3D;&#x3D;&#x3D; &#x27;LAYOUT&#x27;
+        }&quot;
+        [title]&#x3D;&quot;&#x27;Layout&#x27; | translate&quot;
+        (click)&#x3D;&quot;toggleCurrentFilter($event, &#x27;LAYOUT&#x27;)&quot;
+      &gt;
+        &lt;img [src]&#x3D;&quot;orgUnitcon&quot; alt&#x3D;&quot;&quot; /&gt;&amp;nbsp;{{ &#x27;Layout&#x27; | translate }}&amp;nbsp;
+        &lt;img
+          [ngClass]&#x3D;&quot;{ &#x27;arrow-up&#x27;: selectedFilter &#x3D;&#x3D;&#x3D; &#x27;LAYOUT&#x27; }&quot;
+          [src]&#x3D;&quot;arrowDownIcon&quot;
+          alt&#x3D;&quot;&quot;
+        /&gt;
+      &lt;/button&gt;
+      &lt;!--end of org unit filter button--&gt;
+
+      &lt;button
+        *ngIf&#x3D;&quot;currentUserHasAuthorities&quot;
+        [disabled]&#x3D;&quot;saving&quot;
+        class&#x3D;&quot;selection-filter-btn&quot;
+        (click)&#x3D;&quot;onSave($event)&quot;
+      &gt;
+        &lt;img src&#x3D;&quot;assets/icons/save.png&quot; alt&#x3D;&quot;&quot; /&gt;&amp;nbsp;{{
+          saving ? &#x27;Saving...&#x27; : &#x27;Save&#x27;
+        }}
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!--end of selection filter header--&gt;
+
+  &lt;!--selection filter body--&gt;
+  &lt;div
+    class&#x3D;&quot;selection-filter-body&quot;
+    *ngIf&#x3D;&quot;selectedFilter !&#x3D;&#x3D; &#x27;&#x27; &amp;&amp; showFilterBody&quot;
+  &gt;
+    &lt;!-- intervention filter --&gt;
+    &lt;app-intervention-filter
+      *ngIf&#x3D;&quot;selectedFilter &#x3D;&#x3D;&#x3D; &#x27;INTERVENTION&#x27;&quot;
+      [selectedInterventions]&#x3D;&quot;selectedInterventions&quot;
+      (close)&#x3D;&quot;onFilterClose($event, &#x27;INTERVENTION&#x27;)&quot;
+      (update)&#x3D;&quot;onFilterUpdate($event, &#x27;INTERVENTION&#x27;)&quot;
+    &gt;&lt;/app-intervention-filter&gt;
+    &lt;!-- end of intervention filter --&gt;
+    &lt;!--data filter--&gt;
+    &lt;!-- &lt;app-data-filter
+      *ngIf&#x3D;&quot;selectedFilter &#x3D;&#x3D;&#x3D; &#x27;DATA&#x27;&quot;
+      [selectedItems]&#x3D;&quot;selectedData&quot;
+      [selectedGroups]&#x3D;&quot;selectedDataGroups&quot;
+      (dataFilterClose)&#x3D;&quot;onFilterClose($event, &#x27;DATA&#x27;)&quot;
+      (dataFilterUpdate)&#x3D;&quot;onFilterUpdate($event, &#x27;DATA&#x27;)&quot;
+    &gt;&lt;/app-data-filter&gt; --&gt;
+    &lt;!--end of data filter--&gt;
+
+    &lt;!-- legend configguration --&gt;
+    &lt;!-- &lt;app-legend-set-configuration
+      *ngIf&#x3D;&quot;_selectedFilter &#x3D;&#x3D;&#x3D; &#x27;LEGEND_CONFIGURATION&#x27;&quot;
+      [selectedItems]&#x3D;&quot;selectedData&quot;
+      [selectedGroups]&#x3D;&quot;selectedDataGroups&quot;
+      (legendSetConfigurationClose)&#x3D;&quot;
+        onFilterClose($event, &#x27;LEGEND_CONFIGURATION&#x27;)
+      &quot;
+      (legendSetConfigurationUpdate)&#x3D;&quot;
+        onFilterUpdate($event, &#x27;LEGEND_CONFIGURATION&#x27;)
+      &quot;
+    &gt;&lt;/app-legend-set-configuration&gt; --&gt;
+    &lt;!-- end of legend configguration --&gt;
+
+    &lt;!--period filter--&gt;
+    &lt;ngx-dhis2-period-filter
+      *ngIf&#x3D;&quot;selectedFilter &#x3D;&#x3D;&#x3D; &#x27;PERIOD&#x27;&quot;
+      [selectedPeriods]&#x3D;&quot;selectedPeriods&quot;
+      (close)&#x3D;&quot;onFilterClose($event, &#x27;PERIOD&#x27;)&quot;
+      (update)&#x3D;&quot;onFilterUpdate($event, &#x27;PERIOD&#x27;)&quot;
+    &gt;&lt;/ngx-dhis2-period-filter&gt;
+    &lt;!--end of period filter--&gt;
+
+    &lt;!--org unit filter--&gt;
+    &lt;ngx-dhis2-org-unit-filter
+      *ngIf&#x3D;&quot;selectedFilter &#x3D;&#x3D;&#x3D; &#x27;ORG_UNIT&#x27;&quot;
+      [selectedOrgUnitItems]&#x3D;&quot;selectedOrgUnits&quot;
+      (orgUnitClose)&#x3D;&quot;onFilterClose($event, &#x27;ORG_UNIT&#x27;)&quot;
+      (orgUnitUpdate)&#x3D;&quot;onFilterUpdate($event, &#x27;ORG_UNIT&#x27;)&quot;
+    &gt;&lt;/ngx-dhis2-org-unit-filter&gt;
+    &lt;!--end of org unit filter--&gt;
+
+    &lt;!-- &lt;app-layout
+      [layoutModel]&#x3D;&quot;layoutItem&quot;
+      *ngIf&#x3D;&quot;selectedFilter &#x3D;&#x3D;&#x3D; &#x27;LAYOUT&#x27;&quot;
+      (onLayoutUpdate)&#x3D;&quot;onFilterUpdate($event, &#x27;LAYOUT&#x27;)&quot;
+      (onLayoutClose)&#x3D;&quot;onFilterClose($event, &#x27;LAYOUT&#x27;)&quot;
+    &gt;&lt;/app-layout&gt; --&gt;
+  &lt;/div&gt;
+  &lt;!--end of selection filter body--&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./ngx-dhis2-selection-filters.component.css</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">.selection-filter-container {
+  position: relative;
+}
+
+.selection-filter-header {
+  display: flex;
+}
+
+.selection-filter-btn {
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+  border-style: none;
+  cursor: pointer;
+  background-color: transparent;
+  height: 30px;
+  width: auto;
+  border-radius: 15px;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  -ms-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  font-size: 12px;
+}
+
+.selection-filter-btn:hover {
+  background-color: rgba(241, 241, 241, 0.6);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -o-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
+.selection-filter-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.selection-filter-btn img {
+  height: 13px;
+}
+
+.filter-control-btn {
+  width: 50px;
+  border: none;
+  box-shadow: none;
+  font-size: 16px;
+  color: #00796b;
+  margin-right: 20px;
+}
+
+.filter-control-btn:hover {
+  background-color: transparent;
+  -webkit-transform: none;
+  -moz-transform: none;
+  -o-transform: none;
+  -ms-transform: none;
+  transform: none;
+}
+
+.selection-filter-name {
+  font-size: 12px;
+  margin-left: 3px;
+  margin-right: 3px;
+  display: flex;
+  align-items: center;
+  height: 30px;
+}
+
+.selection-filter-btn-list {
+  display: flex;
+  justify-content: space-around;
+  margin-left: 3px;
+}
+
+.selection-filter-btn-list &gt; button {
+  margin-left: 3px;
+}
+
+.selection-filter-btn-list &gt; button &gt; img {
+  height: 13px;
+}
+
+.selection-filter-btn-list &gt; button:first-child {
+  margin-left: 0;
+}
+
+.active-filter {
+  background-color: #f1f1f1;
+}
+
+.selection-filter-body {
+  position: absolute;
+  top: 40px;
+  background-color: rgba(255, 255, 255, 0.95);
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.12);
+  -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.12);
+  padding: 5px;
+  min-width: 400px;
+  min-height: 350px;
+  z-index: 1320;
+}
+
+.arrow-up {
+  transform: rotate(180deg);
+}
+
+@media (max-width: 500px) {
+  .selection-filter-body {
+    width: 95%;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div  class="selection-filter-container"  appClickOutside  (clickOutside)="onClickOutside()">  <!--selection filter header-->  <div class="selection-filter-header">    <div class="selection-filter-btn-list">      <!--data filter button-->      <button        [disabled]="saving"        *ngIf="filterConfig?.showDataFilter && currentUserHasAuthorities"        [ngClass]="{          \'selection-filter-btn\': true,          \'active-filter\': selectedFilter === \'DATA\'        }"        [title]="\'Filter by data\' | translate"        (click)="toggleCurrentFilter($event, \'DATA\')"      >        <img [src]="dataIcon" alt="" />&nbsp;{{ \'Data\' | translate }}&nbsp;        <img          [ngClass]="{ \'arrow-up\': selectedFilter === \'DATA\' }"          [src]="arrowDownIcon"          alt=""        />      </button>      <!--end of data filter button-->      <!--data filter button-->      <button        [disabled]="saving"        *ngIf="filterConfig?.showDataFilter"        class="btn btn-outline-secondary"        [title]="\'Filter by data\' | translate"        (click)="toggleCurrentFilter($event, \'INTERVENTION\')"      >        <i class="fa fa-th"></i>&nbsp;{{ \'Intervention\' | translate }}&nbsp;        <span class="badge badge-secondary">{{          selectedInterventions | summarizeSelection        }}</span        >&nbsp;        <i          class="fa {{            selectedFilter === \'INTERVENTION\' ? \'fa-caret-up\' : \'fa-caret-down\'          }}"        ></i>      </button>      <!--end of data filter button-->      <!--Legend configuration button-->      <button        *ngIf="filterConfig?.showDataFilter && currentUserHasAuthorities"        [ngClass]="{          \'selection-filter-btn\': true,          \'active-filter\': _selectedFilter === \'LEGEND_CONFIGURATION\'        }"        [title]="\'Configure legend\' | translate"        (click)="toggleCurrentFilter($event, \'LEGEND_CONFIGURATION\')"      >        <img [src]="dataIcon" alt="" />&nbsp;{{ \'Legend\' | translate }}&nbsp;        <img          [ngClass]="{ \'arrow-up\': _selectedFilter === \'LEGEND_CONFIGURATION\' }"          [src]="arrowDownIcon"          alt=""        />      </button>      <!--end of Legend configuration button-->      <!--period filter button-->      <button        [disabled]="saving"        *ngIf="filterConfig?.showPeriodFilter"        class="btn btn-outline-secondary"        [title]="\'Filter by period\' | translate"        (click)="toggleCurrentFilter($event, \'PERIOD\')"      >        <i class="fa fa-clock-o"></i>&nbsp;{{ \'Period\' | translate }}&nbsp;        <span class="badge badge-secondary">{{          selectedPeriods | summarizeSelection        }}</span        >&nbsp;        <i          class="fa {{            selectedFilter === \'PERIOD\' ? \'fa-caret-up\' : \'fa-caret-down\'          }}"        ></i>      </button>      <!--end of period filter button-->      <!--org unit filter button-->      <button        [disabled]="saving"        *ngIf="filterConfig?.showOrgUnitFilter"        class="btn btn-outline-secondary d-flex align-items-center"        [title]="\'Filter by organisation unit\' | translate"        (click)="toggleCurrentFilter($event, \'ORG_UNIT\')"      >        <img [src]="orgUnitIcon" alt="" />&nbsp;{{ \'Org-Unit\' | translate }}        &nbsp;        <span class="badge badge-secondary">{{          selectedOrgUnits | summarizeSelection        }}</span>        &nbsp;<i          class="fa {{            selectedFilter === \'ORG_UNIT\' ? \'fa-caret-up\' : \'fa-caret-down\'          }}"        ></i>      </button>      <button        *ngIf="filterConfig?.showLayout"        [ngClass]="{          \'selection-filter-btn\': true,          \'active-filter\': selectedFilter === \'LAYOUT\'        }"        [title]="\'Layout\' | translate"        (click)="toggleCurrentFilter($event, \'LAYOUT\')"      >        <img [src]="orgUnitcon" alt="" />&nbsp;{{ \'Layout\' | translate }}&nbsp;        <img          [ngClass]="{ \'arrow-up\': selectedFilter === \'LAYOUT\' }"          [src]="arrowDownIcon"          alt=""        />      </button>      <!--end of org unit filter button-->      <button        *ngIf="currentUserHasAuthorities"        [disabled]="saving"        class="selection-filter-btn"        (click)="onSave($event)"      >        <img src="assets/icons/save.png" alt="" />&nbsp;{{          saving ? \'Saving...\' : \'Save\'        }}      </button>    </div>  </div>  <!--end of selection filter header-->  <!--selection filter body-->  <div    class="selection-filter-body"    *ngIf="selectedFilter !== \'\' && showFilterBody"  >    <!-- intervention filter -->    <app-intervention-filter      *ngIf="selectedFilter === \'INTERVENTION\'"      [selectedInterventions]="selectedInterventions"      (close)="onFilterClose($event, \'INTERVENTION\')"      (update)="onFilterUpdate($event, \'INTERVENTION\')"    ></app-intervention-filter>    <!-- end of intervention filter -->    <!--data filter-->    <!-- <app-data-filter      *ngIf="selectedFilter === \'DATA\'"      [selectedItems]="selectedData"      [selectedGroups]="selectedDataGroups"      (dataFilterClose)="onFilterClose($event, \'DATA\')"      (dataFilterUpdate)="onFilterUpdate($event, \'DATA\')"    ></app-data-filter> -->    <!--end of data filter-->    <!-- legend configguration -->    <!-- <app-legend-set-configuration      *ngIf="_selectedFilter === \'LEGEND_CONFIGURATION\'"      [selectedItems]="selectedData"      [selectedGroups]="selectedDataGroups"      (legendSetConfigurationClose)="        onFilterClose($event, \'LEGEND_CONFIGURATION\')      "      (legendSetConfigurationUpdate)="        onFilterUpdate($event, \'LEGEND_CONFIGURATION\')      "    ></app-legend-set-configuration> -->    <!-- end of legend configguration -->    <!--period filter-->    <ngx-dhis2-period-filter      *ngIf="selectedFilter === \'PERIOD\'"      [selectedPeriods]="selectedPeriods"      (close)="onFilterClose($event, \'PERIOD\')"      (update)="onFilterUpdate($event, \'PERIOD\')"    ></ngx-dhis2-period-filter>    <!--end of period filter-->    <!--org unit filter-->    <ngx-dhis2-org-unit-filter      *ngIf="selectedFilter === \'ORG_UNIT\'"      [selectedOrgUnitItems]="selectedOrgUnits"      (orgUnitClose)="onFilterClose($event, \'ORG_UNIT\')"      (orgUnitUpdate)="onFilterUpdate($event, \'ORG_UNIT\')"    ></ngx-dhis2-org-unit-filter>    <!--end of org unit filter-->    <!-- <app-layout      [layoutModel]="layoutItem"      *ngIf="selectedFilter === \'LAYOUT\'"      (onLayoutUpdate)="onFilterUpdate($event, \'LAYOUT\')"      (onLayoutClose)="onFilterClose($event, \'LAYOUT\')"    ></app-layout> -->  </div>  <!--end of selection filter body--></div></div>'
+    var COMPONENTS = [{'name': 'ActionTrackerWidgetComponent', 'selector': 'app-bna-widget'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AutoFilledInputComponent', 'selector': 'app-auto-filled-input'},{'name': 'DataEntryComponent', 'selector': 'app-data-entry'},{'name': 'FormComponent', 'selector': 'action-tracker-form'},{'name': 'FormInputItemComponent', 'selector': 'form-input-item'},{'name': 'InterventionFilterComponent', 'selector': 'app-intervention-filter'},{'name': 'NavigationBarComponent', 'selector': 'app-navigation-bar'},{'name': 'NgxDhis2SelectionFiltersComponent', 'selector': 'ngx-dhis2-selection-filters'},{'name': 'SelectBoxInputComponent', 'selector': 'app-select-box-input'},{'name': 'TextAreaInputComponent', 'selector': 'text-area-input'},{'name': 'TextViewComponent', 'selector': 'app-text-view'},{'name': 'WidgetContextMenuComponent', 'selector': 'app-widget-context-menu'},{'name': 'WidgetItemLoaderComponent', 'selector': 'app-widget-item-loader'},{'name': 'WidgetNotificationBarComponent', 'selector': 'app-widget-notification-bar'}];
+    var DIRECTIVES = [{'name': 'ClickOutsideDirective', 'selector': '[appClickOutside]'}];
+    var ACTUAL_COMPONENT = {'name': 'NgxDhis2SelectionFiltersComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'NgxDhis2SelectionFiltersComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
