@@ -30,7 +30,7 @@
 </g>
 <g id="clust15" class="cluster">
 <title>cluster_ActionTrackerTableModule_exports</title>
-<polygon fill="none" stroke="#000000" points="79,-208 79,-260 2014,-260 2014,-208 79,-208"/>
+<polygon fill="none" stroke="#000000" points="985,-208 985,-260 1209,-260 1209,-208 985,-208"/>
 </g>
 <!-- ActionTrackerWidgetComponent -->
 <g id="node1" class="node">
@@ -47,8 +47,8 @@
 <!-- ActionTrackerWidgetComponent&#45;&gt;ActionTrackerTableModule -->
 <g id="edge1" class="edge">
 <title>ActionTrackerWidgetComponent&#45;&gt;ActionTrackerTableModule</title>
-<path fill="none" stroke="#000000" d="M1934.875,-122.1061C1934.875,-141.3391 1934.875,-169 1934.875,-169 1934.875,-169 1193.9035,-169 1193.9035,-169"/>
-<polygon fill="#000000" stroke="#000000" points="1193.9035,-165.5001 1183.9035,-169 1193.9034,-172.5001 1193.9035,-165.5001"/>
+<path fill="none" stroke="#000000" d="M1966,-122.2479C1966,-145.0179 1966,-181 1966,-181 1966,-181 1193.9006,-181 1193.9006,-181"/>
+<polygon fill="#000000" stroke="#000000" points="1193.9006,-177.5001 1183.9006,-181 1193.9005,-184.5001 1193.9006,-177.5001"/>
 </g>
 <!-- AutoFilledInputComponent -->
 <g id="node2" class="node">
@@ -59,8 +59,8 @@
 <!-- AutoFilledInputComponent&#45;&gt;ActionTrackerTableModule -->
 <g id="edge2" class="edge">
 <title>AutoFilledInputComponent&#45;&gt;ActionTrackerTableModule</title>
-<path fill="none" stroke="#000000" d="M1727.375,-122.2667C1727.375,-140.5552 1727.375,-166 1727.375,-166 1727.375,-166 1193.6589,-166 1193.6589,-166"/>
-<polygon fill="#000000" stroke="#000000" points="1193.6589,-162.5001 1183.6589,-166 1193.6589,-169.5001 1193.6589,-162.5001"/>
+<path fill="none" stroke="#000000" d="M1760,-122.2843C1760,-143.3211 1760,-175 1760,-175 1760,-175 1193.6757,-175 1193.6757,-175"/>
+<polygon fill="#000000" stroke="#000000" points="1193.6757,-171.5001 1183.6757,-175 1193.6756,-178.5001 1193.6757,-171.5001"/>
 </g>
 <!-- ClickOutsideDirective -->
 <g id="node3" class="node">
@@ -71,8 +71,8 @@
 <!-- ClickOutsideDirective&#45;&gt;ActionTrackerTableModule -->
 <g id="edge3" class="edge">
 <title>ClickOutsideDirective&#45;&gt;ActionTrackerTableModule</title>
-<path fill="none" stroke="#000000" d="M1550.801,-122.0336C1550.801,-139.0597 1550.801,-162 1550.801,-162 1550.801,-162 1193.6924,-162 1193.6924,-162"/>
-<polygon fill="#000000" stroke="#000000" points="1193.6924,-158.5001 1183.6924,-162 1193.6924,-165.5001 1193.6924,-158.5001"/>
+<path fill="none" stroke="#000000" d="M1585,-122.1061C1585,-141.3391 1585,-169 1585,-169 1585,-169 1193.6823,-169 1193.6823,-169"/>
+<polygon fill="#000000" stroke="#000000" points="1193.6823,-165.5001 1183.6823,-169 1193.6823,-172.5001 1193.6823,-165.5001"/>
 </g>
 <!-- FormComponent -->
 <g id="node4" class="node">
@@ -83,8 +83,8 @@
 <!-- FormComponent&#45;&gt;ActionTrackerTableModule -->
 <g id="edge4" class="edge">
 <title>FormComponent&#45;&gt;ActionTrackerTableModule</title>
-<path fill="none" stroke="#000000" d="M1419.1769,-122.0091C1419.1769,-138.0494 1419.1769,-159 1419.1769,-159 1419.1769,-159 1193.7613,-159 1193.7613,-159"/>
-<polygon fill="#000000" stroke="#000000" points="1193.7613,-155.5001 1183.7613,-159 1193.7613,-162.5001 1193.7613,-155.5001"/>
+<path fill="none" stroke="#000000" d="M1440,-122.0225C1440,-139.3734 1440,-163 1440,-163 1440,-163 1193.5534,-163 1193.5534,-163"/>
+<polygon fill="#000000" stroke="#000000" points="1193.5534,-159.5001 1183.5534,-163 1193.5533,-166.5001 1193.5534,-159.5001"/>
 </g>
 <!-- FormInputItemComponent -->
 <g id="node5" class="node">
@@ -95,8 +95,8 @@
 <!-- FormInputItemComponent&#45;&gt;ActionTrackerTableModule -->
 <g id="edge5" class="edge">
 <title>FormInputItemComponent&#45;&gt;ActionTrackerTableModule</title>
-<path fill="none" stroke="#000000" d="M1232.7635,-122.1243C1232.7635,-136.7832 1232.7635,-155 1232.7635,-155 1232.7635,-155 1193.7498,-155 1193.7498,-155"/>
-<polygon fill="#000000" stroke="#000000" points="1193.7498,-151.5001 1183.7498,-155 1193.7497,-158.5001 1193.7498,-151.5001"/>
+<path fill="none" stroke="#000000" d="M1283.6341,-122.2396C1283.6341,-137.5706 1283.6341,-157 1283.6341,-157 1283.6341,-157 1193.7605,-157 1193.7605,-157"/>
+<polygon fill="#000000" stroke="#000000" points="1193.7606,-153.5001 1183.7605,-157 1193.7605,-160.5001 1193.7606,-153.5001"/>
 </g>
 <!-- SelectBoxInputComponent -->
 <g id="node6" class="node">
@@ -119,8 +119,8 @@
 <!-- TextAreaInputComponent&#45;&gt;ActionTrackerTableModule -->
 <g id="edge7" class="edge">
 <title>TextAreaInputComponent&#45;&gt;ActionTrackerTableModule</title>
-<path fill="none" stroke="#000000" d="M951.625,-122.1243C951.625,-136.7832 951.625,-155 951.625,-155 951.625,-155 1000.3355,-155 1000.3355,-155"/>
-<polygon fill="#000000" stroke="#000000" points="1000.3356,-158.5001 1010.3355,-155 1000.3355,-151.5001 1000.3356,-158.5001"/>
+<path fill="none" stroke="#000000" d="M912.1499,-122.2396C912.1499,-137.5706 912.1499,-157 912.1499,-157 912.1499,-157 1000.258,-157 1000.258,-157"/>
+<polygon fill="#000000" stroke="#000000" points="1000.2581,-160.5001 1010.258,-157 1000.258,-153.5001 1000.2581,-160.5001"/>
 </g>
 <!-- TextViewComponent -->
 <g id="node8" class="node">
@@ -131,8 +131,8 @@
 <!-- TextViewComponent&#45;&gt;ActionTrackerTableModule -->
 <g id="edge8" class="edge">
 <title>TextViewComponent&#45;&gt;ActionTrackerTableModule</title>
-<path fill="none" stroke="#000000" d="M781.125,-122.0091C781.125,-138.0494 781.125,-159 781.125,-159 781.125,-159 1000.268,-159 1000.268,-159"/>
-<polygon fill="#000000" stroke="#000000" points="1000.268,-162.5001 1010.268,-159 1000.2679,-155.5001 1000.268,-162.5001"/>
+<path fill="none" stroke="#000000" d="M744,-122.0225C744,-139.3734 744,-163 744,-163 744,-163 1000.1944,-163 1000.1944,-163"/>
+<polygon fill="#000000" stroke="#000000" points="1000.1944,-166.5001 1010.1944,-163 1000.1943,-159.5001 1000.1944,-166.5001"/>
 </g>
 <!-- WidgetContextMenuComponent -->
 <g id="node9" class="node">
@@ -143,8 +143,8 @@
 <!-- WidgetContextMenuComponent&#45;&gt;ActionTrackerTableModule -->
 <g id="edge9" class="edge">
 <title>WidgetContextMenuComponent&#45;&gt;ActionTrackerTableModule</title>
-<path fill="none" stroke="#000000" d="M593.125,-122.0336C593.125,-139.0597 593.125,-162 593.125,-162 593.125,-162 1000.3808,-162 1000.3808,-162"/>
-<polygon fill="#000000" stroke="#000000" points="1000.3808,-165.5001 1010.3808,-162 1000.3808,-158.5001 1000.3808,-165.5001"/>
+<path fill="none" stroke="#000000" d="M558,-122.1061C558,-141.3391 558,-169 558,-169 558,-169 1000.4003,-169 1000.4003,-169"/>
+<polygon fill="#000000" stroke="#000000" points="1000.4004,-172.5001 1010.4003,-169 1000.4003,-165.5001 1000.4004,-172.5001"/>
 </g>
 <!-- WidgetItemLoaderComponent -->
 <g id="node10" class="node">
@@ -155,8 +155,8 @@
 <!-- WidgetItemLoaderComponent&#45;&gt;ActionTrackerTableModule -->
 <g id="edge10" class="edge">
 <title>WidgetItemLoaderComponent&#45;&gt;ActionTrackerTableModule</title>
-<path fill="none" stroke="#000000" d="M379.625,-122.2667C379.625,-140.5552 379.625,-166 379.625,-166 379.625,-166 1000.4678,-166 1000.4678,-166"/>
-<polygon fill="#000000" stroke="#000000" points="1000.4678,-169.5001 1010.4678,-166 1000.4678,-162.5001 1000.4678,-169.5001"/>
+<path fill="none" stroke="#000000" d="M346,-122.2843C346,-143.3211 346,-175 346,-175 346,-175 1000.1171,-175 1000.1171,-175"/>
+<polygon fill="#000000" stroke="#000000" points="1000.1171,-178.5001 1010.1171,-175 1000.1171,-171.5001 1000.1171,-178.5001"/>
 </g>
 <!-- WidgetNotificationBarComponent -->
 <g id="node11" class="node">
@@ -167,128 +167,20 @@
 <!-- WidgetNotificationBarComponent&#45;&gt;ActionTrackerTableModule -->
 <g id="edge11" class="edge">
 <title>WidgetNotificationBarComponent&#45;&gt;ActionTrackerTableModule</title>
-<path fill="none" stroke="#000000" d="M160.625,-122.1061C160.625,-141.3391 160.625,-169 160.625,-169 160.625,-169 1000.1681,-169 1000.1681,-169"/>
-<polygon fill="#000000" stroke="#000000" points="1000.1682,-172.5001 1010.1681,-169 1000.1681,-165.5001 1000.1682,-172.5001"/>
+<path fill="none" stroke="#000000" d="M129,-122.2479C129,-145.0179 129,-181 129,-181 129,-181 1000.2446,-181 1000.2446,-181"/>
+<polygon fill="#000000" stroke="#000000" points="1000.2446,-184.5001 1010.2446,-181 1000.2445,-177.5001 1000.2446,-184.5001"/>
 </g>
 <!-- ActionTrackerWidgetComponent  -->
 <g id="node13" class="node">
 <title>ActionTrackerWidgetComponent </title>
-<polygon fill="#fb8072" stroke="#000000" points="2005.6631,-252 1798.3369,-252 1798.3369,-216 2005.6631,-216 2005.6631,-252"/>
-<text text-anchor="middle" x="1902" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">ActionTrackerWidgetComponent </text>
+<polygon fill="#fb8072" stroke="#000000" points="1200.6631,-252 993.3369,-252 993.3369,-216 1200.6631,-216 1200.6631,-252"/>
+<text text-anchor="middle" x="1097" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">ActionTrackerWidgetComponent </text>
 </g>
 <!-- ActionTrackerTableModule&#45;&gt;ActionTrackerWidgetComponent  -->
 <g id="edge12" class="edge">
 <title>ActionTrackerTableModule&#45;&gt;ActionTrackerWidgetComponent </title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1183.7284,-173C1376.1592,-173 1821.9718,-173 1821.9718,-173 1821.9718,-173 1821.9718,-205.698 1821.9718,-205.698"/>
-<polygon fill="#000000" stroke="#000000" points="1818.4718,-205.698 1821.9718,-215.698 1825.4718,-205.698 1818.4718,-205.698"/>
-</g>
-<!-- AutoFilledInputComponent  -->
-<g id="node14" class="node">
-<title>AutoFilledInputComponent </title>
-<polygon fill="#fb8072" stroke="#000000" points="1780.5498,-252 1605.4502,-252 1605.4502,-216 1780.5498,-216 1780.5498,-252"/>
-<text text-anchor="middle" x="1693" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">AutoFilledInputComponent </text>
-</g>
-<!-- ActionTrackerTableModule&#45;&gt;AutoFilledInputComponent  -->
-<g id="edge13" class="edge">
-<title>ActionTrackerTableModule&#45;&gt;AutoFilledInputComponent </title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1183.643,-177C1334.7907,-177 1630.7281,-177 1630.7281,-177 1630.7281,-177 1630.7281,-205.9648 1630.7281,-205.9648"/>
-<polygon fill="#000000" stroke="#000000" points="1627.2282,-205.9648 1630.7281,-215.9648 1634.2282,-205.9649 1627.2282,-205.9648"/>
-</g>
-<!-- FormComponent  -->
-<g id="node15" class="node">
-<title>FormComponent </title>
-<polygon fill="#fb8072" stroke="#000000" points="1587.6663,-252 1472.3337,-252 1472.3337,-216 1587.6663,-216 1587.6663,-252"/>
-<text text-anchor="middle" x="1530" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">FormComponent </text>
-</g>
-<!-- ActionTrackerTableModule&#45;&gt;FormComponent  -->
-<g id="edge14" class="edge">
-<title>ActionTrackerTableModule&#45;&gt;FormComponent </title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1183.8784,-180C1298.0157,-180 1484.125,-180 1484.125,-180 1484.125,-180 1484.125,-205.7181 1484.125,-205.7181"/>
-<polygon fill="#000000" stroke="#000000" points="1480.6251,-205.718 1484.125,-215.7181 1487.6251,-205.7181 1480.6251,-205.718"/>
-</g>
-<!-- FormInputItemComponent  -->
-<g id="node16" class="node">
-<title>FormInputItemComponent </title>
-<polygon fill="#fb8072" stroke="#000000" points="1454.3742,-252 1283.6258,-252 1283.6258,-216 1454.3742,-216 1454.3742,-252"/>
-<text text-anchor="middle" x="1369" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">FormInputItemComponent </text>
-</g>
-<!-- ActionTrackerTableModule&#45;&gt;FormInputItemComponent  -->
-<g id="edge15" class="edge">
-<title>ActionTrackerTableModule&#45;&gt;FormInputItemComponent </title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1183.5696,-184C1248.1044,-184 1325.125,-184 1325.125,-184 1325.125,-184 1325.125,-205.9489 1325.125,-205.9489"/>
-<polygon fill="#000000" stroke="#000000" points="1321.6251,-205.9488 1325.125,-215.9489 1328.6251,-205.9489 1321.6251,-205.9488"/>
-</g>
-<!-- SelectBoxInputComponent  -->
-<g id="node17" class="node">
-<title>SelectBoxInputComponent </title>
-<polygon fill="#fb8072" stroke="#000000" points="1265.9278,-252 1094.0722,-252 1094.0722,-216 1265.9278,-216 1265.9278,-252"/>
-<text text-anchor="middle" x="1180" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">SelectBoxInputComponent </text>
-</g>
-<!-- ActionTrackerTableModule&#45;&gt;SelectBoxInputComponent  -->
-<g id="edge16" class="edge">
-<title>ActionTrackerTableModule&#45;&gt;SelectBoxInputComponent </title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1138.7786,-187.1061C1138.7786,-187.1061 1138.7786,-205.991 1138.7786,-205.991"/>
-<polygon fill="#000000" stroke="#000000" points="1135.2787,-205.9909 1138.7786,-215.991 1142.2787,-205.991 1135.2787,-205.9909"/>
-</g>
-<!-- TextAreaInputComponent  -->
-<g id="node18" class="node">
-<title>TextAreaInputComponent </title>
-<polygon fill="#fb8072" stroke="#000000" points="1075.738,-252 908.262,-252 908.262,-216 1075.738,-216 1075.738,-252"/>
-<text text-anchor="middle" x="992" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">TextAreaInputComponent </text>
-</g>
-<!-- ActionTrackerTableModule&#45;&gt;TextAreaInputComponent  -->
-<g id="edge17" class="edge">
-<title>ActionTrackerTableModule&#45;&gt;TextAreaInputComponent </title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1043.0489,-187.1061C1043.0489,-187.1061 1043.0489,-205.991 1043.0489,-205.991"/>
-<polygon fill="#000000" stroke="#000000" points="1039.549,-205.9909 1043.0489,-215.991 1046.549,-205.991 1039.549,-205.9909"/>
-</g>
-<!-- TextViewComponent  -->
-<g id="node19" class="node">
-<title>TextViewComponent </title>
-<polygon fill="#fb8072" stroke="#000000" points="890.3087,-252 749.6913,-252 749.6913,-216 890.3087,-216 890.3087,-252"/>
-<text text-anchor="middle" x="820" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">TextViewComponent </text>
-</g>
-<!-- ActionTrackerTableModule&#45;&gt;TextViewComponent  -->
-<g id="edge18" class="edge">
-<title>ActionTrackerTableModule&#45;&gt;TextViewComponent </title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1010.3772,-184C942.9566,-184 860.7677,-184 860.7677,-184 860.7677,-184 860.7677,-205.9489 860.7677,-205.9489"/>
-<polygon fill="#000000" stroke="#000000" points="857.2678,-205.9488 860.7677,-215.9489 864.2678,-205.9489 857.2678,-205.9488"/>
-</g>
-<!-- WidgetContextMenuComponent  -->
-<g id="node20" class="node">
-<title>WidgetContextMenuComponent </title>
-<polygon fill="#fb8072" stroke="#000000" points="731.5344,-252 528.4656,-252 528.4656,-216 731.5344,-216 731.5344,-252"/>
-<text text-anchor="middle" x="630" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">WidgetContextMenuComponent </text>
-</g>
-<!-- ActionTrackerTableModule&#45;&gt;WidgetContextMenuComponent  -->
-<g id="edge19" class="edge">
-<title>ActionTrackerTableModule&#45;&gt;WidgetContextMenuComponent </title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1010.1425,-180C894.2407,-180 703.4315,-180 703.4315,-180 703.4315,-180 703.4315,-205.7181 703.4315,-205.7181"/>
-<polygon fill="#000000" stroke="#000000" points="699.9315,-205.718 703.4315,-215.7181 706.9315,-205.7181 699.9315,-205.718"/>
-</g>
-<!-- WidgetItemLoaderComponent  -->
-<g id="node21" class="node">
-<title>WidgetItemLoaderComponent </title>
-<polygon fill="#fb8072" stroke="#000000" points="510.8419,-252 319.1581,-252 319.1581,-216 510.8419,-216 510.8419,-252"/>
-<text text-anchor="middle" x="415" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">WidgetItemLoaderComponent </text>
-</g>
-<!-- ActionTrackerTableModule&#45;&gt;WidgetItemLoaderComponent  -->
-<g id="edge20" class="edge">
-<title>ActionTrackerTableModule&#45;&gt;WidgetItemLoaderComponent </title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1010.2119,-177C841.23,-177 484.4518,-177 484.4518,-177 484.4518,-177 484.4518,-205.9648 484.4518,-205.9648"/>
-<polygon fill="#000000" stroke="#000000" points="480.9519,-205.9648 484.4518,-215.9648 487.9519,-205.9649 480.9519,-205.9648"/>
-</g>
-<!-- WidgetNotificationBarComponent  -->
-<g id="node22" class="node">
-<title>WidgetNotificationBarComponent </title>
-<polygon fill="#fb8072" stroke="#000000" points="300.904,-252 87.096,-252 87.096,-216 300.904,-216 300.904,-252"/>
-<text text-anchor="middle" x="194" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">WidgetNotificationBarComponent </text>
-</g>
-<!-- ActionTrackerTableModule&#45;&gt;WidgetNotificationBarComponent  -->
-<g id="edge21" class="edge">
-<title>ActionTrackerTableModule&#45;&gt;WidgetNotificationBarComponent </title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1010.3579,-173C799.4485,-173 276.5156,-173 276.5156,-173 276.5156,-173 276.5156,-205.698 276.5156,-205.698"/>
-<polygon fill="#000000" stroke="#000000" points="273.0155,-205.698 276.5156,-215.698 280.0155,-205.698 273.0155,-205.698"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1097,-187.1061C1097,-187.1061 1097,-205.991 1097,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="1093.5001,-205.9909 1097,-215.991 1100.5001,-205.991 1093.5001,-205.9909"/>
 </g>
 </g>
 </svg>

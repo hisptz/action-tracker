@@ -93,6 +93,7 @@ export class RootCauseAnalysisDataService {
     periodId,
     dashBoardId
   ) {
+    console.log('configuration data');
     return this.http.get(this._dataStoreUrl).pipe(
       switchMap((dataIds: string[]) => {
         const filteredDataIds = _.filter(dataIds, (dataId: string) => {

@@ -8,7 +8,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppComponent } from './app.component';
 import { CoreModule } from './core';
-import { DataEntryComponent } from './pages/data-entry/data-entry.component';
 import { sharedModules } from './shared';
 
 // AoT requires an exported function for factories
@@ -17,7 +16,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 @NgModule({
-  declarations: [AppComponent, DataEntryComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     HttpClientModule,

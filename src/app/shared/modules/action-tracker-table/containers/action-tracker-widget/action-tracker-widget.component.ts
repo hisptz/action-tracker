@@ -5,6 +5,9 @@ import * as _ from 'lodash';
 import { ContextMenuComponent } from 'ngx-contextmenu';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { openEntryForm } from 'src/app/core/helpers/open-entry-form.helper';
+import { RootCauseAnalysisConfiguration } from 'src/app/core/models/root-cause-analysis-configuration.model';
+import { RootCauseAnalysisData } from 'src/app/core/models/root-cause-analysis-data.model';
 import {
   AddActionTrackerData,
   CancelActionTrackerData,
@@ -21,25 +24,17 @@ import {
   getMergedActionTrackerDatasWithRowspanAttribute,
   getOveralLoadingStatus
 } from 'src/app/core/store/selectors/action-tracker-data.selectors';
+import { getDataSelections } from 'src/app/core/store/selectors/global-selection.selectors';
 import {
   getConfigurationLoadedStatus,
   getConfigurationLoadingStatus
 } from 'src/app/core/store/selectors/root-cause-analysis-configuration.selectors';
-
-import { openEntryForm } from 'src/app/core/helpers/open-entry-form.helper';
 import { getRootCauseAnalysisDataLoadedStatus } from 'src/app/core/store/selectors/root-cause-analysis-data.selectors';
 
 import * as fromRootCauseAnalysisDataActions from '../../../../../core/store/actions/root-cause-analysis-data.actions';
 import { listEnterAnimation } from '../../../../animations/list-enter-animation';
 import { generateUid } from '../../helpers';
 import { DownloadWidgetService } from '../../services/downloadWidgetService.service';
-import {
-  RootCauseAnalysisConfiguration,
-  RootCauseAnalysisData,
-  RootCauseAnalysisWidget
-} from '../../store/models';
-import { getCurrentRootCauseAnalysisWidget } from '../../store/selectors/root-cause-analysis-widget.selectors';
-import { getDataSelections } from 'src/app/core/store/selectors/global-selection.selectors';
 
 @Component({
   selector: 'app-bna-widget',
@@ -75,7 +70,6 @@ export class ActionTrackerWidgetComponent implements OnInit {
   public extraActions: ContextMenuComponent;
 
   configuration$: Observable<RootCauseAnalysisConfiguration>;
-  widget$: Observable<RootCauseAnalysisWidget>;
   data$: Observable<RootCauseAnalysisData[]>;
   actionTrackerConfiguration$: Observable<any>;
   configurationLoading$: Observable<boolean>;
@@ -102,7 +96,6 @@ export class ActionTrackerWidgetComponent implements OnInit {
     private store: Store<State>,
     private downloadWidgetService: DownloadWidgetService
   ) {
-    this.widget$ = store.select(getCurrentRootCauseAnalysisWidget);
     this.configuration$ = store.select(getMergedActionTrackerConfiguration);
     this.actionTrackerConfiguration$ = store.select(
       getCurrentActionTrackerConfig
@@ -146,9 +139,9 @@ export class ActionTrackerWidgetComponent implements OnInit {
   }
 
   onActionDelete(dataItem) {
-    var dataItemToDelete = document.getElementById(dataItem.id);
+    const dataItemToDelete = document.getElementById(dataItem.id);
     if (dataItemToDelete) {
-      var dataItemColumns = dataItemToDelete.querySelectorAll(
+      const dataItemColumns = dataItemToDelete.querySelectorAll(
         '.action-tracker-column, .solution-column'
       );
       _.map(dataItemColumns, dataItemColumn => {
@@ -161,9 +154,9 @@ export class ActionTrackerWidgetComponent implements OnInit {
   }
 
   onToggleCancelAction($event, dataItem) {
-    var dataItemToDelete = document.getElementById(dataItem.id);
+    const dataItemToDelete = document.getElementById(dataItem.id);
     if (dataItemToDelete) {
-      var dataItemColumns = dataItemToDelete.querySelectorAll(
+      const dataItemColumns = dataItemToDelete.querySelectorAll(
         '.action-tracker-column, .solution-column'
       );
       _.map(dataItemColumns, dataItemColumn => {
@@ -234,7 +227,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
   }
   checkIfSolutionHasAnAction(dataItem) {
     if (dataItem) {
-      var relatedSolutionDataItems = document.getElementsByClassName(
+      const relatedSolutionDataItems = document.getElementsByClassName(
         dataItem.rootCauseDataId
       );
 

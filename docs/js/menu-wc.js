@@ -55,13 +55,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/ActionTrackerTableModule.html" data-type="entity-link">ActionTrackerTableModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-ActionTrackerTableModule-47f0c20eff7fddaed355416ed48ae169"' : 'data-target="#xs-components-links-module-ActionTrackerTableModule-47f0c20eff7fddaed355416ed48ae169"' }>
+                                            'data-target="#components-links-module-ActionTrackerTableModule-6275081ee555333a754a77d098960567"' : 'data-target="#xs-components-links-module-ActionTrackerTableModule-6275081ee555333a754a77d098960567"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-ActionTrackerTableModule-47f0c20eff7fddaed355416ed48ae169"' :
-                                            'id="xs-components-links-module-ActionTrackerTableModule-47f0c20eff7fddaed355416ed48ae169"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-ActionTrackerTableModule-6275081ee555333a754a77d098960567"' :
+                                            'id="xs-components-links-module-ActionTrackerTableModule-6275081ee555333a754a77d098960567"' }>
                                             <li class="link">
                                                 <a href="components/ActionTrackerWidgetComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">ActionTrackerWidgetComponent</a>
@@ -106,13 +106,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     </li>
                                 <li class="chapter inner">
                                     <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                        'data-target="#directives-links-module-ActionTrackerTableModule-47f0c20eff7fddaed355416ed48ae169"' : 'data-target="#xs-directives-links-module-ActionTrackerTableModule-47f0c20eff7fddaed355416ed48ae169"' }>
+                                        'data-target="#directives-links-module-ActionTrackerTableModule-6275081ee555333a754a77d098960567"' : 'data-target="#xs-directives-links-module-ActionTrackerTableModule-6275081ee555333a754a77d098960567"' }>
                                         <span class="icon ion-md-code-working"></span>
                                         <span>Directives</span>
                                         <span class="icon ion-ios-arrow-down"></span>
                                     </div>
-                                    <ul class="links collapse" ${ isNormalMode ? 'id="directives-links-module-ActionTrackerTableModule-47f0c20eff7fddaed355416ed48ae169"' :
-                                        'id="xs-directives-links-module-ActionTrackerTableModule-47f0c20eff7fddaed355416ed48ae169"' }>
+                                    <ul class="links collapse" ${ isNormalMode ? 'id="directives-links-module-ActionTrackerTableModule-6275081ee555333a754a77d098960567"' :
+                                        'id="xs-directives-links-module-ActionTrackerTableModule-6275081ee555333a754a77d098960567"' }>
                                         <li class="link">
                                             <a href="directives/ClickOutsideDirective.html"
                                                 data-type="entity-link" data-context="sub-entity" data-context-id="modules">ClickOutsideDirective</a>
@@ -124,20 +124,16 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/AppModule.html" data-type="entity-link">AppModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-AppModule-c27891159446f47798140479924e0b87"' : 'data-target="#xs-components-links-module-AppModule-c27891159446f47798140479924e0b87"' }>
+                                            'data-target="#components-links-module-AppModule-cdaa47b2bae26dece0c7595f608518e3"' : 'data-target="#xs-components-links-module-AppModule-cdaa47b2bae26dece0c7595f608518e3"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-AppModule-c27891159446f47798140479924e0b87"' :
-                                            'id="xs-components-links-module-AppModule-c27891159446f47798140479924e0b87"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-AppModule-cdaa47b2bae26dece0c7595f608518e3"' :
+                                            'id="xs-components-links-module-AppModule-cdaa47b2bae26dece0c7595f608518e3"' }>
                                             <li class="link">
                                                 <a href="components/AppComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">AppComponent</a>
-                                            </li>
-                                            <li class="link">
-                                                <a href="components/DataEntryComponent.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">DataEntryComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -331,12 +327,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/AddRootCauseAnalysisDatas.html" data-type="entity-link">AddRootCauseAnalysisDatas</a>
                             </li>
                             <li class="link">
-                                <a href="classes/AddRootCauseAnalysisWidget.html" data-type="entity-link">AddRootCauseAnalysisWidget</a>
-                            </li>
-                            <li class="link">
-                                <a href="classes/AddRootCauseAnalysisWidgets.html" data-type="entity-link">AddRootCauseAnalysisWidgets</a>
-                            </li>
-                            <li class="link">
                                 <a href="classes/AddSystemInfo.html" data-type="entity-link">AddSystemInfo</a>
                             </li>
                             <li class="link">
@@ -365,9 +355,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="classes/ClearRootCauseAnalysisDatas.html" data-type="entity-link">ClearRootCauseAnalysisDatas</a>
-                            </li>
-                            <li class="link">
-                                <a href="classes/ClearRootCauseAnalysisWidgets.html" data-type="entity-link">ClearRootCauseAnalysisWidgets</a>
                             </li>
                             <li class="link">
                                 <a href="classes/CreateRootCauseAnalysisData.html" data-type="entity-link">CreateRootCauseAnalysisData</a>
@@ -421,12 +408,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/DeleteRootCauseAnalysisDataSuccess.html" data-type="entity-link">DeleteRootCauseAnalysisDataSuccess</a>
                             </li>
                             <li class="link">
-                                <a href="classes/DeleteRootCauseAnalysisWidget.html" data-type="entity-link">DeleteRootCauseAnalysisWidget</a>
-                            </li>
-                            <li class="link">
-                                <a href="classes/DeleteRootCauseAnalysisWidgets.html" data-type="entity-link">DeleteRootCauseAnalysisWidgets</a>
-                            </li>
-                            <li class="link">
                                 <a href="classes/Forward.html" data-type="entity-link">Forward</a>
                             </li>
                             <li class="link">
@@ -472,12 +453,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/LoadRootCauseAnalysisDatasFail.html" data-type="entity-link">LoadRootCauseAnalysisDatasFail</a>
                             </li>
                             <li class="link">
-                                <a href="classes/LoadRootCauseAnalysisWidget.html" data-type="entity-link">LoadRootCauseAnalysisWidget</a>
-                            </li>
-                            <li class="link">
-                                <a href="classes/LoadRootCauseAnalysisWidgetFail.html" data-type="entity-link">LoadRootCauseAnalysisWidgetFail</a>
-                            </li>
-                            <li class="link">
                                 <a href="classes/LoadSystemInfo.html" data-type="entity-link">LoadSystemInfo</a>
                             </li>
                             <li class="link">
@@ -506,9 +481,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="classes/SaveRootCauseAnalysisDataSuccess.html" data-type="entity-link">SaveRootCauseAnalysisDataSuccess</a>
-                            </li>
-                            <li class="link">
-                                <a href="classes/SetCurrentRootCauseAnalysisWidget.html" data-type="entity-link">SetCurrentRootCauseAnalysisWidget</a>
                             </li>
                             <li class="link">
                                 <a href="classes/UpdateActionTrackerConfiguration.html" data-type="entity-link">UpdateActionTrackerConfiguration</a>
@@ -547,12 +519,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/UpdateRootCauseAnalysisDataSuccess.html" data-type="entity-link">UpdateRootCauseAnalysisDataSuccess</a>
                             </li>
                             <li class="link">
-                                <a href="classes/UpdateRootCauseAnalysisWidget.html" data-type="entity-link">UpdateRootCauseAnalysisWidget</a>
-                            </li>
-                            <li class="link">
-                                <a href="classes/UpdateRootCauseAnalysisWidgets.html" data-type="entity-link">UpdateRootCauseAnalysisWidgets</a>
-                            </li>
-                            <li class="link">
                                 <a href="classes/UpsertActionTrackerConfiguration.html" data-type="entity-link">UpsertActionTrackerConfiguration</a>
                             </li>
                             <li class="link">
@@ -584,12 +550,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="classes/UpsertRootCauseAnalysisDatas.html" data-type="entity-link">UpsertRootCauseAnalysisDatas</a>
-                            </li>
-                            <li class="link">
-                                <a href="classes/UpsertRootCauseAnalysisWidget.html" data-type="entity-link">UpsertRootCauseAnalysisWidget</a>
-                            </li>
-                            <li class="link">
-                                <a href="classes/UpsertRootCauseAnalysisWidgets.html" data-type="entity-link">UpsertRootCauseAnalysisWidgets</a>
                             </li>
                         </ul>
                     </li>
@@ -647,12 +607,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <a href="injectables/RootCauseAnalysisDataService.html" data-type="entity-link">RootCauseAnalysisDataService</a>
                                 </li>
                                 <li class="link">
-                                    <a href="injectables/RootCauseAnalysisWidgetEffects.html" data-type="entity-link">RootCauseAnalysisWidgetEffects</a>
-                                </li>
-                                <li class="link">
-                                    <a href="injectables/RootCauseAnalysisWidgetService.html" data-type="entity-link">RootCauseAnalysisWidgetService</a>
-                                </li>
-                                <li class="link">
                                     <a href="injectables/RouterEffects.html" data-type="entity-link">RouterEffects</a>
                                 </li>
                                 <li class="link">
@@ -687,9 +641,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/ActionTrackerData.html" data-type="entity-link">ActionTrackerData</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/ActionTrackerWidgetState.html" data-type="entity-link">ActionTrackerWidgetState</a>
-                            </li>
-                            <li class="link">
                                 <a href="interfaces/ErrorMessage.html" data-type="entity-link">ErrorMessage</a>
                             </li>
                             <li class="link">
@@ -706,9 +657,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="interfaces/RootCauseAnalysisData.html" data-type="entity-link">RootCauseAnalysisData</a>
-                            </li>
-                            <li class="link">
-                                <a href="interfaces/RootCauseAnalysisWidget.html" data-type="entity-link">RootCauseAnalysisWidget</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/RouterStateUrl.html" data-type="entity-link">RouterStateUrl</a>
@@ -742,12 +690,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="interfaces/State-8.html" data-type="entity-link">State</a>
-                            </li>
-                            <li class="link">
-                                <a href="interfaces/State-9.html" data-type="entity-link">State</a>
-                            </li>
-                            <li class="link">
-                                <a href="interfaces/State-10.html" data-type="entity-link">State</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/SystemInfo.html" data-type="entity-link">SystemInfo</a>
