@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import * as _ from 'lodash';
 @Component({
   selector: 'action-tracker-form',
@@ -8,30 +9,35 @@ import * as _ from 'lodash';
 export class FormComponent implements OnInit {
   @Input() dataItem;
   @Input() configurations;
+
   @Output() cancel: EventEmitter<any> = new EventEmitter<any>();
 
   @Output() save: EventEmitter<any> = new EventEmitter<any>();
 
-  actionDescription = '';
-  actionPeriod = '';
-  responsiblePerson = '';
-  designationTitle = '';
-  actionStatus = '';
-  reviewDate = '';
-  remarks = '';
+  actionTrackerForm: FormGroup;
+  formArray: {};
+  constructor(private formBuilder: FormBuilder) {}
 
-  constructor() {}
-
-  ngOnInit() {}
+  ngOnInit() {
+    this.formArray = {};
+    const dataElements = this.configurations
+      ? this.configurations.dataElements
+      : [];
+    _.map(_.filter(dataElements, 'isActionTrackerColumn'), dataElement => {
+      this.formArray[dataElement.formControlName] = this.dataItem
+        ? this.dataItem.dataValues
+          ? this.dataItem.dataValues[dataElement.id]
+          : ''
+        : '';
+    });
+    this.actionTrackerForm = this.formBuilder.group(this.formArray);
+  }
 
   onDataEntryCancel(event, dataItem) {
+    this.actionTrackerForm.reset();
     this.cancel.emit(dataItem);
   }
-  onDataEntrySave(event, dataItem, dataElement) {
-    if (event) {
-      event.stopPropagation();
-    }
-
+  onDataEntrySave(dataItem, dataElement) {
     const actionTrackerData = {};
     const selectionParams = {};
     const dataValueStructure = {};
@@ -51,14 +57,18 @@ export class FormComponent implements OnInit {
         ];
     }
     _.map(_.filter(dataElement, 'isActionTrackerColumn'), dataValue => {
-      dataValueStructure[dataValue.id] = dataValue.formControlName
-        ? dataValue.formControlName
-        : '';
+      dataValueStructure[dataValue.id] =
+        dataValue.formControlName && this.actionTrackerForm.value
+          ? this.actionTrackerForm.value[dataValue.formControlName]
+          : '';
     });
+    dataItem.id && !dataItem.isNewRow
+      ? (actionTrackerData['id'] = dataItem.id)
+      : null;
     actionTrackerData['dataValues'] = dataValueStructure;
     selectionParams['rootCauseDataId'] = dataItem.rootCauseDataId;
 
     this.save.emit({ ...actionTrackerData, selectionParams });
-    actionTrackerData['rootCauseDataId'] = dataItem.id;
+    // actionTrackerData['rootCauseDataId'] = dataItem.id;
   }
 }

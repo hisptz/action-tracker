@@ -1,4 +1,4 @@
-<div *ngIf="dataLoaded$ | async">
+<div>
   <table
     class="table table-bordered table-responsive"
     #rootCauseAnalysisTable
@@ -15,9 +15,17 @@
         >
           {{ dataElement.name }}
         </th>
-        <th width="2%">Actions</th>
+        <th width="130px">Actions</th>
       </tr>
     </thead>
+    <tbody *ngIf="dataLoading$ | async">
+      <tr>
+        <td colspan="100%">
+          <div>{{ (notification$ | async)?.message }}</div>
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </td>
+      </tr>
+    </tbody>
     <tbody *ngIf="data$ | async as rootCauseAnalysisData" [@listEnter]>
       <tr
         *ngFor="
@@ -25,9 +33,32 @@
           let i = index;
           trackBy: dataItem?.id
         "
+        class="{{ dataItem?.rootCauseDataId }}"
         id="{{ dataItem?.id || dataItem?.rootCauseDataId }}"
+        [contextMenu]="extraActions"
+        [contextMenuSubject]="dataItem"
       >
         <td>{{ i + 1 }}</td>
+        <td [attr.colspan]="11" *ngIf="toBeDeleted[dataItem.id]" align="center">
+          Are you sure wish to delete this data? <br />
+          <button
+            class="btn btn-sm btn-success"
+            (click)="onToggleCancelAction($event, dataItem)"
+          >
+            <i class="icon-cancel"></i> No</button
+          >&nbsp;
+          <button
+            class="btn btn-sm btn-danger"
+            (click)="
+              onConfirmActionDelete(
+                dataItem,
+                rootCauseAnalysisConfiguration.dataElements
+              )
+            "
+          >
+            <i class="icon-ok-circled2"></i> Yes
+          </button>
+        </td>
         <td
           [hidden]="dataElement.isHidden || toBeDeleted[dataItem.id]"
           *ngFor="
@@ -35,7 +66,9 @@
             let j = index
           "
           [ngClass]="{
-            'action-tracker-column': dataElement.isActionTrackerColumn
+            'for-display': !dataElement.isHidden,
+            'action-tracker-column': dataElement.isActionTrackerColumn,
+            'solution-column': !dataElement.isActionTrackerColumn
           }"
         >
           <ng-container id="dataItem?.id_dataElement?.id">
@@ -48,47 +81,50 @@
               "
               class="form-control auto-filled-label table-cell-data"
             >
-              {{ dataItem.dataValues[dataElement.id] }}
+              <app-text-view
+                *ngIf="dataElement.valueType === 'TEXTAREA'"
+                [text]="dataItem.dataValues[dataElement.id]"
+              ></app-text-view>
+              <div *ngIf="dataElement.valueType !== 'TEXTAREA'">
+                {{ dataItem.dataValues[dataElement.id] }}
+              </div>
             </div>
           </ng-container>
-          <a
-            title="Save when done"
-            class="text-secondary custom-done-icon"
-            (click)="onDoneEditing($event, dataItem)"
-            *ngIf="
-              j == rootCauseAnalysisConfiguration.dataElements.length - 1 &&
-              dataItem.isActive
-            "
-          >
-            <i class="icon-ok-circled2"></i
-          ></a>
         </td>
-        {{
-          dataElement
-        }}
-        <td class="action-tracker-column">
+
+        <td
+          class="action-tracker-column"
+          [hidden]="!dataItem.rowspan"
+          [attr.rowspan]="dataItem.rowspan"
+        >
           <div class="action-tracker-form-wrapper" hidden="true">
             <action-tracker-form
               [dataItem]="dataItem"
               [configurations]="actionTrackerConfiguration$ | async"
-              (save)="onSave($event)"
-              (cancel)="cancelDataEntryForm($event)"
+              (save)="onSave($event, dataItem)"
+              (cancel)="cancelDataEntryForm($event, rootCauseAnalysisData)"
             ></action-tracker-form>
           </div>
-          <button
-            class="btn btn-outline-secondary btn-add-action"
-            (click)="openActionTrackerEntryForm($event, dataItem)"
-          >
-            <i class="fa fa-plus"></i>
-          </button>
+          <div class="add-action-block">
+            <button
+              class="btn btn-sm btn-primary d-flex align-items-center btn-add-action"
+              title="Click to add new action"
+              (click)="
+                onAddAction($event, dataItem, rootCauseAnalysisConfiguration)
+              "
+            >
+              <i class="fa fa-plus"></i
+              ><span class="ml-1 add-action-text">Add Action</span>
+            </button>
+          </div>
         </td>
       </tr>
-      <tr *ngIf="!rootCauseAnalysisData.length">
+      <tr *ngIf="(dataSelections$ | async).length === 0">
         <td colspan="100%" class="text-sm text-secondary">
           <p class="text-center mb-0">
             <i>
-              No registered root causes for {{ selectedOrgUnit }} in
-              {{ selectedPeriod }}
+              Select Intervention, Period and Organisation unit to view manage
+              your actions
             </i>
           </p>
         </td>
@@ -96,24 +132,31 @@
     </tbody>
   </table>
 
-  <div *ngIf="(!configurationLoaded$ | async) && !(dataLoaded$ | async)">
-    <div class="d-flex my-1">
-      <div class="flex-fill mx-1" *ngFor="let count of [1, 2, 3, 4, 5, 6, 7]">
-        <app-widget-item-loader [height]="'40px'"></app-widget-item-loader>
-      </div>
-    </div>
-    <div class="d-flex my-1">
-      <div class="flex-fill mx-1" *ngFor="let count of [1, 2, 3, 4, 5, 6, 7]">
-        <app-widget-item-loader [height]="'40px'"></app-widget-item-loader>
-      </div>
-    </div>
-    <div class="d-flex justify-content-between my-2 mx-1">
-      <div style="width: 150px;">
-        <app-widget-item-loader [height]="'40px'"></app-widget-item-loader>
-      </div>
-      <div style="width: 150px;">
-        <app-widget-item-loader [height]="'40px'"></app-widget-item-loader>
-      </div>
-    </div>
+  <div *ngIf="(configurationLoading$ | async) || !(configuration$ | async)">
+    <div>Discovering Configurations</div>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </div>
 </div>
+
+<context-menu
+  [useBootstrap4]="true"
+  *ngIf="configuration$ | async as rootCauseAnalysisConfiguration"
+>
+  <ng-template
+    contextMenuItem
+    class="text-muted px-2"
+    (execute)="onActionEdit($event.item)"
+  >
+    Edit
+  </ng-template>
+  <hr />
+  <ng-template
+    contextMenuItem
+    class="text-muted px-2"
+    (execute)="
+      onActionDelete($event.item, rootCauseAnalysisConfiguration?.dataElements)
+    "
+  >
+    Delete
+  </ng-template>
+</context-menu>

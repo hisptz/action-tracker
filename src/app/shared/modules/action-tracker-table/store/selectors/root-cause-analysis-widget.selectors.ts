@@ -1,9 +1,9 @@
-import { createSelector } from "@ngrx/store";
+import { createSelector } from '@ngrx/store';
 import {
   getActionTrackerWidgetState,
   ActionTrackerWidgetState
-} from "../reducers";
-import * as fromRootCauseWidget from "../reducers/root-cause-analysis-widget.reducer";
+} from '../reducers';
+import * as fromRootCauseWidget from '../reducers/root-cause-analysis-widget.reducer';
 
 export const getRootCauseAnalysisWidgetState = createSelector(
   getActionTrackerWidgetState,

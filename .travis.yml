@@ -29,6 +29,8 @@ cache:
 
 install:
   - pushd $TRAVIS_BUILD_DIR
+  - npm install --save-dev @angular/cli@latest
+  - ng analytics off
   - npm install
 
 script:

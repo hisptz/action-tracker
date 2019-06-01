@@ -125,7 +125,7 @@ export function reducer(
     }
 
     case RootCauseAnalysisDataActionTypes.LoadRootCauseAnalysisDatas: {
-      return {
+      return adapter.removeAll({
         ...state,
         loading: true,
         loaded: false,
@@ -133,7 +133,7 @@ export function reducer(
         notification: {
           message: 'Loading Root Cause Analysis Data'
         }
-      };
+      });
     }
 
     case RootCauseAnalysisDataActionTypes.ClearRootCauseAnalysisDatas: {

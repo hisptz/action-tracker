@@ -6,14 +6,21 @@ export enum ActionTrackerDataActionTypes {
   LoadActionTrackerDatas = '[ActionTrackerData] Load ActionTrackerDatas',
   LoadActionTrackerDatasFail = '[ActionTrackerData] Load ActionTrackerData fail',
   AddActionTrackerData = '[ActionTrackerData] Add ActionTrackerData',
+  AddActionTrackerDataFail = '[ActionTrackerData] Add ActionTrackerData Fail',
+  AddActionTrackerDataSuccess = '[ActionTrackerData] Add ActionTrackerData Success',
   UpsertActionTrackerData = '[ActionTrackerData] Upsert ActionTrackerData',
   AddActionTrackerDatas = '[ActionTrackerData] Add ActionTrackerDatas',
   UpsertActionTrackerDatas = '[ActionTrackerData] Upsert ActionTrackerDatas',
   UpdateActionTrackerData = '[ActionTrackerData] Update ActionTrackerData',
   UpdateActionTrackerDatas = '[ActionTrackerData] Update ActionTrackerDatas',
   DeleteActionTrackerData = '[ActionTrackerData] Delete ActionTrackerData',
+  DeleteActionTrackerDataSuccess = '[ActionTrackerData] Delete ActionTrackerData Success',
+  DeleteActionTrackerDataFail = '[ActionTrackerData] Delete ActionTrackerData Fail',
   DeleteActionTrackerDatas = '[ActionTrackerData] Delete ActionTrackerDatas',
   ClearActionTrackerDatas = '[ActionTrackerData] Clear ActionTrackerDatas',
+  CancelActionTrackerData = '[ActionTrackerData] Cancel ActionTrackerData',
+  CancelActionTrackerDataSuccess = '[ActionTrackerData] Cancel ActionTrackerData Success',
+  CancelActionTrackerDataFail = '[ActionTrackerData] Cancel ActionTrackerData Fail',
   SaveActionTrackerData = '[ActionTrackerData] Save ActionTrackerData',
   SaveActionTrackerDataSuccess = '[ActionTrackerData] Save ActionTrackerData Success',
   SaveActionTrackerDataFail = '[ActionTrackerData] Save ActionTrackerData Fail'
@@ -33,7 +40,36 @@ export class LoadActionTrackerDatasFail implements Action {
 export class AddActionTrackerData implements Action {
   readonly type = ActionTrackerDataActionTypes.AddActionTrackerData;
 
-  constructor(public payload: { actionTrackerData: ActionTrackerData }) {}
+  constructor(public actionTrackerData: ActionTrackerData) {}
+}
+
+export class AddActionTrackerDataFail implements Action {
+  readonly type = ActionTrackerDataActionTypes.AddActionTrackerDataFail;
+
+  constructor(public actionTrackerData: ActionTrackerData) {}
+}
+
+export class AddActionTrackerDataSuccess implements Action {
+  readonly type = ActionTrackerDataActionTypes.AddActionTrackerDataSuccess;
+
+  constructor(public actionTrackerData: ActionTrackerData) {}
+}
+export class CancelActionTrackerData implements Action {
+  readonly type = ActionTrackerDataActionTypes.CancelActionTrackerData;
+
+  constructor(public actionTrackerData: any) {}
+}
+
+export class CancelActionTrackerDataFail implements Action {
+  readonly type = ActionTrackerDataActionTypes.CancelActionTrackerDataFail;
+
+  constructor(public actionTrackerData: ActionTrackerData) {}
+}
+
+export class CancelActionTrackerDataSuccess implements Action {
+  readonly type = ActionTrackerDataActionTypes.CancelActionTrackerDataSuccess;
+
+  constructor(public actionTrackerData: ActionTrackerData) {}
 }
 
 export class UpsertActionTrackerData implements Action {
@@ -73,7 +109,21 @@ export class UpdateActionTrackerDatas implements Action {
 export class DeleteActionTrackerData implements Action {
   readonly type = ActionTrackerDataActionTypes.DeleteActionTrackerData;
 
-  constructor(public payload: { id: string }) {}
+  constructor(
+    public actionTrackerData: any,
+    public actionTrackerDataId?: string
+  ) {}
+}
+
+export class DeleteActionTrackerDataSuccess implements Action {
+  readonly type = ActionTrackerDataActionTypes.DeleteActionTrackerDataSuccess;
+
+  constructor(public id: string) {}
+}
+
+export class DeleteActionTrackerDataFail implements Action {
+  readonly type = ActionTrackerDataActionTypes.DeleteActionTrackerDataFail;
+  constructor(public actionTrackerData: ActionTrackerData, public error: any) {}
 }
 
 export class DeleteActionTrackerDatas implements Action {
@@ -111,12 +161,19 @@ export type ActionTrackerDataActions =
   | LoadActionTrackerDatas
   | LoadActionTrackerDatasFail
   | AddActionTrackerData
+  | AddActionTrackerDataSuccess
+  | AddActionTrackerDataFail
+  | CancelActionTrackerData
+  | CancelActionTrackerDataSuccess
+  | CancelActionTrackerDataFail
   | UpsertActionTrackerData
   | AddActionTrackerDatas
   | UpsertActionTrackerDatas
   | UpdateActionTrackerData
   | UpdateActionTrackerDatas
   | DeleteActionTrackerData
+  | DeleteActionTrackerDataFail
+  | DeleteActionTrackerDataSuccess
   | DeleteActionTrackerDatas
   | ClearActionTrackerDatas
   | SaveActionTrackerData

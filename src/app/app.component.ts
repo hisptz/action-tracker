@@ -3,13 +3,11 @@ import { Title } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import * as _ from 'lodash';
 
-import { getQueryParams } from './core/helpers/get-query-params.helper';
-import { Go } from './core/store/actions';
 import { UpsertDataSelectionsAction } from './core/store/actions/global-selection.actions';
 import { State } from './core/store/reducers';
-import { getRouterParams, getRouteUrl } from './core/store/selectors';
+import { getRouterParams } from './core/store/selectors';
 import { getDataSelections } from 'src/app/core/store/selectors/global-selection.selectors';
 
 @Component({

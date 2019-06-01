@@ -4,6 +4,8 @@ import {
   ActionTrackerDataActions,
   ActionTrackerDataActionTypes
 } from '../actions/action-tracker-data.actions';
+import * as _ from 'lodash';
+import { openEntryForm } from '../../helpers/open-entry-form.helper';
 
 export interface State extends EntityState<ActionTrackerData> {
   // additional entities state properties
@@ -11,7 +13,7 @@ export interface State extends EntityState<ActionTrackerData> {
   isActive: boolean;
   loading: boolean;
   loaded: boolean;
-  notification: { message: string };
+  notification: { message: string; completed: boolean };
   savingColor: string;
   showNotification: boolean;
   showDeleteConfirmation: boolean;
@@ -43,7 +45,12 @@ export function reducer(
 ): State {
   switch (action.type) {
     case ActionTrackerDataActionTypes.AddActionTrackerData: {
-      return adapter.addOne(action.payload.actionTrackerData, state);
+      return adapter.addOne(action.actionTrackerData, state);
+    }
+
+    case ActionTrackerDataActionTypes.AddActionTrackerDataSuccess: {
+      openEntryForm(action.actionTrackerData);
+      return state;
     }
 
     case ActionTrackerDataActionTypes.UpsertActionTrackerData: {
@@ -57,6 +64,7 @@ export function reducer(
         loaded: true,
         showNotification: false,
         notification: {
+          completed: true,
           message: 'Action Data Loaded'
         }
       });
@@ -78,8 +86,24 @@ export function reducer(
       return adapter.updateMany(action.payload.actionTrackerDatas, state);
     }
 
+    case ActionTrackerDataActionTypes.CancelActionTrackerData: {
+      return adapter.removeOne(action.actionTrackerData.id, state);
+    }
+
+    case ActionTrackerDataActionTypes.CancelActionTrackerDataSuccess: {
+      // openEntryForm(action.actionTrackerData);
+      return state;
+    }
+
     case ActionTrackerDataActionTypes.DeleteActionTrackerData: {
-      return adapter.removeOne(action.payload.id, state);
+      if (!action.actionTrackerData) {
+        return state;
+      }
+      return adapter.removeOne(action.actionTrackerData, state);
+    }
+
+    case ActionTrackerDataActionTypes.DeleteActionTrackerDataSuccess: {
+      return adapter.removeOne(action.id, { ...state });
     }
 
     case ActionTrackerDataActionTypes.DeleteActionTrackerDatas: {
@@ -95,6 +119,19 @@ export function reducer(
         return state;
       }
       return adapter.upsertOne(action.actionTrackerData, state);
+    }
+
+    case ActionTrackerDataActionTypes.LoadActionTrackerDatas: {
+      return adapter.removeAll({
+        ...state,
+        loading: true,
+        loaded: false,
+        showNotification: true,
+        notification: {
+          completed: false,
+          message: 'Loading Action Tracker Data'
+        }
+      });
     }
 
     default: {

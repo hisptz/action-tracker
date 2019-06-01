@@ -10,7 +10,7 @@ export interface State extends EntityState<RootCauseAnalysisData> {
   isActive: boolean;
   loading: boolean;
   loaded: boolean;
-  notification: { message: string };
+  notification: { message: string; completed?: boolean; errored?: boolean };
   savingColor: string;
   showNotification: boolean;
   showDeleteConfirmation: boolean;
@@ -55,6 +55,7 @@ export function reducer(
         loaded: true,
         showNotification: false,
         notification: {
+          completed: true,
           message: 'Root Cause Analysis Data Loaded'
         }
       });
@@ -87,6 +88,7 @@ export function reducer(
           isActive: false,
           showNotification: false,
           notification: {
+            completed: true,
             message: `Data has been successfully updated`
           }
         }
@@ -115,6 +117,7 @@ export function reducer(
         ...state,
         showNotification: true,
         notification: {
+          completed: false,
           message: 'Deleting This Root Cause Analysis Data'
         }
       });
@@ -125,15 +128,16 @@ export function reducer(
     }
 
     case RootCauseAnalysisDataActionTypes.LoadRootCauseAnalysisDatas: {
-      return {
+      return adapter.removeAll({
         ...state,
         loading: true,
         loaded: false,
         showNotification: true,
         notification: {
+          completed: false,
           message: 'Loading Root Cause Analysis Data'
         }
-      };
+      });
     }
 
     case RootCauseAnalysisDataActionTypes.ClearRootCauseAnalysisDatas: {
@@ -172,6 +176,7 @@ export function reducer(
           isActive: false,
           showNotification: false,
           notification: {
+            completed: true,
             message: `Data has been successfully saved`
           }
         }
@@ -197,6 +202,7 @@ export function reducer(
           ...state,
           showNotification: true,
           notification: {
+            completed: false,
             message: `Saving Analysis Data `
           }
         }
@@ -209,6 +215,7 @@ export function reducer(
         isActive: false,
         showNotification: false,
         notification: {
+          completed: true,
           message: `Data successfully saved`
         },
         savingColor: 'green'
@@ -220,6 +227,8 @@ export function reducer(
         ...state,
         showNotification: false,
         notification: {
+          completed: false,
+          errored: true,
           message: `Could not save data ${action.error.message}`
         },
         savingColor: 'red'
