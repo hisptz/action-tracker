@@ -28,13 +28,13 @@ export const defaultDataSetElements = [
   {
     id: generateUid(),
     name: 'Action Status',
-    valueType: 'PERIOD',
+    valueType: 'SELECT',
     optionSetValue: false
   },
   {
     id: generateUid(),
     name: 'Review Date',
-    valueType: 'TEXT',
+    valueType: 'PERIOD',
     optionSetValue: false
   },
   {
