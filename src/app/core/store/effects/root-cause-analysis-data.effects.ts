@@ -11,7 +11,6 @@ import {
   withLatestFrom
 } from 'rxjs/operators';
 import { State } from 'src/app/core/store/reducers';
-import { ActionTrackerWidgetState } from 'src/app/shared/modules/action-tracker-table/store';
 
 import { RootCauseAnalysisData } from '../../models/root-cause-analysis-data.model';
 import { RootCauseAnalysisDataService } from '../../services/root-cause-analysis-data.service';
@@ -184,7 +183,6 @@ export class RootCauseAnalysisDataEffects {
   constructor(
     private actions$: Actions,
     private rootCauseAnalysisDataService: RootCauseAnalysisDataService,
-    private store: Store<ActionTrackerWidgetState>,
     private rootStore: Store<State>
   ) {}
 }

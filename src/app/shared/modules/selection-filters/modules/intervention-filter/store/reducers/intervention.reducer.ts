@@ -45,7 +45,7 @@ export function reducer(
     }
 
     case InterventionActionTypes.AddInterventions: {
-      return adapter.addMany(action.interventions, {
+      return adapter.addMany(action.interventions || [], {
         ...state,
         loaded: true,
         loading: false

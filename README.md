@@ -1,11 +1,12 @@
+# Action Tracker App
+
 [![Build Status](https://travis-ci.org/hisptz/action-tracker.svg?branch=master)](https://travis-ci.org/hisptz/action-tracker)
 [![dependencies Status](https://david-dm.org/hisptz/action-tracker/status.svg)](https://david-dm.org/hisptz/action-tracker)
 [![devDependencies Status](https://david-dm.org/hisptz/action-tracker/dev-status.svg)](https://david-dm.org/hisptz/action-tracker?type=dev)
-[![Maintainability](https://api.codeclimate.com/v1/badges/dbe97dbdfbd55344c38f/maintainability)](https://codeclimate.com/github/hisptz/action-tracker/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/dbe97dbdfbd55344c38f/test_coverage)](https://codeclimate.com/github/hisptz/action-tracker/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/12080951d506ae2cdd2d/maintainability)](https://codeclimate.com/github/hisptz/action-tracker/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/12080951d506ae2cdd2d/test_coverage)](https://codeclimate.com/github/hisptz/action-tracker/test_coverage)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
-
-# Action Tracker App
+[![Greenkeeper badge](https://badges.greenkeeper.io/hisptz/action-tracker.svg)](https://greenkeeper.io/)
 
 The action tracker is a management tool that helps improve effective coverage of priority interventions at district and community level, covering various intervention such as maternal, newborn, and child health (MNCH), HIV, and nutrition. This process ensures appropriate equity analysis at the sub-national level with the aim of identifying underserved populations and the specific bottlenecks they face in accessing life-saving healthcare. The action tracker is part of the coverage, and bottleneck analysis that utilizes DHIS2’s analytical features to track and assess national and sub-national level performance for purposes of improving health service delivery.
 

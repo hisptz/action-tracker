@@ -2,22 +2,17 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
 import { ContextMenuModule } from 'ngx-contextmenu';
 import { NgPipesModule } from 'ngx-pipes';
 
 import { components } from './components';
 import { containers } from './containers';
 import { directives } from './directives';
-import { effects } from './store/effects';
-import { reducers } from './store/reducers';
-import { DatePickerComponent } from './components/date-picker/date-picker.component';
+import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  declarations: [...containers, ...components, ...directives, DatePickerComponent],
-  exports: [...containers, ...components, ReactiveFormsModule],
+  declarations: [...containers, ...components, ...directives],
+  exports: [...containers, ReactiveFormsModule],
   imports: [
     CommonModule,
     FormsModule,
@@ -25,9 +20,7 @@ import { DatePickerComponent } from './components/date-picker/date-picker.compon
     MatProgressBarModule,
     NgbDatepickerModule,
     ContextMenuModule.forRoot(),
-    NgPipesModule,
-    StoreModule.forFeature('actionTrackerWidget', reducers),
-    EffectsModule.forFeature(effects)
+    NgPipesModule
   ]
 })
 export class ActionTrackerTableModule {}
