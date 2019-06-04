@@ -11,11 +11,7 @@
       >
         <div
           class="col"
-          *ngIf="
-            dataElement &&
-            (dataElement?.valueType == 'TEXT' ||
-              dataElement?.valueType == 'PERIOD')
-          "
+          *ngIf="dataElement && dataElement?.valueType == 'TEXT'"
         >
           <label for="{{ dataItem?.id }}_{{ dataElement?.id }}"
             >{{ dataElement?.name }}
@@ -27,8 +23,40 @@
             placeholder="{{ dataElement?.name }}"
             formControlName="{{ dataElement.formControlName }}"
             id="{{ dataItem?.id }}_{{ dataElement?.id }}"
-            required
           />
+        </div>
+        <div
+          class="col"
+          *ngIf="
+            dataElement &&
+            (dataElement?.valueType == 'RANGEPERIOD' ||
+              dataElement?.valueType == 'PERIOD')
+          "
+        >
+          <label for="{{ dataItem?.id }}_{{ dataElement?.id }}"
+            >{{ dataElement?.name }}
+          </label>
+          <app-date-picker
+            [periodUI]="dataElement?.valueType"
+            [defaultValue]="
+              (actionTrackerForm?.value)[(dataElement?.formControlName)]
+            "
+            [rangeSelector]="rangeSelectorParams"
+            (singleSelectionDate)="
+              setReviewDate(
+                $event,
+                actionTrackerForm,
+                dataElement.formControlName
+              )
+            "
+            (rangeSelectionDate)="
+              setActionPeriod(
+                $event,
+                actionTrackerForm,
+                dataElement.formControlName
+              )
+            "
+          ></app-date-picker>
         </div>
         <div
           class="col"

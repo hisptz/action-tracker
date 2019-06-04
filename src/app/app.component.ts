@@ -48,24 +48,6 @@ export class AppComponent {
   }
 
   onFilterUpdate(dataSelections) {
-    const fixedSelections = [];
-    _.map(dataSelections, dataSelectionItem => {
-      dataSelectionItem.dimension == 'ou'
-        ? fixedSelections.push({
-            dimension: 'ou',
-            items: [
-              {
-                id: 'GD7TowwI46c',
-                name: 'User Org-unit',
-                type: 'USER_ORGANISATION_UNIT'
-              }
-            ],
-            changed: true,
-            layout: 'columns'
-          })
-        : fixedSelections.push(dataSelectionItem);
-    });
-
-    this.store.dispatch(new UpsertDataSelectionsAction(fixedSelections));
+    this.store.dispatch(new UpsertDataSelectionsAction(dataSelections));
   }
 }

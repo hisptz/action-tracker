@@ -10,7 +10,7 @@ export const defaultDataSetElements = [
   {
     id: generateUid(),
     name: 'Action Period',
-    valueType: 'PERIOD',
+    valueType: 'RANGEPERIOD',
     optionSetValue: false
   },
   {

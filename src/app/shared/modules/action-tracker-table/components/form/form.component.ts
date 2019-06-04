@@ -14,6 +14,13 @@ export class FormComponent implements OnInit {
 
   @Output() save: EventEmitter<any> = new EventEmitter<any>();
 
+  rangeSelectorParams = {
+    displayMonths: 2,
+    navigation: 'select',
+    showWeekNumbers: false,
+    outsideDays: 'visible'
+  };
+
   actionTrackerForm: FormGroup;
   formArray: {};
   constructor(private formBuilder: FormBuilder) {}
@@ -31,8 +38,58 @@ export class FormComponent implements OnInit {
         : '';
     });
     this.actionTrackerForm = this.formBuilder.group(this.formArray);
+    // this.actionTrackerForm.valueChanges.subscribe(object => {
+    //   console.log(object);
+    // });
   }
 
+  setReviewDate(reviewDateObject, actionTrackerForm, dataElement) {
+    if (actionTrackerForm) {
+      actionTrackerForm.value
+        ? (actionTrackerForm.value[dataElement] = _.join(
+            [
+              reviewDateObject.year,
+              _.lt(reviewDateObject.month, 10)
+                ? '0' + _.toString(reviewDateObject.month)
+                : reviewDateObject.month,
+              reviewDateObject.day
+            ],
+            '-'
+          ))
+        : null;
+    }
+  }
+
+  setActionPeriod(reviewDateObject, actionTrackerForm, dataElement) {
+    if (actionTrackerForm) {
+      const startDate = reviewDateObject.fromDate;
+      const endDate = reviewDateObject.toDate;
+      actionTrackerForm.value
+        ? (actionTrackerForm.value[dataElement] =
+            _.join(
+              [
+                startDate.year,
+                _.lt(startDate.month, 10)
+                  ? '0' + _.toString(startDate.month)
+                  : startDate.month,
+                startDate.day
+              ],
+              '/'
+            ) +
+            '-' +
+            _.join(
+              [
+                endDate.year,
+                _.lt(endDate.month, 10)
+                  ? '0' + _.toString(endDate.month)
+                  : endDate.month,
+                endDate.day
+              ],
+              '/'
+            ))
+        : null;
+    }
+  }
   onDataEntryCancel(event, dataItem) {
     this.actionTrackerForm.reset();
     this.cancel.emit(dataItem);
@@ -69,6 +126,5 @@ export class FormComponent implements OnInit {
     selectionParams['rootCauseDataId'] = dataItem.rootCauseDataId;
 
     this.save.emit({ ...actionTrackerData, selectionParams });
-    // actionTrackerData['rootCauseDataId'] = dataItem.id;
   }
 }

@@ -1,0 +1,66 @@
+<span class="form-inline" *ngIf="periodUI == 'RANGEPERIOD'">
+  <div class="form-group">
+    <div class="input-group">
+      <input
+        class="form-control"
+        value="{{ defaultValue }}"
+        [autoClose]="outside"
+        [dayTemplate]="rangeSelectorTemplate"
+        name="dp"
+        [displayMonths]="rangeSelector.displayMonths"
+        [navigation]="rangeSelector.navigation"
+        [outsideDays]="rangeSelector.outsideDays"
+        (dateSelect)="onDateSelection($event)"
+        [showWeekNumbers]="rangeSelector.showWeekNumbers"
+        ngbDatepicker
+        #rangeDatePicker="ngbDatepicker"
+      />
+      <ng-template #rangeSelectorTemplate let-date let-focused="focused">
+        <span
+          class="custom-day"
+          [class.focused]="focused"
+          [class.range]="isRange(date)"
+          [class.faded]="isHovered(date) || isInside(date)"
+          (mouseenter)="hoveredDate = date"
+          (mouseleave)="hoveredDate = null"
+        >
+          {{ date.day }}
+        </span>
+      </ng-template>
+      <div class="input-group-append">
+        <button
+          class="btn btn-outline-secondary calendar"
+          (click)="rangeDatePicker.toggle()"
+          type="button"
+        >
+          <i class="fa fa-calendar"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</span>
+
+<span class="form-inline" *ngIf="periodUI == 'PERIOD'">
+  <div class="form-group">
+    <div class="input-group">
+      <input
+        class="form-control"
+        value="{{ defaultValue }}"
+        name="sdp"
+        [(ngModel)]="model"
+        (dateSelect)="onReviewDateSelection($event)"
+        ngbDatepicker
+        #singleDatePicker="ngbDatepicker"
+      />
+      <div class="input-group-append">
+        <button
+          class="btn btn-outline-secondary calendar"
+          (click)="singleDatePicker.toggle()"
+          type="button"
+        >
+          <i class="fa fa-calendar"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</span>
