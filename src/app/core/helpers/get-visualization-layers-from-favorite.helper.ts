@@ -23,7 +23,7 @@ export function getVisualizationLayersFromFavorite(
         analytics: null,
         config: {
           ...favoriteLayer,
-          type: favoriteLayer.type ? favoriteLayer.type : 'COLUMN'
+          type: 'LINE'
         }
       };
     }

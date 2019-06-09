@@ -30,7 +30,6 @@ export class AppComponent {
     private translate: TranslateService,
     private titleService: Title
   ) {
-    this.store.select(getRouterParams).subscribe();
     // this language will be used as a fallback when a translation isn't found in the current language
     this.translate.setDefaultLang('en');
 
@@ -43,8 +42,6 @@ export class AppComponent {
 
   public setTitle(newTitle: string) {
     this.titleService.setTitle(newTitle);
-
-    this.dataSelections$ = this.store.select(getDataSelections);
   }
 
   onFilterUpdate(dataSelections) {

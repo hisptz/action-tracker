@@ -1,24 +1,33 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType, Effect } from '@ngrx/effects';
+import { LoadFunctions } from '@iapps/ngx-dhis2-data-filter';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { State } from '../reducers';
 import * as _ from 'lodash';
+import { forkJoin, of } from 'rxjs';
+import { concatMap, map, switchMap, withLatestFrom } from 'rxjs/operators';
+
+import { generateUid } from '../../helpers/generate-uid.helper';
+import { getVisualizationLayersFromFavorite } from '../../helpers/get-visualization-layers-from-favorite.helper';
+import { RootCauseAnalysisConfiguration } from '../../models/root-cause-analysis-configuration.model';
+import { ReportService } from '../../services/report.service';
+import { AddCurrentUser, UserActionTypes } from '../actions';
+import { addReportVisualizations } from '../actions/report-visualization.actions';
 import {
   AddRootCauseAnalysisDatas,
   RootCauseAnalysisDataActionTypes
 } from '../actions/root-cause-analysis-data.actions';
-import { concatMap, withLatestFrom, switchMap, map } from 'rxjs/operators';
-import { of, from, forkJoin } from 'rxjs';
+import { State } from '../reducers';
 import { getDataSelections } from '../selectors/global-selection.selectors';
 import { getCurrentRootCauseAnalysisConfiguration } from '../selectors/root-cause-analysis-configuration.selectors';
-import { RootCauseAnalysisConfiguration } from '../../models/root-cause-analysis-configuration.model';
-import { ReportService } from '../../services/report.service';
-import { getVisualizationLayersFromFavorite } from '../../helpers/get-visualization-layers-from-favorite.helper';
-import { generateUid } from '../../helpers/generate-uid.helper';
-import { addReportVisualizations } from '../actions/report-visualization.actions';
 
 @Injectable()
 export class ReportEffects {
+  @Effect()
+  addCurrentUser$ = this.actions$.pipe(
+    ofType(UserActionTypes.AddCurrentUser),
+    map((action: AddCurrentUser) => new LoadFunctions(action.currentUser))
+  );
+
   @Effect()
   loadRootCauseDataSuccess$ = this.actions$.pipe(
     ofType(RootCauseAnalysisDataActionTypes.AddRootCauseAnalysisDatas),
@@ -83,6 +92,23 @@ export class ReportEffects {
               );
               return {
                 id: generateUid(),
+                type: 'CHART',
+                isNonVisualizable: false,
+                name: 'Intervention',
+                uiConfig: {
+                  shape: 'NORMAL',
+                  height: '450px',
+                  width: 'span 12',
+                  showBody: true,
+                  showFilters: false,
+                  hideFooter: true,
+                  hideHeader: false,
+                  hideManagementBlock: true,
+                  hideTypeButtons: false,
+                  showInterpretionBlock: true,
+                  hideResizeButtons: true,
+                  showTitleBlock: false
+                },
                 layers: visualizationLayers
               };
             });

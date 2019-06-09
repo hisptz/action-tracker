@@ -1,4 +1,4 @@
-import { filter, find, map, omit } from 'lodash';
+import { filter, find, map, omit, uniqBy } from 'lodash';
 
 export function updateSelectionsWithBottleneckParams(
   dataSelections: any[],
@@ -22,10 +22,22 @@ export function updateSelectionsWithBottleneckParams(
         return omit(
           {
             ...dataSelection,
-            items: [...bottleneckIndicators, ...effectiveCoverageIndicators]
+            layout: 'columns',
+            items: uniqBy(
+              [...bottleneckIndicators, ...effectiveCoverageIndicators],
+              'id'
+            )
           },
           'groups'
         );
+      }
+
+      case 'pe': {
+        return { ...dataSelection, layout: 'rows' };
+      }
+
+      case 'ou': {
+        return { ...dataSelection, layout: 'filters' };
       }
 
       default:
