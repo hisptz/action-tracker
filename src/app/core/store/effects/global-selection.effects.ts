@@ -27,6 +27,7 @@ export class GlobalSelectionEffects {
           action.dataSelections,
           actionTrackerConfig
         );
+
         dataParams.forEach((params: any) => {
           // Load root cause analysis data
           this.store.dispatch(new LoadRootCauseAnalysisDatas(params));
