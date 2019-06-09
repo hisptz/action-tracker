@@ -15,6 +15,7 @@ import { RootCauseAnalysisConfiguration } from '../../models/root-cause-analysis
 import { ReportService } from '../../services/report.service';
 import { getVisualizationLayersFromFavorite } from '../../helpers/get-visualization-layers-from-favorite.helper';
 import { generateUid } from '../../helpers/generate-uid.helper';
+import { addReportVisualizations } from '../actions/report-visualization.actions';
 
 @Injectable()
 export class ReportEffects {
@@ -85,8 +86,7 @@ export class ReportEffects {
                 layers: visualizationLayers
               };
             });
-            console.log(visualizations);
-            return null;
+            return addReportVisualizations({ visualizations });
           })
         );
       }
