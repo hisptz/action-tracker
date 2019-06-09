@@ -14,6 +14,7 @@ import { getCurrentRootCauseAnalysisConfiguration } from '../selectors/root-caus
 import { RootCauseAnalysisConfiguration } from '../../models/root-cause-analysis-configuration.model';
 import { ReportService } from '../../services/report.service';
 import { getVisualizationLayersFromFavorite } from '../../helpers/get-visualization-layers-from-favorite.helper';
+import { generateUid } from '../../helpers/generate-uid.helper';
 
 @Injectable()
 export class ReportEffects {
@@ -73,11 +74,18 @@ export class ReportEffects {
           )
         ).pipe(
           map((favorites: any[]) => {
-            console.log(
-              favorites.map((favorite: any) =>
-                getVisualizationLayersFromFavorite(favorite)
-              )
-            );
+            const visualizations = favorites.map((favorite: any) => {
+              const visualizationLayers = getVisualizationLayersFromFavorite(
+                favorite,
+                dataSelections,
+                bottleneckIndicatorIds
+              );
+              return {
+                id: generateUid(),
+                layers: visualizationLayers
+              };
+            });
+            console.log(visualizations);
             return null;
           })
         );

@@ -1,10 +1,21 @@
 import { getSelectionDimensionsFromFavorite } from './get-selection-dimensions-from-favorite.helper';
 import { getVisualizationLayout } from './get-visualization-layout.helper';
 
-export function getVisualizationLayersFromFavorite(favorite: any) {
+import { updateSelectionsWithBottleneckParams } from './update-selections-with-bottleneck.helper';
+
+export function getVisualizationLayersFromFavorite(
+  favorite: any,
+  globalSelections: any[],
+  bottleneckIndicatorIds: string[] = []
+) {
   return (favorite ? favorite.mapViews || [favorite] : []).map(
     favoriteLayer => {
-      const dataSelections = getSelectionDimensionsFromFavorite(favoriteLayer);
+      const dataSelections = updateSelectionsWithBottleneckParams(
+        getSelectionDimensionsFromFavorite(favoriteLayer),
+        globalSelections,
+        bottleneckIndicatorIds
+      );
+
       return {
         id: favoriteLayer.id,
         dataSelections,
