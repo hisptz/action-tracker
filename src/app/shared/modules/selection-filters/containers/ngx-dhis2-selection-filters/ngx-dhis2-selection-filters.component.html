@@ -180,6 +180,7 @@
     <ngx-dhis2-period-filter
       *ngIf="selectedFilter === 'PERIOD'"
       [selectedPeriods]="selectedPeriods"
+      [periodFilterConfig]="{ singleSelection: true }"
       (close)="onFilterClose($event, 'PERIOD')"
       (update)="onFilterUpdate($event, 'PERIOD')"
     ></ngx-dhis2-period-filter>

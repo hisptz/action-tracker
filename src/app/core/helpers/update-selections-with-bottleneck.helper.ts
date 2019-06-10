@@ -1,4 +1,5 @@
-import { filter, find, map, omit, uniqBy } from 'lodash';
+import { filter, find, map, omit, uniqBy, take, reverse } from 'lodash';
+import { getPeriodsBasedOnType } from '@iapps/ngx-dhis2-period-filter';
 
 export function updateSelectionsWithBottleneckParams(
   dataSelections: any[],
@@ -33,11 +34,32 @@ export function updateSelectionsWithBottleneckParams(
       }
 
       case 'pe': {
-        return { ...dataSelection, layout: 'rows' };
+        const periodSelection =
+          find(globalSelections, ['dimension', dataSelection.dimension]) ||
+          dataSelection;
+
+        const period = (periodSelection.items || [])[0];
+        const date = new Date();
+        const currentYear = date.getFullYear();
+
+        return {
+          ...periodSelection,
+          items: reverse(
+            filter(
+              getPeriodsBasedOnType(period.type, currentYear) || [],
+              (periodItem: any) => periodItem.id >= period.id
+            )
+          ),
+          layout: 'rows'
+        };
       }
 
       case 'ou': {
-        return { ...dataSelection, layout: 'filters' };
+        return {
+          ...(find(globalSelections, ['dimension', dataSelection.dimension]) ||
+            dataSelection),
+          layout: 'filters'
+        };
       }
 
       default:

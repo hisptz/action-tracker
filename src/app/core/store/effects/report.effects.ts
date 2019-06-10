@@ -4,7 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { forkJoin, of } from 'rxjs';
-import { concatMap, map, switchMap, withLatestFrom, tap } from 'rxjs/operators';
+import { concatMap, map, tap, withLatestFrom } from 'rxjs/operators';
 
 import { generateUid } from '../../helpers/generate-uid.helper';
 import { getVisualizationLayersFromFavorite } from '../../helpers/get-visualization-layers-from-favorite.helper';
