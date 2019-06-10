@@ -4,7 +4,7 @@
     #rootCauseAnalysisTable
     *ngIf="configuration$ | async as rootCauseAnalysisConfiguration"
   >
-    <thead class="table-header-cell thead-light">
+    <thead class="table-header-cell">
       <tr>
         <th width="1%">SN.</th>
         <th
@@ -15,7 +15,7 @@
         >
           {{ dataElement.name }}
         </th>
-        <th width="130px">Actions</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody *ngIf="dataLoading$ | async">
@@ -40,24 +40,27 @@
       >
         <td>{{ i + 1 }}</td>
         <td [attr.colspan]="11" *ngIf="toBeDeleted[dataItem.id]" align="center">
-          Are you sure wish to delete this data? <br />
-          <button
-            class="btn btn-sm btn-success"
-            (click)="onToggleCancelAction($event, dataItem)"
-          >
-            <i class="icon-cancel"></i> No</button
-          >&nbsp;
-          <button
-            class="btn btn-sm btn-danger"
-            (click)="
-              onConfirmActionDelete(
-                dataItem,
-                rootCauseAnalysisConfiguration.dataElements
-              )
-            "
-          >
-            <i class="icon-ok-circled2"></i> Yes
-          </button>
+          <div class="d-flex align-items-center justify-content-end">
+            <span>Are you sure wish to delete this data?</span>&nbsp;
+            <button
+              mat-stroked-button
+              (click)="onToggleCancelAction($event, dataItem)"
+            >
+              No</button
+            >&nbsp;
+            <button
+              mat-flat-button
+              color="warn"
+              (click)="
+                onConfirmActionDelete(
+                  dataItem,
+                  rootCauseAnalysisConfiguration.dataElements
+                )
+              "
+            >
+              Yes
+            </button>
+          </div>
         </td>
         <td
           [hidden]="dataElement.isHidden || toBeDeleted[dataItem.id]"
@@ -107,14 +110,14 @@
           </div>
           <div class="add-action-block">
             <button
-              class="btn btn-sm btn-primary d-flex align-items-center btn-add-action"
+              mat-icon-button
+              class="btn-add-action"
               title="Click to add new action"
               (click)="
                 onAddAction($event, dataItem, rootCauseAnalysisConfiguration)
               "
             >
-              <i class="fa fa-plus"></i
-              ><span class="ml-1 add-action-text">Add Action</span>
+              <i class="fa fa-plus"></i>
             </button>
           </div>
         </td>
@@ -149,21 +152,15 @@
   [useBootstrap4]="true"
   *ngIf="configuration$ | async as rootCauseAnalysisConfiguration"
 >
-  <ng-template
-    contextMenuItem
-    class="text-muted px-2"
-    (execute)="onActionEdit($event.item)"
-  >
-    Edit
+  <ng-template contextMenuItem (execute)="onActionEdit($event.item)">
+    <a class="context-menu-item"> <i class="fa fa-pencil"></i> Edit </a>
   </ng-template>
-  <hr />
   <ng-template
     contextMenuItem
-    class="text-muted px-2"
     (execute)="
       onActionDelete($event.item, rootCauseAnalysisConfiguration?.dataElements)
     "
   >
-    Delete
+    <a class="context-menu-item"> <i class="fa fa-trash-o"></i> Delete </a>
   </ng-template>
 </context-menu>

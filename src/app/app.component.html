@@ -2,22 +2,19 @@
   <ngx-dhis2-menu></ngx-dhis2-menu>
   <div class="application-content">
     <!-- application header -->
-    <app-navigation-bar></app-navigation-bar>
+    <div class="navbar-container">
+      <app-navigation-bar></app-navigation-bar>
+    </div>
     <!-- end of application header -->
 
-    <div class="container-fluid">
+    <div class="container-fluid application-content-container">
       <!-- application filter -->
       <div class="row mt-3">
         <div class="col-12 d-flex justify-content-between">
-          <div class="">
+          <div>
             <ngx-dhis2-selection-filters
               (filterUpdate)="onFilterUpdate($event)"
             ></ngx-dhis2-selection-filters>
-          </div>
-          <div>
-            <button class="btn btn-outline-secondary">
-              <i class="fa fa-cog"></i> Settings
-            </button>
           </div>
         </div>
       </div>

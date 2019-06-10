@@ -8,12 +8,10 @@
     <div class="selection-filter-btn-list">
       <!--data filter button-->
       <button
+        mat-stroked-button
         [disabled]="saving"
         *ngIf="filterConfig?.showDataFilter && currentUserHasAuthorities"
-        [ngClass]="{
-          'selection-filter-btn': true,
-          'active-filter': selectedFilter === 'DATA'
-        }"
+        color="{{ selectedFilter === 'DATA' ? 'primary' : 'dark' }}"
         [title]="'Filter by data' | translate"
         (click)="toggleCurrentFilter($event, 'DATA')"
       >
@@ -28,9 +26,10 @@
 
       <!--data filter button-->
       <button
+        mat-stroked-button
         [disabled]="saving"
         *ngIf="filterConfig?.showDataFilter"
-        class="btn btn-outline-secondary"
+        color="{{ selectedFilter === 'INTERVENTION' ? 'primary' : '' }}"
         [title]="'Filter by data' | translate"
         (click)="toggleCurrentFilter($event, 'INTERVENTION')"
       >
@@ -68,9 +67,10 @@
 
       <!--period filter button-->
       <button
+        mat-stroked-button
         [disabled]="saving"
         *ngIf="filterConfig?.showPeriodFilter"
-        class="btn btn-outline-secondary"
+        color="{{ selectedFilter === 'PERIOD' ? 'primary' : '' }}"
         [title]="'Filter by period' | translate"
         (click)="toggleCurrentFilter($event, 'PERIOD')"
       >
@@ -89,13 +89,14 @@
 
       <!--org unit filter button-->
       <button
+        mat-stroked-button
         [disabled]="saving"
         *ngIf="filterConfig?.showOrgUnitFilter"
-        class="btn btn-outline-secondary d-flex align-items-center"
+        color="{{ selectedFilter === 'ORG_UNIT' ? 'primary' : '' }}"
         [title]="'Filter by organisation unit' | translate"
         (click)="toggleCurrentFilter($event, 'ORG_UNIT')"
       >
-        <img [src]="orgUnitIcon" alt="" />&nbsp;{{ 'Org-Unit' | translate }}
+        <i class="fa fa-sitemap"></i>&nbsp;{{ 'Org-Unit' | translate }}
         &nbsp;
         <span class="badge badge-secondary">{{
           selectedOrgUnits | summarizeSelection
