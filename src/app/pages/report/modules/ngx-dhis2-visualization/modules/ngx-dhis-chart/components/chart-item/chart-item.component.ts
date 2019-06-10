@@ -44,7 +44,7 @@ export class ChartItemComponent implements OnInit {
 
   constructor(private visualizationExportService: VisualizationExportService) {
     this.chartTypes = CHART_TYPES;
-    this.showOptions = true;
+    this.showOptions = false;
   }
 
   ngOnInit() {

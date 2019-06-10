@@ -121,20 +121,27 @@
       </tr>
       <tr *ngIf="(dataSelections$ | async).length === 0">
         <td colspan="100%" class="text-sm text-secondary">
-          <p class="text-center mb-0">
-            <i>
-              Select Intervention, Period and Organisation unit to view manage
-              your actions
-            </i>
-          </p>
+          <mat-card>
+            <mat-card-content>
+              <i>
+                Select Intervention, Period and Organisation unit to view manage
+                your actions
+              </i>
+            </mat-card-content></mat-card
+          >
         </td>
       </tr>
     </tbody>
   </table>
 
   <div *ngIf="(configurationLoading$ | async) || !(configuration$ | async)">
-    <div>Discovering Configurations</div>
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <mat-card>
+      <mat-card-content>
+        <div>Discovering Configurations</div>
+        <mat-progress-bar
+          mode="indeterminate"
+        ></mat-progress-bar></mat-card-content
+    ></mat-card>
   </div>
 </div>
 

@@ -123,7 +123,7 @@ export function reducer(
         showNotification: true,
         notification: {
           completed: false,
-          message: 'Deleting This Root Cause Analysis Data'
+          message: 'Deleting Root Cause Analysis Data'
         }
       });
     }
@@ -241,7 +241,7 @@ export function reducer(
     }
 
     case RootCauseAnalysisDataActionTypes.SetRootCauseDataCount: {
-      return { ...state, dataCount: action.dataCount };
+      return { ...state, dataCount: action.dataCount, completedDataCount: 0 };
     }
 
     default: {

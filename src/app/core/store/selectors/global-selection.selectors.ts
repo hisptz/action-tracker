@@ -21,3 +21,8 @@ export const getDataSelectionParams = createSelector(
     return getDataParams(dataSelections, currentActionTrackerCurrent);
   }
 );
+
+export const getDataSelectionStatus = createSelector(
+  getDataSelections,
+  (dataSelections: any[]) => dataSelections.length > 0
+);

@@ -117,7 +117,7 @@ export class ReportEffects {
                       hideFooter: true,
                       hideHeader: false,
                       hideManagementBlock: true,
-                      hideTypeButtons: false,
+                      hideTypeButtons: true,
                       showInterpretionBlock: true,
                       hideResizeButtons: true,
                       showTitleBlock: false

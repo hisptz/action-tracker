@@ -1,10 +1,34 @@
-<div class="row">
+<div class="row" *ngIf="!(visualizationsLoading$ | async)">
   <div
-    class="col-12 mt-3"
+    class="col-12 mb-3"
     *ngFor="let reportVisualization of reportVisualizations$ | async"
   >
     <ngx-dhis2-visualization
       [visualizationObject]="reportVisualization"
     ></ngx-dhis2-visualization>
+  </div>
+</div>
+<div class="row">
+  <div
+    class="col-12"
+    *ngIf="!(selectionSet$ | async) && !(visualizationsLoading$ | async)"
+  >
+    <mat-card>
+      <mat-card-content>
+        <i>
+          Select Intervention, Period and Organisation unit to view actions
+          report
+        </i>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="col-12" *ngIf="visualizationsLoading$ | async">
+    <mat-card>
+      <mat-card-content>
+        <div>Discovering Actions report</div>
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </mat-card-content>
+    </mat-card>
   </div>
 </div>

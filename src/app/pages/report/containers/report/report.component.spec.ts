@@ -7,6 +7,8 @@ import { reducers, metaReducers } from 'src/app/core/store/reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { effects } from 'src/app/core/store/effects';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 describe('ReportComponent', () => {
   let component: ReportComponent;
@@ -17,6 +19,8 @@ describe('ReportComponent', () => {
       imports: [
         RouterTestingModule,
         NgxDhis2VisualizationModule,
+        MatCardModule,
+        MatProgressBarModule,
         StoreModule.forRoot(reducers, { metaReducers }),
         EffectsModule.forRoot(effects)
       ],

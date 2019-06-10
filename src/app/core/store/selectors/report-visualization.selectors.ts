@@ -1,6 +1,10 @@
 import { createSelector } from '@ngrx/store';
+
 import { getRootState, State } from '../reducers';
-import { adapter } from '../reducers/report-visualization.reducer';
+import {
+  adapter,
+  ReportVisualizationState
+} from '../reducers/report-visualization.reducer';
 
 export const getReportVisualizationState = createSelector(
   getRootState,
@@ -9,4 +13,9 @@ export const getReportVisualizationState = createSelector(
 
 export const { selectAll: getReportVisualizations } = adapter.getSelectors(
   getReportVisualizationState
+);
+
+export const getReportVisualizationLoadingStatus = createSelector(
+  getReportVisualizationState,
+  (state: ReportVisualizationState) => state.loading
 );

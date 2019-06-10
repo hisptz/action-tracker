@@ -16,6 +16,7 @@ import { RootCauseAnalysisData } from '../../models/root-cause-analysis-data.mod
 import { RootCauseAnalysisDataService } from '../../services/root-cause-analysis-data.service';
 import * as fromRootCauseAnalysisDataActions from '../actions/root-cause-analysis-data.actions';
 import { getRouterParams } from '../selectors';
+import { loadReportVisualizations } from '../actions/report-visualization.actions';
 
 @Injectable()
 export class RootCauseAnalysisDataEffects {
@@ -27,6 +28,7 @@ export class RootCauseAnalysisDataEffects {
     ),
     mergeMap(
       (action: fromRootCauseAnalysisDataActions.LoadRootCauseAnalysisDatas) => {
+        this.rootStore.dispatch(loadReportVisualizations);
         return this.rootCauseAnalysisDataService
           .getRootCauseAnalysisData(
             action.dataParams.rootCauseConfig,
