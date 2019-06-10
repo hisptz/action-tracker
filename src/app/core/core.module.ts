@@ -26,6 +26,7 @@ import {
 import { effects } from './store/effects';
 import { metaReducers, reducers } from './store/reducers';
 import { RouteSerializer } from './utils';
+import { MatButtonModule } from '@angular/material/button';
 
 export function initialize(dhis2ApiService: Dhis2ApiService) {
   return () => dhis2ApiService.initialize();
@@ -39,14 +40,14 @@ export function initializeDb(indexDbServiceConfig: IndexDbServiceConfig) {
   imports: [
     CommonModule,
     HttpClientModule,
-
+    MatButtonModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(effects),
 
     RoutingModule,
 
     // ngrx/router-store keeps router state up-to-date in the store
-    StoreRouterConnectingModule,
+    StoreRouterConnectingModule.forRoot(),
 
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],

@@ -1,64 +1,116 @@
-<div *ngIf="configurations">
-  <form
-    [formGroup]="actionTrackerForm"
-    (ngSubmit)="onDataEntrySave(dataItem, configurations.dataElements)"
-  >
-    <div class="row">
-      <div
-        *ngFor="let dataElement of configurations.dataElements; let last = last"
-        [ngClass]="{ 'col-4': !last, 'custom-text-area': last }"
-        [hidden]="!dataElement.isActionTrackerColumn"
-      >
-        <div
-          class="col"
-          *ngIf="
-            dataElement &&
-            (dataElement?.valueType == 'TEXT' ||
-              dataElement?.valueType == 'PERIOD')
-          "
-        >
-          <label for="{{ dataItem?.id }}_{{ dataElement?.id }}"
-            >{{ dataElement?.name }}
-          </label>
-          <input
-            type="text"
-            class="form-control"
-            *ngIf="dataElement.formControlName"
-            placeholder="{{ dataElement?.name }}"
-            formControlName="{{ dataElement.formControlName }}"
-            id="{{ dataItem?.id }}_{{ dataElement?.id }}"
-            required
-          />
-        </div>
-        <div class="col" *ngIf="dataElement?.valueType == 'TEXTAREA'">
-          <label for="{{ dataItem?.id }}_{{ dataElement?.id }}">{{
-            dataElement?.name
-          }}</label>
-          <textarea
-            class="form-control"
-            *ngIf="dataElement.formControlName"
-            formControlName="{{ dataElement.formControlName }}"
-            id="{{ dataItem?.id }}_{{ dataElement?.id }}"
-            placeholder="{{ dataElement?.name }}"
-            tabindex="j-9"
-            autofocus
-          ></textarea>
-        </div>
-      </div>
+<div *ngIf="configurations" class="row">
+  <div class="col-12">
+    <form
+      [formGroup]="actionTrackerForm"
+      (ngSubmit)="onDataEntrySave(dataItem, configurations.dataElements)"
+    >
+      <legend class="border-bottom mb-2">Action</legend>
       <div class="row">
-        <div class="mx-4 my-3 px-2" style="float: right">
-          <button class="btn btn-outline-secondary mr-2" type="submit">
-            Save
-          </button>
-          <button
-            type="reset"
-            class="btn btn-outline-secondary"
-            (click)="onDataEntryCancel($event, dataItem)"
+        <div
+          *ngFor="
+            let dataElement of configurations.dataElements;
+            let last = last
+          "
+          [ngClass]="{ 'col-4': !last, 'custom-text-area': last }"
+          [hidden]="!dataElement.isActionTrackerColumn"
+        >
+          <div
+            class="form-group"
+            *ngIf="dataElement && dataElement?.valueType == 'TEXT'"
           >
-            Cancel
-          </button>
+            <label for="{{ dataItem?.id }}_{{ dataElement?.id }}"
+              >{{ dataElement?.name }}
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              *ngIf="dataElement.formControlName"
+              placeholder="{{ dataElement?.name }}"
+              formControlName="{{ dataElement.formControlName }}"
+              id="{{ dataItem?.id }}_{{ dataElement?.id }}"
+            />
+          </div>
+          <div
+            class="form-group"
+            *ngIf="
+              dataElement &&
+              (dataElement?.valueType == 'RANGEPERIOD' ||
+                dataElement?.valueType == 'PERIOD')
+            "
+          >
+            <label for="{{ dataItem?.id }}_{{ dataElement?.id }}"
+              >{{ dataElement?.name }}
+            </label>
+            <app-date-picker
+              [periodUI]="dataElement?.valueType"
+              [defaultValue]="
+                (actionTrackerForm?.value)[(dataElement?.formControlName)]
+              "
+              [rangeSelector]="rangeSelectorParams"
+              (singleSelectionDate)="
+                setReviewDate(
+                  $event,
+                  actionTrackerForm,
+                  dataElement.formControlName
+                )
+              "
+              (rangeSelectionDate)="
+                setActionPeriod(
+                  $event,
+                  actionTrackerForm,
+                  dataElement.formControlName
+                )
+              "
+            ></app-date-picker>
+          </div>
+          <div
+            class="form-group"
+            *ngIf="dataElement && dataElement?.valueType == 'SELECT'"
+          >
+            <label for="{{ dataItem?.id }}_{{ dataElement?.id }}"
+              >{{ dataElement?.name }}
+            </label>
+            <select
+              class="form-control"
+              *ngIf="dataElement.formControlName"
+              formControlName="{{ dataElement.formControlName }}"
+              id="{{ dataItem?.id }}_{{ dataElement?.id }}"
+            >
+              <option value="Not Started">Not Started</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Done">Done</option>
+            </select>
+          </div>
+          <div class="form-group" *ngIf="dataElement?.valueType == 'TEXTAREA'">
+            <label for="{{ dataItem?.id }}_{{ dataElement?.id }}">{{
+              dataElement?.name
+            }}</label>
+            <textarea
+              class="form-control"
+              *ngIf="dataElement.formControlName"
+              formControlName="{{ dataElement.formControlName }}"
+              id="{{ dataItem?.id }}_{{ dataElement?.id }}"
+              placeholder="{{ dataElement?.name }}"
+              tabindex="j-9"
+              autofocus
+            ></textarea>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group">
+            <button mat-flat-button color="primary" type="submit">
+              Save</button
+            >&nbsp;
+            <button
+              type="reset"
+              mat-stroked-button
+              (click)="onDataEntryCancel($event, dataItem)"
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>

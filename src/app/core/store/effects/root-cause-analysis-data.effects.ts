@@ -11,12 +11,12 @@ import {
   withLatestFrom
 } from 'rxjs/operators';
 import { State } from 'src/app/core/store/reducers';
-import { ActionTrackerWidgetState } from 'src/app/shared/modules/action-tracker-table/store';
 
 import { RootCauseAnalysisData } from '../../models/root-cause-analysis-data.model';
 import { RootCauseAnalysisDataService } from '../../services/root-cause-analysis-data.service';
 import * as fromRootCauseAnalysisDataActions from '../actions/root-cause-analysis-data.actions';
 import { getRouterParams } from '../selectors';
+import { loadReportVisualizations } from '../actions/report-visualization.actions';
 
 @Injectable()
 export class RootCauseAnalysisDataEffects {
@@ -28,6 +28,7 @@ export class RootCauseAnalysisDataEffects {
     ),
     mergeMap(
       (action: fromRootCauseAnalysisDataActions.LoadRootCauseAnalysisDatas) => {
+        this.rootStore.dispatch(loadReportVisualizations);
         return this.rootCauseAnalysisDataService
           .getRootCauseAnalysisData(
             action.dataParams.rootCauseConfig,
@@ -184,7 +185,6 @@ export class RootCauseAnalysisDataEffects {
   constructor(
     private actions$: Actions,
     private rootCauseAnalysisDataService: RootCauseAnalysisDataService,
-    private store: Store<ActionTrackerWidgetState>,
     private rootStore: Store<State>
   ) {}
 }

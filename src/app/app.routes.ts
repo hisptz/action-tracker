@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { DataEntryComponent } from './pages/data-entry/data-entry.component';
 
 export const routes: Routes = [
   {
@@ -10,11 +9,15 @@ export const routes: Routes = [
   },
   {
     path: 'data-entry',
-    component: DataEntryComponent
+    loadChildren: () =>
+      import('./pages/data-entry/data-entry.module').then(
+        m => m.DataEntryModule
+      )
   },
   {
     path: 'report',
-    loadChildren: () => import('./pages/report/report.module').then(m => m.ReportModule)
+    loadChildren: () =>
+      import('./pages/report/report.module').then(m => m.ReportModule)
   }
 ];
 

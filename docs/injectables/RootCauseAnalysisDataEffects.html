@@ -105,12 +105,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(actions$: Actions, rootCauseAnalysisDataService: <a href="../injectables/RootCauseAnalysisDataService.html">RootCauseAnalysisDataService</a>, store: Store<ActionTrackerWidgetState>, rootStore: Store<State>)</code>
+<code>constructor(actions$: Actions, rootCauseAnalysisDataService: <a href="../injectables/RootCauseAnalysisDataService.html">RootCauseAnalysisDataService</a>, rootStore: Store<State>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="181" class="link-to-prism">src/app/core/store/effects/root-cause-analysis-data.effects.ts:181</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="180" class="link-to-prism">src/app/core/store/effects/root-cause-analysis-data.effects.ts:180</a></div>
                             </td>
                         </tr>
 
@@ -144,18 +144,6 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/RootCauseAnalysisDataService.html" target="_self" >RootCauseAnalysisDataService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>store</td>
-                                                  
-                                                        <td>
-                                                                    <code>Store&lt;ActionTrackerWidgetState&gt;</code>
                                                         </td>
                                                   
                                                     <td>
@@ -266,7 +254,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">src/app/core/store/effects/root-cause-analysis-data.effects.ts:95</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="94" class="link-to-prism">src/app/core/store/effects/root-cause-analysis-data.effects.ts:94</a></div>
                             </td>
                         </tr>
 
@@ -348,7 +336,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="140" class="link-to-prism">src/app/core/store/effects/root-cause-analysis-data.effects.ts:140</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="139" class="link-to-prism">src/app/core/store/effects/root-cause-analysis-data.effects.ts:139</a></div>
                             </td>
                         </tr>
 
@@ -420,7 +408,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/core/store/effects/root-cause-analysis-data.effects.ts:24</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/core/store/effects/root-cause-analysis-data.effects.ts:23</a></div>
                             </td>
                         </tr>
 
@@ -495,7 +483,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/core/store/effects/root-cause-analysis-data.effects.ts:58</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/core/store/effects/root-cause-analysis-data.effects.ts:57</a></div>
                             </td>
                         </tr>
 
@@ -521,7 +509,6 @@ import {
   withLatestFrom
 } from &#x27;rxjs/operators&#x27;;
 import { State } from &#x27;src/app/core/store/reducers&#x27;;
-import { ActionTrackerWidgetState } from &#x27;src/app/shared/modules/action-tracker-table/store&#x27;;
 
 import { RootCauseAnalysisData } from &#x27;../../models/root-cause-analysis-data.model&#x27;;
 import { RootCauseAnalysisDataService } from &#x27;../../services/root-cause-analysis-data.service&#x27;;
@@ -694,7 +681,6 @@ export class RootCauseAnalysisDataEffects {
   constructor(
     private actions$: Actions,
     private rootCauseAnalysisDataService: RootCauseAnalysisDataService,
-    private store: Store&lt;ActionTrackerWidgetState&gt;,
     private rootStore: Store&lt;State&gt;
   ) {}
 }

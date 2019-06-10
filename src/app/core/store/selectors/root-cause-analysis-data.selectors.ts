@@ -1,14 +1,12 @@
 import { createSelector } from '@ngrx/store';
 import * as _ from 'lodash';
 
-import {
-  RootCauseAnalysisConfiguration,
-  RootCauseAnalysisData
-} from '../../../shared/modules/action-tracker-table/store/models';
 import { getRootState, State as RootState } from '../reducers';
 import { adapter, State } from '../reducers/root-cause-analysis-data.reducer';
 import { getCurrentRootCauseAnalysisConfiguration } from './root-cause-analysis-configuration.selectors';
 import { getRouterParams } from './router.selectors';
+import { RootCauseAnalysisConfiguration } from '../../models/root-cause-analysis-configuration.model';
+import { RootCauseAnalysisData } from '../../models/root-cause-analysis-data.model';
 
 export const getRootCauseAnalysisDataState = createSelector(
   getRootState,
@@ -81,4 +79,10 @@ export const getAllRootCauseAnalysisData = createSelector(
       }
     );
   }
+);
+
+export const getRootCauseDataLoadingCompletionStatus = createSelector(
+  getRootCauseAnalysisDataState,
+  (state: State) =>
+    state && state.completedDataCount === state.dataCount && state.loaded
 );

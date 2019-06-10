@@ -116,15 +116,18 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
 
   private _setSelectionParameters() {
     // get selected periods
-    const periodObject = _.find(this.dataSelections, ['dimension', 'pe']);
+    const periodObject = _.find(this.dataSelections || [], ['dimension', 'pe']);
     this.selectedPeriods = periodObject ? periodObject.items : [];
 
     // get selected orgunits
-    const orgUnitObject = _.find(this.dataSelections, ['dimension', 'ou']);
+    const orgUnitObject = _.find(this.dataSelections || [], [
+      'dimension',
+      'ou'
+    ]);
     this.selectedOrgUnits = orgUnitObject ? orgUnitObject.items : [];
 
     // set interventions
-    const interventionObject = _.find(this.dataSelections, [
+    const interventionObject = _.find(this.dataSelections || [], [
       'dimension',
       'intervention'
     ]);

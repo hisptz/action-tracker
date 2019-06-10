@@ -4,25 +4,18 @@
     <span class="application-title">Action Tracker</span>
   </a>
   <div class="d-flex">
-    <div class="btn-group">
-      <a
-        [routerLink]="['/data-entry']"
-        class="btn {{
-          (currentPage$ | async) === '/data-entry'
-            ? 'btn-primary'
-            : 'btn-outline-primary'
-        }}"
-        ><i class="fa fa-pencil"></i> Data Entry</a
-      >
-      <a
-        routerLink="/report"
-        class="btn {{
-          (currentPage$ | async) === '/report'
-            ? 'btn-primary'
-            : 'btn-outline-primary'
-        }}"
-        ><i class="fa fa-file"></i> Report</a
-      >
-    </div>
+    <button
+      mat-button
+      [routerLink]="['/data-entry']"
+      color="{{ (currentPage$ | async) === '/data-entry' ? 'primary' : '' }}"
+    >
+      <i class="fa fa-pencil"></i> Data Entry</button
+    ><button
+      mat-button
+      routerLink="/report"
+      color="{{ (currentPage$ | async) === '/report' ? 'primary' : '' }}"
+    >
+      <i class="fa fa-line-chart"></i> Report
+    </button>
   </div>
 </nav>

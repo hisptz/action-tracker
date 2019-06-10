@@ -1,14 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
-.btn-outline-primary {
-  color: #276696;
-  border-color: #276696;
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
-.btn-primary {
-  color: #ffffff;
-  border-color: #276696;
-  background-color: #276696;
+button:focus {
+  outline: none;
 }
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
