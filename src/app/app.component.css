@@ -1,3 +1,17 @@
 .application-content {
   margin-top: 50px;
+  position: relative;
+}
+
+.navbar-container {
+  position: fixed;
+  top: 50px;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: #ffffff;
+}
+
+.application-content-container {
+  padding-top: 60px;
 }

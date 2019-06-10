@@ -3,28 +3,28 @@
   <div class="intervention-header">
     <div class="intervention-available-header">
       <span
-        [title]="
+        [matTooltip]="
           (availableInterventions$ | async)?.length + ' Available for selection'
         "
         class="badge badge-secondary intervention-badge"
         >{{ (availableInterventions$ | async)?.length }} Available</span
       >
       <button
-        title="Select all interventions"
+        matTooltip="Select all interventions"
         *ngIf="availableInterventions$ | async as availableInterventions"
-        class="btn btn-sm btn-light"
+        mat-icon-button
         (click)="onSelectAllInterventions($event, availableInterventions)"
       >
-        &raquo;
+        <i class="fa fa-arrow-right"></i>
       </button>
     </div>
     <div class="intervention-selected-header">
       <button
-        title="Unselect all interventions"
-        class="btn btn-sm btn-light"
+        matTooltip="Unselect all interventions"
+        mat-icon-button
         (click)="onDeselectAllInterventions($event)"
       >
-        &laquo;
+        <i class="fa fa-arrow-left"></i>
       </button>
       <span class="badge badge-primary intervention-badge">
         {{ selectedInterventions.length }} Selected</span
@@ -48,6 +48,7 @@
         </li>
         <li
           *ngFor="let availableIntervention of availableInterventions$ | async"
+          matTooltip="Select {{ availableIntervention.name }}"
         >
           <a (click)="onSelectIntervention(availableIntervention, $event)">
             {{ availableIntervention.name }}
@@ -57,7 +58,10 @@
     </div>
     <div class="intervention-selected-body">
       <ul class="intervention-list">
-        <li *ngFor="let selectedIntervention of selectedInterventions">
+        <li
+          *ngFor="let selectedIntervention of selectedInterventions"
+          matTooltip="Remove {{ selectedIntervention.name }}"
+        >
           <a (click)="onDeselectIntervention(selectedIntervention, $event)">
             <span class="badge badge-info">{{ selectedIntervention.type }}</span
             >&nbsp;
@@ -72,15 +76,16 @@
   <!--intervention footer-->
   <div class="ngx-dhis2-intervention__intervention-buttons">
     <div>
-      <button class="btn btn-light btn-sm" (click)="onClose($event)">
-        CLOSE</button
+      <button mat-stroked-button (click)="onClose($event)">
+        Close</button
       >&nbsp;
       <button
-        class="btn btn-light btn-sm"
+        mat-stroked-button
+        color="primary"
         [disabled]="selectedInterventions?.length === 0"
         (click)="onUpdate($event)"
       >
-        UPDATE
+        Update
       </button>
     </div>
   </div>

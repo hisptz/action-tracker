@@ -16,6 +16,8 @@ export interface State extends EntityState<RootCauseAnalysisData> {
   showDeleteConfirmation: boolean;
   hasError: boolean;
   error: any;
+  dataCount: number;
+  completedDataCount: number;
 }
 
 export const adapter: EntityAdapter<
@@ -32,7 +34,9 @@ export const initialState: State = adapter.getInitialState({
   showNotification: false,
   savingColor: 'transparent',
   hasError: false,
-  error: null
+  error: null,
+  dataCount: 0,
+  completedDataCount: 0
 });
 
 export function reducer(
@@ -54,6 +58,7 @@ export function reducer(
         loading: false,
         loaded: true,
         showNotification: false,
+        completedDataCount: state.completedDataCount + 1,
         notification: {
           completed: true,
           message: 'Root Cause Analysis Data Loaded'
@@ -118,7 +123,7 @@ export function reducer(
         showNotification: true,
         notification: {
           completed: false,
-          message: 'Deleting This Root Cause Analysis Data'
+          message: 'Deleting Root Cause Analysis Data'
         }
       });
     }
@@ -233,6 +238,10 @@ export function reducer(
         },
         savingColor: 'red'
       };
+    }
+
+    case RootCauseAnalysisDataActionTypes.SetRootCauseDataCount: {
+      return { ...state, dataCount: action.dataCount, completedDataCount: 0 };
     }
 
     default: {

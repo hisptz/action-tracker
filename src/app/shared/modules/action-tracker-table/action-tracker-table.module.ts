@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
 import { ContextMenuModule } from 'ngx-contextmenu';
 import { NgPipesModule } from 'ngx-pipes';
 
@@ -18,6 +20,8 @@ import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     ReactiveFormsModule,
     MatProgressBarModule,
+    MatCardModule,
+    MatButtonModule,
     NgbDatepickerModule,
     ContextMenuModule.forRoot(),
     NgPipesModule

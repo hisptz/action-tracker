@@ -1,19 +1,21 @@
-import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { Action, Store } from '@ngrx/store';
-import * as _ from 'lodash';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { tap, withLatestFrom } from 'rxjs/operators';
+
+import { getDataParams } from '../../helpers/get-data-params.helper';
+import { LoadActionTrackerDatas } from '../actions/action-tracker-data.actions';
 import {
   GlobalSelectionActionTypes,
   UpsertDataSelectionsAction
 } from '../actions/global-selection.actions';
-import { switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  LoadRootCauseAnalysisDatas,
+  SetRootCauseDataCount
+} from '../actions/root-cause-analysis-data.actions';
 import { State } from '../reducers';
-import { getCurrentRootCauseAnalysisConfiguration } from '../selectors/root-cause-analysis-configuration.selectors';
 import { getCurrentActionTrackerConfig } from '../selectors/action-tracker-configuration.selectors';
-import { getDataParams } from '../../helpers/get-data-params.helper';
-import { LoadRootCauseAnalysisDatas } from '../actions/root-cause-analysis-data.actions';
-import { LoadActionTrackerDatas } from '../actions/action-tracker-data.actions';
 
 @Injectable()
 export class GlobalSelectionEffects {
@@ -27,6 +29,7 @@ export class GlobalSelectionEffects {
           action.dataSelections,
           actionTrackerConfig
         );
+        this.store.dispatch(new SetRootCauseDataCount(dataParams.length));
         dataParams.forEach((params: any) => {
           // Load root cause analysis data
           this.store.dispatch(new LoadRootCauseAnalysisDatas(params));

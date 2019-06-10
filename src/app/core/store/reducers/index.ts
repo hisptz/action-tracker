@@ -25,6 +25,10 @@ import {
 } from './root-cause-analysis-data.reducer';
 import * as fromSystemInfo from './system-info.reducer';
 import * as fromUser from './user.reducer';
+import {
+  ReportVisualizationState,
+  reportVisualizationReducer
+} from './report-visualization.reducer';
 
 export interface State {
   // User state
@@ -46,6 +50,8 @@ export interface State {
 
   rootCauseAnalysisData: RootCauseAnalysisDataState;
   rootCauseAnalysisConfiguration: RootCauseAnalysisConfigurationState;
+
+  reportVisualization: ReportVisualizationState;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -56,7 +62,8 @@ export const reducers: ActionReducerMap<State> = {
   actionTrackerConfigurations: actionTrackerConfigurationReducer,
   actionTrackerData: actionTrackerDataReducer,
   rootCauseAnalysisData: rootCauseAnalysisDataReducer,
-  rootCauseAnalysisConfiguration: rootCauseAnalysisConfigurationReducer
+  rootCauseAnalysisConfiguration: rootCauseAnalysisConfigurationReducer,
+  reportVisualization: reportVisualizationReducer
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production

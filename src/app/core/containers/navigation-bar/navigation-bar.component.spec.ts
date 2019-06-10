@@ -7,6 +7,7 @@ import { StoreModule } from '@ngrx/store';
 import { effects } from '../../store/effects';
 import { metaReducers, reducers } from '../../store/reducers';
 import { NavigationBarComponent } from './navigation-bar.component';
+import { MatButtonModule } from '@angular/material/button';
 
 describe('NavigationBarComponent', () => {
   let component: NavigationBarComponent;
@@ -17,6 +18,7 @@ describe('NavigationBarComponent', () => {
       imports: [
         HttpClientModule,
         RouterTestingModule,
+        MatButtonModule,
         StoreModule.forRoot(reducers, { metaReducers }),
         EffectsModule.forRoot(effects)
       ],
