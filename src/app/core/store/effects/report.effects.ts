@@ -72,9 +72,16 @@ export class ReportEffects {
                 .map((dataSelection: any) => {
                   const interventions = dataSelection.items || [];
                   return interventions.map((intervention: any) => {
-                    return intervention.dashboardItems.filter(
-                      (dashboardItem: any) => dashboardItem.type === 'CHART'
-                    );
+                    return intervention.dashboardItems
+                      .filter(
+                        (dashboardItem: any) => dashboardItem.type === 'CHART'
+                      )
+                      .map((dashboardItem: any) => {
+                        return {
+                          ...dashboardItem,
+                          name: intervention.name
+                        };
+                      });
                   });
                 })
             )
@@ -83,7 +90,8 @@ export class ReportEffects {
           forkJoin(
             interventionItems.map((interventionItem: any) =>
               this.reportService.loadFavorite(
-                interventionItem.chart ? interventionItem.chart.id : ''
+                interventionItem.chart ? interventionItem.chart.id : '',
+                interventionItem.name
               )
             )
           )
@@ -99,7 +107,7 @@ export class ReportEffects {
                     id: generateUid(),
                     type: 'CHART',
                     isNonVisualizable: false,
-                    name: 'Intervention',
+                    name: favorite.name,
                     uiConfig: {
                       shape: 'NORMAL',
                       height: '450px',
