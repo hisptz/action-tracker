@@ -1,7 +1,7 @@
-import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
+import { Action } from '@ngrx/store';
+
 import { RootCauseAnalysisData } from '../../models/root-cause-analysis-data.model';
-import * as fromRootCauseAnalysisConfiguration from '../../models/root-cause-analysis-configuration.model';
 
 export enum RootCauseAnalysisDataActionTypes {
   LoadRootCauseAnalysisDatas = '[RootCauseAnalysisData] Load RootCauseAnalysisDatas',
@@ -25,7 +25,8 @@ export enum RootCauseAnalysisDataActionTypes {
   SaveRootCauseAnalysisData = '[RootCauseAnalysisData] Save RootCauseAnalysisData',
   SaveRootCauseAnalysisDataSuccess = '[RootCauseAnalysisData] Save RootCauseAnalysisData Success',
   SaveRootCauseAnalysisDataFail = '[RootCauseAnalysisData] Save RootCauseAnalysisData Fail',
-  ResetRootCauseAnalysisData = '[RootCauseAnalysisData] Reset RootCauseAnalysisData'
+  ResetRootCauseAnalysisData = '[RootCauseAnalysisData] Reset RootCauseAnalysisData',
+  SetRootCauseDataCount = '[RootCauseAnalysisData] Set RootCauseAnalysisData count'
 }
 
 export class ResetRootCauseAnalysisData implements Action {
@@ -180,6 +181,11 @@ export class ClearRootCauseAnalysisDatas implements Action {
   readonly type = RootCauseAnalysisDataActionTypes.ClearRootCauseAnalysisDatas;
 }
 
+export class SetRootCauseDataCount implements Action {
+  readonly type = RootCauseAnalysisDataActionTypes.SetRootCauseDataCount;
+  constructor(public dataCount: number) {}
+}
+
 export type RootCauseAnalysisDataActions =
   | LoadRootCauseAnalysisDatas
   | AddRootCauseAnalysisData
@@ -200,4 +206,5 @@ export type RootCauseAnalysisDataActions =
   | DeleteRootCauseAnalysisDatas
   | ClearRootCauseAnalysisDatas
   | ResetRootCauseAnalysisData
-  | LoadRootCauseAnalysisDatasFail;
+  | LoadRootCauseAnalysisDatasFail
+  | SetRootCauseDataCount;

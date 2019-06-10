@@ -80,3 +80,11 @@ export const getAllRootCauseAnalysisData = createSelector(
     );
   }
 );
+
+export const getRootCauseDataLoadingCompletionStatus = createSelector(
+  getRootCauseAnalysisDataState,
+  (state: State) =>
+    state &&
+    state.completedDataCount === state.dataCount &&
+    state.dataCount !== 0
+);
