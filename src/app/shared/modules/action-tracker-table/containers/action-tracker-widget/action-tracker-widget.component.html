@@ -73,6 +73,10 @@
             'action-tracker-column': dataElement.isActionTrackerColumn,
             'solution-column': !dataElement.isActionTrackerColumn
           }"
+          [style.background-color]="
+            dataItem.dataValues[dataElement.id]
+              | colorize: dataElement.legendSet
+          "
         >
           <ng-container id="dataItem?.id_dataElement?.id">
             <div

@@ -16,6 +16,7 @@ import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { ContextMenuModule } from 'ngx-contextmenu';
 import { TextAreaInputComponent } from 'src/app/shared/modules/action-tracker-table/components/data-item/text-area-input/text-area-input.component';
 import { DatePickerComponent } from 'src/app/shared/modules/action-tracker-table/components/date-picker/date-picker.component';
+import { ColorizePipe } from 'src/app/shared/modules/action-tracker-table/pipes/colorize.pipe';
 
 describe('DataEntryComponent', () => {
   let component: DataEntryComponent;
@@ -40,7 +41,8 @@ describe('DataEntryComponent', () => {
         DatePickerComponent,
         WidgetItemLoaderComponent,
         FormInputItemComponent,
-        TextAreaInputComponent
+        TextAreaInputComponent,
+        ColorizePipe
       ]
     }).compileComponents();
   }));

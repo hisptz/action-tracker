@@ -11,9 +11,10 @@ import { components } from './components';
 import { containers } from './containers';
 import { directives } from './directives';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { ColorizePipe } from './pipes/colorize.pipe';
 
 @NgModule({
-  declarations: [...containers, ...components, ...directives],
+  declarations: [...containers, ...components, ...directives, ColorizePipe],
   exports: [...containers, ReactiveFormsModule],
   imports: [
     CommonModule,

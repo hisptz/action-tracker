@@ -15,6 +15,7 @@ import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { ContextMenuModule } from 'ngx-contextmenu';
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from 'src/app/core/store/reducers';
+import { ColorizePipe } from 'src/app/shared/modules/action-tracker-table/pipes/colorize.pipe';
 
 describe('ReportComponent', () => {
   let component: ReportComponent;
@@ -39,7 +40,8 @@ describe('ReportComponent', () => {
         DatePickerComponent,
         WidgetItemLoaderComponent,
         FormInputItemComponent,
-        TextAreaInputComponent
+        TextAreaInputComponent,
+        ColorizePipe
       ]
     }).compileComponents();
   }));
