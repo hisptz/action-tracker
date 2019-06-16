@@ -28,7 +28,7 @@ export class RootCauseAnalysisDataEffects {
     ),
     mergeMap(
       (action: fromRootCauseAnalysisDataActions.LoadRootCauseAnalysisDatas) => {
-        this.rootStore.dispatch(loadReportVisualizations);
+        this.rootStore.dispatch(loadReportVisualizations());
         return this.rootCauseAnalysisDataService
           .getRootCauseAnalysisData(
             action.dataParams.rootCauseConfig,

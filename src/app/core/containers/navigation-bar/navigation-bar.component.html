@@ -9,13 +9,21 @@
       [routerLink]="['/data-entry']"
       color="{{ (currentPage$ | async) === '/data-entry' ? 'primary' : '' }}"
     >
-      <i class="fa fa-pencil"></i> Data Entry</button
-    ><button
+      <i class="fa fa-pencil"></i> Data Entry
+    </button>
+    <button
       mat-button
       routerLink="/report"
       color="{{ (currentPage$ | async) === '/report' ? 'primary' : '' }}"
     >
-      <i class="fa fa-line-chart"></i> Report
+      <i class="fa fa-table"></i> Report
+    </button>
+    <button
+      mat-button
+      routerLink="/analysis"
+      color="{{ (currentPage$ | async) === '/analysis' ? 'primary' : '' }}"
+    >
+      <i class="fa fa-line-chart"></i> Analysis
     </button>
   </div>
 </nav>

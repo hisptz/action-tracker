@@ -63,6 +63,9 @@ export class ActionTrackerWidgetComponent implements OnInit {
   @Input()
   selectedPeriod;
 
+  @Input()
+  isReport: boolean;
+
   @ViewChild('rootCauseAnalysisTable', { static: false })
   table: ElementRef;
 

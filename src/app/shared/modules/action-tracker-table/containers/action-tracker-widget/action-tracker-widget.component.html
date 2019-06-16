@@ -15,7 +15,7 @@
         >
           {{ dataElement.name }}
         </th>
-        <th>Actions</th>
+        <th *ngIf="!isReport">Actions</th>
       </tr>
     </thead>
     <tbody *ngIf="dataLoading$ | async">
@@ -99,6 +99,7 @@
           class="action-tracker-column"
           [hidden]="!dataItem.rowspan"
           [attr.rowspan]="dataItem.rowspan"
+          *ngIf="!isReport"
         >
           <div class="action-tracker-form-wrapper" hidden="true">
             <action-tracker-form
@@ -127,8 +128,9 @@
           <mat-card>
             <mat-card-content>
               <i>
-                Select Intervention, Period and Organisation unit to view manage
-                your actions
+                Select Intervention, Period and Organisation unit to view
+                {{ isReport ? '' : 'and
+                manage' }} your actions
               </i>
             </mat-card-content></mat-card
           >

@@ -1,14 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReportComponent } from './report.component';
-import { NgxDhis2VisualizationModule } from '../../modules/ngx-dhis2-visualization/ngx-dhis2-visualization.module';
+import { ActionTrackerWidgetComponent } from 'src/app/shared/modules/action-tracker-table/containers/action-tracker-widget/action-tracker-widget.component';
+import { FormComponent } from 'src/app/shared/modules/action-tracker-table/components/form/form.component';
+import { TextViewComponent } from 'src/app/shared/modules/action-tracker-table/components/text-view/text-view.component';
+import { DatePickerComponent } from 'src/app/shared/modules/action-tracker-table/components/date-picker/date-picker.component';
+import { WidgetItemLoaderComponent } from 'src/app/shared/modules/action-tracker-table/components/widget-item-loader/widget-item-loader.component';
+import { FormInputItemComponent } from 'src/app/shared/modules/action-tracker-table/components/form-input-item/form-input-item.component';
+import { TextAreaInputComponent } from 'src/app/shared/modules/action-tracker-table/components/data-item/text-area-input/text-area-input.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatCardModule } from '@angular/material/card';
+import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { ContextMenuModule } from 'ngx-contextmenu';
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from 'src/app/core/store/reducers';
-import { EffectsModule } from '@ngrx/effects';
-import { effects } from 'src/app/core/store/effects';
-import { RouterTestingModule } from '@angular/router/testing';
-import { MatCardModule } from '@angular/material/card';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 describe('ReportComponent', () => {
   let component: ReportComponent;
@@ -17,14 +23,24 @@ describe('ReportComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
-        NgxDhis2VisualizationModule,
-        MatCardModule,
+        FormsModule,
+        ReactiveFormsModule,
         MatProgressBarModule,
-        StoreModule.forRoot(reducers, { metaReducers }),
-        EffectsModule.forRoot(effects)
+        MatCardModule,
+        NgbDatepickerModule,
+        ContextMenuModule.forRoot(),
+        StoreModule.forRoot(reducers, { metaReducers })
       ],
-      declarations: [ReportComponent]
+      declarations: [
+        ReportComponent,
+        ActionTrackerWidgetComponent,
+        FormComponent,
+        TextViewComponent,
+        DatePickerComponent,
+        WidgetItemLoaderComponent,
+        FormInputItemComponent,
+        TextAreaInputComponent
+      ]
     }).compileComponents();
   }));
 

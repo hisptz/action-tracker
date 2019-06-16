@@ -18,6 +18,11 @@ export const routes: Routes = [
     path: 'report',
     loadChildren: () =>
       import('./pages/report/report.module').then(m => m.ReportModule)
+  },
+  {
+    path: 'analysis',
+    loadChildren: () =>
+      import('./pages/analysis/analysis.module').then(m => m.AnalysisModule)
   }
 ];
 
