@@ -45,17 +45,19 @@ export class FormComponent implements OnInit {
 
   setReviewDate(reviewDateObject, actionTrackerForm, dataElement) {
     if (actionTrackerForm) {
-      actionTrackerForm.value
-        ? (actionTrackerForm.value[dataElement] = _.join(
-            [
-              reviewDateObject.year,
-              _.lt(reviewDateObject.month, 10)
-                ? '0' + _.toString(reviewDateObject.month)
-                : reviewDateObject.month,
-              reviewDateObject.day
-            ],
-            '-'
-          ))
+      actionTrackerForm.controls
+        ? actionTrackerForm.controls[dataElement].setValue(
+            _.join(
+              [
+                reviewDateObject.year,
+                _.lt(reviewDateObject.month, 10)
+                  ? '0' + _.toString(reviewDateObject.month)
+                  : reviewDateObject.month,
+                reviewDateObject.day
+              ],
+              '-'
+            )
+          )
         : null;
     }
   }
@@ -65,7 +67,7 @@ export class FormComponent implements OnInit {
       const startDate = reviewDateObject.fromDate;
       const endDate = reviewDateObject.toDate;
       actionTrackerForm.value
-        ? (actionTrackerForm.value[dataElement] =
+        ? actionTrackerForm.controls[dataElement].setValue(
             _.join(
               [
                 startDate.year,
@@ -76,17 +78,18 @@ export class FormComponent implements OnInit {
               ],
               '/'
             ) +
-            '-' +
-            _.join(
-              [
-                endDate.year,
-                _.lt(endDate.month, 10)
-                  ? '0' + _.toString(endDate.month)
-                  : endDate.month,
-                endDate.day
-              ],
-              '/'
-            ))
+              '-' +
+              _.join(
+                [
+                  endDate.year,
+                  _.lt(endDate.month, 10)
+                    ? '0' + _.toString(endDate.month)
+                    : endDate.month,
+                  endDate.day
+                ],
+                '/'
+              )
+          )
         : null;
     }
   }
