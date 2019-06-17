@@ -26,17 +26,19 @@
         </td>
       </tr>
     </tbody>
+
     <tbody *ngIf="data$ | async as rootCauseAnalysisData" [@listEnter]>
+      <!-- [contextMenu]="extraActions"
+        [contextMenuSubject]="dataItem" -->
       <tr
         *ngFor="
           let dataItem of rootCauseAnalysisData;
           let i = index;
           trackBy: dataItem?.id
         "
+        (contextmenu)="onContextMenu($event, dataItem)"
         class="{{ dataItem?.rootCauseDataId }}"
         id="{{ dataItem?.id || dataItem?.rootCauseDataId }}"
-        [contextMenu]="extraActions"
-        [contextMenuSubject]="dataItem"
       >
         <td>{{ i + 1 }}</td>
         <td [attr.colspan]="11" *ngIf="toBeDeleted[dataItem.id]" align="center">
@@ -153,20 +155,24 @@
     ></mat-card>
   </div>
 </div>
-
-<context-menu
-  [useBootstrap4]="true"
-  *ngIf="configuration$ | async as rootCauseAnalysisConfiguration"
->
-  <ng-template contextMenuItem (execute)="onActionEdit($event.item)">
-    <a class="context-menu-item"> <i class="fa fa-pencil"></i> Edit </a>
-  </ng-template>
-  <ng-template
-    contextMenuItem
-    (execute)="
-      onActionDelete($event.item, rootCauseAnalysisConfiguration?.dataElements)
-    "
+<div *ngIf="!isReport">
+  <context-menu
+    [useBootstrap4]="true"
+    *ngIf="configuration$ | async as rootCauseAnalysisConfiguration"
   >
-    <a class="context-menu-item"> <i class="fa fa-trash-o"></i> Delete </a>
-  </ng-template>
-</context-menu>
+    <ng-template contextMenuItem (execute)="onActionEdit($event.item)">
+      <a class="context-menu-item"> <i class="fa fa-pencil"></i> Edit </a>
+    </ng-template>
+    <ng-template
+      contextMenuItem
+      (execute)="
+        onActionDelete(
+          $event.item,
+          rootCauseAnalysisConfiguration?.dataElements
+        )
+      "
+    >
+      <a class="context-menu-item"> <i class="fa fa-trash-o"></i> Delete </a>
+    </ng-template>
+  </context-menu>
+</div>
