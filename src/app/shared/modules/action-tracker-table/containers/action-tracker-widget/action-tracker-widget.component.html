@@ -28,8 +28,6 @@
     </tbody>
 
     <tbody *ngIf="data$ | async as rootCauseAnalysisData" [@listEnter]>
-      <!-- [contextMenu]="extraActions"
-        [contextMenuSubject]="dataItem" -->
       <tr
         *ngFor="
           let dataItem of rootCauseAnalysisData;
