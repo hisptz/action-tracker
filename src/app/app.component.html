@@ -13,6 +13,7 @@
         <div class="col-12 d-flex justify-content-between">
           <div>
             <ngx-dhis2-selection-filters
+              [selectionFilterConfig]="selectionFilterConfig"
               (filterUpdate)="onFilterUpdate($event)"
             ></ngx-dhis2-selection-filters>
           </div>
