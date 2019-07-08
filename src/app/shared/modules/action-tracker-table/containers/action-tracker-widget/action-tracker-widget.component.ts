@@ -3,6 +3,7 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { ContextMenuComponent } from 'ngx-contextmenu';
+import { ContextMenuService } from 'ngx-contextmenu';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { openEntryForm } from 'src/app/core/helpers/open-entry-form.helper';
@@ -97,7 +98,8 @@ export class ActionTrackerWidgetComponent implements OnInit {
 
   constructor(
     private store: Store<State>,
-    private downloadWidgetService: DownloadWidgetService
+    private downloadWidgetService: DownloadWidgetService,
+    private contextMenuService: ContextMenuService
   ) {
     this.configuration$ = store.select(getMergedActionTrackerConfiguration);
     this.actionTrackerConfiguration$ = store.select(
@@ -138,6 +140,19 @@ export class ActionTrackerWidgetComponent implements OnInit {
       // dataItem.parentAction
       //   ? this.openActionTrackerEntryForm(dataItem)
       //   : openEntryForm(dataItem);
+    }
+  }
+
+  onContextMenu(event, dataItem) {
+    if (!this.isReport) {
+      this.contextMenuService.show.next({
+        // Optional - if unspecified, all context menu components will open
+        contextMenu: this.extraActions,
+        event: event,
+        item: dataItem
+      });
+      event.preventDefault();
+      event.stopPropagation();
     }
   }
 
