@@ -38,9 +38,7 @@ export class FormComponent implements OnInit {
         : '';
     });
     this.actionTrackerForm = this.formBuilder.group(this.formArray);
-    // this.actionTrackerForm.valueChanges.subscribe(object => {
-    //   console.log(object);
-    // });
+    console.log(this.dataItem);
   }
 
   setReviewDate(reviewDateObject, actionTrackerForm, dataElement) {
