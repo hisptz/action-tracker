@@ -159,7 +159,9 @@
     *ngIf="configuration$ | async as rootCauseAnalysisConfiguration"
   >
     <ng-template contextMenuItem (execute)="onActionEdit($event.item)">
-      <a class="context-menu-item"> <i class="fa fa-pencil"></i> Edit </a>
+      <a class="context-menu-item">
+        <i class="fa fa-pencil" style="float: right; color: green"></i> Edit
+      </a>
     </ng-template>
     <ng-template
       contextMenuItem
@@ -170,7 +172,9 @@
         )
       "
     >
-      <a class="context-menu-item"> <i class="fa fa-trash-o"></i> Delete </a>
+      <a class="context-menu-item">
+        <i class="fa fa-trash-o" style="float: right; color: red"></i> Delete
+      </a>
     </ng-template>
   </context-menu>
 </div>
