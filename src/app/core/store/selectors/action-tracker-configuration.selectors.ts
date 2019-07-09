@@ -31,6 +31,19 @@ export const getCurrentActionTrackerConfig = createSelector(
       : null
 );
 
+export const getCurrentActionTrackerConfigLegend = createSelector(
+  getActionTrackerConfigurationState,
+  getCurrentActionTrackerConfig,
+  (actionTrackerConfigurationsState, currentActionTrackerConfigurations) => {
+    return _.get(
+      _.find(_.get(currentActionTrackerConfigurations, 'dataElements'), {
+        formControlName: 'actionStatus'
+      }),
+      'legendSet.legends'
+    );
+  }
+);
+
 export const getMergedActionTrackerConfiguration = createSelector(
   getCurrentActionTrackerConfig,
   getCurrentRootCauseAnalysisConfiguration,

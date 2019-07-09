@@ -9,6 +9,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core';
 import { sharedModules } from './shared';
+import { LegendSetComponent } from './components/legend-set/legend-set.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -16,7 +17,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, LegendSetComponent],
   imports: [
     BrowserModule,
     HttpClientModule,

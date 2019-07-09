@@ -26,7 +26,7 @@ export class AppComponent {
   dataSelections$: Observable<any>;
   selectedOrgUnit$: Observable<string>;
   selectedPeriod$: Observable<string>;
-
+  legend$: Observable<any>;
   selectionFilterConfig: SelectionFilterConfig = {
     orgUnitFilterConfig: {
       singleSelection: true,
