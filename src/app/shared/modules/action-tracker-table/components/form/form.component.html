@@ -101,7 +101,8 @@
         <div class="col-12">
           <div class="form-group">
             <button mat-flat-button color="primary" type="submit">
-              Save</button
+              <span *ngIf="dataItem?.isNewRow">Save</span>
+              <span *ngIf="!dataItem?.isNewRow">Update</span></button
             >&nbsp;
             <button
               type="reset"
