@@ -9,6 +9,7 @@
         [autoClose]="'outside'"
         [dayTemplate]="rangeSelectorTemplate"
         name="dp"
+        [placement]="bottom"
         [displayMonths]="rangeSelector.displayMonths"
         [navigation]="rangeSelector.navigation"
         [outsideDays]="rangeSelector.outsideDays"
@@ -51,6 +52,7 @@
         readonly="readonly"
         [(ngModel)]="currentReviewDate"
         (click)="singleDatePicker.toggle()"
+        [placement]="bottom"
         (dateSelect)="onReviewDateSelection($event)"
         ngbDatepicker
         #singleDatePicker="ngbDatepicker"
