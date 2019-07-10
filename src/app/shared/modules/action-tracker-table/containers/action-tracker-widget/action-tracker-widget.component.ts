@@ -316,6 +316,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
   }
 
   cancelDataEntryForm(dataItem, allDataItems) {
+    console.log('Here is called when closing');
     if (dataItem.isNewRow) {
       this.closeDataEntryForm(dataItem);
       this.store.dispatch(new CancelActionTrackerData(dataItem));
