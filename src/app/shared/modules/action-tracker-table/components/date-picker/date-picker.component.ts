@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgbDate, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
-
+import { split, last, head, toNumber } from 'lodash';
 @Component({
   selector: 'app-date-picker',
   templateUrl: './date-picker.component.html',
@@ -19,10 +19,37 @@ export class DatePickerComponent implements OnInit {
 
   fromDate: NgbDate;
   toDate: NgbDate;
+  currentReviewDate: NgbDate;
 
-  constructor(calendar: NgbCalendar) {
-    this.fromDate = calendar.getToday();
-    this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
+  constructor(private calendar: NgbCalendar) {}
+
+  ngOnInit() {
+    if (this.defaultValue && this.defaultValue.length > 10) {
+      const endDate = split(last(split(this.defaultValue, '-')), '/');
+      const startDate = split(head(split(this.defaultValue, '-')), '/');
+
+      this.fromDate = new NgbDate(
+        toNumber(startDate[0]),
+        toNumber(startDate[1]),
+        toNumber(startDate[2])
+      );
+
+      this.toDate = new NgbDate(
+        toNumber(endDate[0]),
+        toNumber(endDate[1]),
+        toNumber(endDate[2])
+      );
+    } else if (this.defaultValue && this.defaultValue.length <= 10) {
+      const slicedReviewDate = split(this.defaultValue, '-');
+      this.currentReviewDate = new NgbDate(
+        toNumber(slicedReviewDate[0]),
+        toNumber(slicedReviewDate[1]),
+        toNumber(slicedReviewDate[2])
+      );
+    } else {
+      this.fromDate = this.calendar.getToday();
+      this.toDate = this.calendar.getNext(this.calendar.getToday(), 'd', 10);
+    }
   }
 
   onReviewDateSelection(date: NgbDate) {
@@ -68,5 +95,4 @@ export class DatePickerComponent implements OnInit {
       this.isHovered(date)
     );
   }
-  ngOnInit() {}
 }
