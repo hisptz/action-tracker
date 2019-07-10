@@ -9,6 +9,7 @@ import { RESIZE_ICON, FULL_SCREEN_ICON } from '../../icons';
 export class VisualizationResizeSectionComponent implements OnInit {
   @Input() id: string;
   @Input() showResizeButton: boolean;
+  @Input() showFullScreenButton: boolean;
   @Input() fullScreen: boolean;
 
   @Output() toggleFullScreen: EventEmitter<string> = new EventEmitter<string>();
