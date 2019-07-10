@@ -1,6 +1,6 @@
 <span class="form-inline" *ngIf="periodUI == 'RANGEPERIOD'">
   <div class="form-group">
-    <div class="input-group">
+    <div class="input-group" (clickOutside)="rangeDatePicker.close()">
       <input
         class="form-control"
         value="{{ defaultValue }}"
