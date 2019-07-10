@@ -18,8 +18,11 @@
             ></ngx-dhis2-selection-filters>
           </div>
         </div>
-        <div class="col-6 d-flex justify-content-end">
-          <div>
+        <div
+          class="col-6 d-flex justify-content-end"
+          *ngIf="route$ | async as routeUrl"
+        >
+          <div *ngIf="!(routeUrl.indexOf('analysis') > -1)">
             <app-legend-set></app-legend-set>
           </div>
         </div>

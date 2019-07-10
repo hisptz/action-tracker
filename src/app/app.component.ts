@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
 import * as _ from 'lodash';
 
 import { UpsertDataSelectionsAction } from './core/store/actions/global-selection.actions';
-import { State } from './core/store/reducers';
-import { getRouterParams } from './core/store/selectors';
+import { State } from 'src/app/core/store/reducers';
+import { getRouteUrl } from './core/store/selectors';
 import { getDataSelections } from 'src/app/core/store/selectors/global-selection.selectors';
 import { OrgUnitFilterConfig } from '@iapps/ngx-dhis2-org-unit-filter';
 import { SelectionFilterConfig } from './shared/modules/selection-filters/models/selected-filter-config.model';
@@ -27,6 +27,7 @@ export class AppComponent {
   selectedOrgUnit$: Observable<string>;
   selectedPeriod$: Observable<string>;
   legend$: Observable<any>;
+  route$: Observable<any>;
   selectionFilterConfig: SelectionFilterConfig = {
     orgUnitFilterConfig: {
       singleSelection: true,
@@ -48,6 +49,7 @@ export class AppComponent {
 
     // Set application title
     this.setTitle('Action Tracker');
+    this.route$ = this.store.select(getRouteUrl(true));
   }
 
   public setTitle(newTitle: string) {
