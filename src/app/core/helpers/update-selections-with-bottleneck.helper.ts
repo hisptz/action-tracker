@@ -18,8 +18,11 @@ export function updateSelectionsWithBottleneckParams(
 
         const bottleneckIndicators = filter(
           dataSelection ? dataSelection.items || [] : [],
-          (item: any) => (bottleneckIndicatorIds || []).includes(item.id)
+          (item: any) =>
+            (bottleneckIndicatorIds || []).includes(item.id) &&
+            !find(effectiveCoverageIndicators || [], ['id', item.id])
         );
+
         return omit(
           {
             ...dataSelection,
