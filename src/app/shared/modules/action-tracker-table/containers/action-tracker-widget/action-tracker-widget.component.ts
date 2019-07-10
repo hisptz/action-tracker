@@ -315,8 +315,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
     });
   }
 
-  cancelDataEntryForm(dataItem, allDataItems) {
-    console.log('Here is called when closing');
+  cancelDataEntryForm(dataItem) {
     if (dataItem.isNewRow) {
       this.closeDataEntryForm(dataItem);
       this.store.dispatch(new CancelActionTrackerData(dataItem));
@@ -339,7 +338,6 @@ export class ActionTrackerWidgetComponent implements OnInit {
       if (index !== actionTrackerItems.length - 1) {
         actionTrackerColumn.removeAttribute('hidden', false);
       } else {
-        actionTrackerColumn.colSpan = _.toString(1);
         const buttonElement = _.head(
           actionTrackerColumn.getElementsByClassName('btn-add-action')
         );
@@ -351,12 +349,14 @@ export class ActionTrackerWidgetComponent implements OnInit {
         );
         buttonElement.removeAttribute('hidden');
         formElement.setAttribute('hidden', true);
-        if (dataItem.parentAction) {
+        if (dataItem.parentAction || !dataItem.isNewRow) {
           const parentButtonElement = _.head(
             parentDataItemElement.getElementsByClassName('btn-add-action')
           ).parentNode;
+          const parentAddActionColumn = parentButtonElement.parentNode;
+          actionTrackerColumn.setAttribute('hidden', true);
+          parentAddActionColumn.removeAttribute('hidden');
           parentButtonElement.removeAttribute('hidden');
-          buttonElement.setAttribute('hidden', true);
         }
       }
     });
