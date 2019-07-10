@@ -112,7 +112,6 @@ export class ActionTrackerWidgetComponent implements OnInit {
     this.dataLoading$ = store.select(getOveralLoadingStatus);
     this.notification$ = store.select(getAllDataNotification);
     this.dataSelections$ = store.select(getDataSelections);
-
     this.unSavedDataItemValues = {};
 
     this.data$

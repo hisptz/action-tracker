@@ -10,12 +10,20 @@
     <div class="container-fluid application-content-container">
       <!-- application filter -->
       <div class="row mt-3">
-        <div class="col-12 d-flex justify-content-between">
+        <div class="col-6 d-flex justify-content-start">
           <div>
             <ngx-dhis2-selection-filters
               [selectionFilterConfig]="selectionFilterConfig"
               (filterUpdate)="onFilterUpdate($event)"
             ></ngx-dhis2-selection-filters>
+          </div>
+        </div>
+        <div
+          class="col-6 d-flex justify-content-end"
+          *ngIf="route$ | async as routeUrl"
+        >
+          <div *ngIf="!(routeUrl.indexOf('analysis') > -1)">
+            <app-legend-set></app-legend-set>
           </div>
         </div>
       </div>
