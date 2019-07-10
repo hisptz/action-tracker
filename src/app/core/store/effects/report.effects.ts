@@ -19,7 +19,10 @@ import {
 import { State } from '../reducers';
 import { getDataSelections } from '../selectors/global-selection.selectors';
 import { getCurrentRootCauseAnalysisConfiguration } from '../selectors/root-cause-analysis-configuration.selectors';
-import { getRootCauseDataLoadingCompletionStatus } from '../selectors/root-cause-analysis-data.selectors';
+import {
+  getRootCauseDataLoadingCompletionStatus,
+  getRootCauseAnalysisDatas
+} from '../selectors/root-cause-analysis-data.selectors';
 
 @Injectable()
 export class ReportEffects {
@@ -35,6 +38,7 @@ export class ReportEffects {
     concatMap(action =>
       of(action).pipe(
         withLatestFrom(
+          this.store.select(getRootCauseAnalysisDatas),
           this.store.select(getDataSelections),
           this.store.select(getCurrentRootCauseAnalysisConfiguration),
           this.store.select(getRootCauseDataLoadingCompletionStatus)
@@ -42,8 +46,15 @@ export class ReportEffects {
       )
     ),
     tap(
-      ([action, dataSelections, rootCauseConfiguration, loadingCompletion]: [
+      ([
+        action,
+        rootCauseAnalysisDatas,
+        dataSelections,
+        rootCauseConfiguration,
+        loadingCompletion
+      ]: [
         AddRootCauseAnalysisDatas,
+        any,
         any,
         RootCauseAnalysisConfiguration,
         boolean
@@ -53,7 +64,8 @@ export class ReportEffects {
             rootCauseConfiguration.dataElements,
             ['name', 'indicatorId']
           );
-          const bottleneckIndicatorIds = action.rootCauseAnalysisDatas.map(
+
+          const bottleneckIndicatorIds = rootCauseAnalysisDatas.map(
             (rootCauseData: any) => {
               const dataValues = rootCauseData.dataValues || [];
               return dataValues[
