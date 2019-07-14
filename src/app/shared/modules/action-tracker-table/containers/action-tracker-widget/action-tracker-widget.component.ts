@@ -133,12 +133,11 @@ export class ActionTrackerWidgetComponent implements OnInit {
 
   onActionEdit(dataItem) {
     if (dataItem) {
-      !(dataItem.rowspan = 1)
-        ? this.openActionTrackerEntryForm(dataItem)
-        : openEntryForm(dataItem);
-      // dataItem.parentAction
-      //   ? this.openActionTrackerEntryForm(dataItem)
-      //   : openEntryForm(dataItem);
+      if (dataItem.rowspan == 1) {
+        openEntryForm(dataItem);
+      } else {
+        this.openActionTrackerEntryForm(dataItem);
+      }
     }
   }
 
@@ -299,10 +298,14 @@ export class ActionTrackerWidgetComponent implements OnInit {
       if (index !== actionTrackerItems.length - 1) {
         actionTrackerColumn.setAttribute('hidden', true);
       } else {
-        actionTrackerColumn.colSpan = _.toString(actionTrackerItems.length);
+        actionTrackerColumn.colSpan = _.toString(actionTrackerItems.length - 1);
+        dataItem.rowspan ? (actionTrackerColumn.rowSpan = _.toString(1)) : null;
         const buttonElement = _.head(
           actionTrackerColumn.getElementsByClassName('add-action-block')
         );
+        if (!dataItem.rowspan) {
+          actionTrackerColumn.removeAttribute('hidden');
+        }
 
         const formElement = _.head(
           actionTrackerColumn.getElementsByClassName(
@@ -315,7 +318,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
     });
   }
 
-  cancelDataEntryForm(dataItem) {
+  onDataEntryCancelDataEntryForm(dataItem) {
     if (dataItem.isNewRow) {
       this.closeDataEntryForm(dataItem);
       this.store.dispatch(new CancelActionTrackerData(dataItem));
@@ -342,6 +345,9 @@ export class ActionTrackerWidgetComponent implements OnInit {
           actionTrackerColumn.getElementsByClassName('btn-add-action')
         );
 
+        dataItem.rowspan
+          ? (actionTrackerColumn.rowSpan = _.toString(dataItem.rowspan))
+          : null;
         const formElement = _.head(
           actionTrackerColumn.getElementsByClassName(
             'action-tracker-form-wrapper'

@@ -91,7 +91,6 @@ export class FormComponent implements OnInit {
     }
   }
   onDataEntryCancel(event, dataItem) {
-    this.actionTrackerForm.reset();
     this.cancel.emit(dataItem);
   }
   onDataEntrySave(dataItem, dataElement) {

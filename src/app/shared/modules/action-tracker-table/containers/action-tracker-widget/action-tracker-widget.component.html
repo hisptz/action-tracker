@@ -110,7 +110,7 @@
               [dataItem]="dataItem"
               [configurations]="actionTrackerConfiguration$ | async"
               (save)="onSave($event, dataItem)"
-              (cancel)="cancelDataEntryForm($event)"
+              (cancel)="onDataEntryCancelDataEntryForm($event)"
             ></action-tracker-form>
           </div>
           <div class="add-action-block">

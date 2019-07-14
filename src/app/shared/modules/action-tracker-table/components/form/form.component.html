@@ -26,6 +26,9 @@
               class="form-control"
               *ngIf="dataElement.formControlName"
               placeholder="{{ dataElement?.name }}"
+              value="{{
+                (actionTrackerForm?.value)[(dataElement?.formControlName)]
+              }}"
               formControlName="{{ dataElement.formControlName }}"
               id="{{ dataItem?.id }}_{{ dataElement?.id }}"
             />
