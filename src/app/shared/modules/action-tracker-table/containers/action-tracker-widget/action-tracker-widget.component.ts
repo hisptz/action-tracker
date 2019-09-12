@@ -233,10 +233,10 @@ export class ActionTrackerWidgetComponent implements OnInit {
   }
 
   printPDF(filename, htmlElement) {
-    domtoimage.toJpeg(htmlElement, { quality: 0.95 }).then(function(dataUrl) {
+    domtoimage.toJpeg(htmlElement, { quality: 1 }).then(function(dataUrl) {
       let pdf = new jsPDF('p', 'pt', 'a4');
       pdf.addImage(dataUrl, 'JPEG', 40, 40, 520, 150);
-      pdf.save('form.pdf');
+      pdf.save(filename + '.pdf');
     });
   }
 
