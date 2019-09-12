@@ -211,32 +211,45 @@ export class ActionTrackerWidgetComponent implements OnInit {
       window.alert('There is no action registered for this solution yet.');
     }
   }
+
+  generateFileName() {
+    const dateTime = new Date();
+    const filename =
+      'Action Tracker gen. on ' +
+      dateTime.getFullYear() +
+      (dateTime.getMonth() + 1 < 10 ? '-0' : '-') +
+      (dateTime.getMonth() + 1) +
+      (dateTime.getDay() < 10 ? '-0' : '-') +
+      dateTime.getDay() +
+      ' ' +
+      (dateTime.getHours() < 10 ? ':0' : ':') +
+      dateTime.getHours() +
+      (dateTime.getMinutes() < 10 ? ':0' : ':') +
+      dateTime.getMinutes() +
+      'hrs';
+    return filename;
+  }
+
+  printPDF() {
+    window.print();
+  }
+
   downloadTable(downloadFormat) {
     if (this.table) {
-      const dateTime = new Date();
       const el = this.table.nativeElement;
-      const filename =
-        'Root causes - ' +
-        this.routerParams.dashboard.name +
-        ' - ' +
-        this.selectedOrgUnit +
-        ' - ' +
-        this.selectedPeriod +
-        ' gen. on ' +
-        dateTime.getFullYear() +
-        (dateTime.getMonth() + 1 < 10 ? '-0' : '-') +
-        (dateTime.getMonth() + 1) +
-        (dateTime.getDay() < 10 ? '-0' : '-') +
-        dateTime.getDay() +
-        ' ' +
-        (dateTime.getHours() < 10 ? ':0' : ':') +
-        dateTime.getHours() +
-        (dateTime.getMinutes() < 10 ? ':0' : ':') +
-        dateTime.getMinutes() +
-        'hrs';
-      if (downloadFormat === 'XLSX') {
-        if (el) {
-          this.downloadWidgetService.exportXLS(filename, el.outerHTML);
+      const filename = this.generateFileName();
+
+      if (el) {
+        if (downloadFormat === 'PDF') {
+          this.printPDF();
+        } else if (downloadFormat === 'XLSX') {
+          const item = el.cloneNode(true);
+          _.map(item.querySelectorAll('.hide-on-export'), elementNotExport =>
+            elementNotExport.remove()
+          );
+          this.downloadWidgetService.exportXLS(filename, item.outerHTML);
+        } else if (downloadFormat === 'CSV') {
+          this.downloadWidgetService.exportCSV(filename, el);
         }
       }
     }
