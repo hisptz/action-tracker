@@ -36,6 +36,8 @@ import * as fromRootCauseAnalysisDataActions from '../../../../../core/store/act
 import { listEnterAnimation } from '../../../../animations/list-enter-animation';
 import { generateUid } from '../../helpers';
 import { DownloadWidgetService } from '../../services/downloadWidgetService.service';
+import * as jsPDF from 'jspdf';
+import domtoimage from 'dom-to-image';
 
 @Component({
   selector: 'app-bna-widget',
@@ -230,8 +232,12 @@ export class ActionTrackerWidgetComponent implements OnInit {
     return filename;
   }
 
-  printPDF() {
-    window.print();
+  printPDF(filename, htmlElement) {
+    domtoimage.toJpeg(htmlElement, { quality: 0.95 }).then(function(dataUrl) {
+      let pdf = new jsPDF('p', 'pt', 'a4');
+      pdf.addImage(dataUrl, 'JPEG', 40, 40, 520, 150);
+      pdf.save('form.pdf');
+    });
   }
 
   downloadTable(downloadFormat) {
@@ -241,7 +247,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
 
       if (el) {
         if (downloadFormat === 'PDF') {
-          this.printPDF();
+          this.printPDF(filename, el);
         } else if (downloadFormat === 'XLSX') {
           const item = el.cloneNode(true);
           _.map(item.querySelectorAll('.hide-on-export'), elementNotExport =>
