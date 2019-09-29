@@ -13,7 +13,7 @@ export class LegendSetComponent implements OnInit {
   legend$: Observable<any>;
 
   constructor(private store: Store<State>) {
-    this.legend$ = store.select(getCurrentActionTrackerConfigLegend);
+    this.legend$ = this.store.select(getCurrentActionTrackerConfigLegend);
   }
 
   ngOnInit() {}
