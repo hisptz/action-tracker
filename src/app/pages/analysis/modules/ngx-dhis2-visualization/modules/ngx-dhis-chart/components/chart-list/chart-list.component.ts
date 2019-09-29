@@ -28,7 +28,7 @@ export class ChartListComponent implements OnInit {
   @Output()
   updateChartVisualizationLayer: EventEmitter<any> = new EventEmitter<any>();
 
-  @ViewChild(ChartItemComponent, { static: true })
+  @ViewChild(ChartItemComponent, { static: false })
   chartItem: ChartItemComponent;
 
   constructor() {}
@@ -48,6 +48,10 @@ export class ChartListComponent implements OnInit {
         }
       );
     }
+  }
+
+  fullscreenStatusChanged() {
+    this.chartItem.redrawChart();
   }
 
   onParentEvent(parentEvent) {

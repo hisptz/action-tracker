@@ -131,7 +131,7 @@ export class ReportEffects {
                       hideManagementBlock: true,
                       hideTypeButtons: true,
                       showInterpretionBlock: true,
-                      hideResizeButtons: true,
+                      hideResizeButtons: false,
                       showTitleBlock: false
                     },
                     layers: visualizationLayers
