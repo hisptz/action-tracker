@@ -14,7 +14,7 @@ export class UserService {
   loadCurrentUser(): Observable<User> {
     return forkJoin(
       this.httpClient.get(
-        'me.json?fields=id,name,displayName,created,lastUpdated,' +
+        'me.json?fields=id,name,userGroups,displayName,created,lastUpdated,' +
           'email,dataViewOrganisationUnits[id,name,level],organisationUnits' +
           '[id,name,level],userCredentials[username]'
       ),

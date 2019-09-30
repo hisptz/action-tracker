@@ -48,4 +48,7 @@ export interface User {
    * User authorities
    */
   authorities: string[];
+
+  /** User Groups */
+  userGroups: any[];
 }
