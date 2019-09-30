@@ -5,6 +5,7 @@ import {
   LegendSetAdapter,
   LegendSetState
 } from '../reducers/legend-set.reducer';
+import * as _ from 'lodash';
 const getLegendSetState = createFeatureSelector<LegendSetState>('legendSet');
 
 export const {
@@ -22,4 +23,11 @@ export const getLegendSetLoaded = createSelector(
 export const getLegendSetLoading = createSelector(
   getLegendSetState,
   getLegendSetLoadingState
+);
+
+export const getActionStatusLegendSet = createSelector(
+  getLegendSetState,
+  getAllLegendSets,
+  (legendSetState, allLegendSets) =>
+    _.find(allLegendSets, { name: 'Action Status' })
 );

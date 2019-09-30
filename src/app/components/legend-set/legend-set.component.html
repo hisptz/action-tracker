@@ -1,8 +1,8 @@
-<div class="row">
+<div class="row" *ngIf="legendSet$ | async as legendSet">
   <div
     class="col"
     style="width:200px"
-    *ngFor="let legendSetItem of legend$ | async"
+    *ngFor="let legendSetItem of legendSet?.legends"
   >
     <ng-container *ngIf="legendSetItem.color as legendColor">
       <i class="fa fa-square" [style.color]="legendSetItem.color"> </i>
