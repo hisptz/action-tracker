@@ -69,6 +69,8 @@ export class LegendSetConfigurationComponent implements OnInit, OnDestroy {
   }
 
   onLegendSetConfigurationUpdate(legendSets: LegendSet[]) {
+    // console.log(legendSets);
+
     legendSets = legendSetHelper.getLegendSetForUpdate(legendSets);
     this.store.dispatch(new UpsetLagendSets({ legendSets }));
     this.legendSetConfigurationUpdate.emit(

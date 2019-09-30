@@ -5,7 +5,7 @@ import { State } from 'src/app/core/store/reducers';
 
 import { getCurrentActionTrackerConfigLegend } from '../../core/store/selectors/action-tracker-configuration.selectors';
 @Component({
-  selector: 'app-legend-set',
+  selector: 'app-legend',
   templateUrl: './legend-set.component.html',
   styleUrls: ['./legend-set.component.css']
 })

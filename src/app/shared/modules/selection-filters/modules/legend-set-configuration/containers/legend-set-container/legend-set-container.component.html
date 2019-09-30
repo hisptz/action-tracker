@@ -50,7 +50,10 @@
               class="legend-set-group_item-member-item"
               *ngIf="legendSet.legends.length > 0"
             >
-              <app-legend-set [legendSet]="legendSet"></app-legend-set>
+              <app-legend-set
+                (legendSetUpdates)="onLegendSetUpdates($event)"
+                [legendSet]="legendSet"
+              ></app-legend-set>
             </div>
             <div class="add-new-legend ">
               <button

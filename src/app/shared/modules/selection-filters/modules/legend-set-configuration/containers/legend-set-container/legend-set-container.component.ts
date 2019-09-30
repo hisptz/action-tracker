@@ -108,6 +108,19 @@ export class LegendSetContainerComponent implements OnInit, OnDestroy {
     return item && item.id ? item.id : index;
   }
 
+  onLegendSetUpdates(updatedLegendSet) {
+    this.legendSets =
+      this.legendSets.length < 0 ? this.legendSetEntities : this.legendSets;
+    const updatedLegendSets = _.map(this.legendSets, legendSet => {
+      if (legendSet.id == updatedLegendSet.id) {
+        return updatedLegendSet;
+      } else {
+        return legendSet;
+      }
+    });
+    this.legendSets = updatedLegendSets;
+  }
+
   onUpdate(event) {
     event.stopPropagation();
     this.legendSetConfigurationUpdate.emit(this.legendSets);

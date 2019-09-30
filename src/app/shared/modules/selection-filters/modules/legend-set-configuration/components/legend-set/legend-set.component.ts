@@ -12,6 +12,8 @@ export class LegendSetComponent implements OnInit {
   @Input()
   legendSet: LegendSet;
 
+  @Output() legendSetUpdates: EventEmitter<any> = new EventEmitter<any>();
+
   constructor() {}
 
   ngOnInit() {}
@@ -23,6 +25,7 @@ export class LegendSetComponent implements OnInit {
       }),
       'startValue'
     );
+    this.legendSetUpdates.emit(this.legendSet);
   }
 
   onDeleteLegend(data) {
