@@ -17,13 +17,14 @@ export class FavoriteService {
 
   getAll() {
     return this.httpClient.get('dataStore/favorites').pipe(
-      switchMap(favoriteIds =>
-        forkJoin(
+      switchMap(favoriteIds => {
+        console.log({ favoriteIds });
+        return forkJoin(
           _.map(favoriteIds, favoriteId => {
             return this.httpClient.get(`dataStore/favorites/${favoriteId}`);
           })
-        )
-      )
+        );
+      })
     );
   }
 

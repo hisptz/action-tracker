@@ -49,6 +49,7 @@ import {
 } from '../reducers/visualization.reducer';
 import { getCombinedVisualizationObjectById } from '../selectors';
 import { generateUid } from 'src/app/core/helpers/generate-uid.helper';
+import { getSystemInfo } from 'src/app/core/store/selectors';
 
 @Injectable()
 export class VisualizationObjectEffects {
@@ -137,9 +138,10 @@ export class VisualizationObjectEffects {
   @Effect({ dispatch: false })
   loadFavoriteSuccess$: Observable<any> = this.actions$.pipe(
     ofType(VisualizationObjectActionTypes.LOAD_VISUALIZATION_FAVORITE_SUCCESS),
-    withLatestFrom(this.systemInfoService.getSystemInfo()),
+    withLatestFrom(getSystemInfo),
     tap(
       ([action, systemInfo]: [LoadVisualizationFavoriteSuccessAction, any]) => {
+        console.log({ systemInfo });
         const spatialSupport =
           systemInfo && systemInfo.databaseInfo
             ? systemInfo.databaseInfo.spatialSupport
