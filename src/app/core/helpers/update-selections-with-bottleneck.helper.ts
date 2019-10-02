@@ -1,10 +1,11 @@
-import { filter, find, map, omit, uniqBy, take, reverse } from 'lodash';
-import { getPeriodsBasedOnType } from '@iapps/ngx-dhis2-period-filter';
+import { filter, find, map, omit, uniqBy, reverse } from 'lodash';
+import { Fn } from '@iapps/function-analytics';
 
 export function updateSelectionsWithBottleneckParams(
   dataSelections: any[],
   globalSelections: any[],
-  bottleneckIndicatorIds: string[] = []
+  bottleneckIndicatorIds: string[] = [],
+  calendarId: string = null
 ) {
   return map(dataSelections || [], (dataSelection: any) => {
     switch (dataSelection.dimension) {
@@ -40,11 +41,10 @@ export function updateSelectionsWithBottleneckParams(
         const periodSelection =
           find(globalSelections, ['dimension', dataSelection.dimension]) ||
           dataSelection;
-
         const period = (periodSelection.items || [])[0];
-        const date = new Date();
-        const currentYear = date.getFullYear();
-
+        // set current year as well as list of periods for current year
+        // calendarId
+        const currentYear = null;
         return {
           ...periodSelection,
           items: reverse(
@@ -72,4 +72,8 @@ export function updateSelectionsWithBottleneckParams(
         );
     }
   });
+}
+
+function getPeriodsBasedOnType(type, currentYear) {
+  return [];
 }

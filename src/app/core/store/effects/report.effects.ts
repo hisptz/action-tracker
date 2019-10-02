@@ -114,11 +114,11 @@ export class ReportEffects {
             .pipe(
               map((favorites: any[]) => {
                 return favorites.map((favorite: any) => {
-                  console.log({ calendarId });
                   const visualizationLayers = getVisualizationLayersFromFavorite(
                     favorite,
                     dataSelections,
-                    bottleneckIndicatorIds
+                    bottleneckIndicatorIds,
+                    calendarId
                   );
                   return {
                     id: generateUid(),
