@@ -23,6 +23,7 @@ import {
   getRootCauseDataLoadingCompletionStatus,
   getRootCauseAnalysisDatas
 } from '../selectors/root-cause-analysis-data.selectors';
+import { getCurrentCalendarId } from '../selectors';
 
 @Injectable()
 export class ReportEffects {
@@ -41,7 +42,8 @@ export class ReportEffects {
           this.store.select(getRootCauseAnalysisDatas),
           this.store.select(getDataSelections),
           this.store.select(getCurrentRootCauseAnalysisConfiguration),
-          this.store.select(getRootCauseDataLoadingCompletionStatus)
+          this.store.select(getRootCauseDataLoadingCompletionStatus),
+          this.store.select(getCurrentCalendarId)
         )
       )
     ),
@@ -51,13 +53,15 @@ export class ReportEffects {
         rootCauseAnalysisDatas,
         dataSelections,
         rootCauseConfiguration,
-        loadingCompletion
+        loadingCompletion,
+        calendarId
       ]: [
         AddRootCauseAnalysisDatas,
         any,
         any,
         RootCauseAnalysisConfiguration,
-        boolean
+        boolean,
+        string
       ]) => {
         if (loadingCompletion) {
           const bottleneckIndicatorConfig = _.find(
@@ -110,6 +114,7 @@ export class ReportEffects {
             .pipe(
               map((favorites: any[]) => {
                 return favorites.map((favorite: any) => {
+                  console.log({ calendarId });
                   const visualizationLayers = getVisualizationLayersFromFavorite(
                     favorite,
                     dataSelections,
