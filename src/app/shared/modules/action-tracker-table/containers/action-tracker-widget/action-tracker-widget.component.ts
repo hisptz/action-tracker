@@ -25,6 +25,10 @@ import {
   getMergedActionTrackerDatasWithRowspanAttribute,
   getOveralLoadingStatus
 } from 'src/app/core/store/selectors/action-tracker-data.selectors';
+import {
+  LegendSetState,
+  getActionStatusLegendSet
+} from '../../../selection-filters/modules/legend-set-configuration/store';
 import { getDataSelections } from 'src/app/core/store/selectors/global-selection.selectors';
 import {
   getConfigurationLoadedStatus,
@@ -97,9 +101,10 @@ export class ActionTrackerWidgetComponent implements OnInit {
    * key value pair object for each row to show/hide during deletion
    */
   toBeDeleted = {};
-
+  legendSetStatus$: Observable<any>;
   constructor(
     private store: Store<State>,
+    private legendSetStore: Store<LegendSetState>,
     private downloadWidgetService: DownloadWidgetService,
     private contextMenuService: ContextMenuService
   ) {
@@ -107,6 +112,10 @@ export class ActionTrackerWidgetComponent implements OnInit {
     this.actionTrackerConfiguration$ = store.select(
       getCurrentActionTrackerConfig
     );
+    this.legendSetStatus$ = this.legendSetStore.select(
+      getActionStatusLegendSet
+    );
+
     this.data$ = store.select(getMergedActionTrackerDatasWithRowspanAttribute);
     this.configurationLoading$ = store.select(getConfigurationLoadingStatus);
     this.configurationLoaded$ = store.select(getConfigurationLoadedStatus);
@@ -233,10 +242,10 @@ export class ActionTrackerWidgetComponent implements OnInit {
   }
 
   printPDF(filename, htmlElement) {
-    domtoimage.toJpeg(htmlElement, { quality: 0.95 }).then(function(dataUrl) {
+    domtoimage.toJpeg(htmlElement, { quality: 1 }).then(function(dataUrl) {
       let pdf = new jsPDF('p', 'pt', 'a4');
       pdf.addImage(dataUrl, 'JPEG', 40, 40, 520, 150);
-      pdf.save('form.pdf');
+      pdf.save(filename + '.pdf');
     });
   }
 

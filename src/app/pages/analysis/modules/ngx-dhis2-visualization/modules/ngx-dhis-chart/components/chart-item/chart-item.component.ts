@@ -66,6 +66,9 @@ export class ChartItemComponent implements OnInit {
     }
   }
 
+  redrawChart() {
+    this.ngOnInit();
+  }
   updateChartType(chartType: string, e) {
     e.stopPropagation();
     this.currentChartType = chartType;

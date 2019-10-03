@@ -74,7 +74,7 @@ export class VisualizationComponent implements OnInit {
   @Output()
   deleteVisualization: EventEmitter<any> = new EventEmitter<any>();
 
-  @ViewChild(VisualizationBodySectionComponent, { static: true })
+  @ViewChild(VisualizationBodySectionComponent, { static: false })
   visualizationBody: VisualizationBodySectionComponent;
 
   private _visualizationInputs$: Subject<VisualizationInputs> = new Subject();
@@ -182,6 +182,13 @@ export class VisualizationComponent implements OnInit {
     this.store.dispatch(
       new ToggleVisualizationFullScreenAction(this.visualizationObject.id)
     );
+    this.onChartReflow();
+  }
+
+  onChartReflow() {
+    if (this.visualizationBody) {
+      this.visualizationBody.fullscreenStatusChanged();
+    }
   }
 
   onLoadVisualizationAnalytics(visualizationLayer: VisualizationLayer) {

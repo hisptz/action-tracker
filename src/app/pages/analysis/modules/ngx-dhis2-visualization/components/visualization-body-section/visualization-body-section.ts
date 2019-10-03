@@ -57,7 +57,7 @@ export class VisualizationBodySectionComponent implements OnInit {
   @ViewChild(TableListComponent, { static: true })
   tableList: TableListComponent;
 
-  @ViewChild(ChartListComponent, { static: true })
+  @ViewChild(ChartListComponent, { static: false })
   chartList: ChartListComponent;
 
   layers: VisualizationLayer[];
@@ -88,6 +88,12 @@ export class VisualizationBodySectionComponent implements OnInit {
       this.chartList.onDownloadEvent(downloadFormat);
     } else if (visualizationType === 'TABLE' && this.tableList) {
       this.tableList.onDownloadEvent(downloadFormat);
+    }
+  }
+
+  fullscreenStatusChanged() {
+    if (this.chartList) {
+      this.chartList.fullscreenStatusChanged();
     }
   }
 

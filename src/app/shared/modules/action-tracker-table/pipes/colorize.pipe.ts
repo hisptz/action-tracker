@@ -7,7 +7,7 @@ import { find } from 'lodash';
 export class ColorizePipe implements PipeTransform {
   transform(value: string, legendSet: any): any {
     const legend = find(legendSet ? legendSet.legends || [] : [], [
-      'status',
+      'name',
       value
     ]);
 

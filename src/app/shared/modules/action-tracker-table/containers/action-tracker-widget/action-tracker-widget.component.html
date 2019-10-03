@@ -88,7 +88,7 @@
           }"
           [style.background-color]="
             dataItem.dataValues[dataElement.id]
-              | colorize: dataElement.legendSet
+              | colorize: (legendSetStatus$ | async)
           "
         >
           <ng-container id="dataItem?.id_dataElement?.id">

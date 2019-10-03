@@ -29,16 +29,19 @@
             <!--end of data filter button-->
 
             <!--Legend configuration button-->
-            <button *ngIf="filterConfig?.showDataFilter && currentUserHasAuthorities" [ngClass]="{
-          'selection-filter-btn': true,
-          'active-filter': _selectedFilter === 'LEGEND_CONFIGURATION'
-        }" [title]="'Configure legend' | translate" (click)="toggleCurrentFilter($event, 'LEGEND_CONFIGURATION')">
-        <img [src]="dataIcon" alt="" />&nbsp;{{ 'Legend' | translate }}&nbsp;
-        <img
-          [ngClass]="{ 'arrow-up': _selectedFilter === 'LEGEND_CONFIGURATION' }"
-          [src]="arrowDownIcon"
-          alt=""
-        />
+            <button mat-stroked-button *ngIf="filterConfig?.showDataFilter" color="{{ selectedFilter === 'LEGEND_CONFIGURATION' ? 'primary' : '' }}" [title]="'Configure legend' | translate" (click)="toggleCurrentFilter($event, 'LEGEND_CONFIGURATION')">
+        <i class="fa fa-database"></i>&nbsp;{{ 'Legend' | translate }}&nbsp;
+        <!-- <span class="badge badge-secondary"
+          >{{ selectedLegend | summarizeSelection }}
+        </span> -->
+        &nbsp;
+        <i
+          class="fa {{
+            selectedFilter === 'LEGEND_CONFIGURATION'
+              ? 'fa-caret-up'
+              : 'fa-caret-down'
+          }}"
+        ></i>
       </button>
             <!--end of Legend configuration button-->
 
@@ -109,17 +112,11 @@
         <!--end of data filter-->
 
         <!-- legend configguration -->
-        <!-- <app-legend-set-configuration
-      *ngIf="_selectedFilter === 'LEGEND_CONFIGURATION'"
-      [selectedItems]="selectedData"
-      [selectedGroups]="selectedDataGroups"
-      (legendSetConfigurationClose)="
+        <app-legend-set-configuration *ngIf="selectedFilter === 'LEGEND_CONFIGURATION'" [selectedItems]="selectedData" [selectedGroups]="selectedDataGroups" (legendSetConfigurationClose)="
         onFilterClose($event, 'LEGEND_CONFIGURATION')
-      "
-      (legendSetConfigurationUpdate)="
+      " (legendSetConfigurationUpdate)="
         onFilterUpdate($event, 'LEGEND_CONFIGURATION')
-      "
-    ></app-legend-set-configuration> -->
+      "></app-legend-set-configuration>
         <!-- end of legend configguration -->
 
         <!--period filter-->
