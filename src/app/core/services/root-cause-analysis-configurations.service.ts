@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
 import { RootCauseAnalysisConfiguration } from '../models/root-cause-analysis-configuration.model';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { throwError, forkJoin, of } from 'rxjs';
+import { throwError, zip, of } from 'rxjs';
 import { defaultDataSetElementDetails } from '../../shared/modules/action-tracker-table/constants/default-configurations';
 import { HandlerService } from './handler.service';
 
@@ -33,8 +33,8 @@ export class RootCauseAnalysisConfigurationsService {
   getAllConfigurations(configId: string) {
     return this.http.get(this._dataStoreUrl).pipe(
       switchMap((configurationIds: string[]) =>
-        forkJoin(
-          _.map(configurationIds, (configurationId: string) =>
+        zip(
+          ..._.map(configurationIds, (configurationId: string) =>
             this.http.get(`${this._dataStoreUrl}/${configurationId}`)
           )
         )

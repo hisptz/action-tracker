@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import * as _ from 'lodash';
-import { Observable, of, forkJoin, zip } from 'rxjs';
-import { mergeMap, catchError, switchMap } from 'rxjs/operators';
+import { Observable, of, zip } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class InterventionService {

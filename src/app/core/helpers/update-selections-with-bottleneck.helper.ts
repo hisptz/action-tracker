@@ -42,14 +42,11 @@ export function updateSelectionsWithBottleneckParams(
           find(globalSelections, ['dimension', dataSelection.dimension]) ||
           dataSelection;
         const period = (periodSelection.items || [])[0];
-        // set current year as well as list of periods for current year
-        // calendarId
-        const currentYear = null;
         return {
           ...periodSelection,
           items: reverse(
             filter(
-              getPeriodsBasedOnType(period.type, currentYear) || [],
+              getPeriodsBasedOnType(period.type, calendarId) || [],
               (periodItem: any) => periodItem.id >= period.id
             )
           ),
@@ -74,6 +71,19 @@ export function updateSelectionsWithBottleneckParams(
   });
 }
 
-function getPeriodsBasedOnType(type, currentYear) {
-  return [];
+function getPeriodsBasedOnType(periodtype: string, calendarId: string) {
+  const periodInstance = new Fn.Period();
+  periodInstance
+    .setType(periodtype)
+    .setCalendar(calendarId)
+    .get();
+  const currentYear = periodInstance.currentYear();
+  const periods =
+    periodInstance.list().length > 0
+      ? periodInstance.list()
+      : periodInstance
+          .setYear(currentYear - 1)
+          .get()
+          .list();
+  return periods;
 }

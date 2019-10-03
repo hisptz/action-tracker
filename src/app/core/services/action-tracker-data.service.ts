@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { switchMap, catchError, map } from 'rxjs/operators';
 import * as _ from 'lodash';
-import { forkJoin, of, throwError } from 'rxjs';
+import { zip, of, throwError } from 'rxjs';
 import { generateUid } from '../helpers/generate-uid.helper';
 
 @Injectable({
@@ -26,8 +26,8 @@ export class ActionTrackerDataService {
           );
         });
         if (filteredDataIds.length > 0) {
-          return forkJoin(
-            _.map(filteredDataIds, (dataId: string) => {
+          return zip(
+            ..._.map(filteredDataIds, (dataId: string) => {
               return this.http.get(`${this._dataStoreUrl}/${dataId}`);
             })
           );
@@ -59,11 +59,7 @@ export class ActionTrackerDataService {
 
     return this.http
       .post(
-        `${this._dataStoreUrl}/${actionTrackerConfig.id}_${
-          selectionParams.orgUnit
-        }_${selectionParams.period}_${selectionParams.dashboard}_${
-          actionTrackerData.id
-        }`,
+        `${this._dataStoreUrl}/${actionTrackerConfig.id}_${selectionParams.orgUnit}_${selectionParams.period}_${selectionParams.dashboard}_${actionTrackerData.id}`,
         actionTrackerData
       )
       .pipe(map(() => actionTrackerData));
@@ -89,11 +85,7 @@ export class ActionTrackerDataService {
     );
     return this.http
       .put(
-        `${this._dataStoreUrl}/${actionTrackerConfig.id}_${
-          selectionParams.orgUnit
-        }_${selectionParams.period}_${selectionParams.dashboard}_${
-          actionTrackerData.id
-        }`,
+        `${this._dataStoreUrl}/${actionTrackerConfig.id}_${selectionParams.orgUnit}_${selectionParams.period}_${selectionParams.dashboard}_${actionTrackerData.id}`,
         actionTrackerData
       )
       .pipe(map(() => actionTrackerData));
@@ -113,11 +105,7 @@ export class ActionTrackerDataService {
     }
 
     return this.http.delete(
-      `${this._dataStoreUrl}/${actionTrackerConfig.id}_${
-        selectionParams.orgUnit
-      }_${selectionParams.period}_${
-        selectionParams.dashboard
-      }_${actionTrackerDataId}`
+      `${this._dataStoreUrl}/${actionTrackerConfig.id}_${selectionParams.orgUnit}_${selectionParams.period}_${selectionParams.dashboard}_${actionTrackerDataId}`
     );
   }
 

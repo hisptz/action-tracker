@@ -141,7 +141,6 @@ export class VisualizationObjectEffects {
     withLatestFrom(getSystemInfo),
     tap(
       ([action, systemInfo]: [LoadVisualizationFavoriteSuccessAction, any]) => {
-        console.log({ systemInfo });
         const spatialSupport =
           systemInfo && systemInfo.databaseInfo
             ? systemInfo.databaseInfo.spatialSupport

@@ -3,7 +3,7 @@ import { LoadFunctions } from '@iapps/ngx-dhis2-data-filter';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
-import { forkJoin, of } from 'rxjs';
+import { of, zip } from 'rxjs';
 import { concatMap, map, tap, withLatestFrom } from 'rxjs/operators';
 
 import { generateUid } from '../../helpers/generate-uid.helper';
@@ -102,9 +102,8 @@ export class ReportEffects {
                 })
             )
           );
-
-          forkJoin(
-            interventionItems.map((interventionItem: any) =>
+          zip(
+            ...interventionItems.map((interventionItem: any) =>
               this.reportService.loadFavorite(
                 interventionItem.chart ? interventionItem.chart.id : '',
                 interventionItem.name
