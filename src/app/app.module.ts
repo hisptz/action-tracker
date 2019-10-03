@@ -11,6 +11,8 @@ import { CoreModule } from './core';
 import { sharedModules } from './shared';
 import { LegendSetComponent } from './components/legend-set/legend-set.component';
 
+import { NgxDhis2HttpClientModule } from '@iapps/ngx-dhis2-http-client';
+
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -28,6 +30,11 @@ export function HttpLoaderFactory(http: HttpClient) {
       models: {
         users: 'id'
       }
+    }),
+    NgxDhis2HttpClientModule.forRoot({
+      version: 1,
+      namespace: 'actionTracker',
+      models: {}
     }),
 
     /**

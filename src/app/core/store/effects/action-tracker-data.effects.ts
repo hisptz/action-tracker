@@ -15,7 +15,6 @@ import {
   SaveActionTrackerData,
   SaveActionTrackerDataFail,
   SaveActionTrackerDataSuccess,
-  CancelActionTrackerData,
   DeleteActionTrackerData,
   DeleteActionTrackerDataFail,
   DeleteActionTrackerDataSuccess,
@@ -87,12 +86,12 @@ export class ActionTrackerDataEffects {
             selectionParams
           )
       ).pipe(
-        map(
-          (actionTrackerData: any) =>
-            new SaveActionTrackerDataSuccess(actionTrackerData, {
-              [actionTrackerData.savingColor]: 'green'
-            })
-        ),
+        map((actionTrackerData: any) => {
+          console.log({ actionTrackerData });
+          return new SaveActionTrackerDataSuccess(actionTrackerData, {
+            [actionTrackerData.savingColor]: 'green'
+          });
+        }),
         catchError((error: any) => of(new SaveActionTrackerDataFail(error)))
       );
     })

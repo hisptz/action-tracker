@@ -1,10 +1,11 @@
-import { filter, find, map, omit, uniqBy, take, reverse } from 'lodash';
-import { getPeriodsBasedOnType } from '@iapps/ngx-dhis2-period-filter';
+import { filter, find, map, omit, uniqBy, reverse } from 'lodash';
+import { Fn } from '@iapps/function-analytics';
 
 export function updateSelectionsWithBottleneckParams(
   dataSelections: any[],
   globalSelections: any[],
-  bottleneckIndicatorIds: string[] = []
+  bottleneckIndicatorIds: string[] = [],
+  calendarId: string = null
 ) {
   return map(dataSelections || [], (dataSelection: any) => {
     switch (dataSelection.dimension) {
@@ -40,16 +41,12 @@ export function updateSelectionsWithBottleneckParams(
         const periodSelection =
           find(globalSelections, ['dimension', dataSelection.dimension]) ||
           dataSelection;
-
         const period = (periodSelection.items || [])[0];
-        const date = new Date();
-        const currentYear = date.getFullYear();
-
         return {
           ...periodSelection,
           items: reverse(
             filter(
-              getPeriodsBasedOnType(period.type, currentYear) || [],
+              getPeriodsBasedOnType(period.type, calendarId) || [],
               (periodItem: any) => periodItem.id >= period.id
             )
           ),
@@ -72,4 +69,21 @@ export function updateSelectionsWithBottleneckParams(
         );
     }
   });
+}
+
+function getPeriodsBasedOnType(periodtype: string, calendarId: string) {
+  const periodInstance = new Fn.Period();
+  periodInstance
+    .setType(periodtype)
+    .setCalendar(calendarId)
+    .get();
+  const currentYear = periodInstance.currentYear();
+  const periods =
+    periodInstance.list().length > 0
+      ? periodInstance.list()
+      : periodInstance
+          .setYear(currentYear - 1)
+          .get()
+          .list();
+  return periods;
 }
