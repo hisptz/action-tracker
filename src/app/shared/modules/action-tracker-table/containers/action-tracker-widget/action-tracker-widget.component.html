@@ -106,7 +106,10 @@
                 [text]="dataItem.dataValues[dataElement.id]"
               ></app-text-view>
               <div *ngIf="dataElement.valueType !== 'TEXTAREA'">
-                {{ dataItem.dataValues[dataElement.id] }}
+                {{
+                  dataItem.dataValues[dataElement.id]
+                    | convertLegendId: (legendSetStatus$ | async)
+                }}
               </div>
             </div>
           </ng-container>
@@ -122,6 +125,7 @@
           <div class="action-tracker-form-wrapper" hidden="true">
             <action-tracker-form
               [dataItem]="dataItem"
+              [legendSetItems]="legendSetItems$ | async"
               [configurations]="actionTrackerConfiguration$ | async"
               (save)="onSave($event, dataItem)"
               (cancel)="onDataEntryCancelDataEntryForm($event)"
@@ -147,8 +151,8 @@
             <mat-card-content>
               <i>
                 Select Intervention, Period and Organisation unit to view
-                {{ isReport ? '' : 'and
-                manage' }} your actions
+                {{ isReport ? "" : "and
+                manage" }} your actions
               </i>
             </mat-card-content></mat-card
           >

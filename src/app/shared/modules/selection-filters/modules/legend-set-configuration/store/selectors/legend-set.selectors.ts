@@ -1,12 +1,12 @@
-import { createSelector, createFeatureSelector } from '@ngrx/store';
+import { createSelector, createFeatureSelector } from "@ngrx/store";
 import {
   getLegendSetLoadedState,
   getLegendSetLoadingState,
   LegendSetAdapter,
   LegendSetState
-} from '../reducers/legend-set.reducer';
-import * as _ from 'lodash';
-const getLegendSetState = createFeatureSelector<LegendSetState>('legendSet');
+} from "../reducers/legend-set.reducer";
+import * as _ from "lodash";
+const getLegendSetState = createFeatureSelector<LegendSetState>("legendSet");
 
 export const {
   selectIds: getLegendSetsIds,
@@ -29,5 +29,12 @@ export const getActionStatusLegendSet = createSelector(
   getLegendSetState,
   getAllLegendSets,
   (legendSetState, allLegendSets) =>
-    _.find(allLegendSets, { name: 'Action Status' })
+    _.find(allLegendSets, { name: "Action Status" })
+);
+
+export const getActionStatusLegendSetItems = createSelector(
+  getLegendSetState,
+  getActionStatusLegendSet,
+  (legendSetState, actionStatusLegendSet) =>
+    _.get(actionStatusLegendSet, "legends")
 );

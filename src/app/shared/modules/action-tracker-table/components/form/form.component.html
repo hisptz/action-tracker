@@ -27,7 +27,7 @@
               *ngIf="dataElement.formControlName"
               placeholder="{{ dataElement?.name }}"
               value="{{
-                (actionTrackerForm?.value)[(dataElement?.formControlName)]
+                (actionTrackerForm?.value)[dataElement?.formControlName]
               }}"
               formControlName="{{ dataElement.formControlName }}"
               id="{{ dataItem?.id }}_{{ dataElement?.id }}"
@@ -48,7 +48,7 @@
             <app-date-picker
               [periodUI]="dataElement?.valueType"
               [defaultValue]="
-                (actionTrackerForm?.value)[(dataElement?.formControlName)]
+                (actionTrackerForm?.value)[dataElement?.formControlName]
               "
               [rangeSelector]="rangeSelectorParams"
               (singleSelectionDate)="
@@ -80,11 +80,11 @@
               formControlName="{{ dataElement.formControlName }}"
               id="{{ dataItem?.id }}_{{ dataElement?.id }}"
             >
-              <option value="Not Started">Not Started</option>
-              <option value="In Progress">In Progress</option>
-              <option value="Constrained">Constrained</option>
-              <option value="Completed">Completed</option>
-              <option value="Discontinued">Discontinued</option>
+              <option
+                value="{{ legendSetItem.id }}"
+                *ngFor="let legendSetItem of legendSetItems"
+                >{{ legendSetItem.name }}</option
+              >
             </select>
           </div>
           <div class="form-group" *ngIf="dataElement?.valueType == 'TEXTAREA'">
@@ -105,8 +105,7 @@
         <div class="col-12">
           <div class="form-group">
             <button mat-flat-button color="primary" type="submit">
-              <span *ngIf="dataItem?.isNewRow">Save</span>
-              <span *ngIf="!dataItem?.isNewRow">Update</span>
+              <span>Save</span>
             </button>
             &nbsp;
             <button

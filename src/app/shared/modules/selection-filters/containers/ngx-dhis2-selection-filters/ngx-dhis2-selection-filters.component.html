@@ -46,29 +46,6 @@
       </button>
       <!--end of data filter button-->
 
-      <!--Legend configuration button-->
-      <button
-        mat-stroked-button
-        *ngIf="filterConfig?.showDataFilter"
-        color="{{ selectedFilter === 'LEGEND_CONFIGURATION' ? 'primary' : '' }}"
-        [title]="'Configure legend' | translate"
-        (click)="toggleCurrentFilter($event, 'LEGEND_CONFIGURATION')"
-      >
-        <i class="fa fa-database"></i>&nbsp;{{ 'Legend' | translate }}&nbsp;
-        <!-- <span class="badge badge-secondary"
-          >{{ selectedLegend | summarizeSelection }}
-        </span> -->
-        &nbsp;
-        <i
-          class="fa {{
-            selectedFilter === 'LEGEND_CONFIGURATION'
-              ? 'fa-caret-up'
-              : 'fa-caret-down'
-          }}"
-        ></i>
-      </button>
-      <!--end of Legend configuration button-->
-
       <!--period filter button-->
       <button
         mat-stroked-button
@@ -111,6 +88,29 @@
           }}"
         ></i>
       </button>
+
+      <!--Legend configuration button-->
+      <button
+        mat-stroked-button
+        *ngIf="filterConfig?.showDataFilter"
+        color="{{ selectedFilter === 'LEGEND_CONFIGURATION' ? 'primary' : '' }}"
+        [title]="'Configure legend' | translate"
+        (click)="toggleCurrentFilter($event, 'LEGEND_CONFIGURATION')"
+      >
+        <i class="fa fa-database"></i>&nbsp;{{ 'Legend' | translate }}&nbsp;
+        <!-- <span class="badge badge-secondary"
+          >{{ selectedLegend | summarizeSelection }}
+        </span> -->
+        &nbsp;
+        <i
+          class="fa {{
+            selectedFilter === 'LEGEND_CONFIGURATION'
+              ? 'fa-caret-up'
+              : 'fa-caret-down'
+          }}"
+        ></i>
+      </button>
+      <!--end of Legend configuration button-->
 
       <button
         *ngIf="filterConfig?.showLayout"

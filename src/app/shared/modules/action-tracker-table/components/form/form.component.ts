@@ -1,13 +1,14 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
-import * as _ from 'lodash';
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { FormGroup, FormBuilder, FormArray } from "@angular/forms";
+import * as _ from "lodash";
 @Component({
-  selector: 'action-tracker-form',
-  templateUrl: './form.component.html',
-  styleUrls: ['./form.component.css']
+  selector: "action-tracker-form",
+  templateUrl: "./form.component.html",
+  styleUrls: ["./form.component.css"]
 })
 export class FormComponent implements OnInit {
   @Input() dataItem;
+  @Input() legendSetItems;
   @Input() configurations;
 
   @Output() cancel: EventEmitter<any> = new EventEmitter<any>();
@@ -16,9 +17,9 @@ export class FormComponent implements OnInit {
 
   rangeSelectorParams = {
     displayMonths: 2,
-    navigation: 'select',
+    navigation: "select",
     showWeekNumbers: false,
-    outsideDays: 'visible'
+    outsideDays: "visible"
   };
 
   actionTrackerForm: FormGroup;
@@ -30,12 +31,12 @@ export class FormComponent implements OnInit {
     const dataElements = this.configurations
       ? this.configurations.dataElements
       : [];
-    _.map(_.filter(dataElements, 'isActionTrackerColumn'), dataElement => {
+    _.map(_.filter(dataElements, "isActionTrackerColumn"), dataElement => {
       this.formArray[dataElement.formControlName] = this.dataItem
         ? this.dataItem.dataValues
           ? this.dataItem.dataValues[dataElement.id]
-          : ''
-        : '';
+          : ""
+        : "";
     });
     this.actionTrackerForm = this.formBuilder.group(this.formArray);
   }
@@ -48,11 +49,11 @@ export class FormComponent implements OnInit {
               [
                 reviewDateObject.year,
                 _.lt(reviewDateObject.month, 10)
-                  ? '0' + _.toString(reviewDateObject.month)
+                  ? "0" + _.toString(reviewDateObject.month)
                   : reviewDateObject.month,
                 reviewDateObject.day
               ],
-              '-'
+              "-"
             )
           )
         : null;
@@ -69,22 +70,22 @@ export class FormComponent implements OnInit {
               [
                 startDate.year,
                 _.lt(startDate.month, 10)
-                  ? '0' + _.toString(startDate.month)
+                  ? "0" + _.toString(startDate.month)
                   : startDate.month,
                 startDate.day
               ],
-              '/'
+              "/"
             ) +
-              '-' +
+              "-" +
               _.join(
                 [
                   endDate.year,
                   _.lt(endDate.month, 10)
-                    ? '0' + _.toString(endDate.month)
+                    ? "0" + _.toString(endDate.month)
                     : endDate.month,
                   endDate.day
                 ],
-                '/'
+                "/"
               )
           )
         : null;
@@ -99,30 +100,30 @@ export class FormComponent implements OnInit {
     const dataValueStructure = {};
 
     if (dataItem && dataElement) {
-      selectionParams['orgUnit'] =
+      selectionParams["orgUnit"] =
         dataItem.dataValues[
-          _.get(_.find(dataElement, { name: 'orgUnitId' }), 'id')
+          _.get(_.find(dataElement, { name: "orgUnitId" }), "id")
         ];
-      selectionParams['period'] =
+      selectionParams["period"] =
         dataItem.dataValues[
-          _.get(_.find(dataElement, { name: 'periodId' }), 'id')
+          _.get(_.find(dataElement, { name: "periodId" }), "id")
         ];
-      selectionParams['dashboard'] =
+      selectionParams["dashboard"] =
         dataItem.dataValues[
-          _.get(_.find(dataElement, { name: 'interventionId' }), 'id')
+          _.get(_.find(dataElement, { name: "interventionId" }), "id")
         ];
     }
-    _.map(_.filter(dataElement, 'isActionTrackerColumn'), dataValue => {
+    _.map(_.filter(dataElement, "isActionTrackerColumn"), dataValue => {
       dataValueStructure[dataValue.id] =
         dataValue.formControlName && this.actionTrackerForm.value
           ? this.actionTrackerForm.value[dataValue.formControlName]
-          : '';
+          : "";
     });
     dataItem.id && !dataItem.isNewRow
-      ? (actionTrackerData['id'] = dataItem.id)
+      ? (actionTrackerData["id"] = dataItem.id)
       : null;
-    actionTrackerData['dataValues'] = dataValueStructure;
-    selectionParams['rootCauseDataId'] = dataItem.rootCauseDataId;
+    actionTrackerData["dataValues"] = dataValueStructure;
+    selectionParams["rootCauseDataId"] = dataItem.rootCauseDataId;
 
     this.save.emit({ ...actionTrackerData, selectionParams });
   }
