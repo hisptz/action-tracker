@@ -12,6 +12,7 @@ import {
   TREE_ICON
 } from '../../icons';
 import { SelectionFilterConfig } from '../../models/selected-filter-config.model';
+import { PeriodFilterConfig } from '@iapps/ngx-dhis2-period-filter';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -56,6 +57,7 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
   selectedOrgUnits: any[];
 
   selectedInterventions: any[];
+  periodFilterConfig: PeriodFilterConfig;
 
   constructor() {
     this.showFilters = true;
@@ -69,6 +71,7 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
     this.dataIcon = DATA_ICON;
     this.periodIcon = PERIOD_ICON;
     this.orgUnitIcon = TREE_ICON;
+    this.periodFilterConfig = { singleSelection: true };
   }
 
   get selectedData(): any[] {

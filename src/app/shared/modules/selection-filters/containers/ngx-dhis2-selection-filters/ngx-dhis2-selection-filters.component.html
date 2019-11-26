@@ -15,7 +15,7 @@
         [title]="'Filter by data' | translate"
         (click)="toggleCurrentFilter($event, 'DATA')"
       >
-        <img [src]="dataIcon" alt="" />&nbsp;{{ 'Data' | translate }}&nbsp;
+        <img [src]="dataIcon" alt="" />&nbsp;{{ "Data" | translate }}&nbsp;
         <img
           [ngClass]="{ 'arrow-up': selectedFilter === 'DATA' }"
           [src]="arrowDownIcon"
@@ -33,7 +33,7 @@
         [title]="'Filter by data' | translate"
         (click)="toggleCurrentFilter($event, 'INTERVENTION')"
       >
-        <i class="fa fa-th"></i>&nbsp;{{ 'Intervention' | translate }}&nbsp;
+        <i class="fa fa-th"></i>&nbsp;{{ "Intervention" | translate }}&nbsp;
         <span class="badge badge-secondary">{{
           selectedInterventions | summarizeSelection
         }}</span
@@ -55,7 +55,7 @@
         [title]="'Filter by period' | translate"
         (click)="toggleCurrentFilter($event, 'PERIOD')"
       >
-        <i class="fa fa-clock-o"></i>&nbsp;{{ 'Period' | translate }}&nbsp;
+        <i class="fa fa-clock-o"></i>&nbsp;{{ "Period" | translate }}&nbsp;
         <span class="badge badge-secondary">{{
           selectedPeriods | summarizeSelection
         }}</span
@@ -77,7 +77,7 @@
         [title]="'Filter by organisation unit' | translate"
         (click)="toggleCurrentFilter($event, 'ORG_UNIT')"
       >
-        <i class="fa fa-sitemap"></i>&nbsp;{{ 'Org-Unit' | translate }}
+        <i class="fa fa-sitemap"></i>&nbsp;{{ "Org-Unit" | translate }}
         &nbsp;
         <span class="badge badge-secondary">{{
           selectedOrgUnits | summarizeSelection
@@ -97,7 +97,7 @@
         [title]="'Configure legend' | translate"
         (click)="toggleCurrentFilter($event, 'LEGEND_CONFIGURATION')"
       >
-        <i class="fa fa-database"></i>&nbsp;{{ 'Legend' | translate }}&nbsp;
+        <i class="fa fa-database"></i>&nbsp;{{ "Legend" | translate }}&nbsp;
         <!-- <span class="badge badge-secondary"
           >{{ selectedLegend | summarizeSelection }}
         </span> -->
@@ -121,7 +121,7 @@
         [title]="'Layout' | translate"
         (click)="toggleCurrentFilter($event, 'LAYOUT')"
       >
-        <img [src]="orgUnitcon" alt="" />&nbsp;{{ 'Layout' | translate }}&nbsp;
+        <img [src]="orgUnitcon" alt="" />&nbsp;{{ "Layout" | translate }}&nbsp;
         <img
           [ngClass]="{ 'arrow-up': selectedFilter === 'LAYOUT' }"
           [src]="arrowDownIcon"
@@ -137,7 +137,7 @@
         (click)="onSave($event)"
       >
         <img src="assets/icons/save.png" alt="" />&nbsp;{{
-          saving ? 'Saving...' : 'Save'
+          saving ? "Saving..." : "Save"
         }}
       </button>
     </div>
@@ -185,7 +185,7 @@
     <ngx-dhis2-period-filter
       *ngIf="selectedFilter === 'PERIOD'"
       [selectedPeriods]="selectedPeriods"
-      [periodFilterConfig]="{ singleSelection: true }"
+      [periodFilterConfig]="periodFilterConfig"
       (close)="onFilterClose($event, 'PERIOD')"
       (update)="onFilterUpdate($event, 'PERIOD')"
     ></ngx-dhis2-period-filter>

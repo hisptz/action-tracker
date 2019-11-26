@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
-import { forkJoin, Observable } from 'rxjs';
+import { Observable, zip } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
 
 import {
@@ -58,7 +58,9 @@ export class VisualizationLayerEffects {
               this.store
                 .select(getFunctionLoadedStatus)
                 .pipe(
-                  filter((loaded: boolean) => loaded),
+                  filter((loaded: boolean) => {
+                    return loaded || true;
+                  }),
                   switchMap(() => this.store.select(getFunctions())),
                   take(1)
                 )
@@ -66,7 +68,6 @@ export class VisualizationLayerEffects {
                   const functionRules = _.flatten(
                     _.map(functions, functionObject => functionObject.items)
                   );
-
                   const visualizationLayers: VisualizationLayer[] = prepareVisualizationLayersForAnalytics(
                     action.globalSelections
                       ? _.map(
@@ -85,9 +86,8 @@ export class VisualizationLayerEffects {
                       : action.visualizationLayers,
                     functionRules
                   );
-
-                  forkJoin(
-                    _.map(
+                  zip(
+                    ..._.map(
                       visualizationLayers,
                       (visualizationLayer: VisualizationLayer) => {
                         return this.analyticsService.getAnalytics(

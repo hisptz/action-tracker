@@ -6,14 +6,16 @@ import { updateSelectionsWithBottleneckParams } from './update-selections-with-b
 export function getVisualizationLayersFromFavorite(
   favorite: any,
   globalSelections: any[],
-  bottleneckIndicatorIds: string[] = []
+  bottleneckIndicatorIds: string[] = [],
+  calendarId: string = null
 ) {
   return (favorite ? favorite.mapViews || [favorite] : []).map(
     favoriteLayer => {
       const dataSelections = updateSelectionsWithBottleneckParams(
         getSelectionDimensionsFromFavorite(favoriteLayer),
         globalSelections,
-        bottleneckIndicatorIds
+        bottleneckIndicatorIds,
+        calendarId
       );
 
       return {

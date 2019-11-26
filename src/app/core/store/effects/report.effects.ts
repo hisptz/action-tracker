@@ -3,7 +3,7 @@ import { LoadFunctions } from '@iapps/ngx-dhis2-data-filter';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
-import { forkJoin, of } from 'rxjs';
+import { of, zip } from 'rxjs';
 import { concatMap, map, tap, withLatestFrom } from 'rxjs/operators';
 
 import { generateUid } from '../../helpers/generate-uid.helper';
@@ -23,6 +23,7 @@ import {
   getRootCauseDataLoadingCompletionStatus,
   getRootCauseAnalysisDatas
 } from '../selectors/root-cause-analysis-data.selectors';
+import { getCurrentCalendarId } from '../selectors';
 
 @Injectable()
 export class ReportEffects {
@@ -41,7 +42,8 @@ export class ReportEffects {
           this.store.select(getRootCauseAnalysisDatas),
           this.store.select(getDataSelections),
           this.store.select(getCurrentRootCauseAnalysisConfiguration),
-          this.store.select(getRootCauseDataLoadingCompletionStatus)
+          this.store.select(getRootCauseDataLoadingCompletionStatus),
+          this.store.select(getCurrentCalendarId)
         )
       )
     ),
@@ -51,13 +53,15 @@ export class ReportEffects {
         rootCauseAnalysisDatas,
         dataSelections,
         rootCauseConfiguration,
-        loadingCompletion
+        loadingCompletion,
+        calendarId
       ]: [
         AddRootCauseAnalysisDatas,
         any,
         any,
         RootCauseAnalysisConfiguration,
-        boolean
+        boolean,
+        string
       ]) => {
         if (loadingCompletion) {
           const bottleneckIndicatorConfig = _.find(
@@ -98,9 +102,8 @@ export class ReportEffects {
                 })
             )
           );
-
-          forkJoin(
-            interventionItems.map((interventionItem: any) =>
+          zip(
+            ...interventionItems.map((interventionItem: any) =>
               this.reportService.loadFavorite(
                 interventionItem.chart ? interventionItem.chart.id : '',
                 interventionItem.name
@@ -113,7 +116,8 @@ export class ReportEffects {
                   const visualizationLayers = getVisualizationLayersFromFavorite(
                     favorite,
                     dataSelections,
-                    bottleneckIndicatorIds
+                    bottleneckIndicatorIds,
+                    calendarId
                   );
                   return {
                     id: generateUid(),
