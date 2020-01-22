@@ -9,22 +9,12 @@ import { map, switchMap } from "rxjs/operators";
 import { openEntryForm } from "src/app/core/helpers/open-entry-form.helper";
 import { RootCauseAnalysisConfiguration } from "src/app/core/models/root-cause-analysis-configuration.model";
 import { RootCauseAnalysisData } from "src/app/core/models/root-cause-analysis-data.model";
-import {
-  AddActionTrackerData,
-  CancelActionTrackerData,
-  DeleteActionTrackerData,
-  SaveActionTrackerData
-} from "src/app/core/store/actions/action-tracker-data.actions";
+
 import { State } from "src/app/core/store/reducers";
 import {
   getCurrentActionTrackerConfig,
   getMergedActionTrackerConfiguration
 } from "src/app/core/store/selectors/action-tracker-configuration.selectors";
-import {
-  getAllDataNotification,
-  getMergedActionTrackerDatasWithRowspanAttribute,
-  getOveralLoadingStatus
-} from "src/app/core/store/selectors/action-tracker-data.selectors";
 import {
   LegendSetState,
   getActionStatusLegendSet,
@@ -122,41 +112,14 @@ export class ActionTrackerWidgetComponent implements OnInit {
       getActionStatusLegendSetItems
     );
 
-    this.data$ = store.select(getMergedActionTrackerDatasWithRowspanAttribute);
     this.configurationLoading$ = store.select(getConfigurationLoadingStatus);
     this.configurationLoaded$ = store.select(getConfigurationLoadedStatus);
     this.dataLoaded$ = store.select(getRootCauseAnalysisDataLoadedStatus);
-    this.dataLoading$ = store.select(getOveralLoadingStatus);
-    this.notification$ = store.select(getAllDataNotification);
     this.dataSelections$ = store.select(getDataSelections);
     this.unSavedDataItemValues = {};
-
-    this.data$
-      .pipe(
-        switchMap((data: any) =>
-          this.configuration$.pipe(
-            map((config: any) => {
-              return { config, lastData: _.last(data) };
-            })
-          )
-        )
-      )
-      .subscribe((dataDetails: any) => {
-        of(dataDetails);
-      });
   }
 
   ngOnInit() {}
-
-  onActionEdit(dataItem) {
-    if (dataItem) {
-      if (dataItem.rowspan == 1) {
-        openEntryForm(dataItem);
-      } else {
-        this.openActionTrackerEntryForm(dataItem);
-      }
-    }
-  }
 
   onContextMenu(event, dataItem) {
     if (!this.isReport) {
@@ -199,33 +162,6 @@ export class ActionTrackerWidgetComponent implements OnInit {
           : null;
       });
       this.toBeDeleted[dataItem.id] = false;
-    }
-  }
-  onConfirmActionDelete(dataItem, dataElements) {
-    const selectionParams = {};
-    if (dataItem && dataElements) {
-      selectionParams["orgUnit"] =
-        dataItem.dataValues[
-          _.get(_.find(dataElements, { name: "orgUnitId" }), "id")
-        ];
-      selectionParams["period"] =
-        dataItem.dataValues[
-          _.get(_.find(dataElements, { name: "periodId" }), "id")
-        ];
-      selectionParams["dashboard"] =
-        dataItem.dataValues[
-          _.get(_.find(dataElements, { name: "interventionId" }), "id")
-        ];
-    }
-    if (dataItem && dataItem.id) {
-      this.store.dispatch(
-        new DeleteActionTrackerData(
-          { ...dataItem, selectionParams },
-          dataItem.id
-        )
-      );
-    } else {
-      window.alert("There is no action registered for this solution yet.");
     }
   }
 
@@ -275,132 +211,6 @@ export class ActionTrackerWidgetComponent implements OnInit {
       }
     }
   }
-  checkIfSolutionHasAnAction(dataItem) {
-    if (dataItem) {
-      const relatedSolutionDataItems = document.getElementsByClassName(
-        dataItem.rootCauseDataId
-      );
-
-      if (relatedSolutionDataItems.length == 1) {
-        let emptyColumnCount = 0;
-        const tableRow = _.head(relatedSolutionDataItems);
-        const actionTrackerColumns = tableRow.getElementsByClassName(
-          "action-tracker-column"
-        );
-        _.map(actionTrackerColumns, actionTrackerColumn => {
-          if (actionTrackerColumn.innerText === "") {
-            emptyColumnCount++;
-          }
-        });
-        return emptyColumnCount > 6 ? false : true;
-      } else {
-        return true;
-      }
-    }
-  }
-
-  onAddAction(event, dataItem, configuration) {
-    if (this.checkIfSolutionHasAnAction(dataItem) == false) {
-      this.openActionTrackerEntryForm(dataItem);
-    } else {
-      const emptyDataValues = this.generateConfigurations(
-        configuration.dataElements,
-        dataItem.dataValues
-      );
-      const newDataItem = {
-        id: generateUid(),
-        dataValues: emptyDataValues,
-        isNewRow: true,
-        rootCauseDataId: dataItem.rootCauseDataId,
-        actionTrackerConfigId: dataItem.actionTrackerConfigId,
-        parentAction: dataItem.id
-      };
-      this.store.dispatch(new AddActionTrackerData(newDataItem));
-    }
-  }
-
-  openActionTrackerEntryForm(dataItem) {
-    const dataItemRowElement = document.getElementById(
-      `${dataItem.id || dataItem.rootCauseDataId}`
-    );
-
-    const actionTrackerItems = dataItemRowElement.getElementsByClassName(
-      "action-tracker-column"
-    );
-
-    _.map(actionTrackerItems, (actionTrackerColumn, index) => {
-      if (index !== actionTrackerItems.length - 1) {
-        actionTrackerColumn.setAttribute("hidden", true);
-      } else {
-        actionTrackerColumn.colSpan = _.toString(actionTrackerItems.length - 1);
-        dataItem.rowspan ? (actionTrackerColumn.rowSpan = _.toString(1)) : null;
-        const buttonElement = _.head(
-          actionTrackerColumn.getElementsByClassName("add-action-block")
-        );
-        if (!dataItem.rowspan) {
-          actionTrackerColumn.removeAttribute("hidden");
-        }
-
-        const formElement = _.head(
-          actionTrackerColumn.getElementsByClassName(
-            "action-tracker-form-wrapper"
-          )
-        );
-        buttonElement.setAttribute("hidden", true);
-        formElement.removeAttribute("hidden");
-      }
-    });
-  }
-
-  onDataEntryCancelDataEntryForm(dataItem) {
-    if (dataItem.isNewRow) {
-      this.closeDataEntryForm(dataItem);
-      this.store.dispatch(new CancelActionTrackerData(dataItem));
-    } else {
-      this.closeDataEntryForm(dataItem);
-    }
-  }
-  closeDataEntryForm(dataItem) {
-    const dataItemRowElement = document.getElementById(
-      `${dataItem.id || dataItem.rootCauseDataId}`
-    );
-
-    const parentDataItemElement = document.getElementById(
-      `${dataItem.parentAction || dataItem.id}`
-    );
-    const actionTrackerItems = dataItemRowElement.getElementsByClassName(
-      "action-tracker-column"
-    );
-    _.map(actionTrackerItems, (actionTrackerColumn, index) => {
-      if (index !== actionTrackerItems.length - 1) {
-        actionTrackerColumn.removeAttribute("hidden", false);
-      } else {
-        const buttonElement = _.head(
-          actionTrackerColumn.getElementsByClassName("btn-add-action")
-        );
-
-        dataItem.rowspan
-          ? (actionTrackerColumn.rowSpan = _.toString(dataItem.rowspan))
-          : null;
-        const formElement = _.head(
-          actionTrackerColumn.getElementsByClassName(
-            "action-tracker-form-wrapper"
-          )
-        );
-        buttonElement.removeAttribute("hidden");
-        formElement.setAttribute("hidden", true);
-        if (dataItem.parentAction || !dataItem.isNewRow) {
-          const parentButtonElement = _.head(
-            parentDataItemElement.getElementsByClassName("btn-add-action")
-          ).parentNode;
-          const parentAddActionColumn = parentButtonElement.parentNode;
-          actionTrackerColumn.setAttribute("hidden", true);
-          parentAddActionColumn.removeAttribute("hidden");
-          parentButtonElement.removeAttribute("hidden");
-        }
-      }
-    });
-  }
 
   generateConfigurations(configurationDataElements, dataItem) {
     const dataValues: any = {};
@@ -408,18 +218,6 @@ export class ActionTrackerWidgetComponent implements OnInit {
       element.isActionTrackerColumn ? (dataValues[element.id] = "") : null;
     });
     return dataValues;
-  }
-
-  // Hook your saving logic here
-  onSave(actionTrackerData: any, placeHolderData?: any) {
-    actionTrackerData
-      ? actionTrackerData.id
-        ? this.store.dispatch(
-            new SaveActionTrackerData(actionTrackerData, actionTrackerData.id)
-          )
-        : this.store.dispatch(new SaveActionTrackerData(actionTrackerData))
-      : null;
-    this.store.dispatch(new CancelActionTrackerData(placeHolderData));
   }
 
   onResetNotification(emptyNotificationMessage) {
@@ -430,33 +228,5 @@ export class ActionTrackerWidgetComponent implements OnInit {
         }
       })
     );
-  }
-
-  onDataValueEntry(e, dataElement) {
-    if (e) {
-      e.stopPropagation();
-    }
-    const newEnteredData = e.target.value.trim();
-    if (newEnteredData !== "") {
-      const dataValueId = dataElement;
-
-      this.newRootCauseAnalysisData.dataValues[dataElement] = newEnteredData;
-      const unSavedDataItem = this.newRootCauseAnalysisData;
-      this.newRootCauseAnalysisData = unSavedDataItem
-        ? {
-            ...unSavedDataItem,
-            dataValues: {
-              ...unSavedDataItem.dataValues,
-              ...{ [dataValueId]: newEnteredData }
-            }
-          }
-        : {
-            ...this.newRootCauseAnalysisData,
-            dataValues: {
-              ...this.newRootCauseAnalysisData.dataValues,
-              ...{ [dataValueId]: newEnteredData }
-            }
-          };
-    }
   }
 }

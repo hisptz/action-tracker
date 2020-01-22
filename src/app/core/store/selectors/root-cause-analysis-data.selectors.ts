@@ -1,12 +1,12 @@
-import { createSelector } from '@ngrx/store';
-import * as _ from 'lodash';
+import { createSelector } from "@ngrx/store";
+import * as _ from "lodash";
 
-import { getRootState, State as RootState } from '../reducers';
-import { adapter, State } from '../reducers/root-cause-analysis-data.reducer';
-import { getCurrentRootCauseAnalysisConfiguration } from './root-cause-analysis-configuration.selectors';
-import { getRouterParams } from './router.selectors';
-import { RootCauseAnalysisConfiguration } from '../../models/root-cause-analysis-configuration.model';
-import { RootCauseAnalysisData } from '../../models/root-cause-analysis-data.model';
+import { getRootState, State as RootState } from "../reducers";
+import { adapter, State } from "../reducers/root-cause-analysis-data.reducer";
+import { getCurrentRootCauseAnalysisConfiguration } from "./root-cause-analysis-configuration.selectors";
+import { getRouterParams } from "./router.selectors";
+import { RootCauseAnalysisConfiguration } from "../../models/root-cause-analysis-configuration.model";
+import { RootCauseAnalysisData } from "../../models/root-cause-analysis-data.model";
 
 export const getRootCauseAnalysisDataState = createSelector(
   getRootState,
@@ -65,10 +65,15 @@ export const getAllRootCauseAnalysisData = createSelector(
                   ? routeParams[dataElement.routerParam.namespace][
                       dataElement.routerParam.key
                     ]
-                  : ''
-                : ''
+                  : ""
+                : ""
               : rootCauseAnalysisData.dataValues[dataElement.id];
           }
+        );
+        console.log(
+          rootCauseAnalysisData,
+          newDataValues,
+          rootCauseAnalysisData.dataValues
         );
         return {
           ...rootCauseAnalysisData,
