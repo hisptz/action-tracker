@@ -25,10 +25,11 @@ export const getCurrentActionTrackerConfigId = createSelector(
 export const getCurrentActionTrackerConfig = createSelector(
   getActionTrackerConfigurationEntities,
   getCurrentActionTrackerConfigId,
-  (actionTrackerConfigEntities: any, currentConfigId: string) =>
-    actionTrackerConfigEntities
+  (actionTrackerConfigEntities: any, currentConfigId: string) => {
+    return actionTrackerConfigEntities
       ? actionTrackerConfigEntities[currentConfigId]
-      : null
+      : null;
+  }
 );
 
 export const getCurrentActionTrackerConfigLegend = createSelector(
@@ -44,17 +45,75 @@ export const getCurrentActionTrackerConfigLegend = createSelector(
   }
 );
 
+export const getConfigurationDataElementsFromTEAs = createSelector(
+  getActionTrackerConfigurationState,
+  getCurrentActionTrackerConfig,
+  (actionTrackerConfigState, currentActionTrackerConfig) =>
+    currentActionTrackerConfig
+      ? _.compact(
+          _.map(
+            currentActionTrackerConfig.programTrackedEntityAttributes,
+            trackedEntityAttributes => {
+              if (trackedEntityAttributes.displayInList == true) {
+                return _.merge(
+                  trackedEntityAttributes.trackedEntityAttribute,
+                  _.pick(trackedEntityAttributes, "valueType"),
+                  { isTrackedEntityAttribute: true }
+                );
+              }
+            }
+          )
+        )
+      : []
+);
+
+export const getConfigurationDataElementsFromProgramStageDEs = createSelector(
+  getActionTrackerConfigurationState,
+  getCurrentActionTrackerConfig,
+  (actionTrackerConfigState, currentActionTrackerConfig) =>
+    currentActionTrackerConfig
+      ? _.compact(
+          _.flatMap(currentActionTrackerConfig.programStages, programStage =>
+            _.concat(
+              _.compact(
+                _.map(
+                  programStage.programStageDataElements,
+                  programStageDataElement =>
+                    programStageDataElement.displayInReports
+                      ? _.merge(
+                          {
+                            name: _.get(
+                              programStageDataElement,
+                              "dataElement.formName"
+                            )
+                          },
+                          _.pick(programStageDataElement.dataElement, [
+                            "id",
+                            "valueType"
+                          ])
+                        )
+                      : []
+                )
+              ),
+              [{ name: programStage.executionDateLabel }]
+            )
+          )
+        )
+      : []
+);
+
 export const getMergedActionTrackerConfiguration = createSelector(
   getCurrentActionTrackerConfig,
+  getConfigurationDataElementsFromTEAs,
+  getConfigurationDataElementsFromProgramStageDEs,
   getCurrentRootCauseAnalysisConfiguration,
-  (currentActionTrackerConfig, currentRootCauseAnalysisConfiguration) => {
+  (
+    currentActionTrackerConfig,
+    actionTrackerConfigTrackedEntityAttributes,
+    actionTrackerConfigProgramStageDataElements,
+    currentRootCauseAnalysisConfiguration
+  ) => {
     if (currentRootCauseAnalysisConfiguration && currentActionTrackerConfig) {
-      const actionTrackerDataElements = currentActionTrackerConfig.dataElements;
-      _.map(actionTrackerDataElements, actionTrackerDataElement => {
-        actionTrackerDataElement["isActionTrackerColumn"] = true;
-        return actionTrackerDataElement;
-      });
-
       _.map(
         currentRootCauseAnalysisConfiguration.dataElements,
         rootCauseConfig => {
@@ -72,7 +131,8 @@ export const getMergedActionTrackerConfiguration = createSelector(
       currentActionTrackerConfig.dataElements = [];
       currentActionTrackerConfig.dataElements.push(
         ...currentRootCauseAnalysisConfiguration.dataElements,
-        ...actionTrackerDataElements
+        ...actionTrackerConfigTrackedEntityAttributes,
+        ...actionTrackerConfigProgramStageDataElements
       );
     }
     return currentActionTrackerConfig;
