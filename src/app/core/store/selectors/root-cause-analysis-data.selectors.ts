@@ -70,11 +70,7 @@ export const getAllRootCauseAnalysisData = createSelector(
               : rootCauseAnalysisData.dataValues[dataElement.id];
           }
         );
-        console.log(
-          rootCauseAnalysisData,
-          newDataValues,
-          rootCauseAnalysisData.dataValues
-        );
+
         return {
           ...rootCauseAnalysisData,
           dataValues: rootCauseAnalysisData.isActive

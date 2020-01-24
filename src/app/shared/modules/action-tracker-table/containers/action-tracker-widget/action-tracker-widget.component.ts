@@ -25,7 +25,15 @@ import {
   getConfigurationLoadedStatus,
   getConfigurationLoadingStatus
 } from "src/app/core/store/selectors/root-cause-analysis-configuration.selectors";
-import { getRootCauseAnalysisDataLoadedStatus } from "src/app/core/store/selectors/root-cause-analysis-data.selectors";
+import {
+  getRootCauseAnalysisDataLoadedStatus,
+  getAllRootCauseAnalysisData
+} from "src/app/core/store/selectors/root-cause-analysis-data.selectors";
+
+import {
+  getAllDataNotification,
+  getOveralLoadingStatus
+} from "src/app/core/store/selectors/action-tracker-data.selectors";
 
 import * as fromRootCauseAnalysisDataActions from "../../../../../core/store/actions/root-cause-analysis-data.actions";
 import { listEnterAnimation } from "../../../../animations/list-enter-animation";
@@ -100,6 +108,8 @@ export class ActionTrackerWidgetComponent implements OnInit {
     private downloadWidgetService: DownloadWidgetService,
     private contextMenuService: ContextMenuService
   ) {
+    this.data$ = store.select(getAllRootCauseAnalysisData);
+
     this.configuration$ = store.select(getMergedActionTrackerConfiguration);
     this.actionTrackerConfiguration$ = store.select(
       getCurrentActionTrackerConfig
@@ -115,6 +125,8 @@ export class ActionTrackerWidgetComponent implements OnInit {
     this.configurationLoading$ = store.select(getConfigurationLoadingStatus);
     this.configurationLoaded$ = store.select(getConfigurationLoadedStatus);
     this.dataLoaded$ = store.select(getRootCauseAnalysisDataLoadedStatus);
+    this.dataLoading$ = store.select(getOveralLoadingStatus);
+    this.notification$ = store.select(getAllDataNotification);
     this.dataSelections$ = store.select(getDataSelections);
     this.unSavedDataItemValues = {};
   }
