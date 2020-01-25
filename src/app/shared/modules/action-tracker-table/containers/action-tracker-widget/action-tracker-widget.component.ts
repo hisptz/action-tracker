@@ -72,6 +72,8 @@ export class ActionTrackerWidgetComponent implements OnInit {
   @Input()
   isReport: boolean;
 
+  selectedDataItem: any = {};
+
   @ViewChild("rootCauseAnalysisTable", { static: false })
   table: ElementRef;
 
@@ -102,6 +104,9 @@ export class ActionTrackerWidgetComponent implements OnInit {
   toBeDeleted = {};
   legendSetStatus$: Observable<any>;
   legendSetItems$: Observable<any>;
+
+  display = "none";
+
   constructor(
     private store: Store<State>,
     private legendSetStore: Store<LegendSetState>,
@@ -132,6 +137,27 @@ export class ActionTrackerWidgetComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  openModal(dataItem) {
+    this.display = "block";
+    this.selectedDataItem = dataItem;
+  }
+
+  onCloseHandled() {
+    this.display = "none";
+  }
+
+  onSave(actionTrackerData: any, placeHolderData?: any) {
+    console.log(actionTrackerData, placeHolderData);
+    // actionTrackerData
+    //   ? actionTrackerData.id
+    //     ? this.store.dispatch(
+    //         new SaveActionTrackerData(actionTrackerData, actionTrackerData.id)
+    //       )
+    //     : this.store.dispatch(new SaveActionTrackerData(actionTrackerData))
+    //   : null;
+    // this.store.dispatch(new CancelActionTrackerData(placeHolderData));
+  }
 
   onContextMenu(event, dataItem) {
     if (!this.isReport) {

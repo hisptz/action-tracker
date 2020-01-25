@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { FormGroup, FormBuilder, FormArray } from "@angular/forms";
+import { generateTEI } from "../../../../../core/helpers/generate-tracked-entity-instance.helper";
 import * as _ from "lodash";
 @Component({
   selector: "action-tracker-form",
@@ -31,6 +32,7 @@ export class FormComponent implements OnInit {
     const dataElements = this.configurations
       ? this.configurations.dataElements
       : [];
+
     _.map(_.filter(dataElements, "isActionTrackerColumn"), dataElement => {
       this.formArray[dataElement.formControlName] = this.dataItem
         ? this.dataItem.dataValues
@@ -97,7 +99,8 @@ export class FormComponent implements OnInit {
   onDataEntrySave(dataItem, dataElement) {
     const actionTrackerData = {};
     const selectionParams = {};
-    const dataValueStructure = {};
+    const attributes = [];
+    const dataValues = [];
 
     if (dataItem && dataElement) {
       selectionParams["orgUnit"] =
@@ -114,17 +117,35 @@ export class FormComponent implements OnInit {
         ];
     }
     _.map(_.filter(dataElement, "isActionTrackerColumn"), dataValue => {
-      dataValueStructure[dataValue.id] =
-        dataValue.formControlName && this.actionTrackerForm.value
-          ? this.actionTrackerForm.value[dataValue.formControlName]
-          : "";
+      if (dataValue.isTrackedEntityAttribute) {
+        attributes.push({
+          attribute: dataValue.id,
+          value: this.actionTrackerForm.value[dataValue.formControlName]
+        });
+      } else {
+        dataValue.formControlName != "eventDate"
+          ? dataValues.push({
+              dataElement: dataValue.id,
+              value: this.actionTrackerForm.value[dataValue.formControlName]
+            })
+          : _.set(
+              selectionParams,
+              "eventDate",
+              this.actionTrackerForm.value[dataValue.formControlName]
+            );
+      }
     });
     dataItem.id && !dataItem.isNewRow
       ? (actionTrackerData["id"] = dataItem.id)
       : null;
-    actionTrackerData["dataValues"] = dataValueStructure;
+    // actionTrackerData["dataValues"] = attributes;
     selectionParams["rootCauseDataId"] = dataItem.rootCauseDataId;
-
-    this.save.emit({ ...actionTrackerData, selectionParams });
+    generateTEI({
+      ...actionTrackerData,
+      dataValues,
+      attributes,
+      selectionParams
+    });
+    // this.save.emit({ ...actionTrackerData, selectionParams });
   }
 }

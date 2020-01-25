@@ -119,24 +119,15 @@
         <td
           class="action-tracker-column hide-on-export"
           style=" background-color: #f5f5f5"
-          [hidden]="!dataItem.rowspan"
           [attr.rowspan]="dataItem.rowspan"
           *ngIf="!isReport"
         >
-          <!-- <div class="action-tracker-form-wrapper" hidden="true">
-            <action-tracker-form
-              [dataItem]="dataItem"
-              [legendSetItems]="legendSetItems$ | async"
-              [configurations]="actionTrackerConfiguration$ | async"
-              (save)="onSave($event, dataItem)"
-              (cancel)="onDataEntryCancelDataEntryForm($event)"
-            ></action-tracker-form>
-          </div> -->
           <div class="add-action-block">
             <button
               mat-icon-button
               class="btn-add-action"
               title="Click to add new action"
+              (click)="openModal(dataItem)"
             >
               <i class="fa fa-plus"></i>
             </button>
@@ -167,6 +158,45 @@
           mode="indeterminate"
         ></mat-progress-bar></mat-card-content
     ></mat-card>
+  </div>
+
+  <!-- Modal -->
+  <div class="backdrop" [ngStyle]="{ display: display }"></div>
+
+  <div
+    class="modal"
+    tabindex="-1"
+    role="dialog"
+    [ngStyle]="{ display: display }"
+    style="margin-top: 100px; z-index: 1500;"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title">Action Tracker Data Entry Form</h6>
+        </div>
+
+        <div class="modal-body">
+          <action-tracker-form
+            *ngIf="display != 'none'"
+            [dataItem]="selectedDataItem"
+            [legendSetItems]="legendSetItems$ | async"
+            [configurations]="actionTrackerConfiguration$ | async"
+            (save)="onSave($event, dataItem)"
+          ></action-tracker-form>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-default"
+            (click)="onCloseHandled()"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 

@@ -58,7 +58,16 @@ export const getConfigurationDataElementsFromTEAs = createSelector(
                 return _.merge(
                   trackedEntityAttributes.trackedEntityAttribute,
                   _.pick(trackedEntityAttributes, "valueType"),
-                  { isTrackedEntityAttribute: true }
+                  {
+                    isTrackedEntityAttribute: true,
+                    formControlName: _.camelCase(
+                      _.get(
+                        trackedEntityAttributes.trackedEntityAttribute,
+                        "name"
+                      )
+                    ),
+                    isActionTrackerColumn: true
+                  }
                 );
               }
             }
@@ -85,7 +94,14 @@ export const getConfigurationDataElementsFromProgramStageDEs = createSelector(
                             name: _.get(
                               programStageDataElement,
                               "dataElement.formName"
-                            )
+                            ),
+                            formControlName: _.camelCase(
+                              _.get(
+                                programStageDataElement,
+                                "dataElement.formName"
+                              )
+                            ),
+                            isActionTrackerColumn: true
                           },
                           _.pick(programStageDataElement.dataElement, [
                             "id",
@@ -95,7 +111,14 @@ export const getConfigurationDataElementsFromProgramStageDEs = createSelector(
                       : []
                 )
               ),
-              [{ name: programStage.executionDateLabel }]
+              [
+                {
+                  name: programStage.executionDateLabel,
+                  valueType: "DATE",
+                  isActionTrackerColumn: true,
+                  formControlName: "eventDate"
+                }
+              ]
             )
           )
         )

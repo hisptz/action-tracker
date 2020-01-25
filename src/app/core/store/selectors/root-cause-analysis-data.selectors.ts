@@ -70,9 +70,9 @@ export const getAllRootCauseAnalysisData = createSelector(
               : rootCauseAnalysisData.dataValues[dataElement.id];
           }
         );
-
         return {
           ...rootCauseAnalysisData,
+          rootCauseDataId: rootCauseAnalysisData.id,
           dataValues: rootCauseAnalysisData.isActive
             ? newDataValues
             : rootCauseAnalysisData.dataValues

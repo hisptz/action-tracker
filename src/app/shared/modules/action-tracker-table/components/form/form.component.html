@@ -4,7 +4,6 @@
       [formGroup]="actionTrackerForm"
       (ngSubmit)="onDataEntrySave(dataItem, configurations.dataElements)"
     >
-      <legend class="border-bottom mb-2">Action</legend>
       <div class="row">
         <div
           *ngFor="
@@ -12,11 +11,15 @@
             let last = last
           "
           [ngClass]="{ 'col-4': !last, 'custom-text-area': last }"
-          [hidden]="!dataElement.isActionTrackerColumn"
+          [hidden]="!dataElement?.isActionTrackerColumn"
         >
           <div
             class="form-group"
-            *ngIf="dataElement && dataElement?.valueType == 'TEXT'"
+            *ngIf="
+              dataElement &&
+              (dataElement?.valueType == 'TEXT' ||
+                dataElement?.valueType == 'LONG_TEXT')
+            "
           >
             <label for="{{ dataItem?.id }}_{{ dataElement?.id }}"
               >{{ dataElement?.name }}
@@ -24,12 +27,12 @@
             <input
               type="text"
               class="form-control"
-              *ngIf="dataElement.formControlName"
+              *ngIf="dataElement?.formControlName"
               placeholder="{{ dataElement?.name }}"
               value="{{
                 (actionTrackerForm?.value)[dataElement?.formControlName]
               }}"
-              formControlName="{{ dataElement.formControlName }}"
+              formControlName="{{ dataElement?.formControlName }}"
               id="{{ dataItem?.id }}_{{ dataElement?.id }}"
             />
           </div>
@@ -38,13 +41,12 @@
             *ngIf="
               dataElement &&
               (dataElement?.valueType == 'RANGEPERIOD' ||
-                dataElement?.valueType == 'PERIOD')
+                dataElement?.valueType == 'DATE')
             "
           >
             <label for="{{ dataItem?.id }}_{{ dataElement?.id }}"
               >{{ dataElement?.name }}
             </label>
-
             <app-date-picker
               [periodUI]="dataElement?.valueType"
               [defaultValue]="
@@ -77,7 +79,7 @@
             <select
               class="form-control"
               *ngIf="dataElement.formControlName"
-              formControlName="{{ dataElement.formControlName }}"
+              formControlName="{{ dataElement?.formControlName }}"
               id="{{ dataItem?.id }}_{{ dataElement?.id }}"
             >
               <option
