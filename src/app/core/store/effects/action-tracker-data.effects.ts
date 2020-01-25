@@ -35,44 +35,13 @@ export class ActionTrackerDataEffects {
 
     mergeMap(
       ([action, rootCauseAnalysisData]: [LoadActionTrackerDatas, any]) => {
-        // this.trackedEntityInstanceService
-        //   .discoveringSavedTEI(rootCauseAnalysisData)
-        //   .subscribe(
-        //     data => {
-        //       console.log(data);
-        //     },
-        //     error => {
-        //       console.log(error);
-        //     }
-        //   );
-
-        // TODO: Chingalo hook logic to fetch actions here
-        // return this.actionTrackerDataService
-        //   .getData(
-        //     action.dataParams.actionTrackerConfig,
-        //     action.dataParams.orgUnit,
-        //     action.dataParams.period,
-        //     action.dataParams.intervention
-        //   )
-        //   .pipe(
-        //     map(
-        //       (actionTrackerDatas: ActionTrackerData[]) =>
-        //         new AddActionTrackerDatas(actionTrackerDatas)
-        //     ),
-
-        //     catchError((error: any) =>
-        //       of(new LoadActionTrackerDatasFail(error))
-        //     )
-        // );
-
         return this.trackedEntityInstanceService
           .discoveringSavedTEI(rootCauseAnalysisData)
           .pipe(
-            map(
-              (actionTrackerDatas: ActionTrackerData[]) =>
-                new AddActionTrackerDatas(actionTrackerDatas)
-            ),
-
+            map((actionTrackerDatas: ActionTrackerData[]) => {
+              console.log({ actionTrackerDatas });
+              return new AddActionTrackerDatas(actionTrackerDatas);
+            }),
             catchError((error: any) =>
               of(new LoadActionTrackerDatasFail(error))
             )

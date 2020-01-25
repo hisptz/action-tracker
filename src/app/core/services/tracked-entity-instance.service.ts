@@ -47,7 +47,6 @@ export class TrackedEntityInstanceService {
     programId: string,
     attributeValues: string[]
   ) {
-    console.log({ referrencedAttributeId, programId, attributeValues });
     return attributeValues && attributeValues.length > 0
       ? zip(
           ..._.map(attributeValues, (attributeValue: string) => {
@@ -60,19 +59,18 @@ export class TrackedEntityInstanceService {
                   const trackeEntityInstanceIds = this.getTEIIdsFromQueryResponse(
                     teIResponse
                   );
-                  if (trackeEntityInstanceIds.length > 0) {
-                    return zip(
-                      ..._.map(
-                        trackeEntityInstanceIds,
-                        (trackeEntityInstanceId: string) => {
-                          console.log({ trackeEntityInstanceId });
-                          return this.http.get(
-                            `${this.teiUrl}/${trackeEntityInstanceId}.json?program=${programId}&fields=*`
-                          );
-                        }
-                      )
-                    );
-                  }
+                  return trackeEntityInstanceIds.length === 0
+                    ? of([])
+                    : zip(
+                        ..._.map(
+                          trackeEntityInstanceIds,
+                          (trackeEntityInstanceId: string) => {
+                            return this.http.get(
+                              `${this.teiUrl}/${trackeEntityInstanceId}.json?program=${programId}&fields=*`
+                            );
+                          }
+                        )
+                      );
                 }),
                 catchError((error: any) => {
                   if (error.status !== 404) {
@@ -94,8 +92,11 @@ export class TrackedEntityInstanceService {
       headers,
       (data: any) => data[column].toLowerCase() === columnValue.toLowerCase()
     );
-    // // TODO get TEI ids
-    console.log({ headers, rows, teiIdColumnIndex });
-    return ['cOMxktzGXJO'];
+    return rows && rows.length > 0 && teiIdColumnIndex > -1
+      ? _.filter(
+          _.map(rows, row => row[teiIdColumnIndex] || ''),
+          value => value.trim() !== ''
+        )
+      : [];
   }
 }
