@@ -1,16 +1,16 @@
-import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Observable, of } from "rxjs";
 
-import { mergeMap, map, catchError, switchMap } from 'rxjs/operators';
-import { RootCauseAnalysisConfigurationsService } from 'src/app/shared/modules/action-tracker-table/services';
-import { RootCauseAnalysisConfiguration } from '../../models/root-cause-analysis-configuration.model';
+import { mergeMap, map, catchError, switchMap } from "rxjs/operators";
+import { RootCauseAnalysisConfigurationsService } from "src/app/shared/modules/action-tracker-table/services";
+import { RootCauseAnalysisConfiguration } from "../../models/root-cause-analysis-configuration.model";
 import {
   RootCauseAnalysisConfigurationActionTypes,
   LoadRootCauseAnalysisConfigurationAction,
   AddRootCauseAnalysisConfigurationAction,
   LoadRootCauseAnalysisConfigurationFail
-} from '../actions/root-cause-analysis-configuration.actions';
+} from "../actions/root-cause-analysis-configuration.actions";
 
 @Injectable()
 export class RootCauseAnalysisConfigurationEffects {
@@ -19,8 +19,8 @@ export class RootCauseAnalysisConfigurationEffects {
     ofType(
       RootCauseAnalysisConfigurationActionTypes.LoadRootCauseAnalysisConfiguration
     ),
-    mergeMap((action: LoadRootCauseAnalysisConfigurationAction) =>
-      this.rootCauseAnalysisConfigurationService
+    mergeMap((action: LoadRootCauseAnalysisConfigurationAction) => {
+      return this.rootCauseAnalysisConfigurationService
         .findById(action.configurationId)
         .pipe(
           map(
@@ -32,8 +32,8 @@ export class RootCauseAnalysisConfigurationEffects {
           catchError((error: any) =>
             of(new LoadRootCauseAnalysisConfigurationFail(error))
           )
-        )
-    )
+        );
+    })
   );
 
   // @Effect()

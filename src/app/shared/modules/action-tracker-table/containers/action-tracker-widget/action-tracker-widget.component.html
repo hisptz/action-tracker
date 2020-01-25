@@ -28,137 +28,16 @@
         <th *ngIf="!isReport" class="hide-on-export">Add Actions</th>
       </tr>
     </thead>
-    <tbody *ngIf="dataLoading$ | async">
+    <tbody>
       <tr>
         <td colspan="100%">
-          <div>{{ (notification$ | async)?.message }}</div>
-          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          <!-- <div>{{ (notification$ | async)?.message }}</div>
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar> -->
         </td>
       </tr>
     </tbody>
 
-    <tbody *ngIf="data$ | async as rootCauseAnalysisData" [@listEnter]>
-      <tr
-        *ngFor="
-          let dataItem of rootCauseAnalysisData;
-          let i = index;
-          trackBy: dataItem?.id
-        "
-        (contextmenu)="onContextMenu($event, dataItem)"
-        class="{{ dataItem?.rootCauseDataId }}"
-        id="{{ dataItem?.id || dataItem?.rootCauseDataId }}"
-      >
-        <td style=" background-color: #f5f5f5">
-          {{ i + 1 }}
-        </td>
-        <td [attr.colspan]="11" *ngIf="toBeDeleted[dataItem.id]" align="center">
-          <div class="d-flex align-items-center justify-content-end">
-            <span>Are you sure wish to delete this data?</span>&nbsp;
-            <button
-              mat-stroked-button
-              (click)="onToggleCancelAction($event, dataItem)"
-            >
-              No</button
-            >&nbsp;
-            <button
-              mat-flat-button
-              color="warn"
-              (click)="
-                onConfirmActionDelete(
-                  dataItem,
-                  rootCauseAnalysisConfiguration.dataElements
-                )
-              "
-            >
-              Yes
-            </button>
-          </div>
-        </td>
-        <td
-          [hidden]="dataElement.isHidden || toBeDeleted[dataItem.id]"
-          *ngFor="
-            let dataElement of rootCauseAnalysisConfiguration.dataElements;
-            let j = index
-          "
-          [ngClass]="{
-            'hide-on-export': dataElement.isHidden,
-            'for-display': !dataElement.isHidden,
-            'action-tracker-column': dataElement.isActionTrackerColumn,
-            'solution-column': !dataElement.isActionTrackerColumn
-          }"
-          [style.background-color]="
-            dataItem.dataValues[dataElement.id]
-              | colorize: (legendSetStatus$ | async)
-          "
-        >
-          <ng-container id="dataItem?.id_dataElement?.id">
-            <div
-              *ngIf="
-                (!dataItem.isActive && !dataItem.isHidden) ||
-                (dataItem.isActive &&
-                  !dataElement.optionSetValue &&
-                  dataElement.valueType == 'AUTO_FILLED')
-              "
-              class="form-control auto-filled-label table-cell-data"
-            >
-              <app-text-view
-                *ngIf="dataElement.valueType === 'TEXTAREA'"
-                [text]="dataItem.dataValues[dataElement.id]"
-              ></app-text-view>
-              <div *ngIf="dataElement.valueType !== 'TEXTAREA'">
-                {{
-                  dataItem.dataValues[dataElement.id]
-                    | convertLegendId: (legendSetStatus$ | async)
-                }}
-              </div>
-            </div>
-          </ng-container>
-        </td>
-
-        <td
-          class="action-tracker-column hide-on-export"
-          style=" background-color: #f5f5f5"
-          [hidden]="!dataItem.rowspan"
-          [attr.rowspan]="dataItem.rowspan"
-          *ngIf="!isReport"
-        >
-          <div class="action-tracker-form-wrapper" hidden="true">
-            <action-tracker-form
-              [dataItem]="dataItem"
-              [legendSetItems]="legendSetItems$ | async"
-              [configurations]="actionTrackerConfiguration$ | async"
-              (save)="onSave($event, dataItem)"
-              (cancel)="onDataEntryCancelDataEntryForm($event)"
-            ></action-tracker-form>
-          </div>
-          <div class="add-action-block">
-            <button
-              mat-icon-button
-              class="btn-add-action"
-              title="Click to add new action"
-              (click)="
-                onAddAction($event, dataItem, rootCauseAnalysisConfiguration)
-              "
-            >
-              <i class="fa fa-plus"></i>
-            </button>
-          </div>
-        </td>
-      </tr>
-      <tr *ngIf="(dataSelections$ | async).length === 0">
-        <td colspan="100%" class="text-sm text-secondary">
-          <mat-card>
-            <mat-card-content>
-              <i>
-                Select Intervention, Period and Organisation unit to view
-                {{ isReport ? "" : "and
-                manage" }} your actions
-              </i>
-            </mat-card-content></mat-card
-          >
-        </td>
-      </tr>
-    </tbody>
+    <tbody *ngIf="data$ | async as rootCauseAnalysisData" [@listEnter]></tbody>
   </table>
 
   <div *ngIf="(configurationLoading$ | async) || !(configuration$ | async)">

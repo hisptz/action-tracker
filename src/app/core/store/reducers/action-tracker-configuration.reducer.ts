@@ -1,9 +1,9 @@
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { ActionTrackerConfiguration } from '../../models/action-tracker-configuration.model';
+import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
+import { ActionTrackerConfiguration } from "../../models/action-tracker-configuration.model";
 import {
   ActionTrackerConfigurationActions,
   ActionTrackerConfigurationActionTypes
-} from '../actions/action-tracker-configuration.actions';
+} from "../actions/action-tracker-configuration.actions";
 
 export interface State extends EntityState<ActionTrackerConfiguration> {
   // additional entities state properties
@@ -14,16 +14,16 @@ export interface State extends EntityState<ActionTrackerConfiguration> {
   currentConfig: string;
 }
 
-export const adapter: EntityAdapter<
+export const adapter: EntityAdapter<ActionTrackerConfiguration> = createEntityAdapter<
   ActionTrackerConfiguration
-> = createEntityAdapter<ActionTrackerConfiguration>();
+>();
 
 export const initialState: State = adapter.getInitialState({
   loading: false,
   loaded: false,
   hasError: false,
   error: null,
-  currentConfig: 'actiontrackerconfig'
+  currentConfig: "ROSaojkGieB"
 });
 
 export function reducer(
