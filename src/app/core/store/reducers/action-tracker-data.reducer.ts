@@ -23,7 +23,9 @@ export interface State extends EntityState<ActionTrackerData> {
 
 export const adapter: EntityAdapter<ActionTrackerData> = createEntityAdapter<
   ActionTrackerData
->();
+>({
+  selectId: (action: ActionTrackerData) => action.trackedEntityInstance
+});
 
 export const initialState: State = adapter.getInitialState({
   // additional entity state properties
@@ -58,6 +60,7 @@ export function reducer(
     }
 
     case ActionTrackerDataActionTypes.AddActionTrackerDatas: {
+      console.log('here reducer');
       return adapter.upsertMany(action.actionTrackerDatas, {
         ...state,
         loading: false,

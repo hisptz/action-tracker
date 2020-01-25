@@ -26,6 +26,7 @@ import { State } from '../reducers';
 import { getRootCauseAnalysisDatas } from '../selectors/root-cause-analysis-data.selectors';
 import { TrackedEntityInstanceService } from '../../services';
 
+import * as _ from 'lodash';
 @Injectable()
 export class ActionTrackerDataEffects {
   @Effect({ dispatch: false })
@@ -39,8 +40,9 @@ export class ActionTrackerDataEffects {
           .discoveringSavedTEI(rootCauseAnalysisData)
           .pipe(
             map((actionTrackerDatas: ActionTrackerData[]) => {
-              console.log({ actionTrackerDatas });
-              return new AddActionTrackerDatas(actionTrackerDatas);
+              this.store.dispatch(
+                new AddActionTrackerDatas(_.flatten(actionTrackerDatas))
+              );
             }),
             catchError((error: any) =>
               of(new LoadActionTrackerDatasFail(error))

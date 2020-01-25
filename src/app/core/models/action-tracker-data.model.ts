@@ -3,4 +3,5 @@ export interface ActionTrackerData {
   actionTrackerConfigId: string;
   dataValues: any;
   rootCauseDataId: string;
+  trackedEntityInstance: string;
 }
