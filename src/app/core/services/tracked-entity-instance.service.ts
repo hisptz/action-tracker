@@ -16,6 +16,10 @@ export class TrackedEntityInstanceService {
     this.teiUrl = 'trackedEntityInstances';
   }
 
+  savingTEI(trackedEntityInstance: any): Observable<any> {
+    return this.http.post(this.teiUrl, trackedEntityInstance);
+  }
+
   discoveringSavedTEI(rootCauseAnalysisData: any): Observable<any> {
     // TODO replace program id and referrence attribute id
     const programId = 'ROSaojkGieB';
