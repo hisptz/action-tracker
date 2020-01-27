@@ -25,6 +25,7 @@ import {
 import { State } from '../reducers';
 import { getRootCauseAnalysisDatas } from '../selectors/root-cause-analysis-data.selectors';
 import { TrackedEntityInstanceService } from '../../services';
+import { getCurrentActionTrackerConfig } from '../selectors/action-tracker-configuration.selectors';
 
 import * as _ from 'lodash';
 @Injectable()
@@ -50,6 +51,34 @@ export class ActionTrackerDataEffects {
           );
       }
     )
+  );
+
+  @Effect()
+  saveActionTrackerData$: Observable<any> = this.actions$.pipe(
+    ofType(ActionTrackerDataActionTypes.SaveActionTrackerData),
+    withLatestFrom(this.store.select(getCurrentActionTrackerConfig)),
+    mergeMap(([action, actionTrackerConfig]: [SaveActionTrackerData, any]) => {
+      const actionTrackerDataValues = action.actionTrackerData;
+
+      return (action.actionTrackerDataId
+        ? this.actionTrackerDataService.updateData(
+            actionTrackerDataValues,
+            action.actionTrackerDataId
+          )
+        : this.actionTrackerDataService.addData(
+            actionTrackerConfig,
+            actionTrackerDataValues
+          )
+      ).pipe(
+        map(
+          (actionTrackerData: any) =>
+            new SaveActionTrackerDataSuccess(actionTrackerData, {
+              [actionTrackerData.savingColor]: 'green'
+            })
+        ),
+        catchError((error: any) => of(new SaveActionTrackerDataFail(error)))
+      );
+    })
   );
 
   @Effect()

@@ -108,8 +108,9 @@
               ></app-text-view>
               <div *ngIf="dataElement.valueType !== 'TEXTAREA'">
                 {{
-                  dataItem.dataValues[dataElement.id]
-                    | convertLegendId: (legendSetStatus$ | async)
+                  dataItem.dataValues[
+                    dataElement.id || dataElement.formControlName
+                  ] | convertLegendId: (legendSetStatus$ | async)
                 }}
               </div>
             </div>
@@ -140,8 +141,8 @@
             <mat-card-content>
               <i>
                 Select Intervention, Period and Organisation unit to view
-                {{ isReport ? "" : "and
-                manage" }} your actions
+                {{ isReport ? '' : 'and
+                manage' }} your actions
               </i>
             </mat-card-content></mat-card
           >
@@ -182,7 +183,7 @@
             [dataItem]="selectedDataItem"
             [legendSetItems]="legendSetItems$ | async"
             [configurations]="actionTrackerConfiguration$ | async"
-            (save)="onSave($event, dataItem)"
+            (save)="onSave($event, selectedDataItem)"
           ></action-tracker-form>
         </div>
 
@@ -201,7 +202,7 @@
 </div>
 
 <!-- Context menu logic -->
-<!-- <div *ngIf="!isReport">
+<div *ngIf="!isReport">
   <context-menu
     [useBootstrap4]="true"
     *ngIf="configuration$ | async as rootCauseAnalysisConfiguration"
@@ -225,4 +226,4 @@
       </a>
     </ng-template>
   </context-menu>
-</div> -->
+</div>

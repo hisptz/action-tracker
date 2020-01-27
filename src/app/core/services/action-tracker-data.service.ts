@@ -1,15 +1,15 @@
-import { Injectable } from "@angular/core";
-import { NgxDhis2HttpClientService } from "@iapps/ngx-dhis2-http-client";
-import { switchMap, catchError, map } from "rxjs/operators";
-import * as _ from "lodash";
-import { zip, of, throwError } from "rxjs";
-import { generateUid } from "../helpers/generate-uid.helper";
+import { Injectable } from '@angular/core';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
+import { switchMap, catchError, map } from 'rxjs/operators';
+import * as _ from 'lodash';
+import { zip, of, throwError } from 'rxjs';
+import { generateUid } from '../helpers/generate-uid.helper';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class ActionTrackerDataService {
-  private _dataStoreUrl = "dataStore/action-tracker-data";
+  private _dataStoreUrl = 'dataStore/action-tracker-data';
   constructor(private http: NgxDhis2HttpClientService) {}
 
   getData(configurationId: string, orgUnitId, periodId, dashBoardId) {
@@ -32,51 +32,34 @@ export class ActionTrackerDataService {
     );
   }
 
-  addData(actionTrackerConfig, actionTrackerDataValues, selectionParams: any) {
-    if (!actionTrackerDataValues && !selectionParams) {
+  addData(actionTrackerConfig, actionTrackerDataValues) {
+    if (!actionTrackerDataValues) {
       console.warn(
-        "Could not save action tracker data, data values and parameters are not supplied"
+        'Could not save action tracker data, data values and parameters are not supplied'
       );
       return of(null);
     }
-    const actionTrackerData = this._prepareDataForSaving(
-      actionTrackerDataValues,
-      actionTrackerConfig,
-      selectionParams.rootCauseDataId
-    );
-
-    return this.http
-      .post(
-        `${this._dataStoreUrl}/${actionTrackerConfig.id}_${selectionParams.orgUnit}_${selectionParams.period}_${selectionParams.dashboard}_${actionTrackerData.id}`,
-        actionTrackerData
-      )
-      .pipe(map(() => actionTrackerData));
   }
 
-  updateData(
-    actionTrackerConfig,
-    actionTrackerDataValues,
-    selectionParams: any,
-    actionTrackerDataId: string
-  ) {
-    if (!actionTrackerDataValues && !selectionParams) {
+  updateData(actionTrackerDataValues, actionTrackerDataId: string) {
+    if (!actionTrackerDataValues) {
       console.warn(
-        "Could not save action tracker data, data values and parameters are not supplied"
+        'Could not save action tracker data, data values and parameters are not supplied'
       );
       return of(null);
     }
-    const actionTrackerData = this._prepareDataForSaving(
-      actionTrackerDataValues,
-      actionTrackerConfig,
-      selectionParams.rootCauseDataId,
-      actionTrackerDataId
-    );
+
     return this.http
       .put(
-        `${this._dataStoreUrl}/${actionTrackerConfig.id}_${selectionParams.orgUnit}_${selectionParams.period}_${selectionParams.dashboard}_${actionTrackerData.id}`,
-        actionTrackerData
+        `trackedEntityInstances/${actionTrackerDataId}.json`,
+        actionTrackerDataValues
       )
-      .pipe(map(() => actionTrackerData));
+      .pipe(
+        map(() => {
+          console.log(actionTrackerDataValues);
+          return actionTrackerDataValues;
+        })
+      );
   }
 
   deleteData(
@@ -87,7 +70,7 @@ export class ActionTrackerDataService {
   ) {
     if (!actionTrackerDataValues && !selectionParams) {
       console.warn(
-        "Could not delete action tracker data, data values and parameters are not supplied"
+        'Could not delete action tracker data, data values and parameters are not supplied'
       );
       return of(null);
     }

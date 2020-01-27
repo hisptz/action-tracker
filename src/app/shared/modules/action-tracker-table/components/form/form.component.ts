@@ -1,11 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
-import { FormGroup, FormBuilder, FormArray } from "@angular/forms";
-import { generateTEI } from "../../../../../core/helpers/generate-tracked-entity-instance.helper";
-import * as _ from "lodash";
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { generateTEI } from '../../../../../core/helpers/generate-tracked-entity-instance.helper';
+import * as _ from 'lodash';
 @Component({
-  selector: "action-tracker-form",
-  templateUrl: "./form.component.html",
-  styleUrls: ["./form.component.css"]
+  selector: 'action-tracker-form',
+  templateUrl: './form.component.html',
+  styleUrls: ['./form.component.css']
 })
 export class FormComponent implements OnInit {
   @Input() dataItem;
@@ -18,9 +18,9 @@ export class FormComponent implements OnInit {
 
   rangeSelectorParams = {
     displayMonths: 2,
-    navigation: "select",
+    navigation: 'select',
     showWeekNumbers: false,
-    outsideDays: "visible"
+    outsideDays: 'visible'
   };
 
   actionTrackerForm: FormGroup;
@@ -33,12 +33,14 @@ export class FormComponent implements OnInit {
       ? this.configurations.dataElements
       : [];
 
-    _.map(_.filter(dataElements, "isActionTrackerColumn"), dataElement => {
+    _.map(_.filter(dataElements, 'isActionTrackerColumn'), dataElement => {
       this.formArray[dataElement.formControlName] = this.dataItem
         ? this.dataItem.dataValues
-          ? this.dataItem.dataValues[dataElement.id]
-          : ""
-        : "";
+          ? this.dataItem.dataValues[
+              dataElement.id || dataElement.formControlName
+            ]
+          : ''
+        : '';
     });
     this.actionTrackerForm = this.formBuilder.group(this.formArray);
   }
@@ -51,11 +53,11 @@ export class FormComponent implements OnInit {
               [
                 reviewDateObject.year,
                 _.lt(reviewDateObject.month, 10)
-                  ? "0" + _.toString(reviewDateObject.month)
+                  ? '0' + _.toString(reviewDateObject.month)
                   : reviewDateObject.month,
                 reviewDateObject.day
               ],
-              "-"
+              '-'
             )
           )
         : null;
@@ -72,22 +74,22 @@ export class FormComponent implements OnInit {
               [
                 startDate.year,
                 _.lt(startDate.month, 10)
-                  ? "0" + _.toString(startDate.month)
+                  ? '0' + _.toString(startDate.month)
                   : startDate.month,
                 startDate.day
               ],
-              "/"
+              '/'
             ) +
-              "-" +
+              '-' +
               _.join(
                 [
                   endDate.year,
                   _.lt(endDate.month, 10)
-                    ? "0" + _.toString(endDate.month)
+                    ? '0' + _.toString(endDate.month)
                     : endDate.month,
                   endDate.day
                 ],
-                "/"
+                '/'
               )
           )
         : null;
@@ -97,55 +99,65 @@ export class FormComponent implements OnInit {
     this.cancel.emit(dataItem);
   }
   onDataEntrySave(dataItem, dataElement) {
-    const actionTrackerData = {};
     const selectionParams = {};
     const attributes = [];
     const dataValues = [];
 
-    if (dataItem && dataElement) {
-      selectionParams["orgUnit"] =
-        dataItem.dataValues[
-          _.get(_.find(dataElement, { name: "orgUnitId" }), "id")
-        ];
-      selectionParams["period"] =
-        dataItem.dataValues[
-          _.get(_.find(dataElement, { name: "periodId" }), "id")
-        ];
-      selectionParams["dashboard"] =
-        dataItem.dataValues[
-          _.get(_.find(dataElement, { name: "interventionId" }), "id")
-        ];
-    }
-    _.map(_.filter(dataElement, "isActionTrackerColumn"), dataValue => {
+    selectionParams['orgUnit'] = _.get(
+      dataItem,
+      `dataValues[${_.get(_.find(dataElement, { name: 'orgUnitId' }), 'id')}]`
+    );
+    _.map(_.filter(dataElement, 'isActionTrackerColumn'), dataValue => {
       if (dataValue.isTrackedEntityAttribute) {
         attributes.push({
           attribute: dataValue.id,
           value: this.actionTrackerForm.value[dataValue.formControlName]
         });
       } else {
-        dataValue.formControlName != "eventDate"
+        _.map(dataItem.enrollments, enrollment => {
+          _.map(enrollment.events, event => {
+            const dataElementIdIndex = _.findIndex(
+              event.dataValues,
+              eventDataValue => {
+                return eventDataValue.dataElement == dataValue.id;
+              }
+            );
+            dataElementIdIndex > 0
+              ? _.set(
+                  event,
+                  `dataValues[${dataElementIdIndex}].value`,
+                  this.actionTrackerForm.value[dataValue.formControlName]
+                )
+              : _.set(
+                  event,
+                  `eventDate`,
+                  this.actionTrackerForm.value[dataValue.formControlName]
+                );
+            console.log(event, _.get(event, 'eventDate'));
+          });
+        });
+        dataValue.formControlName != 'eventDate'
           ? dataValues.push({
               dataElement: dataValue.id,
               value: this.actionTrackerForm.value[dataValue.formControlName]
             })
           : _.set(
               selectionParams,
-              "eventDate",
+              'eventDate',
               this.actionTrackerForm.value[dataValue.formControlName]
             );
       }
     });
-    dataItem.id && !dataItem.isNewRow
-      ? (actionTrackerData["id"] = dataItem.id)
-      : null;
-    // actionTrackerData["dataValues"] = attributes;
-    selectionParams["rootCauseDataId"] = dataItem.rootCauseDataId;
-    generateTEI({
-      ...actionTrackerData,
-      dataValues,
-      attributes,
-      selectionParams
-    });
-    // this.save.emit({ ...actionTrackerData, selectionParams });
+
+    selectionParams['rootCauseDataId'] = dataItem.rootCauseDataId;
+
+    this.save.emit(
+      generateTEI({
+        ...dataItem,
+        dataValues,
+        attributes,
+        selectionParams
+      })
+    );
   }
 }

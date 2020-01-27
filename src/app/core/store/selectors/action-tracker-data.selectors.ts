@@ -1,12 +1,15 @@
-import { createSelector } from "@ngrx/store";
-import * as _ from "lodash";
+import { createSelector } from '@ngrx/store';
+import * as _ from 'lodash';
 
-import { getRootState, State as RootState } from "../reducers";
-import { adapter, State } from "../reducers/action-tracker-data.reducer";
+import { getRootState, State as RootState } from '../reducers';
+import { adapter, State } from '../reducers/action-tracker-data.reducer';
 import {
+  getRootCauseAnalysisDatas,
   getRootCauseAnalysisDataLoadingStatus,
   getRootCauseAnalysisDataNotificationStatus
-} from "./root-cause-analysis-data.selectors";
+} from './root-cause-analysis-data.selectors';
+
+import { getMergedActionTrackerConfiguration } from './action-tracker-configuration.selectors';
 const getActionTrackerDataState = createSelector(
   getRootState,
   (state: RootState) => state.actionTrackerData
@@ -30,8 +33,9 @@ export const getActionTrackerDataLoadingStatus = createSelector(
 export const getOveralLoadingStatus = createSelector(
   getActionTrackerDataLoadingStatus,
   getRootCauseAnalysisDataLoadingStatus,
+
   (actionTrackerDataLoading: boolean, rootCauseDataLoading: boolean) => {
-    return rootCauseDataLoading;
+    return actionTrackerDataLoading || rootCauseDataLoading;
   }
 );
 
@@ -57,5 +61,114 @@ export const getAllDataNotification = createSelector(
       message: currentNotification,
       percent: percentCompleted
     };
+  }
+);
+
+export const getMergedActionTrackerDatas = createSelector(
+  getRootCauseAnalysisDatas,
+  getActionTrackerDatas,
+  getAllDataNotification,
+  getMergedActionTrackerConfiguration,
+
+  (rootCauseDatas, actionTrackerDatas, notification, actionTrackerConfig) => {
+    if (notification.percent !== '100') {
+      return [];
+    }
+
+    return _.flatten(
+      _.map(rootCauseDatas, (rootCauseData: any) => {
+        const actions = _.filter(
+          actionTrackerDatas,
+          (actionTrackerData: any) =>
+            _.get(
+              _.find(_.get(actionTrackerData, 'attributes'), {
+                code: 'BNA_REF'
+              }),
+              'value'
+            ) === rootCauseData.id
+        );
+        actions.dataValues = {};
+        return actions.length > 0
+          ? _.map(actions, (action: any, actionIndex: number) => {
+              _.map(action.attributes, trackedEntityAttribute => {
+                _.find(actionTrackerConfig.dataElements, {
+                  id: trackedEntityAttribute.attribute
+                })
+                  ? _.merge(actions.dataValues, {
+                      [trackedEntityAttribute.attribute]:
+                        trackedEntityAttribute.value
+                    })
+                  : _.set(action, 'rootCauseDataId', rootCauseData.id);
+              });
+
+              _.map(action.enrollments, enrollment => {
+                _.map(enrollment.events, event => {
+                  _.map(event.dataValues, eventDataValues => {
+                    _.find(actionTrackerConfig.dataElements, {
+                      id: eventDataValues.dataElement
+                    })
+                      ? _.merge(actions.dataValues, {
+                          [eventDataValues.dataElement]: eventDataValues.value
+                        })
+                      : null;
+                  });
+                  _.merge(actions.dataValues, {
+                    eventDate: _.head(_.split(event.eventDate, 'T'))
+                  });
+                });
+              });
+
+              return {
+                ...action,
+                id: action.trackedEntityInstance,
+                dataValues: {
+                  ...actions.dataValues,
+                  ...rootCauseData.dataValues
+                }
+              };
+            })
+          : [
+              {
+                ...rootCauseData,
+                rootCauseDataId: rootCauseData.id,
+                id: undefined
+              }
+            ];
+      })
+    );
+  }
+);
+
+export const getMergedActionTrackerDatasWithRowspanAttribute = createSelector(
+  getRootCauseAnalysisDatas,
+  getMergedActionTrackerDatas,
+  (rootCauseDatas, mergedActionTrackerDatas) => {
+    _.map(
+      _.groupBy(mergedActionTrackerDatas, 'rootCauseDataId'),
+      (groupedActions, index) => {
+        const firstElementOfGroup = _.head(groupedActions);
+        firstElementOfGroup.id
+          ? _.set(
+              _.find(mergedActionTrackerDatas, {
+                id: firstElementOfGroup.id
+              }),
+              'rowspan',
+              groupedActions.length
+            )
+          : _.set(
+              _.find(mergedActionTrackerDatas, {
+                rootCauseDataId: firstElementOfGroup.rootCauseDataId
+              }),
+              'rowspan',
+              groupedActions.length
+            );
+        _.map(groupedActions, actionElement => {
+          if (firstElementOfGroup.id !== actionElement.id) {
+            _.set(actionElement, 'parentAction', firstElementOfGroup.id);
+          }
+        });
+      }
+    );
+    return mergedActionTrackerDatas;
   }
 );

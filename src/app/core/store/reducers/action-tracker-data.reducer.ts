@@ -60,7 +60,6 @@ export function reducer(
     }
 
     case ActionTrackerDataActionTypes.AddActionTrackerDatas: {
-      console.log('here reducer');
       return adapter.upsertMany(action.actionTrackerDatas, {
         ...state,
         loading: false,
