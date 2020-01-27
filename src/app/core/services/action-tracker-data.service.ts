@@ -32,36 +32,6 @@ export class ActionTrackerDataService {
     );
   }
 
-  addData(actionTrackerConfig, actionTrackerDataValues) {
-    if (!actionTrackerDataValues) {
-      console.warn(
-        'Could not save action tracker data, data values and parameters are not supplied'
-      );
-      return of(null);
-    }
-  }
-
-  updateData(actionTrackerDataValues, actionTrackerDataId: string) {
-    if (!actionTrackerDataValues) {
-      console.warn(
-        'Could not save action tracker data, data values and parameters are not supplied'
-      );
-      return of(null);
-    }
-
-    return this.http
-      .put(
-        `trackedEntityInstances/${actionTrackerDataId}.json`,
-        actionTrackerDataValues
-      )
-      .pipe(
-        map(() => {
-          console.log(actionTrackerDataValues);
-          return actionTrackerDataValues;
-        })
-      );
-  }
-
   deleteData(
     actionTrackerConfig,
     actionTrackerDataValues,

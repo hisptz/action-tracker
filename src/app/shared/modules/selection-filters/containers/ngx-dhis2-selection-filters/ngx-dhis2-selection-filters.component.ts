@@ -201,7 +201,7 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
 
     // also update selection parameters
     this._setSelectionParameters();
-
+    console.log(JSON.stringify(selectedItems));
     this.filterUpdate.emit(this.dataSelections);
     this.selectedFilter = '';
     this.showFilterBody = false;

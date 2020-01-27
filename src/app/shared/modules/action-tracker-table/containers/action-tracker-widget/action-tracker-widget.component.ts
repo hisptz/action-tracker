@@ -152,13 +152,22 @@ export class ActionTrackerWidgetComponent implements OnInit {
 
   ngOnInit() {}
 
-  openModal(dataItem) {
-    this.display = 'block';
+  openModal(dataItem, dataElementsConfig) {
     if (dataItem.id) {
-      this.selectedDataItem = {};
+      const newDataItem = _.pick(dataItem, ['dataValues', 'rootCauseDataId']);
+      _.map(newDataItem.dataValues, (dataValue, index) => {
+        return _.find(dataElementsConfig, {
+          isActionTrackerColumn: true,
+          id: index
+        })
+          ? _.unset(newDataItem.dataValues, `${index}`)
+          : null;
+      });
+      this.selectedDataItem = newDataItem;
     } else {
       this.selectedDataItem = dataItem;
     }
+    this.display = 'block';
   }
 
   onActionEdit(dataItem) {

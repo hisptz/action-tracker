@@ -11,7 +11,9 @@
             let last = last
           "
           [ngClass]="{ 'col-4': !last, 'custom-text-area': last }"
-          [hidden]="!dataElement?.isActionTrackerColumn"
+          [hidden]="
+            !dataElement?.isActionTrackerColumn || dataElement?.isHidden
+          "
         >
           <div
             class="form-group"
@@ -111,7 +113,6 @@
             </button>
             &nbsp;
             <button
-              type="reset"
               mat-stroked-button
               (click)="onDataEntryCancel($event, dataItem)"
             >

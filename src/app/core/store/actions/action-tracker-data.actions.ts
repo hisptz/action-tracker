@@ -148,7 +148,7 @@ export class SaveActionTrackerData implements Action {
 export class SaveActionTrackerDataSuccess implements Action {
   readonly type = ActionTrackerDataActionTypes.SaveActionTrackerDataSuccess;
 
-  constructor(public actionTrackerData: any, public state: any) {}
+  constructor(public actionTrackerData: any) {}
 }
 
 export class SaveActionTrackerDataFail implements Action {

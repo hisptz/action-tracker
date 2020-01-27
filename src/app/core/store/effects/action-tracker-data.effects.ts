@@ -60,24 +60,15 @@ export class ActionTrackerDataEffects {
     mergeMap(([action, actionTrackerConfig]: [SaveActionTrackerData, any]) => {
       const actionTrackerDataValues = action.actionTrackerData;
 
-      return (action.actionTrackerDataId
-        ? this.actionTrackerDataService.updateData(
-            actionTrackerDataValues,
-            action.actionTrackerDataId
-          )
-        : this.actionTrackerDataService.addData(
-            actionTrackerConfig,
-            actionTrackerDataValues
-          )
-      ).pipe(
-        map(
-          (actionTrackerData: any) =>
-            new SaveActionTrackerDataSuccess(actionTrackerData, {
-              [actionTrackerData.savingColor]: 'green'
-            })
-        ),
-        catchError((error: any) => of(new SaveActionTrackerDataFail(error)))
-      );
+      return this.trackedEntityInstanceService
+        .savingTEI(actionTrackerDataValues)
+        .pipe(
+          map(
+            (actionTrackerData: any) =>
+              new SaveActionTrackerDataSuccess(actionTrackerData)
+          ),
+          catchError((error: any) => of(new SaveActionTrackerDataFail(error)))
+        );
     })
   );
 

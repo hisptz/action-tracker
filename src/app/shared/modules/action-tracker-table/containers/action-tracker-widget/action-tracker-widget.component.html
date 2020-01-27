@@ -120,6 +120,7 @@
         <td
           class="action-tracker-column hide-on-export"
           style=" background-color: #f5f5f5"
+          [hidden]="!dataItem.rowspan"
           [attr.rowspan]="dataItem.rowspan"
           *ngIf="!isReport"
         >
@@ -128,7 +129,9 @@
               mat-icon-button
               class="btn-add-action"
               title="Click to add new action"
-              (click)="openModal(dataItem)"
+              (click)="
+                openModal(dataItem, rootCauseAnalysisConfiguration.dataElements)
+              "
             >
               <i class="fa fa-plus"></i>
             </button>

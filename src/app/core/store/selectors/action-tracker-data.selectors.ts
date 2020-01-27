@@ -98,7 +98,8 @@ export const getMergedActionTrackerDatas = createSelector(
                       [trackedEntityAttribute.attribute]:
                         trackedEntityAttribute.value
                     })
-                  : _.set(action, 'rootCauseDataId', rootCauseData.id);
+                  : null;
+                _.set(action, 'rootCauseDataId', rootCauseData.id);
               });
 
               _.map(action.enrollments, enrollment => {
@@ -162,6 +163,7 @@ export const getMergedActionTrackerDatasWithRowspanAttribute = createSelector(
               'rowspan',
               groupedActions.length
             );
+
         _.map(groupedActions, actionElement => {
           if (firstElementOfGroup.id !== actionElement.id) {
             _.set(actionElement, 'parentAction', firstElementOfGroup.id);

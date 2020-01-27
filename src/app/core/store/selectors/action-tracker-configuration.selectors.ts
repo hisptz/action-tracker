@@ -1,12 +1,12 @@
-import { createSelector } from "@ngrx/store";
-import * as _ from "lodash";
+import { createSelector } from '@ngrx/store';
+import * as _ from 'lodash';
 
-import { getRootState, State as RootState } from "../reducers";
+import { getRootState, State as RootState } from '../reducers';
 import {
   adapter,
   State
-} from "../reducers/action-tracker-configuration.reducer";
-import { getCurrentRootCauseAnalysisConfiguration } from "./root-cause-analysis-configuration.selectors";
+} from '../reducers/action-tracker-configuration.reducer';
+import { getCurrentRootCauseAnalysisConfiguration } from './root-cause-analysis-configuration.selectors';
 
 const getActionTrackerConfigurationState = createSelector(
   getRootState,
@@ -37,10 +37,10 @@ export const getCurrentActionTrackerConfigLegend = createSelector(
   getCurrentActionTrackerConfig,
   (actionTrackerConfigurationsState, currentActionTrackerConfigurations) => {
     return _.get(
-      _.find(_.get(currentActionTrackerConfigurations, "dataElements"), {
-        formControlName: "actionStatus"
+      _.find(_.get(currentActionTrackerConfigurations, 'dataElements'), {
+        formControlName: 'actionStatus'
       }),
-      "legendSet.legends"
+      'legendSet.legends'
     );
   }
 );
@@ -53,24 +53,25 @@ export const getConfigurationDataElementsFromTEAs = createSelector(
       ? _.compact(
           _.map(
             currentActionTrackerConfig.programTrackedEntityAttributes,
-            trackedEntityAttributes => {
-              if (trackedEntityAttributes.displayInList == true) {
-                return _.merge(
-                  trackedEntityAttributes.trackedEntityAttribute,
-                  _.pick(trackedEntityAttributes, "valueType"),
-                  {
-                    isTrackedEntityAttribute: true,
-                    formControlName: _.camelCase(
-                      _.get(
-                        trackedEntityAttributes.trackedEntityAttribute,
-                        "name"
-                      )
-                    ),
-                    isActionTrackerColumn: true
-                  }
-                );
-              }
-            }
+            trackedEntityAttributes =>
+              _.merge(
+                trackedEntityAttributes.trackedEntityAttribute,
+                _.pick(trackedEntityAttributes, 'valueType'),
+                {
+                  isTrackedEntityAttribute: true,
+                  formControlName: _.camelCase(
+                    _.get(
+                      trackedEntityAttributes.trackedEntityAttribute,
+                      'name'
+                    )
+                  ),
+                  isHidden:
+                    trackedEntityAttributes.displayInList == true
+                      ? false
+                      : true,
+                  isActionTrackerColumn: true
+                }
+              )
           )
         )
       : []
@@ -93,19 +94,19 @@ export const getConfigurationDataElementsFromProgramStageDEs = createSelector(
                           {
                             name: _.get(
                               programStageDataElement,
-                              "dataElement.formName"
+                              'dataElement.formName'
                             ),
                             formControlName: _.camelCase(
                               _.get(
                                 programStageDataElement,
-                                "dataElement.formName"
+                                'dataElement.formName'
                               )
                             ),
                             isActionTrackerColumn: true
                           },
                           _.pick(programStageDataElement.dataElement, [
-                            "id",
-                            "valueType"
+                            'id',
+                            'valueType'
                           ])
                         )
                       : []
@@ -114,9 +115,9 @@ export const getConfigurationDataElementsFromProgramStageDEs = createSelector(
               [
                 {
                   name: programStage.executionDateLabel,
-                  valueType: "DATE",
+                  valueType: 'DATE',
                   isActionTrackerColumn: true,
-                  formControlName: "eventDate"
+                  formControlName: 'eventDate'
                 }
               ]
             )
@@ -141,11 +142,11 @@ export const getMergedActionTrackerConfiguration = createSelector(
         currentRootCauseAnalysisConfiguration.dataElements,
         rootCauseConfig => {
           if (
-            rootCauseConfig.name == "OrgUnit" ||
-            rootCauseConfig.name == "Possible root cause" ||
-            rootCauseConfig.name == "Period"
+            rootCauseConfig.name == 'OrgUnit' ||
+            rootCauseConfig.name == 'Possible root cause' ||
+            rootCauseConfig.name == 'Period'
           ) {
-            rootCauseConfig["isHidden"] = true;
+            rootCauseConfig['isHidden'] = true;
           }
           return rootCauseConfig;
         }

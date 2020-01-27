@@ -102,54 +102,30 @@ export class FormComponent implements OnInit {
     const selectionParams = {};
     const attributes = [];
     const dataValues = [];
-
     selectionParams['orgUnit'] = _.get(
       dataItem,
       `dataValues[${_.get(_.find(dataElement, { name: 'orgUnitId' }), 'id')}]`
     );
+    selectionParams['rootCauseDataId'] = dataItem.rootCauseDataId;
+
     _.map(_.filter(dataElement, 'isActionTrackerColumn'), dataValue => {
-      if (dataValue.isTrackedEntityAttribute) {
-        attributes.push({
-          attribute: dataValue.id,
-          value: this.actionTrackerForm.value[dataValue.formControlName]
-        });
+      if (dataItem.id) {
+        dataValue.isTrackedEntityAttribute
+          ? this.generateAttributePayload(
+              attributes,
+              dataValue,
+              dataItem.rootCauseDataId
+            )
+          : this.updateEnrollmentPayload(dataItem, dataValue);
       } else {
-        _.map(dataItem.enrollments, enrollment => {
-          _.map(enrollment.events, event => {
-            const dataElementIdIndex = _.findIndex(
-              event.dataValues,
-              eventDataValue => {
-                return eventDataValue.dataElement == dataValue.id;
-              }
-            );
-            dataElementIdIndex > 0
-              ? _.set(
-                  event,
-                  `dataValues[${dataElementIdIndex}].value`,
-                  this.actionTrackerForm.value[dataValue.formControlName]
-                )
-              : _.set(
-                  event,
-                  `eventDate`,
-                  this.actionTrackerForm.value[dataValue.formControlName]
-                );
-            console.log(event, _.get(event, 'eventDate'));
-          });
-        });
-        dataValue.formControlName != 'eventDate'
-          ? dataValues.push({
-              dataElement: dataValue.id,
-              value: this.actionTrackerForm.value[dataValue.formControlName]
-            })
-          : _.set(
-              selectionParams,
-              'eventDate',
-              this.actionTrackerForm.value[dataValue.formControlName]
-            );
+        this.createEnrollmentPayload(
+          attributes,
+          dataValues,
+          dataValue,
+          selectionParams
+        );
       }
     });
-
-    selectionParams['rootCauseDataId'] = dataItem.rootCauseDataId;
 
     this.save.emit(
       generateTEI({
@@ -159,5 +135,60 @@ export class FormComponent implements OnInit {
         selectionParams
       })
     );
+  }
+
+  generateAttributePayload(attributes, dataValue, rootCauseId) {
+    attributes.push({
+      attribute: dataValue.id,
+      value:
+        this.actionTrackerForm.value[dataValue.formControlName] || rootCauseId
+    });
+  }
+
+  createEnrollmentPayload(
+    attributes,
+    trackerDataValues,
+    dataValue,
+    selectionParams?
+  ) {
+    dataValue.isTrackedEntityAttribute
+      ? this.generateAttributePayload(
+          attributes,
+          dataValue,
+          selectionParams.rootCauseDataId
+        )
+      : dataValue.formControlName != 'eventDate'
+      ? trackerDataValues.push({
+          dataElement: dataValue.id,
+          value: this.actionTrackerForm.value[dataValue.formControlName]
+        })
+      : _.set(
+          selectionParams,
+          'eventDate',
+          this.actionTrackerForm.value[dataValue.formControlName]
+        );
+  }
+  updateEnrollmentPayload(dataItem, dataValue) {
+    _.map(dataItem.enrollments, enrollment => {
+      _.map(enrollment.events, event => {
+        const dataElementIdIndex = _.findIndex(
+          event.dataValues,
+          eventDataValue => {
+            return eventDataValue.dataElement == dataValue.id;
+          }
+        );
+        dataElementIdIndex >= 0
+          ? _.set(
+              event,
+              `dataValues[${dataElementIdIndex}].value`,
+              this.actionTrackerForm.value[dataValue.formControlName]
+            )
+          : _.set(
+              event,
+              `eventDate`,
+              this.actionTrackerForm.value[dataValue.formControlName]
+            );
+      });
+    });
   }
 }
