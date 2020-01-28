@@ -1,5 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import * as _ from 'lodash';
+import { getQuarter } from 'date-fns';
 
 import { getRootState, State as RootState } from '../reducers';
 import { adapter, State } from '../reducers/action-tracker-data.reducer';
@@ -90,6 +91,24 @@ export const getMergedActionTrackerDatas = createSelector(
         actions.dataValues = {};
         return actions.length > 0
           ? _.map(actions, (action: any, actionIndex: number) => {
+              action.actionTrackingColumns = [
+                {
+                  quarterNumber: 1,
+                  quarterName: 'Q1'
+                },
+                {
+                  quarterNumber: 2,
+                  quarterName: 'Q2'
+                },
+                {
+                  quarterNumber: 3,
+                  quarterName: 'Q3'
+                },
+                {
+                  quarterNumber: 4,
+                  quarterName: 'Q4'
+                }
+              ];
               _.map(action.attributes, trackedEntityAttribute => {
                 _.find(actionTrackerConfig.dataElements, {
                   id: trackedEntityAttribute.attribute
@@ -103,9 +122,32 @@ export const getMergedActionTrackerDatas = createSelector(
               });
 
               _.map(action.enrollments, enrollment => {
-                _.map(enrollment.events, event => {
+                _.map(_.sortBy(enrollment.events, 'eventDate'), event => {
                   _.map(event.dataValues, eventDataValues => {
-                    _.find(actionTrackerConfig.dataElements, {
+                    _.merge(
+                      _.get(
+                        action,
+                        `actionTrackingColumns[${_.findIndex(
+                          action.actionTrackingColumns,
+                          quarter =>
+                            getQuarter(
+                              new Date(_.head(_.split(event.eventDate, 'T')))
+                            ) == quarter.quarterNumber
+                        )}]`
+                      ),
+                      {
+                        [_.camelCase(
+                          _.get(
+                            _.find(actionTrackerConfig.dataElements, {
+                              id: eventDataValues.dataElement
+                            }),
+                            'name'
+                          )
+                        )]: eventDataValues.value
+                      }
+                    );
+                    console.log(action.actionTrackingColumns);
+                    return _.find(actionTrackerConfig.dataElements, {
                       id: eventDataValues.dataElement
                     })
                       ? _.merge(actions.dataValues, {

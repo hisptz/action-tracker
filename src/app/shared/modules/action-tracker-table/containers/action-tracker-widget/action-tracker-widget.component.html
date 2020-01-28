@@ -17,7 +17,9 @@
       <tr>
         <th width="1%">SN.</th>
         <th
-          [hidden]="dataElement.isHidden"
+          [hidden]="
+            dataElement.isHidden || (dataElement.isNotReportColumn && isReport)
+          "
           [ngClass]="{ 'hide-on-export': dataElement.isHidden }"
           *ngFor="
             let dataElement of rootCauseAnalysisConfiguration.dataElements
@@ -26,6 +28,10 @@
           {{ dataElement.name }}
         </th>
         <th *ngIf="!isReport" class="hide-on-export">Add Actions</th>
+        <th *ngIf="isReport">Q1</th>
+        <th *ngIf="isReport">Q2</th>
+        <th *ngIf="isReport">Q3</th>
+        <th *ngIf="isReport">Q4</th>
       </tr>
     </thead>
 
@@ -53,7 +59,7 @@
           {{ i + 1 }}
         </td>
         <td [attr.colspan]="11" *ngIf="toBeDeleted[dataItem.id]" align="center">
-          <div class="d-flex align-items-center justify-content-end">
+          <div class="d-flex align-items-center justify-content-center">
             <span>Are you sure wish to delete this data?</span>&nbsp;
             <button
               mat-stroked-button
@@ -76,7 +82,11 @@
           </div>
         </td>
         <td
-          [hidden]="dataElement.isHidden || toBeDeleted[dataItem.id]"
+          [hidden]="
+            dataElement.isHidden ||
+            toBeDeleted[dataItem.id] ||
+            (dataElement.isNotReportColumn && isReport)
+          "
           *ngFor="
             let dataElement of rootCauseAnalysisConfiguration.dataElements;
             let j = index
@@ -116,6 +126,31 @@
             </div>
           </ng-container>
         </td>
+
+        <ng-container *ngIf="isReport">
+          <td *ngFor="let actionTrackingItem of dataItem.actionTrackingColumns">
+            <p>
+              <b> Status: </b>
+              <br />
+              <span
+                [style.color]="
+                  actionTrackingItem?.actionStatus
+                    | colorize: (legendSetStatus$ | async)
+                "
+              >
+                {{
+                  actionTrackingItem.actionStatus
+                    | convertLegendId: (legendSetStatus$ | async)
+                }}</span
+              >
+            </p>
+            <p>
+              <b> Comments: </b>
+              <br />
+              {{ actionTrackingItem.actionComments }}
+            </p>
+          </td>
+        </ng-container>
 
         <td
           class="action-tracker-column hide-on-export"

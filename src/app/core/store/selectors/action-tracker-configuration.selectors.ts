@@ -88,8 +88,8 @@ export const getConfigurationDataElementsFromProgramStageDEs = createSelector(
               _.compact(
                 _.map(
                   programStage.programStageDataElements,
-                  programStageDataElement =>
-                    programStageDataElement.displayInReports
+                  programStageDataElement => {
+                    return programStageDataElement.displayInReports
                       ? _.merge(
                           {
                             name: _.get(
@@ -102,14 +102,28 @@ export const getConfigurationDataElementsFromProgramStageDEs = createSelector(
                                 'dataElement.formName'
                               )
                             ),
-                            isActionTrackerColumn: true
+                            isNotReportColumn: true,
+                            isActionTrackerColumn: true,
+                            hasLegend: _.find(
+                              _.get(
+                                programStageDataElement,
+                                `dataElement.attributeValues`
+                              ),
+                              attributeItems =>
+                                _.get(attributeItems, 'attribute.name') ==
+                                  'hasLegend' &&
+                                _.get(attributeItems, 'value') == 'true'
+                            )
+                              ? true
+                              : false
                           },
                           _.pick(programStageDataElement.dataElement, [
                             'id',
                             'valueType'
                           ])
                         )
-                      : []
+                      : [];
+                  }
                 )
               ),
               [
@@ -117,7 +131,8 @@ export const getConfigurationDataElementsFromProgramStageDEs = createSelector(
                   name: programStage.executionDateLabel,
                   valueType: 'DATE',
                   isActionTrackerColumn: true,
-                  formControlName: 'eventDate'
+                  formControlName: 'eventDate',
+                  isNotReportColumn: true
                 }
               ]
             )

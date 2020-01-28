@@ -20,7 +20,8 @@
             *ngIf="
               dataElement &&
               (dataElement?.valueType == 'TEXT' ||
-                dataElement?.valueType == 'LONG_TEXT')
+                dataElement?.valueType == 'LONG_TEXT') &&
+              !dataElement.hasLegend
             "
           >
             <label for="{{ dataItem?.id }}_{{ dataElement?.id }}"
@@ -73,7 +74,10 @@
           </div>
           <div
             class="form-group"
-            *ngIf="dataElement && dataElement?.valueType == 'SELECT'"
+            *ngIf="
+              (dataElement && dataElement?.valueType == 'SELECT') ||
+              dataElement.hasLegend
+            "
           >
             <label for="{{ dataItem?.id }}_{{ dataElement?.id }}"
               >{{ dataElement?.name }}
