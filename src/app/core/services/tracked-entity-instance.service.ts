@@ -20,6 +20,10 @@ export class TrackedEntityInstanceService {
     return this.http.post(this.teiUrl, trackedEntityInstance);
   }
 
+  deletingTEI(trackedEntityInstanceId: string): Observable<any> {
+    return this.http.delete(`${this.teiUrl}/${trackedEntityInstanceId}`);
+  }
+
   discoveringSavedTEI(rootCauseAnalysisData: any): Observable<any> {
     // TODO replace program id and referrence attribute id
     const programId = 'ROSaojkGieB';
