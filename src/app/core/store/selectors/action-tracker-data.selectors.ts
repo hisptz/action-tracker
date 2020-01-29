@@ -10,7 +10,10 @@ import {
   getRootCauseAnalysisDataNotificationStatus
 } from './root-cause-analysis-data.selectors';
 
-import { getMergedActionTrackerConfiguration } from './action-tracker-configuration.selectors';
+import {
+  getMergedActionTrackerConfiguration,
+  getConfigurationDataElementsFromProgramStageDEs
+} from './action-tracker-configuration.selectors';
 const getActionTrackerDataState = createSelector(
   getRootState,
   (state: RootState) => state.actionTrackerData
@@ -65,17 +68,88 @@ export const getAllDataNotification = createSelector(
   }
 );
 
-export const getMergedActionTrackerDatas = createSelector(
+export const getActionTrackingReportData = createSelector(
   getRootCauseAnalysisDatas,
   getActionTrackerDatas,
   getAllDataNotification,
-  getMergedActionTrackerConfiguration,
+  getConfigurationDataElementsFromProgramStageDEs,
 
   (rootCauseDatas, actionTrackerDatas, notification, actionTrackerConfig) => {
     if (notification.percent !== '100') {
       return [];
     }
+    // go through actions
+    _.map(actionTrackerDatas, action => {
+      //TODO: Andre create this structure from the period selection
+      action.actionTrackingColumns = [
+        {
+          quarterNumber: 1,
+          quarterName: 'Q1'
+        },
+        {
+          quarterNumber: 2,
+          quarterName: 'Q2'
+        },
+        {
+          quarterNumber: 3,
+          quarterName: 'Q3'
+        },
+        {
+          quarterNumber: 4,
+          quarterName: 'Q4'
+        }
+      ];
+      //go through enrollments
+      _.map(action.enrollments, enrollment => {
+        //go through events sorted by event date
+        _.map(_.sortBy(enrollment.events, 'eventDate'), event => {
+          //deduce the quarter of the current event
+          const eventQuarter = _.get(
+            action,
+            `actionTrackingColumns[${_.findIndex(
+              action.actionTrackingColumns,
+              quarter =>
+                getQuarter(new Date(_.head(_.split(event.eventDate, 'T')))) ==
+                quarter.quarterNumber
+            )}]`
+          );
+          _.map(event.dataValues, eventDataValues => {
+            //merge action tracking stage data elements and data to their respective quarter
+            _.merge(eventQuarter, {
+              [_.camelCase(
+                _.get(
+                  _.find(actionTrackerConfig, {
+                    id: eventDataValues.dataElement
+                  }),
+                  'name'
+                )
+              )]: eventDataValues.value
+            });
+          });
+        });
+      });
+    });
+  }
+);
 
+export const getMergedActionTrackerDatas = createSelector(
+  getRootCauseAnalysisDatas,
+  getActionTrackerDatas,
+  getAllDataNotification,
+  getMergedActionTrackerConfiguration,
+  getActionTrackingReportData,
+
+  (
+    rootCauseDatas,
+    actionTrackerDatas,
+    notification,
+    actionTrackerConfig,
+    actionTrackingReportData
+  ) => {
+    if (notification.percent !== '100') {
+      return [];
+    }
+    // console.log(actionTrackingReportData);
     return _.flatten(
       _.map(rootCauseDatas, (rootCauseData: any) => {
         const actions = _.filter(
@@ -91,24 +165,6 @@ export const getMergedActionTrackerDatas = createSelector(
         actions.dataValues = {};
         return actions.length > 0
           ? _.map(actions, (action: any, actionIndex: number) => {
-              action.actionTrackingColumns = [
-                {
-                  quarterNumber: 1,
-                  quarterName: 'Q1'
-                },
-                {
-                  quarterNumber: 2,
-                  quarterName: 'Q2'
-                },
-                {
-                  quarterNumber: 3,
-                  quarterName: 'Q3'
-                },
-                {
-                  quarterNumber: 4,
-                  quarterName: 'Q4'
-                }
-              ];
               _.map(action.attributes, trackedEntityAttribute => {
                 _.find(actionTrackerConfig.dataElements, {
                   id: trackedEntityAttribute.attribute
@@ -119,45 +175,6 @@ export const getMergedActionTrackerDatas = createSelector(
                     })
                   : null;
                 _.set(action, 'rootCauseDataId', rootCauseData.id);
-              });
-
-              _.map(action.enrollments, enrollment => {
-                _.map(_.sortBy(enrollment.events, 'eventDate'), event => {
-                  _.map(event.dataValues, eventDataValues => {
-                    _.merge(
-                      _.get(
-                        action,
-                        `actionTrackingColumns[${_.findIndex(
-                          action.actionTrackingColumns,
-                          quarter =>
-                            getQuarter(
-                              new Date(_.head(_.split(event.eventDate, 'T')))
-                            ) == quarter.quarterNumber
-                        )}]`
-                      ),
-                      {
-                        [_.camelCase(
-                          _.get(
-                            _.find(actionTrackerConfig.dataElements, {
-                              id: eventDataValues.dataElement
-                            }),
-                            'name'
-                          )
-                        )]: eventDataValues.value
-                      }
-                    );
-                    return _.find(actionTrackerConfig.dataElements, {
-                      id: eventDataValues.dataElement
-                    })
-                      ? _.merge(actions.dataValues, {
-                          [eventDataValues.dataElement]: eventDataValues.value
-                        })
-                      : null;
-                  });
-                  _.merge(actions.dataValues, {
-                    eventDate: _.head(_.split(event.eventDate, 'T'))
-                  });
-                });
               });
 
               return {
