@@ -12,7 +12,8 @@ import { RootCauseAnalysisData } from 'src/app/core/models/root-cause-analysis-d
 import { State } from 'src/app/core/store/reducers';
 import {
   getCurrentActionTrackerConfig,
-  getMergedActionTrackerConfiguration
+  getMergedActionTrackerConfiguration,
+  getConfigurationDataElementsFromProgramStageDEs
 } from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
 import {
   LegendSetState,
@@ -90,6 +91,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
   configuration$: Observable<RootCauseAnalysisConfiguration>;
   data$: Observable<RootCauseAnalysisData[]>;
   actionTrackerConfiguration$: Observable<any>;
+  programStageConfiguration$: Observable<any>;
   configurationLoading$: Observable<boolean>;
   configurationLoaded$: Observable<boolean>;
   dataLoading$: Observable<boolean>;
@@ -125,6 +127,9 @@ export class ActionTrackerWidgetComponent implements OnInit {
     this.configuration$ = store.select(getMergedActionTrackerConfiguration);
     this.actionTrackerConfiguration$ = store.select(
       getCurrentActionTrackerConfig
+    );
+    this.programStageConfiguration$ = store.select(
+      getConfigurationDataElementsFromProgramStageDEs
     );
     this.legendSetStatus$ = this.legendSetStore.select(
       getActionStatusLegendSet

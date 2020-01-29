@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import * as _ from 'lodash';
-import { getQuarter } from 'date-fns';
+import { getQuarter, isSameQuarter } from 'date-fns';
 
 import { getRootState, State as RootState } from '../reducers';
 import { adapter, State } from '../reducers/action-tracker-data.reducer';
@@ -84,19 +84,23 @@ export const getActionTrackingReportData = createSelector(
       action.actionTrackingColumns = [
         {
           quarterNumber: 1,
-          quarterName: 'Q1'
+          quarterName: 'Q1',
+          quarterData: []
         },
         {
           quarterNumber: 2,
-          quarterName: 'Q2'
+          quarterName: 'Q2',
+          quarterData: []
         },
         {
           quarterNumber: 3,
-          quarterName: 'Q3'
+          quarterName: 'Q3',
+          quarterData: []
         },
         {
           quarterNumber: 4,
-          quarterName: 'Q4'
+          quarterName: 'Q4',
+          quarterData: []
         }
       ];
       //go through enrollments
@@ -113,6 +117,17 @@ export const getActionTrackingReportData = createSelector(
                 quarter.quarterNumber
             )}]`
           );
+
+          _.set(
+            eventQuarter,
+            'eventDate',
+            _.head(_.split(event.eventDate, 'T'))
+          );
+          eventQuarter.isCurrentQuater = isSameQuarter(
+            new Date(_.head(_.split(event.eventDate, 'T'))),
+            new Date()
+          );
+
           _.map(event.dataValues, eventDataValues => {
             //merge action tracking stage data elements and data to their respective quarter
             _.merge(eventQuarter, {

@@ -97,10 +97,6 @@
             'action-tracker-column': dataElement.isActionTrackerColumn,
             'solution-column': !dataElement.isActionTrackerColumn
           }"
-          [style.background-color]="
-            dataItem.dataValues[dataElement.id]
-              | colorize: (legendSetStatus$ | async)
-          "
         >
           <ng-container id="dataItem?.id_dataElement?.id">
             <div
@@ -129,26 +125,35 @@
 
         <ng-container *ngIf="isReport">
           <td *ngFor="let actionTrackingItem of dataItem.actionTrackingColumns">
-            <p>
-              <b> Status: </b>
-              <br />
-              <span
+            <div
+              *ngFor="let programStageDE of programStageConfiguration$ | async"
+            >
+              <p>
+                <b>{{ programStageDE.name }}</b>
+              </p>
+              <p
                 [style.color]="
-                  actionTrackingItem?.actionStatus
+                  actionTrackingItem[programStageDE.formControlName]
                     | colorize: (legendSetStatus$ | async)
                 "
+                *ngIf="!actionTrackingItem.isCurrentQuater"
               >
                 {{
-                  actionTrackingItem.actionStatus
-                    | convertLegendId: (legendSetStatus$ | async) || ' '
-                }}</span
-              >
-            </p>
-            <p>
-              <b> Comments: </b>
-              <br />
-              {{ actionTrackingItem.actionComments }}
-            </p>
+                  actionTrackingItem[programStageDE.formControlName]
+                    | convertLegendId: (legendSetStatus$ | async)
+                }}
+              </p>
+              <input
+                *ngIf="actionTrackingItem.isCurrentQuater"
+                type="text"
+                value="{{
+                  actionTrackingItem[programStageDE.formControlName]
+                    | convertLegendId: (legendSetStatus$ | async)
+                }}"
+                name=""
+                id=""
+              />
+            </div>
           </td>
         </ng-container>
 
