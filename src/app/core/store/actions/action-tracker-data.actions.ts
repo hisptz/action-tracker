@@ -109,10 +109,7 @@ export class UpdateActionTrackerDatas implements Action {
 export class DeleteActionTrackerData implements Action {
   readonly type = ActionTrackerDataActionTypes.DeleteActionTrackerData;
 
-  constructor(
-    public actionTrackerData: any,
-    public actionTrackerDataId?: string
-  ) {}
+  constructor(public actionTrackerDataId: string) {}
 }
 
 export class DeleteActionTrackerDataSuccess implements Action {
@@ -123,7 +120,7 @@ export class DeleteActionTrackerDataSuccess implements Action {
 
 export class DeleteActionTrackerDataFail implements Action {
   readonly type = ActionTrackerDataActionTypes.DeleteActionTrackerDataFail;
-  constructor(public actionTrackerData: ActionTrackerData, public error: any) {}
+  constructor(public actionTrackerDataId: string, public error: any) {}
 }
 
 export class DeleteActionTrackerDatas implements Action {

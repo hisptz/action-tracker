@@ -6,7 +6,6 @@ import { ContextMenuComponent } from 'ngx-contextmenu';
 import { ContextMenuService } from 'ngx-contextmenu';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { openEntryForm } from 'src/app/core/helpers/open-entry-form.helper';
 import { RootCauseAnalysisConfiguration } from 'src/app/core/models/root-cause-analysis-configuration.model';
 import { RootCauseAnalysisData } from 'src/app/core/models/root-cause-analysis-data.model';
 
@@ -152,21 +151,27 @@ export class ActionTrackerWidgetComponent implements OnInit {
 
   ngOnInit() {}
 
-  openModal(dataItem, dataElementsConfig) {
-    if (dataItem.id) {
-      const newDataItem = _.pick(dataItem, ['dataValues', 'rootCauseDataId']);
-      _.map(newDataItem.dataValues, (dataValue, index) => {
-        return _.find(dataElementsConfig, {
-          isActionTrackerColumn: true,
-          id: index
-        })
-          ? _.unset(newDataItem.dataValues, `${index}`)
-          : null;
-      });
-      this.selectedDataItem = newDataItem;
+  onAddAction(dataItem, configuration) {
+    if (!dataItem.id) {
+      this.openModal(dataItem);
     } else {
-      this.selectedDataItem = dataItem;
+      const emptyDataValues = this.generateConfigurations(
+        configuration,
+        dataItem
+      );
+      const newDataItem = {
+        trackedEntityInstance: generateUid(),
+        dataValues: emptyDataValues,
+        isNewRow: true,
+        rootCauseDataId: dataItem.rootCauseDataId,
+        parentAction: dataItem.id
+      };
+      this.openModal(newDataItem);
     }
+  }
+
+  openModal(dataItem) {
+    this.selectedDataItem = dataItem;
     this.display = 'block';
   }
 
@@ -190,7 +195,17 @@ export class ActionTrackerWidgetComponent implements OnInit {
           )
         : this.store.dispatch(new SaveActionTrackerData(actionTrackerData))
       : null;
+    this.onCloseHandled();
     // this.store.dispatch(new CancelActionTrackerData(placeHolderData));
+  }
+
+  cancelDataEntryForm(dataItem, allDataItems) {
+    if (dataItem.isNewRow) {
+      this.store.dispatch(new CancelActionTrackerData(dataItem));
+      this.onCloseHandled();
+    } else {
+      this.onCloseHandled();
+    }
   }
 
   onContextMenu(event, dataItem) {
@@ -234,6 +249,16 @@ export class ActionTrackerWidgetComponent implements OnInit {
           : null;
       });
       this.toBeDeleted[dataItem.id] = false;
+    }
+  }
+
+  onConfirmActionDelete(dataItem, dataElements) {
+    if (dataItem && dataItem.trackedEntityInstance) {
+      this.store.dispatch(
+        new DeleteActionTrackerData(dataItem.trackedEntityInstance)
+      );
+    } else {
+      window.alert('There is no action registered for this solution yet.');
     }
   }
 
@@ -285,11 +310,15 @@ export class ActionTrackerWidgetComponent implements OnInit {
   }
 
   generateConfigurations(configurationDataElements, dataItem) {
-    const dataValues: any = {};
-    _.forEach(configurationDataElements, element => {
-      element.isActionTrackerColumn ? (dataValues[element.id] = '') : null;
+    _.map(dataItem.dataValues, (dataValue, index) => {
+      return _.find(configurationDataElements, {
+        isActionTrackerColumn: true,
+        id: index
+      })
+        ? _.set(dataItem.dataValues, `${index}`, '')
+        : null;
     });
-    return dataValues;
+    return dataItem.dataValues;
   }
 
   onResetNotification(emptyNotificationMessage) {

@@ -76,6 +76,7 @@ export class ActionTrackerDataEffects {
   addActionTrackerData$: Observable<any> = this.actions$.pipe(
     ofType(ActionTrackerDataActionTypes.AddActionTrackerData),
     mergeMap((action: AddActionTrackerData) => {
+      console.log(action);
       return of(action.actionTrackerData).pipe(
         map(
           (actionTrackerData: any) =>
@@ -83,6 +84,25 @@ export class ActionTrackerDataEffects {
         ),
         catchError((error: any) => of(new AddActionTrackerDataFail(error)))
       );
+    })
+  );
+
+  @Effect()
+  deleteActionTrackerData$: Observable<any> = this.actions$.pipe(
+    ofType(ActionTrackerDataActionTypes.DeleteActionTrackerData),
+    mergeMap((action: DeleteActionTrackerData) => {
+      return this.trackedEntityInstanceService
+        .deletingTEI(action.actionTrackerDataId)
+        .pipe(
+          map(
+            () => new DeleteActionTrackerDataSuccess(action.actionTrackerDataId)
+          ),
+          catchError((error: any) =>
+            of(
+              new DeleteActionTrackerDataFail(action.actionTrackerDataId, error)
+            )
+          )
+        );
     })
   );
 

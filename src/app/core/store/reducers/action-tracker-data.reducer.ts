@@ -51,7 +51,6 @@ export function reducer(
     }
 
     case ActionTrackerDataActionTypes.AddActionTrackerDataSuccess: {
-      openEntryForm(action.actionTrackerData);
       return state;
     }
 
@@ -98,14 +97,26 @@ export function reducer(
     }
 
     case ActionTrackerDataActionTypes.DeleteActionTrackerData: {
-      if (!action.actionTrackerData) {
+      if (!action.actionTrackerDataId) {
         return state;
       }
-      return adapter.removeOne(action.actionTrackerData, state);
+      return adapter.removeOne(action.actionTrackerDataId, {
+        ...state,
+        notification: {
+          completed: false,
+          message: 'Deleting Action Data ' + action.actionTrackerDataId
+        }
+      });
     }
 
     case ActionTrackerDataActionTypes.DeleteActionTrackerDataSuccess: {
-      return adapter.removeOne(action.id, { ...state });
+      return adapter.removeOne(action.id, {
+        ...state,
+        notification: {
+          completed: true,
+          message: 'Action Data ' + action.id + ' Has been Successfully Deleted'
+        }
+      });
     }
 
     case ActionTrackerDataActionTypes.DeleteActionTrackerDatas: {

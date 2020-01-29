@@ -146,7 +146,6 @@ export const getMergedActionTrackerDatas = createSelector(
                         )]: eventDataValues.value
                       }
                     );
-                    console.log(action.actionTrackingColumns);
                     return _.find(actionTrackerConfig.dataElements, {
                       id: eventDataValues.dataElement
                     })

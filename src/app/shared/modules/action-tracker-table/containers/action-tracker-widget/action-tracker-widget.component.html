@@ -140,7 +140,7 @@
               >
                 {{
                   actionTrackingItem.actionStatus
-                    | convertLegendId: (legendSetStatus$ | async)
+                    | convertLegendId: (legendSetStatus$ | async) || ' '
                 }}</span
               >
             </p>
@@ -165,7 +165,10 @@
               class="btn-add-action"
               title="Click to add new action"
               (click)="
-                openModal(dataItem, rootCauseAnalysisConfiguration.dataElements)
+                onAddAction(
+                  dataItem,
+                  rootCauseAnalysisConfiguration.dataElements
+                )
               "
             >
               <i class="fa fa-plus"></i>
@@ -222,10 +225,11 @@
             [legendSetItems]="legendSetItems$ | async"
             [configurations]="actionTrackerConfiguration$ | async"
             (save)="onSave($event, selectedDataItem)"
+            (cancel)="cancelDataEntryForm($event, rootCauseAnalysisData)"
           ></action-tracker-form>
         </div>
 
-        <div class="modal-footer">
+        <!-- <div class="modal-footer">
           <button
             type="button"
             class="btn btn-default"
@@ -233,7 +237,7 @@
           >
             Close
           </button>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

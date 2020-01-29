@@ -8,6 +8,7 @@ import {
 } from '../reducers/action-tracker-configuration.reducer';
 import { getCurrentRootCauseAnalysisConfiguration } from './root-cause-analysis-configuration.selectors';
 
+import { getAttributeByNameAndValue } from '../../helpers/get-attribute-by-name-and-value.helper';
 const getActionTrackerConfigurationState = createSelector(
   getRootState,
   (state: RootState) => state.actionTrackerConfigurations
@@ -104,15 +105,17 @@ export const getConfigurationDataElementsFromProgramStageDEs = createSelector(
                             ),
                             isNotReportColumn: true,
                             isActionTrackerColumn: true,
-                            hasLegend: _.find(
-                              _.get(
-                                programStageDataElement,
-                                `dataElement.attributeValues`
-                              ),
-                              attributeItems =>
-                                _.get(attributeItems, 'attribute.name') ==
-                                  'hasLegend' &&
-                                _.get(attributeItems, 'value') == 'true'
+                            isActionStatus: getAttributeByNameAndValue(
+                              programStageDataElement,
+                              'isActionStatus',
+                              'true'
+                            )
+                              ? true
+                              : false,
+                            hasLegend: getAttributeByNameAndValue(
+                              programStageDataElement,
+                              'hasLegend',
+                              'true'
                             )
                               ? true
                               : false
@@ -144,12 +147,10 @@ export const getConfigurationDataElementsFromProgramStageDEs = createSelector(
 export const getMergedActionTrackerConfiguration = createSelector(
   getCurrentActionTrackerConfig,
   getConfigurationDataElementsFromTEAs,
-  getConfigurationDataElementsFromProgramStageDEs,
   getCurrentRootCauseAnalysisConfiguration,
   (
     currentActionTrackerConfig,
     actionTrackerConfigTrackedEntityAttributes,
-    actionTrackerConfigProgramStageDataElements,
     currentRootCauseAnalysisConfiguration
   ) => {
     if (currentRootCauseAnalysisConfiguration && currentActionTrackerConfig) {
@@ -170,8 +171,7 @@ export const getMergedActionTrackerConfiguration = createSelector(
       currentActionTrackerConfig.dataElements = [];
       currentActionTrackerConfig.dataElements.push(
         ...currentRootCauseAnalysisConfiguration.dataElements,
-        ...actionTrackerConfigTrackedEntityAttributes,
-        ...actionTrackerConfigProgramStageDataElements
+        ...actionTrackerConfigTrackedEntityAttributes
       );
     }
     return currentActionTrackerConfig;

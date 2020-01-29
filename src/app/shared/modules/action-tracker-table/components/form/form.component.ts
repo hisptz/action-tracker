@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { generateTEI } from '../../../../../core/helpers/generate-tracked-entity-instance.helper';
+import { generateEvent } from '../../../../../core/helpers/generate-event-payload.helper';
 import * as _ from 'lodash';
 @Component({
   selector: 'action-tracker-form',
@@ -11,6 +12,8 @@ export class FormComponent implements OnInit {
   @Input() dataItem;
   @Input() legendSetItems;
   @Input() configurations;
+  actionStatusValue;
+  actionStatusId;
 
   @Output() cancel: EventEmitter<any> = new EventEmitter<any>();
 
@@ -34,6 +37,17 @@ export class FormComponent implements OnInit {
       : [];
 
     _.map(_.filter(dataElements, 'isActionTrackerColumn'), dataElement => {
+      if (dataElement.isActionStatus == true) {
+        this.actionStatusValue = this.dataItem
+          ? this.dataItem.dataValues
+            ? this.dataItem.dataValues[
+                dataElement.id || dataElement.formControlName
+              ]
+            : ''
+          : '';
+        this.actionStatusId = dataElement.id;
+      }
+
       this.formArray[dataElement.formControlName] = this.dataItem
         ? this.dataItem.dataValues
           ? this.dataItem.dataValues[
@@ -107,7 +121,6 @@ export class FormComponent implements OnInit {
       `dataValues[${_.get(_.find(dataElement, { name: 'orgUnitId' }), 'id')}]`
     );
     selectionParams['rootCauseDataId'] = dataItem.rootCauseDataId;
-
     _.map(_.filter(dataElement, 'isActionTrackerColumn'), dataValue => {
       if (dataItem.id) {
         dataValue.isTrackedEntityAttribute
@@ -116,7 +129,7 @@ export class FormComponent implements OnInit {
               dataValue,
               dataItem.rootCauseDataId
             )
-          : this.updateEnrollmentPayload(dataItem, dataValue);
+          : this.updateEnrollmentPayload(dataItem, dataValue, selectionParams);
       } else {
         this.createEnrollmentPayload(
           attributes,
@@ -168,27 +181,17 @@ export class FormComponent implements OnInit {
           this.actionTrackerForm.value[dataValue.formControlName]
         );
   }
-  updateEnrollmentPayload(dataItem, dataValue) {
-    _.map(dataItem.enrollments, enrollment => {
-      _.map(enrollment.events, event => {
-        const dataElementIdIndex = _.findIndex(
-          event.dataValues,
-          eventDataValue => {
-            return eventDataValue.dataElement == dataValue.id;
-          }
-        );
-        dataElementIdIndex >= 0
-          ? _.set(
-              event,
-              `dataValues[${dataElementIdIndex}].value`,
-              this.actionTrackerForm.value[dataValue.formControlName]
-            )
-          : _.set(
-              event,
-              `eventDate`,
-              this.actionTrackerForm.value[dataValue.formControlName]
-            );
+
+  updateEnrollmentPayload(dataItem, dataValue, selectionParams) {
+    return _.map(dataItem.enrollments, enrollment => {
+      _.map(_.sortBy(enrollment.events, 'eventDate'), (event, eventIndex) => {
+        //check if this is the last event of the enrollment
+        if (eventIndex + 1 == enrollment.events.length) {
+          // Go through Items of the last event
+          console.log(event);
+        }
       });
+      return enrollment;
     });
   }
 }
