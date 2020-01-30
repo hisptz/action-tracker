@@ -71,7 +71,7 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
     this.dataIcon = DATA_ICON;
     this.periodIcon = PERIOD_ICON;
     this.orgUnitIcon = TREE_ICON;
-    this.periodFilterConfig = { singleSelection: true };
+    this.periodFilterConfig = { singleSelection: true, emitOnSelection: true };
   }
 
   get selectedData(): any[] {

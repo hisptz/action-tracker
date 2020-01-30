@@ -3,6 +3,7 @@ import { getRootState, State } from '../reducers';
 import { State as GlobalSelection } from '../reducers/global-data-selection.reducer';
 import { getCurrentActionTrackerConfig } from './action-tracker-configuration.selectors';
 import { getDataParams } from '../../helpers/get-data-params.helper';
+import { getSystemInfo } from './system-info.selectors';
 
 export const getGlobalSelectionState = createSelector(
   getRootState,
@@ -17,8 +18,17 @@ export const getDataSelections = createSelector(
 export const getDataSelectionParams = createSelector(
   getDataSelections,
   getCurrentActionTrackerConfig,
-  (dataSelections: any[], currentActionTrackerCurrent: any) => {
-    return getDataParams(dataSelections, currentActionTrackerCurrent);
+  getSystemInfo,
+  (
+    dataSelections: any[],
+    currentActionTrackerCurrent: any,
+    systemInfo: any
+  ) => {
+    return getDataParams(
+      dataSelections,
+      currentActionTrackerCurrent,
+      systemInfo.calendar
+    );
   }
 );
 
