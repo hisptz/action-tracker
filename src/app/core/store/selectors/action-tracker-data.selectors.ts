@@ -84,23 +84,19 @@ export const getActionTrackingReportData = createSelector(
       action.actionTrackingColumns = [
         {
           quarterNumber: 1,
-          quarterName: 'Q1',
-          quarterData: []
+          quarterName: 'Q1'
         },
         {
           quarterNumber: 2,
-          quarterName: 'Q2',
-          quarterData: []
+          quarterName: 'Q2'
         },
         {
           quarterNumber: 3,
-          quarterName: 'Q3',
-          quarterData: []
+          quarterName: 'Q3'
         },
         {
           quarterNumber: 4,
-          quarterName: 'Q4',
-          quarterData: []
+          quarterName: 'Q4'
         }
       ];
       //go through enrollments
@@ -127,6 +123,7 @@ export const getActionTrackingReportData = createSelector(
             new Date(_.head(_.split(event.eventDate, 'T'))),
             new Date()
           );
+          eventQuarter.id = _.get(event, 'event');
 
           _.map(event.dataValues, eventDataValues => {
             //merge action tracking stage data elements and data to their respective quarter

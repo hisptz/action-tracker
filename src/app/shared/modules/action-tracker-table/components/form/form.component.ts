@@ -123,19 +123,10 @@ export class FormComponent implements OnInit {
     selectionParams['rootCauseDataId'] = dataItem.rootCauseDataId;
     _.map(_.filter(dataElement, 'isActionTrackerColumn'), dataValue => {
       if (dataItem.id) {
-        dataValue.isTrackedEntityAttribute
-          ? this.generateAttributePayload(
-              attributes,
-              dataValue,
-              dataItem.rootCauseDataId
-            )
-          : this.updateEnrollmentPayload(dataItem, dataValue, selectionParams);
-      } else {
-        this.createEnrollmentPayload(
+        this.generateAttributePayload(
           attributes,
-          dataValues,
           dataValue,
-          selectionParams
+          dataItem.rootCauseDataId
         );
       }
     });

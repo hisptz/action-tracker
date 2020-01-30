@@ -124,35 +124,46 @@
         </td>
 
         <ng-container *ngIf="isReport">
-          <td *ngFor="let actionTrackingItem of dataItem.actionTrackingColumns">
+          <td
+            *ngFor="let actionTrackingItem of dataItem.actionTrackingColumns"
+            [ngClass]="{ 'pr-5': actionTrackingItem.isCurrentQuater }"
+          >
             <div
               *ngFor="let programStageDE of programStageConfiguration$ | async"
             >
-              <p>
-                <b>{{ programStageDE.name }}</b>
-              </p>
-              <p
-                [style.color]="
-                  actionTrackingItem[programStageDE.formControlName]
-                    | colorize: (legendSetStatus$ | async)
-                "
-                *ngIf="!actionTrackingItem.isCurrentQuater"
-              >
-                {{
-                  actionTrackingItem[programStageDE.formControlName]
-                    | convertLegendId: (legendSetStatus$ | async)
-                }}
-              </p>
-              <input
+              <div *ngIf="!actionTrackingItem.isCurrentQuater">
+                <p>
+                  <b>{{ programStageDE.name }}</b>
+                </p>
+                <p
+                  [style.color]="
+                    actionTrackingItem[programStageDE.formControlName]
+                      | colorize: (legendSetStatus$ | async)
+                  "
+                >
+                  {{
+                    actionTrackingItem[programStageDE.formControlName]
+                      | convertLegendId: (legendSetStatus$ | async)
+                  }}
+                </p>
+              </div>
+
+              <form-input-item
                 *ngIf="actionTrackingItem.isCurrentQuater"
-                type="text"
-                value="{{
-                  actionTrackingItem[programStageDE.formControlName]
-                    | convertLegendId: (legendSetStatus$ | async)
-                }}"
-                name=""
-                id=""
-              />
+                [dataItem]="dataItem"
+                [dataElement]="programStageDE"
+                [configuration]="programStageConfiguration$ | async"
+                [actionTrackingItem]="actionTrackingItem"
+                [legendSetItems]="legendSetItems$ | async"
+                (updateDataValue)="
+                  onActionTrackingDataValuesUpdate(
+                    $event,
+                    dataItem,
+                    dataElement
+                  )
+                "
+              >
+              </form-input-item>
             </div>
           </td>
         </ng-container>

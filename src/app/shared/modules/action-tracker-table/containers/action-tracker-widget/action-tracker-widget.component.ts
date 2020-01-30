@@ -226,6 +226,9 @@ export class ActionTrackerWidgetComponent implements OnInit {
     }
   }
 
+  onActionTrackingDataValuesUpdate(event, dataItem, dataElement) {
+    console.log('object : ', event);
+  }
   onActionDelete(dataItem) {
     const dataItemToDelete = document.getElementById(dataItem.id);
     if (dataItemToDelete) {
