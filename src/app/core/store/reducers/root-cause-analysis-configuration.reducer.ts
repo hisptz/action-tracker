@@ -5,7 +5,8 @@ import {
   RootCauseAnalysisConfigurationActionTypes
 } from '../actions/root-cause-analysis-configuration.actions';
 
-export interface State extends EntityState<RootCauseAnalysisConfiguration> {
+export interface RootCauseAnalysisConfigurationState
+  extends EntityState<RootCauseAnalysisConfiguration> {
   // additional entities state properties
   loading: boolean;
   loaded: boolean;
@@ -15,24 +16,26 @@ export interface State extends EntityState<RootCauseAnalysisConfiguration> {
   currentConfig: string;
 }
 
-export const adapter: EntityAdapter<
+export const adapter: EntityAdapter<RootCauseAnalysisConfiguration> = createEntityAdapter<
   RootCauseAnalysisConfiguration
-> = createEntityAdapter<RootCauseAnalysisConfiguration>();
+>();
 
-export const initialState: State = adapter.getInitialState({
-  // additional entity state properties
-  loading: false,
-  loaded: false,
-  hasError: false,
-  error: null,
-  notification: '',
-  currentConfig: ''
-});
+export const initialState: RootCauseAnalysisConfigurationState = adapter.getInitialState(
+  {
+    // additional entity state properties
+    loading: false,
+    loaded: false,
+    hasError: false,
+    error: null,
+    notification: '',
+    currentConfig: ''
+  }
+);
 
-export function reducer(
+export function rootCauseAnalysisConfigurationReducer(
   state = initialState,
   action: RootCauseAnalysisConfigurationActions
-): State {
+): RootCauseAnalysisConfigurationState {
   switch (action.type) {
     case RootCauseAnalysisConfigurationActionTypes.UpsertRootCauseAnalysisConfiguration: {
       return adapter.upsertOne(

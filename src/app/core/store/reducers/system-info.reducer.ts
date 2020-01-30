@@ -2,7 +2,7 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { SystemInfo, ErrorMessage } from '../../models';
 import { SystemInfoActions, SystemInfoActionTypes } from '../actions';
 
-export interface State extends EntityState<SystemInfo> {
+export interface SystemInfoState extends EntityState<SystemInfo> {
   // additional entities state properties
   /**
    * SystemInfo loading status
@@ -29,7 +29,7 @@ export const adapter: EntityAdapter<SystemInfo> = createEntityAdapter<
   SystemInfo
 >();
 
-export const initialState: State = adapter.getInitialState({
+export const initialState: SystemInfoState = adapter.getInitialState({
   // additional entity state properties
   loading: false,
   loaded: false,
@@ -40,7 +40,7 @@ export const initialState: State = adapter.getInitialState({
 export function reducer(
   state = initialState,
   action: SystemInfoActions
-): State {
+): SystemInfoState {
   switch (action.type) {
     case SystemInfoActionTypes.AddSystemInfo: {
       return adapter.addOne(action.systemInfo, {
@@ -70,9 +70,12 @@ export function reducer(
   }
 }
 
-export const getSystemInfoLoadingState = (state: State) => state.loading;
-export const getSystemInfoLoadedState = (state: State) => state.loaded;
-export const getSystemInfoHasErrorState = (state: State) => state.hasError;
-export const getSystemInfoErrorState = (state: State) => state.error;
+export const getSystemInfoLoadingState = (state: SystemInfoState) =>
+  state.loading;
+export const getSystemInfoLoadedState = (state: SystemInfoState) =>
+  state.loaded;
+export const getSystemInfoHasErrorState = (state: SystemInfoState) =>
+  state.hasError;
+export const getSystemInfoErrorState = (state: SystemInfoState) => state.error;
 
 export const { selectAll: getSystemInfosState } = adapter.getSelectors();

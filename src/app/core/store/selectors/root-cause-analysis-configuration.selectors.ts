@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import {
-  State,
+  RootCauseAnalysisConfigurationState,
   adapter
 } from '../reducers/root-cause-analysis-configuration.reducer';
 import { getRootState, State as RootState } from '../reducers';
@@ -16,7 +16,7 @@ export const {
 
 export const getCurrentConfigId = createSelector(
   getRootCauseAnalysisConfigurationState,
-  (state: State) => state.currentConfig
+  (state: RootCauseAnalysisConfigurationState) => state.currentConfig
 );
 
 export const getCurrentRootCauseAnalysisConfiguration = createSelector(
@@ -29,25 +29,25 @@ export const getCurrentRootCauseAnalysisConfiguration = createSelector(
 
 export const getConfigurationLoadingStatus = createSelector(
   getRootCauseAnalysisConfigurationState,
-  (state: State) => state.loading
+  (state: RootCauseAnalysisConfigurationState) => state.loading
 );
 
 export const getConfigurationLoadedStatus = createSelector(
   getRootCauseAnalysisConfigurationState,
-  (state: State) => state.loaded
+  (state: RootCauseAnalysisConfigurationState) => state.loaded
 );
 
 export const getConfigurationHasErrorStatus = createSelector(
   getRootCauseAnalysisConfigurationState,
-  (state: State) => state.hasError
+  (state: RootCauseAnalysisConfigurationState) => state.hasError
 );
 
 export const getConfigurationErrorStatus = createSelector(
   getRootCauseAnalysisConfigurationState,
-  (state: State) => state.error
+  (state: RootCauseAnalysisConfigurationState) => state.error
 );
 
 export const getConfigurationNotificationStatus = createSelector(
   getRootCauseAnalysisConfigurationState,
-  (state: State) => state.notification
+  (state: RootCauseAnalysisConfigurationState) => state.notification
 );
