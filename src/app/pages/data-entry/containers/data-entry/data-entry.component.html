@@ -1,8 +1,5 @@
 <div>
-  <table
-    class="table table-bordered"
-    *ngIf="configuration$ | async as configuration"
-  >
+  <table class="table" *ngIf="configuration$ | async as configuration">
     <thead>
       <tr>
         <th>#</th>
@@ -12,7 +9,7 @@
         >
           {{ dataElement.name }}
         </th>
-        <th width="5%"></th>
+        <th width="5%" style="border-left: 1px solid #dee2e6;"></th>
       </tr>
     </thead>
     <tbody>
@@ -33,6 +30,7 @@
           class="position-relative"
           *ngIf="actionDataItem.rowspan"
           [attr.rowspan]="actionDataItem.rowspan"
+          style="border-left: 1px solid #dee2e6;"
         >
           <div class="add-action-block">
             <button
