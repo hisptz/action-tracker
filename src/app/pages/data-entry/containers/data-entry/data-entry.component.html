@@ -16,7 +16,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let actionDataItem of data$ | async; let i = index">
+      <tr
+        *ngFor="let actionDataItem of data$ | async; let i = index"
+        (dblclick)="
+          onEditAction($event, actionDataItem, configuration.dataElements)
+        "
+      >
         <td>{{ i + 1 }}</td>
         <td
           *ngFor="let actionDataElement of configuration.dataElements"

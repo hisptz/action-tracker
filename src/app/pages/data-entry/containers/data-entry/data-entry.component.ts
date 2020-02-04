@@ -38,6 +38,12 @@ export class DataEntryComponent implements OnInit {
     this.store.pipe(select(getMergedActionTrackerDatas)).subscribe();
   }
 
+  onEditAction(e, dataItem: any, dataElements: any[]) {
+    e.stopPropagation();
+
+    this.dataEntryDialogBoxOperations(dataElements, dataItem);
+  }
+
   onAddAction(e, dataItem: any, dataElements: any[]) {
     e.stopPropagation();
     const emptyDataValues = generateActionDataValue(dataElements, dataItem);
@@ -56,6 +62,10 @@ export class DataEntryComponent implements OnInit {
       )
     };
 
+    this.dataEntryDialogBoxOperations(dataElements, newDataItem);
+  }
+
+  dataEntryDialogBoxOperations(dataElements, dataItem) {
     const formDataElements = (dataElements || []).filter(
       (dataElement: any) => dataElement.isActionTrackerColumn
     );
@@ -65,23 +75,22 @@ export class DataEntryComponent implements OnInit {
       height: `${300 + 55 * formDataElements.length}px`,
       data: {
         dataElements: formDataElements,
-        dataValues: newDataItem.dataValues
+        dataValues: dataItem.dataValues
       }
     });
 
     dialogRef.afterClosed().subscribe(formResponse => {
       if (formResponse) {
         const { formValues, formAction } = formResponse;
-        newDataItem.attributes = this.generateAttributePayload(
+        dataItem.attributes = this.generateAttributePayload(
           formValues,
           formDataElements
         );
-        const actionTrackerData = generateTEI(newDataItem);
+        const actionTrackerData = generateTEI(dataItem);
         this.store.dispatch(new SaveActionTrackerData(actionTrackerData));
       }
     });
   }
-
   generateAttributePayload(formValues, formDataElements) {
     const attributes = [];
     _.forEach(formValues, (formValue, index) => {
