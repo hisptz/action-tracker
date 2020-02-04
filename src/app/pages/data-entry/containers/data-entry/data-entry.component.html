@@ -1,23 +1,42 @@
 <div>
-  <table class="table table-bordered" *ngIf="configuration$ | async as configuration">
+  <table
+    class="table table-bordered"
+    *ngIf="configuration$ | async as configuration"
+  >
     <thead>
       <tr>
-        <td>#</td>
-        <td *ngFor="let dataElement of configuration.dataElements" [hidden]="dataElement.isHidden">
-          {{dataElement.name}}
-        </td>
-        <td width="5%"></td>
+        <th>#</th>
+        <th
+          *ngFor="let dataElement of configuration.dataElements"
+          [hidden]="dataElement.isHidden"
+        >
+          {{ dataElement.name }}
+        </th>
+        <th width="5%"></th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let actionDataItem of data$ | async; let i = index">
-        <td>{{ i + 1}}</td>
-        <td *ngFor="let actionDataElement of configuration.dataElements" [hidden]="actionDataElement.isHidden">
-          {{actionDataItem?.dataValues[actionDataElement.id]}}</td>
-        <td class="position-relative" *ngIf="actionDataItem.rowspan" [attr.rowspan]="actionDataItem.rowspan">
+        <td>{{ i + 1 }}</td>
+        <td
+          *ngFor="let actionDataElement of configuration.dataElements"
+          [hidden]="actionDataElement.isHidden"
+        >
+          {{ (actionDataItem?.dataValues)[actionDataElement.id] }}
+        </td>
+        <td
+          class="position-relative"
+          *ngIf="actionDataItem.rowspan"
+          [attr.rowspan]="actionDataItem.rowspan"
+        >
           <div class="add-action-block">
-            <button title="Click to add new action" mat-icon-button
-              (click)="onAddAction($event, actionDataItem, configuration.dataElements)">
+            <button
+              title="Click to add new action"
+              mat-icon-button
+              (click)="
+                onAddAction($event, actionDataItem, configuration.dataElements)
+              "
+            >
               <mat-icon>add</mat-icon>
             </button>
           </div>

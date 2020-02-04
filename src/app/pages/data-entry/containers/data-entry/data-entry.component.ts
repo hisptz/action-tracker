@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Attribute } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -9,7 +9,10 @@ import { getMergedActionTrackerConfiguration } from 'src/app/core/store/selector
 import { getMergedActionTrackerDatasWithRowspanAttribute } from 'src/app/core/store/selectors/action-tracker-data.selectors';
 import { FormDialogComponent } from 'src/app/shared/components/form-dialog/form-dialog.component';
 import { generateActionDataValue } from 'src/app/shared/helpers/generate-action-data-values.helper';
+import { generateTEI } from 'src/app/core/helpers/generate-tracked-entity-instance.helper';
 
+import { SaveActionTrackerData } from 'src/app/core/store/actions/action-tracker-data.actions';
+import * as _ from 'lodash';
 @Component({
   selector: 'app-data-entry',
   templateUrl: './data-entry.component.html',
@@ -32,13 +35,21 @@ export class DataEntryComponent implements OnInit {
 
   onAddAction(e, dataItem: any, dataElements: any[]) {
     e.stopPropagation();
+    console.log(_.get(_.find(dataElements, { name: 'orgUnitId' }), 'id'));
     const emptyDataValues = generateActionDataValue(dataElements, dataItem);
-    const newDataItem = {
+    const newDataItem: any = {
       trackedEntityInstance: generateUid(),
       dataValues: emptyDataValues,
       isNewRow: true,
       rootCauseDataId: dataItem.rootCauseDataId,
-      parentAction: dataItem.id
+      parentAction: dataItem.id,
+      orgUnit: _.get(
+        dataItem,
+        `dataValues[${_.get(
+          _.find(dataElements, { name: 'orgUnitId' }),
+          'id'
+        )}]`
+      )
     };
 
     const formDataElements = (dataElements || []).filter(
@@ -55,7 +66,24 @@ export class DataEntryComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(({ formValues, formAction }) => {
-      console.log(formValues);
+      newDataItem.attributes = this.generateAttributePayload(
+        formValues,
+        dataItem
+      );
+      const actionTrackerData = generateTEI(newDataItem);
+      console.log(formAction);
+      this.store.dispatch(new SaveActionTrackerData(actionTrackerData));
     });
+  }
+
+  generateAttributePayload(formValues, dataItem) {
+    const attributes = [];
+    _.forEach(formValues, (formValue, index) => {
+      attributes.push({
+        attribute: index,
+        value: formValue
+      });
+    });
+    return attributes;
   }
 }
