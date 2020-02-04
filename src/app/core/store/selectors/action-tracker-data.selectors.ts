@@ -3,7 +3,10 @@ import * as _ from 'lodash';
 import { getQuarter, isSameQuarter } from 'date-fns';
 
 import { getRootState, State as RootState } from '../reducers';
-import { adapter, State } from '../reducers/action-tracker-data.reducer';
+import {
+  adapter,
+  ActionTrackerDataState
+} from '../reducers/action-tracker-data.reducer';
 import {
   getRootCauseAnalysisDatas,
   getRootCauseAnalysisDataLoadingStatus,
@@ -14,7 +17,7 @@ import {
   getMergedActionTrackerConfiguration,
   getConfigurationDataElementsFromProgramStageDEs
 } from './action-tracker-configuration.selectors';
-const getActionTrackerDataState = createSelector(
+export const getActionTrackerDataState = createSelector(
   getRootState,
   (state: RootState) => state.actionTrackerData
 );
@@ -26,27 +29,37 @@ export const {
 
 export const getActionTrackerDataNotificationStatus = createSelector(
   getActionTrackerDataState,
-  (state: State) => state.notification
+  (state: ActionTrackerDataState) => state.notification
 );
 
 export const getActionTrackerDataLoadingStatus = createSelector(
   getActionTrackerDataState,
-  (state: State) => state.loading
+  (state: ActionTrackerDataState) => state.loading
 );
 
 export const getOveralLoadingStatus = createSelector(
+  getActionTrackerDataState,
   getActionTrackerDataLoadingStatus,
   getRootCauseAnalysisDataLoadingStatus,
 
-  (actionTrackerDataLoading: boolean, rootCauseDataLoading: boolean) => {
+  (
+    state: ActionTrackerDataState,
+    actionTrackerDataLoading: boolean,
+    rootCauseDataLoading: boolean
+  ) => {
     return actionTrackerDataLoading || rootCauseDataLoading;
   }
 );
 
 export const getAllDataNotification = createSelector(
+  getActionTrackerDataState,
   getRootCauseAnalysisDataNotificationStatus,
   getActionTrackerDataNotificationStatus,
-  (rootCauseNotification, actionTrackerNotification) => {
+  (
+    state: ActionTrackerDataState,
+    rootCauseNotification,
+    actionTrackerNotification
+  ) => {
     const notifications = [rootCauseNotification, actionTrackerNotification];
     const currentNotification = (notifications || [])
       .filter((notification: any) => notification && !notification.completed)
@@ -69,15 +82,23 @@ export const getAllDataNotification = createSelector(
 );
 
 export const getActionTrackingReportData = createSelector(
+  getActionTrackerDataState,
   getRootCauseAnalysisDatas,
   getActionTrackerDatas,
   getAllDataNotification,
   getConfigurationDataElementsFromProgramStageDEs,
 
-  (rootCauseDatas, actionTrackerDatas, notification, actionTrackerConfig) => {
+  (
+    state: ActionTrackerDataState,
+    rootCauseDatas,
+    actionTrackerDatas,
+    notification,
+    actionTrackerConfig
+  ) => {
     if (notification.percent !== '100') {
       return [];
     }
+
     // go through actions
     _.map(actionTrackerDatas, action => {
       //TODO: Andre create this structure from the period selection
@@ -145,6 +166,7 @@ export const getActionTrackingReportData = createSelector(
 );
 
 export const getMergedActionTrackerDatas = createSelector(
+  getActionTrackerDataState,
   getRootCauseAnalysisDatas,
   getActionTrackerDatas,
   getAllDataNotification,
@@ -152,6 +174,7 @@ export const getMergedActionTrackerDatas = createSelector(
   getActionTrackingReportData,
 
   (
+    state: ActionTrackerDataState,
     rootCauseDatas,
     actionTrackerDatas,
     notification,
@@ -161,7 +184,7 @@ export const getMergedActionTrackerDatas = createSelector(
     if (notification.percent !== '100') {
       return [];
     }
-    // console.log(actionTrackingReportData);
+
     return _.flatten(
       _.map(rootCauseDatas, (rootCauseData: any) => {
         const actions = _.filter(
@@ -174,9 +197,10 @@ export const getMergedActionTrackerDatas = createSelector(
               'value'
             ) === rootCauseData.id
         );
-        actions.dataValues = {};
         return actions.length > 0
           ? _.map(actions, (action: any, actionIndex: number) => {
+              actions.dataValues = {};
+
               _.map(action.attributes, trackedEntityAttribute => {
                 _.find(actionTrackerConfig.dataElements, {
                   id: trackedEntityAttribute.attribute
@@ -188,7 +212,6 @@ export const getMergedActionTrackerDatas = createSelector(
                   : null;
                 _.set(action, 'rootCauseDataId', rootCauseData.id);
               });
-
               return {
                 ...action,
                 id: action.trackedEntityInstance,
@@ -211,9 +234,10 @@ export const getMergedActionTrackerDatas = createSelector(
 );
 
 export const getMergedActionTrackerDatasWithRowspanAttribute = createSelector(
+  getActionTrackerDataState,
   getRootCauseAnalysisDatas,
   getMergedActionTrackerDatas,
-  (rootCauseDatas, mergedActionTrackerDatas) => {
+  (state, rootCauseDatas, mergedActionTrackerDatas) => {
     _.map(
       _.groupBy(mergedActionTrackerDatas, 'rootCauseDataId'),
       (groupedActions, index) => {

@@ -3,25 +3,25 @@ import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { environment } from 'src/environments/environment';
 
 import {
-  reducer as actionTrackerConfigurationReducer,
-  State as ActionTrackerConfigurationState
+  actionTrackerConfigurationReducer,
+  ActionTrackerConfigurationState
 } from './action-tracker-configuration.reducer';
 import {
-  reducer as actionTrackerDataReducer,
-  State as ActionTrackerDataState
+  actionTrackerDataReducer,
+  ActionTrackerDataState
 } from './action-tracker-data.reducer';
 import {
-  reducer as globalSelectionReducer,
-  State as GlobalSelectionState
+  dataSelectionReducer,
+  DataSelectionState
 } from './global-data-selection.reducer';
 
 import {
-  State as RootCauseAnalysisConfigurationState,
-  reducer as rootCauseAnalysisConfigurationReducer
+  RootCauseAnalysisConfigurationState,
+  rootCauseAnalysisConfigurationReducer
 } from './root-cause-analysis-configuration.reducer';
 import {
-  State as RootCauseAnalysisDataState,
-  reducer as rootCauseAnalysisDataReducer
+  RootCauseAnalysisDataState,
+  rootCauseAnalysisDataReducer
 } from './root-cause-analysis-data.reducer';
 import * as fromSystemInfo from './system-info.reducer';
 import * as fromUser from './user.reducer';
@@ -32,16 +32,16 @@ import {
 
 export interface State {
   // User state
-  user: fromUser.State;
+  user: fromUser.UserState;
 
   // System info state
-  systemInfo: fromSystemInfo.State;
+  systemInfo: fromSystemInfo.SystemInfoState;
 
   // Router state
   route: RouterReducerState;
 
   // Global selections
-  globalSelection: GlobalSelectionState;
+  globalSelection: DataSelectionState;
 
   // action tracker configuration
   actionTrackerConfigurations: ActionTrackerConfigurationState;
@@ -58,7 +58,7 @@ export const reducers: ActionReducerMap<State> = {
   user: fromUser.reducer,
   systemInfo: fromSystemInfo.reducer,
   route: routerReducer,
-  globalSelection: globalSelectionReducer,
+  globalSelection: dataSelectionReducer,
   actionTrackerConfigurations: actionTrackerConfigurationReducer,
   actionTrackerData: actionTrackerDataReducer,
   rootCauseAnalysisData: rootCauseAnalysisDataReducer,

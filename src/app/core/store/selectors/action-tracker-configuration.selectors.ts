@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 import { getRootState, State as RootState } from '../reducers';
 import {
   adapter,
-  State
+  ActionTrackerConfigurationState
 } from '../reducers/action-tracker-configuration.reducer';
 import { getCurrentRootCauseAnalysisConfiguration } from './root-cause-analysis-configuration.selectors';
 
@@ -20,7 +20,7 @@ export const {
 
 export const getCurrentActionTrackerConfigId = createSelector(
   getActionTrackerConfigurationState,
-  (state: State) => state.currentConfig
+  (state: ActionTrackerConfigurationState) => state.currentConfig
 );
 
 export const getCurrentActionTrackerConfig = createSelector(
@@ -158,9 +158,9 @@ export const getMergedActionTrackerConfiguration = createSelector(
         currentRootCauseAnalysisConfiguration.dataElements,
         rootCauseConfig => {
           if (
-            rootCauseConfig.name == 'OrgUnit' ||
-            rootCauseConfig.name == 'Possible root cause' ||
-            rootCauseConfig.name == 'Period'
+            rootCauseConfig.name === 'OrgUnit' ||
+            rootCauseConfig.name === 'Possible root cause' ||
+            rootCauseConfig.name === 'Period'
           ) {
             rootCauseConfig['isHidden'] = true;
           }

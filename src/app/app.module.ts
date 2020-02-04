@@ -12,6 +12,7 @@ import { sharedModules } from './shared';
 import { LegendSetComponent } from './components/legend-set/legend-set.component';
 
 import { NgxDhis2HttpClientModule } from '@iapps/ngx-dhis2-http-client';
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -57,7 +58,9 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     })
   ],
-  providers: [],
+  providers: [
+    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true } }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
