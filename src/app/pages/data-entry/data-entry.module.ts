@@ -7,6 +7,7 @@ import { DataEntryRoutingModule } from './data-entry-routing.module';
 
 @NgModule({
   declarations: [DataEntryComponent],
-  imports: [CommonModule, DataEntryRoutingModule, SharedModule]
+  imports: [CommonModule, DataEntryRoutingModule, SharedModule],
+  exports: [DataEntryComponent]
 })
 export class DataEntryModule {}
