@@ -3,7 +3,10 @@ import * as _ from 'lodash';
 import { getQuarter, isSameQuarter } from 'date-fns';
 
 import { getRootState, State as RootState } from '../reducers';
-import { adapter, State } from '../reducers/action-tracker-data.reducer';
+import {
+  adapter,
+  ActionTrackerDataState
+} from '../reducers/action-tracker-data.reducer';
 import {
   getRootCauseAnalysisDatas,
   getRootCauseAnalysisDataLoadingStatus,
@@ -26,12 +29,12 @@ export const {
 
 export const getActionTrackerDataNotificationStatus = createSelector(
   getActionTrackerDataState,
-  (state: State) => state.notification
+  (state: ActionTrackerDataState) => state.notification
 );
 
 export const getActionTrackerDataLoadingStatus = createSelector(
   getActionTrackerDataState,
-  (state: State) => state.loading
+  (state: ActionTrackerDataState) => state.loading
 );
 
 export const getOveralLoadingStatus = createSelector(
@@ -161,7 +164,7 @@ export const getMergedActionTrackerDatas = createSelector(
     if (notification.percent !== '100') {
       return [];
     }
-    // console.log(actionTrackingReportData);
+
     return _.flatten(
       _.map(rootCauseDatas, (rootCauseData: any) => {
         const actions = _.filter(
