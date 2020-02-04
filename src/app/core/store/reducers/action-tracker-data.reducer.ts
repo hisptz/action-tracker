@@ -46,7 +46,7 @@ export function actionTrackerDataReducer(
 ): ActionTrackerDataState {
   switch (action.type) {
     case ActionTrackerDataActionTypes.AddActionTrackerData: {
-      return adapter.addOne(action.actionTrackerData, state);
+      return adapter.upsertOne(action.actionTrackerData, state);
     }
 
     case ActionTrackerDataActionTypes.AddActionTrackerDataSuccess: {

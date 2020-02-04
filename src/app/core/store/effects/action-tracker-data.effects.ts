@@ -63,10 +63,10 @@ export class ActionTrackerDataEffects {
       return this.trackedEntityInstanceService
         .savingTEI(actionTrackerDataValues)
         .pipe(
-          map(
-            (actionTrackerData: any) =>
-              new SaveActionTrackerDataSuccess(actionTrackerData)
-          ),
+          map((actionTrackerData: any) => {
+            new SaveActionTrackerDataSuccess(actionTrackerData);
+            new AddActionTrackerData(actionTrackerData);
+          }),
           catchError((error: any) => of(new SaveActionTrackerDataFail(error)))
         );
     })

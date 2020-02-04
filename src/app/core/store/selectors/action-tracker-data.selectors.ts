@@ -177,9 +177,10 @@ export const getMergedActionTrackerDatas = createSelector(
               'value'
             ) === rootCauseData.id
         );
-        actions.dataValues = {};
         return actions.length > 0
           ? _.map(actions, (action: any, actionIndex: number) => {
+              actions.dataValues = {};
+
               _.map(action.attributes, trackedEntityAttribute => {
                 _.find(actionTrackerConfig.dataElements, {
                   id: trackedEntityAttribute.attribute
@@ -191,7 +192,6 @@ export const getMergedActionTrackerDatas = createSelector(
                   : null;
                 _.set(action, 'rootCauseDataId', rootCauseData.id);
               });
-
               return {
                 ...action,
                 id: action.trackedEntityInstance,
