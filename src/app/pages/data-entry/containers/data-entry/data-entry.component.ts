@@ -1,14 +1,17 @@
-import { Component, OnInit, Attribute } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { generateUid } from 'src/app/core/helpers/generate-uid.helper';
 import { RootCauseAnalysisConfiguration } from 'src/app/core/models/root-cause-analysis-configuration.model';
 import { State } from 'src/app/core/store/reducers';
-import { getMergedActionTrackerConfiguration } from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
+import {
+  getMergedActionTrackerConfiguration,
+  getConfigurationDataElementsFromProgramStageDEs
+} from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
 import {
   getMergedActionTrackerDatasWithRowspanAttribute,
-  getMergedActionTrackerDatas
+  getActionTrackingReportData
 } from 'src/app/core/store/selectors/action-tracker-data.selectors';
 import { FormDialogComponent } from 'src/app/shared/components/form-dialog/form-dialog.component';
 import { generateActionDataValue } from 'src/app/shared/helpers/generate-action-data-values.helper';
@@ -22,20 +25,23 @@ import * as _ from 'lodash';
   styleUrls: ['./data-entry.component.css']
 })
 export class DataEntryComponent implements OnInit {
+  @Input() isActionTracking;
   configuration$: Observable<RootCauseAnalysisConfiguration>;
   data$: Observable<any[]>;
+  programStageConfiguration$: Observable<any[]>;
+  actionTrackingData$: Observable<any[]>;
   constructor(private store: Store<State>, private dialog: MatDialog) {}
 
   ngOnInit() {
     this.configuration$ = this.store.select(
       getMergedActionTrackerConfiguration
     );
-
     this.data$ = this.store.pipe(
       select(getMergedActionTrackerDatasWithRowspanAttribute)
     );
-
-    this.store.pipe(select(getMergedActionTrackerDatas)).subscribe();
+    this.programStageConfiguration$ = this.store.pipe(
+      select(getConfigurationDataElementsFromProgramStageDEs)
+    );
   }
 
   onEditAction(e, dataItem: any, dataElements: any[]) {

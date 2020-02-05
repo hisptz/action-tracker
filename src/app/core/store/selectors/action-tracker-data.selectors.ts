@@ -179,7 +179,7 @@ export const getMergedActionTrackerDatas = createSelector(
     actionTrackerDatas,
     notification,
     actionTrackerConfig,
-    actionTrackingReportData
+    actionTrackingData
   ) => {
     if (notification.percent !== '100') {
       return [];

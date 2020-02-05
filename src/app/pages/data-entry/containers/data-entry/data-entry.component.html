@@ -9,7 +9,15 @@
         >
           {{ dataElement.name }}
         </th>
-        <th width="5%" style="border-left: 1px solid #dee2e6;"></th>
+        <th
+          width="5%"
+          style="border-left: 1px solid #dee2e6;"
+          *ngIf="!isActionTracking"
+        ></th>
+        <th *ngIf="isActionTracking">Q1</th>
+        <th *ngIf="isActionTracking">Q2</th>
+        <th *ngIf="isActionTracking">Q3</th>
+        <th *ngIf="isActionTracking">Q4</th>
       </tr>
     </thead>
     <tbody>
@@ -22,13 +30,16 @@
         <td>{{ i + 1 }}</td>
         <td
           *ngFor="let actionDataElement of configuration.dataElements"
-          [hidden]="actionDataElement.isHidden"
+          [hidden]="
+            actionDataElement.isHidden ||
+            (actionDataElement.isNotTrackingColumn && isActionTracking)
+          "
         >
           {{ (actionDataItem?.dataValues)[actionDataElement.id] }}
         </td>
         <td
           class="position-relative"
-          *ngIf="actionDataItem.rowspan"
+          *ngIf="actionDataItem.rowspan && !isActionTracking"
           [attr.rowspan]="actionDataItem.rowspan"
           style="border-left: 1px solid #dee2e6;"
         >
@@ -44,6 +55,50 @@
             </button>
           </div>
         </td>
+
+        <ng-container *ngIf="isActionTracking">
+          <td
+            *ngFor="
+              let actionTrackingItem of actionDataItem.actionTrackingColumns
+            "
+            [ngClass]="{ 'pr-5': actionTrackingItem.isCurrentQuater }"
+          >
+            <div
+              *ngFor="let programStageDE of programStageConfiguration$ | async"
+            >
+              <!-- *ngIf="!actionTrackingItem.isCurrentQuater" -->
+              <div>
+                <p>
+                  <b>{{ programStageDE.name }}</b>
+                </p>
+                <p
+                  [style.color]="
+                    actionTrackingItem[programStageDE.formControlName]
+                  "
+                >
+                  {{ actionTrackingItem[programStageDE.formControlName] }}
+                </p>
+              </div>
+
+              <!-- <form-input-item
+                *ngIf="actionTrackingItem.isCurrentQuater"
+                [dataItem]="dataItem"
+                [dataElement]="programStageDE"
+                [configuration]="programStageConfiguration$ | async"
+                [actionTrackingItem]="actionTrackingItem"
+                [legendSetItems]="legendSetItems$ | async"
+                (updateDataValue)="
+                  onActionTrackingDataValuesUpdate(
+                    $event,
+                    dataItem,
+                    dataElement
+                  )
+                "
+              >
+              </form-input-item> -->
+            </div>
+          </td>
+        </ng-container>
       </tr>
     </tbody>
   </table>
