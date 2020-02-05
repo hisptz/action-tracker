@@ -13,8 +13,8 @@ import { components } from './components';
 import { containers } from './containers';
 import { directives } from './directives';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
-import { ColorizePipe } from './pipes/colorize.pipe';
-import { ConvertLegendIdPipe } from 'src/app/shared/modules/action-tracker-table/pipes/convertLegendId.pipe';
+import { ColorizePipe } from '../../../core/pipes/colorize.pipe';
+import { ConvertLegendIdPipe } from 'src/app/core/pipes/convertLegendId.pipe';
 
 @NgModule({
   declarations: [
