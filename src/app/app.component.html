@@ -2,9 +2,7 @@
   <ngx-dhis2-menu></ngx-dhis2-menu>
   <div class="application-content">
     <!-- application header -->
-    <div class="navbar-container">
-      <app-navigation-bar></app-navigation-bar>
-    </div>
+
     <!-- end of application header -->
 
     <div class="container-fluid application-content-container">
@@ -30,7 +28,16 @@
       <!-- end of application filter -->
       <div class="row mt-3">
         <div class="col-12">
-          <router-outlet></router-outlet>
+          <mat-horizontal-stepper [linear]="isLinear" #stepper>
+            <mat-step>
+              <ng-template matStepLabel>Action Planning</ng-template>
+              <app-data-entry></app-data-entry>
+            </mat-step>
+            <mat-step>
+              <ng-template matStepLabel>Action Tracking</ng-template>
+              <app-data-entry [isActionTracking]="true"></app-data-entry>
+            </mat-step>
+          </mat-horizontal-stepper>
         </div>
       </div>
     </div>
