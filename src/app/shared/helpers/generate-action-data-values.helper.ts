@@ -7,6 +7,8 @@ export function generateActionDataValue(configurationDataElements, dataItem) {
       configDataElement.code !== 'BNA_REF'
     ) {
       newDataValues[configDataElement.id] = '';
+    } else if (configDataElement.code == 'BNA_REF') {
+      newDataValues[configDataElement.id] = dataItem.rootCauseDataId;
     }
   });
 

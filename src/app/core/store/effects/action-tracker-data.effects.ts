@@ -65,7 +65,7 @@ export class ActionTrackerDataEffects {
         .pipe(
           map(
             (actionTrackerData: any) =>
-              new SaveActionTrackerDataSuccess(actionTrackerData)
+              new SaveActionTrackerDataSuccess(actionTrackerDataValues)
           ),
           catchError((error: any) => of(new SaveActionTrackerDataFail(error)))
         );

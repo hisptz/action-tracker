@@ -1,27 +1,104 @@
 <div>
-  <table class="table table-bordered" *ngIf="configuration$ | async as configuration">
+  <table class="table" *ngIf="configuration$ | async as configuration">
     <thead>
       <tr>
-        <td>#</td>
-        <td *ngFor="let dataElement of configuration.dataElements" [hidden]="dataElement.isHidden">
-          {{dataElement.name}}
-        </td>
-        <td width="5%"></td>
+        <th>#</th>
+        <th
+          *ngFor="let dataElement of configuration.dataElements"
+          [hidden]="dataElement.isHidden"
+        >
+          {{ dataElement.name }}
+        </th>
+        <th
+          width="5%"
+          style="border-left: 1px solid #dee2e6;"
+          *ngIf="!isActionTracking"
+        ></th>
+        <th *ngIf="isActionTracking">Q1</th>
+        <th *ngIf="isActionTracking">Q2</th>
+        <th *ngIf="isActionTracking">Q3</th>
+        <th *ngIf="isActionTracking">Q4</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let actionDataItem of data$ | async; let i = index">
-        <td>{{ i + 1}}</td>
-        <td *ngFor="let actionDataElement of configuration.dataElements" [hidden]="actionDataElement.isHidden">
-          {{actionDataItem?.dataValues[actionDataElement.id]}}</td>
-        <td class="position-relative" *ngIf="actionDataItem.rowspan" [attr.rowspan]="actionDataItem.rowspan">
+      <tr
+        *ngFor="let actionDataItem of data$ | async; let i = index"
+        (dblclick)="
+          onEditAction($event, actionDataItem, configuration.dataElements)
+        "
+      >
+        <td>{{ i + 1 }}</td>
+        <td
+          *ngFor="let actionDataElement of configuration.dataElements"
+          [hidden]="
+            actionDataElement.isHidden ||
+            (actionDataElement.isNotTrackingColumn && isActionTracking)
+          "
+        >
+          {{ (actionDataItem?.dataValues)[actionDataElement.id] }}
+        </td>
+        <td
+          class="position-relative"
+          *ngIf="actionDataItem.rowspan && !isActionTracking"
+          [attr.rowspan]="actionDataItem.rowspan"
+          style="border-left: 1px solid #dee2e6;"
+        >
           <div class="add-action-block">
-            <button title="Click to add new action" mat-icon-button
-              (click)="onAddAction($event, actionDataItem, configuration.dataElements)">
+            <button
+              title="Click to add new action"
+              mat-icon-button
+              (click)="
+                onAddAction($event, actionDataItem, configuration.dataElements)
+              "
+            >
               <mat-icon>add</mat-icon>
             </button>
           </div>
         </td>
+
+        <ng-container *ngIf="isActionTracking">
+          <td
+            *ngFor="
+              let actionTrackingItem of actionDataItem.actionTrackingColumns
+            "
+            [ngClass]="{ 'pr-5': actionTrackingItem.isCurrentQuater }"
+          >
+            <div
+              *ngFor="let programStageDE of programStageConfiguration$ | async"
+            >
+              <!-- *ngIf="!actionTrackingItem.isCurrentQuater" -->
+              <div>
+                <p>
+                  <b>{{ programStageDE.name }}</b>
+                </p>
+                <p
+                  [style.color]="
+                    actionTrackingItem[programStageDE.formControlName]
+                  "
+                >
+                  {{ actionTrackingItem[programStageDE.formControlName] }}
+                </p>
+              </div>
+
+              <!-- <form-input-item
+                *ngIf="actionTrackingItem.isCurrentQuater"
+                [dataItem]="dataItem"
+                [dataElement]="programStageDE"
+                [configuration]="programStageConfiguration$ | async"
+                [actionTrackingItem]="actionTrackingItem"
+                [legendSetItems]="legendSetItems$ | async"
+                (updateDataValue)="
+                  onActionTrackingDataValuesUpdate(
+                    $event,
+                    dataItem,
+                    dataElement
+                  )
+                "
+              >
+              </form-input-item> -->
+            </div>
+          </td>
+        </ng-container>
       </tr>
     </tbody>
   </table>

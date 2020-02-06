@@ -36,6 +36,7 @@ export class AppComponent {
     }
   };
 
+  isLinear: false;
   constructor(
     private store: Store<State>,
     private translate: TranslateService,
