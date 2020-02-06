@@ -28,6 +28,7 @@ import {
 
 import { SaveActionTrackerData } from 'src/app/core/store/actions/action-tracker-data.actions';
 import * as _ from 'lodash';
+import { isDate } from 'date-fns';
 @Component({
   selector: 'app-data-entry',
   templateUrl: './data-entry.component.html',
@@ -167,7 +168,9 @@ export class DataEntryComponent implements OnInit {
         : _.set(
             eventData,
             'eventDate',
-            getFormattedDate(formValues[formDataElement.formControlName])
+            isDate(formValues[formDataElement.formControlName])
+              ? getFormattedDate(formValues[formDataElement.formControlName])
+              : formValues[formDataElement.formControlName]
           )
     );
     eventData.eventDataValues = eventDataValues;
