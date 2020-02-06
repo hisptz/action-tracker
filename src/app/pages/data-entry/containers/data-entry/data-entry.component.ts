@@ -68,7 +68,8 @@ export class DataEntryComponent implements OnInit {
   onEditActionTracking(e, dataItem, actionTrackingItem, dataElements) {
     this.selectedAction = dataItem;
     this.initialActionStatus = actionTrackingItem.actionStatus;
-    actionTrackingItem.isCurrentQuater
+    actionTrackingItem.isCurrentQuater ||
+    (!actionTrackingItem.hasEvents && !actionTrackingItem.isCurrentQuater)
       ? this.dataEntryDialogBoxOperations(dataElements, actionTrackingItem)
       : console.log('dont open dialogue');
   }
@@ -129,13 +130,12 @@ export class DataEntryComponent implements OnInit {
           formDataElements
         );
 
-        this.selectedAction.enrollments = [
-          upsertEnrollmentPayload(
-            _.head(this.selectedAction.enrollments),
-            eventPayload
-          )
-        ];
+        upsertEnrollmentPayload(
+          _.head(this.selectedAction.enrollments),
+          eventPayload
+        );
       }
+
       const actionTrackerData = generateTEI(
         this.isActionTracking ? this.selectedAction : dataItem
       );

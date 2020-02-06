@@ -64,7 +64,8 @@
           >
             <td
               *ngFor="
-                let actionTrackingItem of actionDataItem.actionTrackingColumns
+                let actionTrackingItem of actionDataItem.actionTrackingColumns;
+                let first = first
               "
               [ngClass]="{ 'pr-5': actionTrackingItem.isCurrentQuater }"
               (dblclick)="
@@ -80,6 +81,7 @@
                 *ngFor="
                   let actionTrackingConfiguration of actionTrackingConfigurations
                 "
+                [hidden]="!first && !actionDataItem.hasEvents"
               >
                 <p>
                   <b>{{ actionTrackingConfiguration.name }}</b>
@@ -97,10 +99,6 @@
                     ] | convertLegendId: (legendSetStatus$ | async)
                   }}
                 </p>
-
-                <!-- <div *ngIf="actionTrackingItem.isCurrentQuater">
-              EDIT
-            </div> -->
               </div>
             </td>
           </ng-container>

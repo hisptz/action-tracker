@@ -48,7 +48,6 @@ export class FormDialogComponent implements OnInit {
       });
     }
     this.formGroup = this.formBuilder.group(formEntity);
-    console.log(this.formGroup);
   }
 
   onSubmitForm() {

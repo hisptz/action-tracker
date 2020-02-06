@@ -123,6 +123,9 @@ export const getActionTrackingReportData = createSelector(
       //go through enrollments
       _.map(action.enrollments, enrollment => {
         //go through events sorted by event date
+
+        action.hasEvents = enrollment.events.length > 0 ? true : false;
+
         _.map(_.sortBy(enrollment.events, 'eventDate'), event => {
           //deduce the quarter of the current event
           const eventQuarter = _.get(
