@@ -112,13 +112,13 @@
                 *ngIf="dataElement.valueType === 'TEXTAREA'"
                 [text]="dataItem.dataValues[dataElement.id]"
               ></app-text-view>
-              <div *ngIf="dataElement.valueType !== 'TEXTAREA'">
+              <!-- <div *ngIf="dataElement.valueType !== 'TEXTAREA'">
                 {{
                   dataItem.dataValues[
                     dataElement.id || dataElement.formControlName
                   ] | convertLegendId: (legendSetStatus$ | async)
                 }}
-              </div>
+              </div> -->
             </div>
           </ng-container>
         </td>
@@ -135,7 +135,7 @@
                 <p>
                   <b>{{ programStageDE.name }}</b>
                 </p>
-                <p
+                <!-- <p
                   [style.color]="
                     actionTrackingItem[programStageDE.formControlName]
                       | colorize: (legendSetStatus$ | async)
@@ -145,7 +145,7 @@
                     actionTrackingItem[programStageDE.formControlName]
                       | convertLegendId: (legendSetStatus$ | async)
                   }}
-                </p>
+                </p> -->
               </div>
 
               <form-input-item

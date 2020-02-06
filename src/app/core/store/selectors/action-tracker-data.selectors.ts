@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import * as _ from 'lodash';
-import { getQuarter, isSameQuarter } from 'date-fns';
+import { getQuarter, isSameQuarter, subYears } from 'date-fns';
 
 import { getRootState, State as RootState } from '../reducers';
 import {
@@ -123,6 +123,9 @@ export const getActionTrackingReportData = createSelector(
       //go through enrollments
       _.map(action.enrollments, enrollment => {
         //go through events sorted by event date
+
+        action.hasEvents = enrollment.events.length > 0 ? true : false;
+
         _.map(_.sortBy(enrollment.events, 'eventDate'), event => {
           //deduce the quarter of the current event
           const eventQuarter = _.get(

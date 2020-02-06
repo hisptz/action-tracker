@@ -15,8 +15,8 @@ import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { ContextMenuModule } from 'ngx-contextmenu';
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from 'src/app/core/store/reducers';
-import { ColorizePipe } from 'src/app/core/pipes/colorize.pipe';
-import { ConvertLegendIdPipe } from 'src/app/core/pipes/convertLegendId.pipe';
+import { ColorizePipe } from 'src/app/shared/pipes/colorize.pipe';
+import { ConvertLegendIdPipe } from 'src/app/shared/pipes/convertLegendId.pipe';
 
 describe('ReportComponent', () => {
   let component: ReportComponent;

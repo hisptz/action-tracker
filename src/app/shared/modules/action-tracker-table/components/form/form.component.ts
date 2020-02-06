@@ -173,16 +173,16 @@ export class FormComponent implements OnInit {
         );
   }
 
-  updateEnrollmentPayload(dataItem, dataValue, selectionParams) {
-    return _.map(dataItem.enrollments, enrollment => {
-      _.map(_.sortBy(enrollment.events, 'eventDate'), (event, eventIndex) => {
-        //check if this is the last event of the enrollment
-        if (eventIndex + 1 == enrollment.events.length) {
-          // Go through Items of the last event
-          console.log(event);
-        }
-      });
-      return enrollment;
-    });
-  }
+  // updateEnrollmentPayload(dataItem, dataValue, selectionParams) {
+  //   return _.map(dataItem.enrollments, enrollment => {
+  //     _.map(_.sortBy(enrollment.events, 'eventDate'), (event, eventIndex) => {
+  //       //check if this is the last event of the enrollment
+  //       if (eventIndex + 1 == enrollment.events.length) {
+  //         // Go through Items of the last event
+  //         console.log(event);
+  //       }
+  //     });
+  //     return enrollment;
+  //   });
+  // }
 }

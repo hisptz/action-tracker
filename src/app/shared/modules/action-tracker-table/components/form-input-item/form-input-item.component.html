@@ -8,10 +8,7 @@
   <input
     type="text"
     class="form-control"
-    value="{{
-      actionTrackingItem[dataElement.formControlName]
-        | convertLegendId: (legendSetStatus$ | async)
-    }}"
+    value="{{ actionTrackingItem[dataElement.formControlName] }}"
     id="dataElement?.id"
     [(ngModel)]="actionTrackingItem[dataElement.formControlName]"
     (change)="
@@ -28,7 +25,7 @@
     [defaultValue]="actionTrackingItem[dataElement.formControlName]"
     [rangeSelector]="rangeSelectorParams"
     (singleSelectionDate)="
-      setReviewDate($event, actionTrackingItem, dataElement,dataItem )
+      setReviewDate($event, actionTrackingItem, dataElement, dataItem)
     "
     (rangeSelectionDate)="
       setActionPeriod($event, actionTrackingItem, dataElement.formControlName)
