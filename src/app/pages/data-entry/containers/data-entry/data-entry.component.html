@@ -26,6 +26,9 @@
         (dblclick)="
           onEditAction($event, actionDataItem, configuration.dataElements)
         "
+        (contextmenu)="
+          onContextMenu($event, actionDataItem, configuration.dataElements)
+        "
       >
         <td>{{ i + 1 }}</td>
         <td
@@ -107,3 +110,29 @@
     </tbody>
   </table>
 </div>
+
+<!-- Context Menu Logic   -->
+<div
+  style="visibility: hidden; position: fixed"
+  [style.left]="contextMenuPosition.x"
+  [style.top]="contextMenuPosition.y"
+  [matMenuTriggerFor]="contextMenu"
+></div>
+<mat-menu #contextMenu="matMenu">
+  <ng-template
+    matMenuContent
+    let-dataItem="dataItem"
+    let-configuration="configuration"
+  >
+    <button
+      mat-menu-item
+      (click)="onEditAction($event, dataItem, configuration)"
+    >
+      Edit
+    </button>
+    <button mat-menu-item (click)="onDeleteAction($event, dataItem)">
+      Delete
+    </button>
+  </ng-template>
+</mat-menu>
+<!-- Context Menu Logic   -->

@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { NgxDhis2DataFilterModule } from '@iapps/ngx-dhis2-data-filter';
 
@@ -33,7 +34,8 @@ import { pipes } from './pipes';
     MatInputModule,
     MatSelectModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatMenuModule
   ],
   entryComponents: [...entryComponents],
   exports: [
@@ -51,7 +53,8 @@ import { pipes } from './pipes';
     MatInputModule,
     MatSelectModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatMenuModule
   ],
   declarations: [...components, ...pipes]
 })

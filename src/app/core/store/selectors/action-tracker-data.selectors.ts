@@ -145,7 +145,7 @@ export const getActionTrackingReportData = createSelector(
           );
           eventQuarter.isCurrentQuater = isSameQuarter(
             new Date(_.head(_.split(event.eventDate, 'T'))),
-            subYears(new Date(), 1)
+            new Date()
           );
           eventQuarter.id = _.get(event, 'event');
 
