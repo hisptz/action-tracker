@@ -13,17 +13,11 @@ import { components } from './components';
 import { containers } from './containers';
 import { directives } from './directives';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
-import { ColorizePipe } from '../../../core/pipes/colorize.pipe';
-import { ConvertLegendIdPipe } from 'src/app/core/pipes/convertLegendId.pipe';
+import { ColorizePipe } from '../../pipes/colorize.pipe';
+import { ConvertLegendIdPipe } from 'src/app/shared/pipes/convertLegendId.pipe';
 
 @NgModule({
-  declarations: [
-    ...containers,
-    ...components,
-    ...directives,
-    ColorizePipe,
-    ConvertLegendIdPipe
-  ],
+  declarations: [...containers, ...components, ...directives],
   exports: [...containers, ReactiveFormsModule],
   imports: [
     CommonModule,

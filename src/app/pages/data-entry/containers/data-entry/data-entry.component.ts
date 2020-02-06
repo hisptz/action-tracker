@@ -16,6 +16,15 @@ import {
 import { FormDialogComponent } from 'src/app/shared/components/form-dialog/form-dialog.component';
 import { generateActionDataValue } from 'src/app/shared/helpers/generate-action-data-values.helper';
 import { generateTEI } from 'src/app/core/helpers/generate-tracked-entity-instance.helper';
+import { generateEvent } from 'src/app/core/helpers/generate-event-payload.helper';
+import { getFormattedDate } from 'src/app/core/helpers/generate-formatted-date.helper';
+import { upsertEnrollmentPayload } from 'src/app/core/helpers/upsert-enrollment-payload.helper';
+
+import {
+  LegendSetState,
+  getActionStatusLegendSet,
+  getActionStatusLegendSetItems
+} from '../../../../shared/modules/selection-filters/modules/legend-set-configuration/store';
 
 import { SaveActionTrackerData } from 'src/app/core/store/actions/action-tracker-data.actions';
 import * as _ from 'lodash';
@@ -30,7 +39,15 @@ export class DataEntryComponent implements OnInit {
   data$: Observable<any[]>;
   programStageConfiguration$: Observable<any[]>;
   actionTrackingData$: Observable<any[]>;
-  constructor(private store: Store<State>, private dialog: MatDialog) {}
+  legendSetStatus$: Observable<any>;
+  legendSetItems$: Observable<any>;
+  selectedAction: any;
+  initialActionStatus: '';
+  constructor(
+    private store: Store<State>,
+    private legendSetStore: Store<LegendSetState>,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     this.configuration$ = this.store.select(
@@ -42,12 +59,24 @@ export class DataEntryComponent implements OnInit {
     this.programStageConfiguration$ = this.store.pipe(
       select(getConfigurationDataElementsFromProgramStageDEs)
     );
+
+    this.legendSetStatus$ = this.legendSetStore.select(
+      getActionStatusLegendSet
+    );
   }
 
+  onEditActionTracking(e, dataItem, actionTrackingItem, dataElements) {
+    this.selectedAction = dataItem;
+    this.initialActionStatus = actionTrackingItem.actionStatus;
+    actionTrackingItem.isCurrentQuater
+      ? this.dataEntryDialogBoxOperations(dataElements, actionTrackingItem)
+      : console.log('dont open dialogue');
+  }
   onEditAction(e, dataItem: any, dataElements: any[]) {
     e.stopPropagation();
-
-    this.dataEntryDialogBoxOperations(dataElements, dataItem);
+    if (!this.isActionTracking) {
+      this.dataEntryDialogBoxOperations(dataElements, dataItem);
+    }
   }
 
   onAddAction(e, dataItem: any, dataElements: any[]) {
@@ -81,20 +110,37 @@ export class DataEntryComponent implements OnInit {
       height: `${300 + 55 * formDataElements.length}px`,
       data: {
         dataElements: formDataElements,
-        dataValues: dataItem.dataValues
+        dataValues: dataItem.dataValues || dataItem
       }
     });
 
     dialogRef.afterClosed().subscribe(formResponse => {
-      if (formResponse) {
+      if (formResponse && !this.isActionTracking) {
         const { formValues, formAction } = formResponse;
         dataItem.attributes = this.generateAttributePayload(
           formValues,
           formDataElements
         );
-        const actionTrackerData = generateTEI(dataItem);
-        this.store.dispatch(new SaveActionTrackerData(actionTrackerData));
+      } else if (this.selectedAction && formResponse && this.isActionTracking) {
+        const { formValues, formAction } = formResponse;
+        const eventPayload = this.createEventPayload(
+          dataItem,
+          formValues,
+          formDataElements
+        );
+
+        this.selectedAction.enrollments = [
+          upsertEnrollmentPayload(
+            _.head(this.selectedAction.enrollments),
+            eventPayload
+          )
+        ];
       }
+      const actionTrackerData = generateTEI(
+        this.isActionTracking ? this.selectedAction : dataItem
+      );
+
+      this.store.dispatch(new SaveActionTrackerData(actionTrackerData));
     });
   }
   generateAttributePayload(formValues, formDataElements) {
@@ -107,5 +153,44 @@ export class DataEntryComponent implements OnInit {
       });
     });
     return attributes;
+  }
+
+  sanitizeActionTrackingData(selectedAction, formValues, formDataElements) {
+    const eventDataValues = [];
+    const eventData: any = {};
+    _.forEach(formDataElements, formDataElement =>
+      formDataElement.id
+        ? eventDataValues.push({
+            dataElement: formDataElement.id,
+            value: formValues[formDataElement.id]
+          })
+        : _.set(
+            eventData,
+            'eventDate',
+            getFormattedDate(formValues[formDataElement.formControlName])
+          )
+    );
+    eventData.eventDataValues = eventDataValues;
+    return eventData;
+  }
+
+  createEventPayload(dataItem, formValues, formDataElements) {
+    const actionStatusId = _.get(
+      _.find(formDataElements, { isActionStatus: true }),
+      'id'
+    );
+    const eventData = this.sanitizeActionTrackingData(
+      this.selectedAction,
+      formValues,
+      formDataElements
+    );
+    const currentActionStatus = _.get(
+      _.find(eventData.eventDataValues, { dataElement: actionStatusId }),
+      'value'
+    );
+    eventData.eventId = dataItem.id;
+    return currentActionStatus == this.initialActionStatus
+      ? generateEvent(this.selectedAction, eventData)
+      : generateEvent(this.selectedAction, eventData, true);
   }
 }

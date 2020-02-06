@@ -57,47 +57,53 @@
         </td>
 
         <ng-container *ngIf="isActionTracking">
-          <td
-            *ngFor="
-              let actionTrackingItem of actionDataItem.actionTrackingColumns
+          <ng-container
+            *ngIf="
+              programStageConfiguration$ | async as actionTrackingConfigurations
             "
-            [ngClass]="{ 'pr-5': actionTrackingItem.isCurrentQuater }"
           >
-            <div
-              *ngFor="let programStageDE of programStageConfiguration$ | async"
+            <td
+              *ngFor="
+                let actionTrackingItem of actionDataItem.actionTrackingColumns
+              "
+              [ngClass]="{ 'pr-5': actionTrackingItem.isCurrentQuater }"
+              (dblclick)="
+                onEditActionTracking(
+                  $event,
+                  actionDataItem,
+                  actionTrackingItem,
+                  actionTrackingConfigurations
+                )
+              "
             >
-              <!-- *ngIf="!actionTrackingItem.isCurrentQuater" -->
-              <div>
+              <div
+                *ngFor="
+                  let actionTrackingConfiguration of actionTrackingConfigurations
+                "
+              >
                 <p>
-                  <b>{{ programStageDE.name }}</b>
+                  <b>{{ actionTrackingConfiguration.name }}</b>
                 </p>
                 <p
                   [style.color]="
-                    actionTrackingItem[programStageDE.formControlName]
+                    actionTrackingItem[
+                      actionTrackingConfiguration.formControlName
+                    ] | colorize: (legendSetStatus$ | async)
                   "
                 >
-                  {{ actionTrackingItem[programStageDE.formControlName] }}
+                  {{
+                    actionTrackingItem[
+                      actionTrackingConfiguration.formControlName
+                    ] | convertLegendId: (legendSetStatus$ | async)
+                  }}
                 </p>
-              </div>
 
-              <!-- <form-input-item
-                *ngIf="actionTrackingItem.isCurrentQuater"
-                [dataItem]="dataItem"
-                [dataElement]="programStageDE"
-                [configuration]="programStageConfiguration$ | async"
-                [actionTrackingItem]="actionTrackingItem"
-                [legendSetItems]="legendSetItems$ | async"
-                (updateDataValue)="
-                  onActionTrackingDataValuesUpdate(
-                    $event,
-                    dataItem,
-                    dataElement
-                  )
-                "
-              >
-              </form-input-item> -->
-            </div>
-          </td>
+                <!-- <div *ngIf="actionTrackingItem.isCurrentQuater">
+              EDIT
+            </div> -->
+              </div>
+            </td>
+          </ng-container>
         </ng-container>
       </tr>
     </tbody>

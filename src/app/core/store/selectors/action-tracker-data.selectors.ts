@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import * as _ from 'lodash';
-import { getQuarter, isSameQuarter } from 'date-fns';
+import { getQuarter, isSameQuarter, subYears } from 'date-fns';
 
 import { getRootState, State as RootState } from '../reducers';
 import {
@@ -142,7 +142,7 @@ export const getActionTrackingReportData = createSelector(
           );
           eventQuarter.isCurrentQuater = isSameQuarter(
             new Date(_.head(_.split(event.eventDate, 'T'))),
-            new Date()
+            subYears(new Date(), 1)
           );
           eventQuarter.id = _.get(event, 'event');
 

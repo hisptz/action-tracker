@@ -10,7 +10,6 @@ export class ColorizePipe implements PipeTransform {
       'id',
       value
     ]);
-
     return legend ? legend.color || '#000' : '#000';
   }
 }

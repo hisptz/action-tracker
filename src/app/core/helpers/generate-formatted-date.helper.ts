@@ -1,5 +1,5 @@
 export function getFormattedDate(date?) {
-  const dateObject = date ? new Date(date) : new Date();
+  const dateObject = date ? date : new Date();
   const day = dateObject.getDate();
   const month = dateObject.getMonth() + 1;
   const year = dateObject.getFullYear();
