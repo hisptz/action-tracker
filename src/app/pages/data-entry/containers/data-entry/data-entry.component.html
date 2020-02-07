@@ -1,3 +1,163 @@
 <div>
-  <app-bna-widget> </app-bna-widget>
+  <table class="table" *ngIf="configuration$ | async as configuration">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th
+          *ngFor="let dataElement of configuration.dataElements"
+          [hidden]="dataElement.isHidden"
+        >
+          {{ dataElement.name }}
+        </th>
+        <th
+          width="5%"
+          style="border-left: 1px solid #dee2e6;"
+          *ngIf="!isActionTracking"
+        ></th>
+        <th *ngIf="isActionTracking">Q1</th>
+        <th *ngIf="isActionTracking">Q2</th>
+        <th *ngIf="isActionTracking">Q3</th>
+        <th *ngIf="isActionTracking">Q4</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let actionDataItem of data$ | async; let i = index"
+        (dblclick)="
+          onEditAction($event, actionDataItem, configuration.dataElements)
+        "
+        (contextmenu)="
+          onContextMenu($event, actionDataItem, configuration.dataElements)
+        "
+      >
+        <td>{{ i + 1 }}</td>
+        <td
+          *ngFor="let actionDataElement of configuration.dataElements"
+          [hidden]="
+            actionDataElement.isHidden ||
+            (actionDataElement.isNotTrackingColumn && isActionTracking)
+          "
+        >
+          {{ (actionDataItem?.dataValues)[actionDataElement.id] }}
+        </td>
+        <td
+          class="position-relative"
+          *ngIf="actionDataItem.rowspan && !isActionTracking"
+          [attr.rowspan]="actionDataItem.rowspan"
+          style="border-left: 1px solid #dee2e6;"
+        >
+          <div class="add-action-block">
+            <button
+              title="Click to add new action"
+              mat-icon-button
+              (click)="
+                onAddAction($event, actionDataItem, configuration.dataElements)
+              "
+            >
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+        </td>
+
+        <ng-container *ngIf="isActionTracking">
+          <ng-container
+            *ngIf="
+              programStageConfiguration$ | async as actionTrackingConfigurations
+            "
+          >
+            <td
+              *ngFor="
+                let actionTrackingItem of actionDataItem.actionTrackingColumns;
+                let first = first
+              "
+              [ngClass]="{ 'pr-5': actionTrackingItem.isCurrentQuater }"
+              (dblclick)="
+                onEditActionTracking(
+                  $event,
+                  actionDataItem,
+                  actionTrackingItem,
+                  actionTrackingConfigurations
+                )
+              "
+            >
+              <div
+                *ngFor="
+                  let actionTrackingConfiguration of actionTrackingConfigurations
+                "
+                [hidden]="
+                  (!first && !actionDataItem.hasEvents) ||
+                  !actionTrackingItem.hasEvent
+                "
+              >
+                <p>
+                  <b>{{ actionTrackingConfiguration.name }}</b>
+                </p>
+                <p
+                  [style.color]="
+                    actionTrackingItem[
+                      actionTrackingConfiguration.formControlName
+                    ] | colorize: (legendSetStatus$ | async)
+                  "
+                >
+                  {{
+                    actionTrackingItem[
+                      actionTrackingConfiguration.formControlName
+                    ] | convertLegendId: (legendSetStatus$ | async)
+                  }}
+                </p>
+              </div>
+              <div
+                *ngIf="
+                  (!actionTrackingItem.hasEvent && first) ||
+                  (!actionTrackingItem.hasEvent &&
+                    actionTrackingItem.isCurrentQuater)
+                "
+              >
+                <button
+                  title="Click to add new review"
+                  mat-icon-button
+                  (click)="
+                    onEditActionTracking(
+                      $event,
+                      actionDataItem,
+                      actionTrackingItem,
+                      actionTrackingConfigurations
+                    )
+                  "
+                >
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+      </tr>
+    </tbody>
+  </table>
 </div>
+
+<!-- Context Menu Logic   -->
+<div
+  style="visibility: hidden; position: fixed"
+  [style.left]="contextMenuPosition.x"
+  [style.top]="contextMenuPosition.y"
+  [matMenuTriggerFor]="contextMenu"
+></div>
+<mat-menu #contextMenu="matMenu">
+  <ng-template
+    matMenuContent
+    let-dataItem="dataItem"
+    let-configuration="configuration"
+  >
+    <button
+      mat-menu-item
+      (click)="onEditAction($event, dataItem, configuration)"
+    >
+      Edit
+    </button>
+    <button mat-menu-item (click)="onDeleteAction($event, dataItem)">
+      Delete
+    </button>
+  </ng-template>
+</mat-menu>
+<!-- Context Menu Logic   -->

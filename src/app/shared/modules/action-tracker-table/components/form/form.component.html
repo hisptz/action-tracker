@@ -4,19 +4,25 @@
       [formGroup]="actionTrackerForm"
       (ngSubmit)="onDataEntrySave(dataItem, configurations.dataElements)"
     >
-      <legend class="border-bottom mb-2">Action</legend>
       <div class="row">
         <div
           *ngFor="
             let dataElement of configurations.dataElements;
             let last = last
           "
-          [ngClass]="{ 'col-4': !last, 'custom-text-area': last }"
-          [hidden]="!dataElement.isActionTrackerColumn"
+          [ngClass]="{ 'col-4': true }"
+          [hidden]="
+            !dataElement?.isActionTrackerColumn || dataElement?.isHidden
+          "
         >
           <div
             class="form-group"
-            *ngIf="dataElement && dataElement?.valueType == 'TEXT'"
+            *ngIf="
+              dataElement &&
+              (dataElement?.valueType == 'TEXT' ||
+                dataElement?.valueType == 'LONG_TEXT') &&
+              !dataElement.hasLegend
+            "
           >
             <label for="{{ dataItem?.id }}_{{ dataElement?.id }}"
               >{{ dataElement?.name }}
@@ -24,12 +30,31 @@
             <input
               type="text"
               class="form-control"
-              *ngIf="dataElement.formControlName"
+              *ngIf="dataElement?.formControlName"
               placeholder="{{ dataElement?.name }}"
               value="{{
                 (actionTrackerForm?.value)[dataElement?.formControlName]
               }}"
-              formControlName="{{ dataElement.formControlName }}"
+              formControlName="{{ dataElement?.formControlName }}"
+              id="{{ dataItem?.id }}_{{ dataElement?.id }}"
+            />
+          </div>
+          <div
+            class="form-group"
+            *ngIf="dataElement && dataElement?.valueType == 'NUMBER'"
+          >
+            <label for="{{ dataItem?.id }}_{{ dataElement?.id }}"
+              >{{ dataElement?.name }}
+            </label>
+            <input
+              type="number"
+              class="form-control"
+              *ngIf="dataElement?.formControlName"
+              placeholder="{{ dataElement?.name }}"
+              value="{{
+                (actionTrackerForm?.value)[dataElement?.formControlName]
+              }}"
+              formControlName="{{ dataElement?.formControlName }}"
               id="{{ dataItem?.id }}_{{ dataElement?.id }}"
             />
           </div>
@@ -38,13 +63,12 @@
             *ngIf="
               dataElement &&
               (dataElement?.valueType == 'RANGEPERIOD' ||
-                dataElement?.valueType == 'PERIOD')
+                dataElement?.valueType == 'DATE')
             "
           >
             <label for="{{ dataItem?.id }}_{{ dataElement?.id }}"
               >{{ dataElement?.name }}
             </label>
-
             <app-date-picker
               [periodUI]="dataElement?.valueType"
               [defaultValue]="
@@ -69,7 +93,10 @@
           </div>
           <div
             class="form-group"
-            *ngIf="dataElement && dataElement?.valueType == 'SELECT'"
+            *ngIf="
+              (dataElement && dataElement?.valueType == 'SELECT') ||
+              dataElement.hasLegend
+            "
           >
             <label for="{{ dataItem?.id }}_{{ dataElement?.id }}"
               >{{ dataElement?.name }}
@@ -77,7 +104,7 @@
             <select
               class="form-control"
               *ngIf="dataElement.formControlName"
-              formControlName="{{ dataElement.formControlName }}"
+              formControlName="{{ dataElement?.formControlName }}"
               id="{{ dataItem?.id }}_{{ dataElement?.id }}"
             >
               <option
@@ -102,18 +129,18 @@
             ></textarea>
           </div>
         </div>
-        <div class="col-12">
-          <div class="form-group">
-            <button mat-flat-button color="primary" type="submit">
-              <span>Save</span>
-            </button>
-            &nbsp;
+        <div class="col-12 modal-footer pb-0">
+          <div>
             <button
-              type="reset"
+              type="button"
               mat-stroked-button
               (click)="onDataEntryCancel($event, dataItem)"
             >
               Cancel
+            </button>
+            &nbsp;
+            <button mat-stroked-button color="primary" type="submit">
+              <span>Save</span>
             </button>
           </div>
         </div>

@@ -1,10 +1,10 @@
 .widget-notification-alert {
   font-size: 13px;
   position: absolute;
-  z-index: 101;
-  top: -20px;
+  z-index: 1501;
+  top: -170px;
   left: 25%;
-  right: 25%;
+  right: 30%;
   text-align: center;
   overflow: hidden;
   color: #000;

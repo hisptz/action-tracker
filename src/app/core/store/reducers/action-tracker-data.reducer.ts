@@ -1,13 +1,12 @@
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+
 import { ActionTrackerData } from '../../models/action-tracker-data.model';
 import {
   ActionTrackerDataActions,
   ActionTrackerDataActionTypes
 } from '../actions/action-tracker-data.actions';
-import * as _ from 'lodash';
-import { openEntryForm } from '../../helpers/open-entry-form.helper';
 
-export interface State extends EntityState<ActionTrackerData> {
+export interface ActionTrackerDataState extends EntityState<ActionTrackerData> {
   // additional entities state properties
   // additional entities state properties
   isActive: boolean;
@@ -23,9 +22,11 @@ export interface State extends EntityState<ActionTrackerData> {
 
 export const adapter: EntityAdapter<ActionTrackerData> = createEntityAdapter<
   ActionTrackerData
->();
+>({
+  selectId: (action: ActionTrackerData) => action.trackedEntityInstance
+});
 
-export const initialState: State = adapter.getInitialState({
+export const initialState: ActionTrackerDataState = adapter.getInitialState({
   // additional entity state properties
   // additional entity state properties
   isActive: false,
@@ -39,17 +40,16 @@ export const initialState: State = adapter.getInitialState({
   error: null
 });
 
-export function reducer(
+export function actionTrackerDataReducer(
   state = initialState,
   action: ActionTrackerDataActions
-): State {
+): ActionTrackerDataState {
   switch (action.type) {
     case ActionTrackerDataActionTypes.AddActionTrackerData: {
-      return adapter.addOne(action.actionTrackerData, state);
+      return adapter.upsertOne(action.actionTrackerData, state);
     }
 
     case ActionTrackerDataActionTypes.AddActionTrackerDataSuccess: {
-      openEntryForm(action.actionTrackerData);
       return state;
     }
 
@@ -96,14 +96,26 @@ export function reducer(
     }
 
     case ActionTrackerDataActionTypes.DeleteActionTrackerData: {
-      if (!action.actionTrackerData) {
+      if (!action.actionTrackerDataId) {
         return state;
       }
-      return adapter.removeOne(action.actionTrackerData, state);
+      return adapter.removeOne(action.actionTrackerDataId, {
+        ...state,
+        notification: {
+          completed: true,
+          message: 'Deleting Action Data ' + action.actionTrackerDataId
+        }
+      });
     }
 
     case ActionTrackerDataActionTypes.DeleteActionTrackerDataSuccess: {
-      return adapter.removeOne(action.id, { ...state });
+      return adapter.removeOne(action.id, {
+        ...state,
+        notification: {
+          completed: true,
+          message: 'Action Data ' + action.id + ' Has been Successfully Deleted'
+        }
+      });
     }
 
     case ActionTrackerDataActionTypes.DeleteActionTrackerDatas: {

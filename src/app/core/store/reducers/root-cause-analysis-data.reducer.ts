@@ -5,7 +5,8 @@ import {
   RootCauseAnalysisDataActionTypes
 } from '../actions/root-cause-analysis-data.actions';
 
-export interface State extends EntityState<RootCauseAnalysisData> {
+export interface RootCauseAnalysisDataState
+  extends EntityState<RootCauseAnalysisData> {
   // additional entities state properties
   isActive: boolean;
   loading: boolean;
@@ -20,29 +21,31 @@ export interface State extends EntityState<RootCauseAnalysisData> {
   completedDataCount: number;
 }
 
-export const adapter: EntityAdapter<
+export const adapter: EntityAdapter<RootCauseAnalysisData> = createEntityAdapter<
   RootCauseAnalysisData
-> = createEntityAdapter<RootCauseAnalysisData>();
+>();
 
-export const initialState: State = adapter.getInitialState({
-  // additional entity state properties
-  isActive: false,
-  loading: false,
-  loaded: false,
-  notification: null,
-  showDeleteConfirmation: false,
-  showNotification: false,
-  savingColor: 'transparent',
-  hasError: false,
-  error: null,
-  dataCount: 0,
-  completedDataCount: 0
-});
+export const initialState: RootCauseAnalysisDataState = adapter.getInitialState(
+  {
+    // additional entity state properties
+    isActive: false,
+    loading: false,
+    loaded: false,
+    notification: null,
+    showDeleteConfirmation: false,
+    showNotification: false,
+    savingColor: 'transparent',
+    hasError: false,
+    error: null,
+    dataCount: 0,
+    completedDataCount: 0
+  }
+);
 
-export function reducer(
+export function rootCauseAnalysisDataReducer(
   state = initialState,
   action: RootCauseAnalysisDataActions
-): State {
+): RootCauseAnalysisDataState {
   switch (action.type) {
     case RootCauseAnalysisDataActionTypes.AddRootCauseAnalysisData: {
       return adapter.addOne(action.rootCauseAnalysisData, state);

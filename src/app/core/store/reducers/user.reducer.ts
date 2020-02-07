@@ -2,7 +2,7 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { User, ErrorMessage } from '../../models';
 import { UserActions, UserActionTypes } from '../actions/user.actions';
 
-export interface State extends EntityState<User> {
+export interface UserState extends EntityState<User> {
   // additional entities state properties
 
   /**
@@ -28,7 +28,7 @@ export interface State extends EntityState<User> {
 
 export const adapter: EntityAdapter<User> = createEntityAdapter<User>();
 
-export const initialState: State = adapter.getInitialState({
+export const initialState: UserState = adapter.getInitialState({
   // additional entity state properties
   loading: false,
   loaded: false,
@@ -36,7 +36,7 @@ export const initialState: State = adapter.getInitialState({
   error: null
 });
 
-export function reducer(state = initialState, action: UserActions): State {
+export function reducer(state = initialState, action: UserActions): UserState {
   switch (action.type) {
     case UserActionTypes.LoadCurrentUser: {
       return {
@@ -71,9 +71,9 @@ export function reducer(state = initialState, action: UserActions): State {
 /**
  * User loading state selector
  */
-export const getUserLoadingState = (state: State) => state.loading;
-export const getUserLoadedState = (state: State) => state.loaded;
-export const getUserHasErrorState = (state: State) => state.hasError;
-export const getUserErrorState = (state: State) => state.error;
+export const getUserLoadingState = (state: UserState) => state.loading;
+export const getUserLoadedState = (state: UserState) => state.loaded;
+export const getUserHasErrorState = (state: UserState) => state.hasError;
+export const getUserErrorState = (state: UserState) => state.error;
 
 export const { selectAll: selectAllUsers } = adapter.getSelectors();

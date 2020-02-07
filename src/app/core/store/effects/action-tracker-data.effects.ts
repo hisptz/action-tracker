@@ -25,7 +25,9 @@ import {
 import { State } from '../reducers';
 import { getRootCauseAnalysisDatas } from '../selectors/root-cause-analysis-data.selectors';
 import { TrackedEntityInstanceService } from '../../services';
+import { getCurrentActionTrackerConfig } from '../selectors/action-tracker-configuration.selectors';
 
+import * as _ from 'lodash';
 @Injectable()
 export class ActionTrackerDataEffects {
   @Effect({ dispatch: false })
@@ -39,8 +41,9 @@ export class ActionTrackerDataEffects {
           .discoveringSavedTEI(rootCauseAnalysisData)
           .pipe(
             map((actionTrackerDatas: ActionTrackerData[]) => {
-              console.log({ actionTrackerDatas });
-              return new AddActionTrackerDatas(actionTrackerDatas);
+              this.store.dispatch(
+                new AddActionTrackerDatas(_.flatten(actionTrackerDatas))
+              );
             }),
             catchError((error: any) =>
               of(new LoadActionTrackerDatasFail(error))
@@ -51,9 +54,29 @@ export class ActionTrackerDataEffects {
   );
 
   @Effect()
+  saveActionTrackerData$: Observable<any> = this.actions$.pipe(
+    ofType(ActionTrackerDataActionTypes.SaveActionTrackerData),
+    withLatestFrom(this.store.select(getCurrentActionTrackerConfig)),
+    mergeMap(([action, actionTrackerConfig]: [SaveActionTrackerData, any]) => {
+      const actionTrackerDataValues = action.actionTrackerData;
+
+      return this.trackedEntityInstanceService
+        .savingTEI(actionTrackerDataValues)
+        .pipe(
+          map(
+            (actionTrackerData: any) =>
+              new SaveActionTrackerDataSuccess(actionTrackerDataValues)
+          ),
+          catchError((error: any) => of(new SaveActionTrackerDataFail(error)))
+        );
+    })
+  );
+
+  @Effect()
   addActionTrackerData$: Observable<any> = this.actions$.pipe(
     ofType(ActionTrackerDataActionTypes.AddActionTrackerData),
     mergeMap((action: AddActionTrackerData) => {
+      console.log(action);
       return of(action.actionTrackerData).pipe(
         map(
           (actionTrackerData: any) =>
@@ -61,6 +84,25 @@ export class ActionTrackerDataEffects {
         ),
         catchError((error: any) => of(new AddActionTrackerDataFail(error)))
       );
+    })
+  );
+
+  @Effect()
+  deleteActionTrackerData$: Observable<any> = this.actions$.pipe(
+    ofType(ActionTrackerDataActionTypes.DeleteActionTrackerData),
+    mergeMap((action: DeleteActionTrackerData) => {
+      return this.trackedEntityInstanceService
+        .deletingTEI(action.actionTrackerDataId)
+        .pipe(
+          map(
+            () => new DeleteActionTrackerDataSuccess(action.actionTrackerDataId)
+          ),
+          catchError((error: any) =>
+            of(
+              new DeleteActionTrackerDataFail(action.actionTrackerDataId, error)
+            )
+          )
+        );
     })
   );
 
