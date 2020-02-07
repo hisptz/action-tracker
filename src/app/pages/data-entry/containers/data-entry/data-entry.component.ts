@@ -13,6 +13,7 @@ import {
 } from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
 import { getMergedActionTrackerDatasWithRowspanAttribute } from 'src/app/core/store/selectors/action-tracker-data.selectors';
 import { FormDialogComponent } from 'src/app/shared/components/form-dialog/form-dialog.component';
+import { DeleteConfirmationDialogueComponent } from 'src/app/shared/components/delete-confirmation-dialogue/delete-confirmation-dialogue.component';
 import { generateActionDataValue } from 'src/app/shared/helpers/generate-action-data-values.helper';
 import { generateTEI } from 'src/app/core/helpers/generate-tracked-entity-instance.helper';
 import { generateEvent } from 'src/app/core/helpers/generate-event-payload.helper';
@@ -207,33 +208,36 @@ export class DataEntryComponent implements OnInit {
 
   onContextMenu(event: MouseEvent, item, configuration) {
     event.preventDefault();
-    this.contextMenuPosition.x = event.clientX + 'px';
-    this.contextMenuPosition.y = event.clientY + 'px';
-    this.contextMenu.menuData = {
-      dataItem: item,
-      configuration: configuration
-    };
-    this.contextMenu.menu.focusFirstItem('mouse');
-    this.contextMenu.openMenu();
+    if (!this.isActionTracking) {
+      this.contextMenuPosition.x = event.clientX + 'px';
+      this.contextMenuPosition.y = event.clientY + 'px';
+      this.contextMenu.menuData = {
+        dataItem: item,
+        configuration: configuration
+      };
+      this.contextMenu.menu.focusFirstItem('mouse');
+      this.contextMenu.openMenu();
+    }
   }
 
   onDeleteAction(event, dataItem) {
-    this.dataEntryDialogBoxOperations([], []);
-    // const dataItemToDelete = document.getElementById(dataItem.id);
-    // if (dataItemToDelete) {
-    //   const dataItemColumns = dataItemToDelete.querySelectorAll(
-    //     '.action-tracker-column, .solution-column'
-    //   );
-    //   _.map(dataItemColumns, dataItemColumn => {
-    //     dataItemColumn.hasAttribute('rowspan')
-    //       ? null
-    //       : dataItemColumn.setAttribute('hidden', 'true');
-    //   });
-    //   this.toBeDeleted[dataItem.id] = true;
-    // }
+    if (event) {
+      event.stopPropagation();
+    }
+    const dialogRef = this.dialog.open(DeleteConfirmationDialogueComponent, {
+      width: '600px',
+      height: `${100 + 55 * 1}px`,
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(formResponse => {
+      if (formResponse.action == 'DELETE') {
+        this.onConfirmDeleteAction(dataItem);
+      }
+    });
   }
 
-  onConfirmDeleteAction(event, dataItem) {
+  onConfirmDeleteAction(dataItem) {
     if (dataItem && dataItem.trackedEntityInstance) {
       this.store.dispatch(
         new DeleteActionTrackerData(dataItem.trackedEntityInstance)

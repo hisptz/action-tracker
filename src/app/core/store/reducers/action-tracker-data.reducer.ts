@@ -102,7 +102,7 @@ export function actionTrackerDataReducer(
       return adapter.removeOne(action.actionTrackerDataId, {
         ...state,
         notification: {
-          completed: false,
+          completed: true,
           message: 'Deleting Action Data ' + action.actionTrackerDataId
         }
       });
