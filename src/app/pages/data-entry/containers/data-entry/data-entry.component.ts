@@ -85,6 +85,7 @@ export class DataEntryComponent implements OnInit {
   onEditAction(e, dataItem: any, dataElements: any[]) {
     e.stopPropagation();
     if (!this.isActionTracking) {
+      this.contextMenu.closeMenu();
       this.dataEntryDialogBoxOperations(dataElements, dataItem);
     }
   }
