@@ -13,6 +13,7 @@ import {
 } from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
 import { getMergedActionTrackerDatasWithRowspanAttribute } from 'src/app/core/store/selectors/action-tracker-data.selectors';
 import { FormDialogComponent } from 'src/app/shared/components/form-dialog/form-dialog.component';
+import { DeleteConfirmationDialogueComponent } from 'src/app/shared/components/delete-confirmation-dialogue/delete-confirmation-dialogue.component';
 import { generateActionDataValue } from 'src/app/shared/helpers/generate-action-data-values.helper';
 import { generateTEI } from 'src/app/core/helpers/generate-tracked-entity-instance.helper';
 import { generateEvent } from 'src/app/core/helpers/generate-event-payload.helper';
@@ -85,7 +86,6 @@ export class DataEntryComponent implements OnInit {
   onEditAction(e, dataItem: any, dataElements: any[]) {
     e.stopPropagation();
     if (!this.isActionTracking) {
-      this.contextMenu.closeMenu();
       this.dataEntryDialogBoxOperations(dataElements, dataItem);
     }
   }
@@ -221,22 +221,23 @@ export class DataEntryComponent implements OnInit {
   }
 
   onDeleteAction(event, dataItem) {
-    this.dataEntryDialogBoxOperations([], []);
-    // const dataItemToDelete = document.getElementById(dataItem.id);
-    // if (dataItemToDelete) {
-    //   const dataItemColumns = dataItemToDelete.querySelectorAll(
-    //     '.action-tracker-column, .solution-column'
-    //   );
-    //   _.map(dataItemColumns, dataItemColumn => {
-    //     dataItemColumn.hasAttribute('rowspan')
-    //       ? null
-    //       : dataItemColumn.setAttribute('hidden', 'true');
-    //   });
-    //   this.toBeDeleted[dataItem.id] = true;
-    // }
+    if (event) {
+      event.stopPropagation();
+    }
+    const dialogRef = this.dialog.open(DeleteConfirmationDialogueComponent, {
+      width: '600px',
+      height: `${100 + 55 * 1}px`,
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(formResponse => {
+      if (formResponse.action == 'DELETE') {
+        this.onConfirmDeleteAction(dataItem);
+      }
+    });
   }
 
-  onConfirmDeleteAction(event, dataItem) {
+  onConfirmDeleteAction(dataItem) {
     if (dataItem && dataItem.trackedEntityInstance) {
       this.store.dispatch(
         new DeleteActionTrackerData(dataItem.trackedEntityInstance)
