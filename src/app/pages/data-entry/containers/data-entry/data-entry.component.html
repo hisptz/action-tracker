@@ -84,7 +84,10 @@
                 *ngFor="
                   let actionTrackingConfiguration of actionTrackingConfigurations
                 "
-                [hidden]="!first && !actionDataItem.hasEvents"
+                [hidden]="
+                  (!first && !actionDataItem.hasEvents) ||
+                  !actionTrackingItem.hasEvent
+                "
               >
                 <p>
                   <b>{{ actionTrackingConfiguration.name }}</b>
@@ -102,6 +105,28 @@
                     ] | convertLegendId: (legendSetStatus$ | async)
                   }}
                 </p>
+              </div>
+              <div
+                *ngIf="
+                  (!actionTrackingItem.hasEvent && first) ||
+                  (!actionTrackingItem.hasEvent &&
+                    actionTrackingItem.isCurrentQuater)
+                "
+              >
+                <button
+                  title="Click to add new review"
+                  mat-icon-button
+                  (click)="
+                    onEditActionTracking(
+                      $event,
+                      actionDataItem,
+                      actionTrackingItem,
+                      actionTrackingConfigurations
+                    )
+                  "
+                >
+                  <mat-icon>add</mat-icon>
+                </button>
               </div>
             </td>
           </ng-container>

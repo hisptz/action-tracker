@@ -105,19 +105,23 @@ export const getActionTrackingReportData = createSelector(
       action.actionTrackingColumns = [
         {
           quarterNumber: 1,
-          quarterName: 'Q1'
+          quarterName: 'Q1',
+          hasEvent: false
         },
         {
           quarterNumber: 2,
-          quarterName: 'Q2'
+          quarterName: 'Q2',
+          hasEvent: false
         },
         {
           quarterNumber: 3,
-          quarterName: 'Q3'
+          quarterName: 'Q3',
+          hasEvent: false
         },
         {
           quarterNumber: 4,
-          quarterName: 'Q4'
+          quarterName: 'Q4',
+          hasEvent: false
         }
       ];
       //go through enrollments
@@ -143,6 +147,7 @@ export const getActionTrackingReportData = createSelector(
             'eventDate',
             _.head(_.split(event.eventDate, 'T'))
           );
+          _.set(eventQuarter, 'hasEvent', true);
           eventQuarter.isCurrentQuater = isSameQuarter(
             new Date(_.head(_.split(event.eventDate, 'T'))),
             new Date()
