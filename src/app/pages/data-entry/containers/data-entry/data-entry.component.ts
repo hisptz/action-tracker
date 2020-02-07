@@ -207,14 +207,16 @@ export class DataEntryComponent implements OnInit {
 
   onContextMenu(event: MouseEvent, item, configuration) {
     event.preventDefault();
-    this.contextMenuPosition.x = event.clientX + 'px';
-    this.contextMenuPosition.y = event.clientY + 'px';
-    this.contextMenu.menuData = {
-      dataItem: item,
-      configuration: configuration
-    };
-    this.contextMenu.menu.focusFirstItem('mouse');
-    this.contextMenu.openMenu();
+    if (!this.isActionTracking) {
+      this.contextMenuPosition.x = event.clientX + 'px';
+      this.contextMenuPosition.y = event.clientY + 'px';
+      this.contextMenu.menuData = {
+        dataItem: item,
+        configuration: configuration
+      };
+      this.contextMenu.menu.focusFirstItem('mouse');
+      this.contextMenu.openMenu();
+    }
   }
 
   onDeleteAction(event, dataItem) {
