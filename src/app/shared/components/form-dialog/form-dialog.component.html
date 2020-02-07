@@ -80,6 +80,8 @@
           <input
             matInput
             [formControlName]="dataElement?.id || dataElement?.formControlName"
+            [min]="minDate"
+            [max]="maxDate"
             [matDatepicker]="reviewDate"
             placeholder="Choose a date"
           />
