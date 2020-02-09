@@ -54,13 +54,7 @@ export class FormInputItemComponent implements OnInit {
       );
 
       const eventId = actionTrackingItem.id;
-      const eventPayload = generateEvent(
-        dataItem,
-        eventId,
-        eventDate,
-        isNewEvent,
-        newDataValuesArray
-      );
+      const eventPayload = generateEvent(dataItem, eventId, eventDate);
       this.updateValue.emit({ eventPayload: eventPayload });
     }
   }

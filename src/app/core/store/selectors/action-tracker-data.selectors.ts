@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import * as _ from 'lodash';
-import { getQuarter, isSameQuarter } from 'date-fns';
+import { getQuarter, isSameQuarter, subYears } from 'date-fns';
 
 import { getRootState, State as RootState } from '../reducers';
 import {
@@ -105,24 +105,31 @@ export const getActionTrackingReportData = createSelector(
       action.actionTrackingColumns = [
         {
           quarterNumber: 1,
-          quarterName: 'Q1'
+          quarterName: 'Q1',
+          hasEvent: false
         },
         {
           quarterNumber: 2,
-          quarterName: 'Q2'
+          quarterName: 'Q2',
+          hasEvent: false
         },
         {
           quarterNumber: 3,
-          quarterName: 'Q3'
+          quarterName: 'Q3',
+          hasEvent: false
         },
         {
           quarterNumber: 4,
-          quarterName: 'Q4'
+          quarterName: 'Q4',
+          hasEvent: false
         }
       ];
       //go through enrollments
       _.map(action.enrollments, enrollment => {
         //go through events sorted by event date
+
+        action.hasEvents = enrollment.events.length > 0 ? true : false;
+
         _.map(_.sortBy(enrollment.events, 'eventDate'), event => {
           //deduce the quarter of the current event
           const eventQuarter = _.get(
@@ -140,6 +147,7 @@ export const getActionTrackingReportData = createSelector(
             'eventDate',
             _.head(_.split(event.eventDate, 'T'))
           );
+          _.set(eventQuarter, 'hasEvent', true);
           eventQuarter.isCurrentQuater = isSameQuarter(
             new Date(_.head(_.split(event.eventDate, 'T'))),
             new Date()

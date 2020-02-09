@@ -9,15 +9,20 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatMenuModule } from '@angular/material/menu';
+
 import { NgxDhis2DataFilterModule } from '@iapps/ngx-dhis2-data-filter';
 
 import { components, entryComponents } from './components';
 import { modules } from './modules';
-
+import { pipes } from './pipes';
 @NgModule({
   imports: [
     CommonModule,
     ...modules,
+
     NgxDhis2DataFilterModule,
     MatCardModule,
     MatProgressBarModule,
@@ -27,12 +32,16 @@ import { modules } from './modules';
     MatDividerModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatMenuModule
   ],
   entryComponents: [...entryComponents],
   exports: [
     ...modules,
     ...components,
+    ...pipes,
     NgxDhis2DataFilterModule,
     MatCardModule,
     MatProgressBarModule,
@@ -42,8 +51,11 @@ import { modules } from './modules';
     MatDividerModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatMenuModule
   ],
-  declarations: [...components]
+  declarations: [...components, ...pipes]
 })
 export class SharedModule {}
