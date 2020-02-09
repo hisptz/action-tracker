@@ -11,9 +11,19 @@ import * as _ from 'lodash';
 })
 export class TrackedEntityInstanceService {
   teiUrl: string;
+  eventUrl: string;
 
   constructor(private http: NgxDhis2HttpClientService) {
     this.teiUrl = 'trackedEntityInstances';
+    this.eventUrl = 'events';
+  }
+
+  saveEvents(events: Array<any>): Observable<any> {
+    return;
+  }
+
+  deleteEvent(eventId: string): Observable<any> {
+    return;
   }
 
   savingTEI(trackedEntityInstance: any): Observable<any> {
