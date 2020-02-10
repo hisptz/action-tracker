@@ -14,7 +14,6 @@ import {
 } from '../../modules/selection-filters/modules/legend-set-configuration/store';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { startOfQuarter, endOfQuarter } from 'date-fns';
 @Component({
   selector: 'app-form-dialog',
   templateUrl: './form-dialog.component.html',
@@ -37,10 +36,7 @@ export class FormDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public formDialogData: any,
     private legendSetStore: Store<LegendSetState>,
     private formBuilder: FormBuilder
-  ) {
-    this.minDate = startOfQuarter(new Date());
-    this.maxDate = endOfQuarter(new Date());
-  }
+  ) {}
 
   ngOnInit() {
     this.legendSetItems$ = this.legendSetStore.select(
@@ -55,6 +51,8 @@ export class FormDialogComponent implements OnInit {
       this.formDialogData.dataElements &&
       this.formDialogData.dataValues
     ) {
+      this.minDate = this.formDialogData.minDate;
+      this.maxDate = this.formDialogData.maxDate;
       this.formDialogData.dataElements.forEach(dataElement => {
         formEntity[dataElement.id || dataElement.formControlName] = [
           this.formDialogData.dataValues[dataElement.id] ||

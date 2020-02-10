@@ -23,7 +23,8 @@ export enum ActionTrackerDataActionTypes {
   CancelActionTrackerDataFail = '[ActionTrackerData] Cancel ActionTrackerData Fail',
   SaveActionTrackerData = '[ActionTrackerData] Save ActionTrackerData',
   SaveActionTrackerDataSuccess = '[ActionTrackerData] Save ActionTrackerData Success',
-  SaveActionTrackerDataFail = '[ActionTrackerData] Save ActionTrackerData Fail'
+  SaveActionTrackerDataFail = '[ActionTrackerData] Save ActionTrackerData Fail',
+  ResetNotifications = '[ActionTrackerData] Reset Notifications'
 }
 
 export class LoadActionTrackerDatas implements Action {
@@ -154,6 +155,12 @@ export class SaveActionTrackerDataFail implements Action {
   constructor(public error: any) {}
 }
 
+export class ResetNotifications implements Action {
+  readonly type = ActionTrackerDataActionTypes.ResetNotifications;
+
+  constructor() {}
+}
+
 export type ActionTrackerDataActions =
   | LoadActionTrackerDatas
   | LoadActionTrackerDatasFail
@@ -175,4 +182,5 @@ export type ActionTrackerDataActions =
   | ClearActionTrackerDatas
   | SaveActionTrackerData
   | SaveActionTrackerDataSuccess
-  | SaveActionTrackerDataFail;
+  | SaveActionTrackerDataFail
+  | ResetNotifications;

@@ -126,11 +126,40 @@ export function actionTrackerDataReducer(
       return adapter.removeAll(state);
     }
 
+    case ActionTrackerDataActionTypes.SaveActionTrackerData: {
+      return {
+        ...state,
+        showNotification: true,
+        notification: {
+          completed: true,
+          message: 'Saving Action Data'
+        }
+      };
+    }
+
     case ActionTrackerDataActionTypes.SaveActionTrackerDataSuccess: {
       if (!action.actionTrackerData) {
         return state;
       }
-      return adapter.upsertOne(action.actionTrackerData, state);
+      return adapter.upsertOne(action.actionTrackerData, {
+        ...state,
+        showNotification: true,
+        notification: {
+          completed: true,
+          message: 'Action Data Successfully Saved'
+        }
+      });
+    }
+
+    case ActionTrackerDataActionTypes.ResetNotifications: {
+      return {
+        ...state,
+        showNotification: false,
+        notification: {
+          completed: true,
+          message: 'Reseting notification'
+        }
+      };
     }
 
     case ActionTrackerDataActionTypes.LoadActionTrackerDatas: {
@@ -138,7 +167,7 @@ export function actionTrackerDataReducer(
         ...state,
         loading: true,
         loaded: false,
-        showNotification: true,
+        showNotification: false,
         notification: {
           completed: false,
           message: 'Loading Action Tracker Data'

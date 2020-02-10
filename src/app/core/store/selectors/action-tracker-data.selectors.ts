@@ -34,6 +34,19 @@ export const getActionTrackerDataNotificationStatus = createSelector(
   (state: ActionTrackerDataState) => state.notification
 );
 
+export const getActionTrackerShowNotificationStatus = createSelector(
+  getActionTrackerDataState,
+  (state: ActionTrackerDataState) => state.showNotification
+);
+
+export const getNotificationMessageStatus = createSelector(
+  getActionTrackerDataState,
+  getActionTrackerDataNotificationStatus,
+  getActionTrackerShowNotificationStatus,
+  (state: ActionTrackerDataState, notification, showNotification) =>
+    showNotification ? notification : null
+);
+
 export const getActionTrackerDataLoadingStatus = createSelector(
   getActionTrackerDataState,
   (state: ActionTrackerDataState) => state.loading

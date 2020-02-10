@@ -1,4 +1,14 @@
-<div>
+<div *ngIf="!(configurationLoaded$ | async) || !(configuration$ | async)">
+  <mat-card>
+    <mat-card-content>
+      <div>Discovering Configurations</div>
+      <mat-progress-bar
+        mode="indeterminate"
+      ></mat-progress-bar></mat-card-content
+  ></mat-card>
+</div>
+
+<div *ngIf="configurationLoaded$ | async">
   <table class="table" *ngIf="configuration$ | async as configuration">
     <thead>
       <tr>
@@ -24,6 +34,16 @@
         </ng-container>
       </tr>
     </thead>
+
+    <tbody *ngIf="dataLoading$ | async">
+      <tr>
+        <td colspan="100%">
+          <div>{{ (notification$ | async)?.message }}</div>
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </td>
+      </tr>
+    </tbody>
+
     <tbody>
       <tr
         *ngFor="let actionDataItem of data$ | async; let i = index"

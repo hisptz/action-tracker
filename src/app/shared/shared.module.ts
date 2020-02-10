@@ -13,13 +13,14 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { NgxDhis2DataFilterModule } from '@iapps/ngx-dhis2-data-filter';
 
 import { components, entryComponents } from './components';
 import { modules } from './modules';
 import { pipes } from './pipes';
+import { NotificationSnackbarComponent } from './components/notification-snackbar/notification-snackbar.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -39,7 +40,7 @@ import { pipes } from './pipes';
     MatNativeDateModule,
     MatMenuModule,
     MatTooltipModule,
-    NgbDatepickerModule
+    MatSnackBarModule
   ],
   entryComponents: [...entryComponents],
   exports: [
@@ -60,8 +61,8 @@ import { pipes } from './pipes';
     MatNativeDateModule,
     MatMenuModule,
     MatTooltipModule,
-    NgbDatepickerModule
+    MatSnackBarModule
   ],
-  declarations: [...components, ...pipes]
+  declarations: [...components, ...pipes, NotificationSnackbarComponent]
 })
 export class SharedModule {}

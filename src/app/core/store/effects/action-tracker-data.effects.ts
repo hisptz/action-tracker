@@ -76,7 +76,6 @@ export class ActionTrackerDataEffects {
   addActionTrackerData$: Observable<any> = this.actions$.pipe(
     ofType(ActionTrackerDataActionTypes.AddActionTrackerData),
     mergeMap((action: AddActionTrackerData) => {
-      console.log(action);
       return of(action.actionTrackerData).pipe(
         map(
           (actionTrackerData: any) =>

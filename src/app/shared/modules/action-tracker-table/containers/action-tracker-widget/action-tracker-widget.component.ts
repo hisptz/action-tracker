@@ -146,12 +146,6 @@ export class ActionTrackerWidgetComponent implements OnInit {
     this.notification$ = store.select(getAllDataNotification);
     this.dataSelections$ = store.select(getDataSelections);
     this.unSavedDataItemValues = {};
-
-    // store
-    //   .select(getMergedActionTrackerDatasWithRowspanAttribute)
-    //   .subscribe(object => {
-    //     console.log(object);
-    //   });
   }
 
   ngOnInit() {}
@@ -226,9 +220,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
     }
   }
 
-  onActionTrackingDataValuesUpdate(event, dataItem, dataElement) {
-    console.log('object : ', event);
-  }
+  onActionTrackingDataValuesUpdate(event, dataItem, dataElement) {}
   onActionDelete(dataItem) {
     const dataItemToDelete = document.getElementById(dataItem.id);
     if (dataItemToDelete) {
