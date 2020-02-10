@@ -36,13 +36,19 @@
       >
         <td>{{ i + 1 }}</td>
         <td
+          matTooltip="Click row to see full text or truncate"
+          [matTooltipPosition]="'after'"
           *ngFor="let actionDataElement of configuration.dataElements"
           [hidden]="
             actionDataElement.isHidden ||
             (actionDataElement.isNotTrackingColumn && isActionTracking)
           "
+          (click)="toggleTruncationStatus(actionDataItem)"
         >
-          {{ (actionDataItem?.dataValues)[actionDataElement.id] }}
+          {{
+            (actionDataItem?.dataValues)[actionDataElement.id]
+              | textTruncate: 40:actionDataItem.truncateStatus
+          }}
         </td>
         <td
           class="position-relative"
@@ -91,6 +97,8 @@
                   (!first && !actionDataItem.hasEvents) ||
                   !actionTrackingItem.hasEvent
                 "
+                matTooltip="Double Click to Edit"
+                [matTooltipPosition]="'after'"
               >
                 <p>
                   <b>{{ actionTrackingConfiguration.name }}</b>

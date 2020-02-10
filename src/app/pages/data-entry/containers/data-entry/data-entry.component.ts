@@ -83,6 +83,9 @@ export class DataEntryComponent implements OnInit {
     );
   }
 
+  toggleTruncationStatus(actionDataItem) {
+    actionDataItem.truncateStatus = !actionDataItem.truncateStatus;
+  }
   onEditActionTracking(e, dataItem, actionTrackingItem, dataElements) {
     this.selectedAction = dataItem;
     this.initialActionStatus = actionTrackingItem.actionStatus;
@@ -208,7 +211,8 @@ export class DataEntryComponent implements OnInit {
       _.find(eventData.eventDataValues, { dataElement: actionStatusId }),
       'value'
     );
-    eventData.eventId = dataItem.id;
+    eventData.eventId = dataItem.eventId;
+    console.log(eventData);
     return currentActionStatus == this.initialActionStatus
       ? generateEvent(this.selectedAction, eventData)
       : generateEvent(this.selectedAction, eventData, true);

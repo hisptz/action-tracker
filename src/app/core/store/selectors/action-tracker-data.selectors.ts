@@ -118,17 +118,22 @@ export const getActionTrackingReportData = createSelector(
     }
 
     // go through actions
-    _.map(actionTrackerDatas, action => {
+    _.forEach(actionTrackerDatas, action => {
       //TODO: Andre create this structure from the period selection
+      const quarters = [];
 
-      action.actionTrackingColumns = quartersOfSelectedPeriod;
+      _.map(quartersOfSelectedPeriod, quarter => {
+        quarters.push({ ...quarter });
+      });
+
+      action.actionTrackingColumns = quarters;
       //go through enrollments
-      _.map(action.enrollments, enrollment => {
+      _.forEach(action.enrollments, enrollment => {
         //go through events sorted by event date
 
         action.hasEvents = enrollment.events.length > 0 ? true : false;
 
-        _.map(_.sortBy(enrollment.events, 'eventDate'), event => {
+        _.forEach(_.sortBy(enrollment.events, 'eventDate'), event => {
           //deduce the quarter of the current event
           const eventQuarter =
             _.get(
@@ -151,9 +156,10 @@ export const getActionTrackingReportData = createSelector(
             new Date(_.head(_.split(event.eventDate, 'T'))),
             new Date()
           );
-          eventQuarter.id = _.get(event, 'event');
 
-          _.map(event.dataValues, eventDataValues => {
+          eventQuarter.eventId = _.get(event, 'event');
+
+          _.forEach(event.dataValues, eventDataValues => {
             //merge action tracking stage data elements and data to their respective quarter
             _.merge(eventQuarter, {
               [_.camelCase(
