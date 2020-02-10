@@ -83,55 +83,45 @@ export const getAllDataNotification = createSelector(
   }
 );
 
+export const getActionTrackingQuarters = createSelector(
+  getActionTrackerDataState,
+  getDataSelections,
+  (state, dataSelections) => {
+    const quarterOfSelectedPeriod = _.get(
+      _.head(_.get(_.find(dataSelections, { dimension: 'pe' }), 'items')),
+      'quarterly'
+    );
+
+    _.forEach(quarterOfSelectedPeriod, quarter => {
+      _.set(quarter, 'hasEvent', false);
+      _.set(quarter, 'quarterNumber', _.last(_.split(quarter.id, 'Q')));
+    });
+    return _.sortBy(quarterOfSelectedPeriod, ['quarterNumber']) || [];
+  }
+);
+
 export const getActionTrackingReportData = createSelector(
   getActionTrackerDataState,
   getActionTrackerDatas,
   getAllDataNotification,
   getConfigurationDataElementsFromProgramStageDEs,
-  getDataSelections,
-
+  getActionTrackingQuarters,
   (
     state: ActionTrackerDataState,
     actionTrackerDatas,
     notification,
     actionTrackerConfig,
-    dataSelections
+    quartersOfSelectedPeriod
   ) => {
     if (notification.percent !== '100') {
       return [];
     }
 
-    console.log(
-      _.get(
-        _.head(_.get(_.find(dataSelections, { dimension: 'pe' }), 'items')),
-        'quarterly'
-      )
-    );
     // go through actions
     _.map(actionTrackerDatas, action => {
       //TODO: Andre create this structure from the period selection
-      action.actionTrackingColumns = [
-        {
-          quarterNumber: 1,
-          quarterName: 'Q1',
-          hasEvent: false
-        },
-        {
-          quarterNumber: 2,
-          quarterName: 'Q2',
-          hasEvent: false
-        },
-        {
-          quarterNumber: 3,
-          quarterName: 'Q3',
-          hasEvent: false
-        },
-        {
-          quarterNumber: 4,
-          quarterName: 'Q4',
-          hasEvent: false
-        }
-      ];
+
+      action.actionTrackingColumns = quartersOfSelectedPeriod;
       //go through enrollments
       _.map(action.enrollments, enrollment => {
         //go through events sorted by event date
@@ -140,15 +130,16 @@ export const getActionTrackingReportData = createSelector(
 
         _.map(_.sortBy(enrollment.events, 'eventDate'), event => {
           //deduce the quarter of the current event
-          const eventQuarter = _.get(
-            action,
-            `actionTrackingColumns[${_.findIndex(
-              action.actionTrackingColumns,
-              quarter =>
-                getQuarter(new Date(_.head(_.split(event.eventDate, 'T')))) ==
-                quarter.quarterNumber
-            )}]`
-          );
+          const eventQuarter =
+            _.get(
+              action,
+              `actionTrackingColumns[${_.findIndex(
+                action.actionTrackingColumns,
+                quarter =>
+                  getQuarter(new Date(_.head(_.split(event.eventDate, 'T')))) ==
+                  quarter.quarterNumber
+              )}]`
+            ) || {};
 
           _.set(
             eventQuarter,
