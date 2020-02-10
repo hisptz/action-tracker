@@ -17,6 +17,8 @@ import {
   getMergedActionTrackerConfiguration,
   getConfigurationDataElementsFromProgramStageDEs
 } from './action-tracker-configuration.selectors';
+
+import { getDataSelections } from './global-selection.selectors';
 export const getActionTrackerDataState = createSelector(
   getRootState,
   (state: RootState) => state.actionTrackerData
@@ -83,22 +85,28 @@ export const getAllDataNotification = createSelector(
 
 export const getActionTrackingReportData = createSelector(
   getActionTrackerDataState,
-  getRootCauseAnalysisDatas,
   getActionTrackerDatas,
   getAllDataNotification,
   getConfigurationDataElementsFromProgramStageDEs,
+  getDataSelections,
 
   (
     state: ActionTrackerDataState,
-    rootCauseDatas,
     actionTrackerDatas,
     notification,
-    actionTrackerConfig
+    actionTrackerConfig,
+    dataSelections
   ) => {
     if (notification.percent !== '100') {
       return [];
     }
 
+    console.log(
+      _.get(
+        _.head(_.get(_.find(dataSelections, { dimension: 'pe' }), 'items')),
+        'quarterly'
+      )
+    );
     // go through actions
     _.map(actionTrackerDatas, action => {
       //TODO: Andre create this structure from the period selection
