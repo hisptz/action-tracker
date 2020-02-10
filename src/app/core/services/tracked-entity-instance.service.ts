@@ -19,11 +19,11 @@ export class TrackedEntityInstanceService {
   }
 
   saveEvents(events: Array<any>): Observable<any> {
-    return;
+    return this.http.post(`${this.eventUrl}`, { events });
   }
 
   deleteEvent(eventId: string): Observable<any> {
-    return;
+    return this.http.delete(`${this.eventUrl}/${eventId}`);
   }
 
   savingTEI(trackedEntityInstance: any): Observable<any> {
