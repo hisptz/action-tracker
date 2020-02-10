@@ -11,6 +11,6 @@
 }
 
 .form-content {
-  max-height: calc(100vh - 200px);
+  max-height: calc(100vh - 200px) !important;
   overflow: auto;
 }
