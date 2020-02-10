@@ -11,7 +11,8 @@
           class="w-100"
           *ngIf="
             dataElement.valueType === formFieldType.TEXT &&
-            !dataElement.hasLegend
+            !dataElement.hasLegend &&
+            !(dataElement.code === 'ACTION_PERIOD')
           "
         >
           <mat-label>{{ dataElement.name }}</mat-label>
