@@ -11,7 +11,10 @@ import {
   getMergedActionTrackerConfiguration,
   getConfigurationDataElementsFromProgramStageDEs
 } from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
-import { getMergedActionTrackerDatasWithRowspanAttribute } from 'src/app/core/store/selectors/action-tracker-data.selectors';
+import {
+  getMergedActionTrackerDatasWithRowspanAttribute,
+  getActionTrackingQuarters
+} from 'src/app/core/store/selectors/action-tracker-data.selectors';
 import { FormDialogComponent } from 'src/app/shared/components/form-dialog/form-dialog.component';
 import { DeleteConfirmationDialogueComponent } from 'src/app/shared/components/delete-confirmation-dialogue/delete-confirmation-dialogue.component';
 import { generateActionDataValue } from 'src/app/shared/helpers/generate-action-data-values.helper';
@@ -41,6 +44,7 @@ export class DataEntryComponent implements OnInit {
   configuration$: Observable<RootCauseAnalysisConfiguration>;
   data$: Observable<any[]>;
   programStageConfiguration$: Observable<any[]>;
+  actionTrackingQuarters$: Observable<any[]>;
   actionTrackingData$: Observable<any[]>;
   legendSetStatus$: Observable<any>;
   legendSetItems$: Observable<any>;
@@ -68,6 +72,10 @@ export class DataEntryComponent implements OnInit {
     );
     this.programStageConfiguration$ = this.store.pipe(
       select(getConfigurationDataElementsFromProgramStageDEs)
+    );
+
+    this.actionTrackingQuarters$ = this.store.pipe(
+      select(getActionTrackingQuarters)
     );
 
     this.legendSetStatus$ = this.legendSetStore.select(
