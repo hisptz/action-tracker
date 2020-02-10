@@ -1,4 +1,10 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Inject,
+  ViewChild,
+  ElementRef
+} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormFieldType } from '../../constants/form-field-types.constant';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -22,6 +28,9 @@ export class FormDialogComponent implements OnInit {
 
   minDate: Date;
   maxDate: Date;
+
+  actionStartDate: any;
+  actionEndDate: any;
 
   constructor(
     private dialogRef: MatDialogRef<FormDialogComponent>,

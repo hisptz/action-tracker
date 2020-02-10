@@ -96,6 +96,7 @@ export class DataEntryComponent implements OnInit {
   }
   onEditAction(e, dataItem: any, dataElements: any[]) {
     e.stopPropagation();
+    this.contextMenu.closeMenu();
     if (!this.isActionTracking) {
       this.dataEntryDialogBoxOperations(dataElements, dataItem);
     }
@@ -129,7 +130,7 @@ export class DataEntryComponent implements OnInit {
 
     const dialogRef = this.dialog.open(FormDialogComponent, {
       width: '600px',
-      height: `${300 + 55 * formDataElements.length}px`,
+      height: `${300 + 60 * formDataElements.length}px`,
       data: {
         dataElements: formDataElements,
         dataValues: dataItem.dataValues || dataItem
@@ -170,7 +171,7 @@ export class DataEntryComponent implements OnInit {
       attributes.push({
         attribute: index,
         code: _.get(_.find(formDataElements, { id: index }), 'code'),
-        value: formValue
+        value: isDate(formValue) ? getFormattedDate(formValue) : formValue
       });
     });
     return attributes;
@@ -236,6 +237,8 @@ export class DataEntryComponent implements OnInit {
     if (event) {
       event.stopPropagation();
     }
+    this.contextMenu.closeMenu();
+
     const dialogRef = this.dialog.open(DeleteConfirmationDialogueComponent, {
       width: '600px',
       height: `${100 + 55 * 1}px`,
