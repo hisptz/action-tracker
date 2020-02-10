@@ -123,11 +123,7 @@ export class DataEntryComponent implements OnInit {
   onEditActionTracking(e, dataItem, actionTrackingItem, dataElements) {
     this.selectedAction = dataItem;
     this.initialActionStatus = actionTrackingItem.actionStatus;
-    console.log(
-      actionTrackingItem.isCurrentQuater,
-      !actionTrackingItem.hasEvents,
-      !actionTrackingItem.isCurrentQuater
-    );
+
     actionTrackingItem.isCurrentQuater ||
     (!actionTrackingItem.hasEvents && !actionTrackingItem.isCurrentQuater)
       ? this.dataEntryDialogBoxOperations(dataElements, actionTrackingItem)
