@@ -1,10 +1,14 @@
 <mat-horizontal-stepper [linear]="isLinear" #stepper>
   <mat-step>
-    <ng-template matStepLabel>Action Planning</ng-template>
+    <ng-template matStepLabel>
+      <span style="font-size: 12px;">Action Planning</span>
+    </ng-template>
     <app-action-table></app-action-table>
   </mat-step>
   <mat-step>
-    <ng-template matStepLabel>Action Tracking</ng-template>
+    <ng-template matStepLabel>
+      <span style="font-size: 12px;">Action Tracking</span>
+    </ng-template>
     <app-action-table [isActionTracking]="true"></app-action-table>
   </mat-step>
 </mat-horizontal-stepper>

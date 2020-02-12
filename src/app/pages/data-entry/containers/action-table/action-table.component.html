@@ -12,7 +12,6 @@
   <table class="table" *ngIf="configuration$ | async as configuration">
     <thead>
       <tr>
-        <th></th>
         <th>#</th>
         <th
           *ngFor="let dataElement of configuration.dataElements"
@@ -20,6 +19,7 @@
         >
           {{ dataElement.name }}
         </th>
+        <th *ngIf="!isActionTracking"></th>
         <th
           width="5%"
           style="border-left: 1px solid #dee2e6;"
@@ -64,21 +64,6 @@
           onEditAction($event, actionDataItem, configuration.dataElements)
         "
       >
-        <td class="px-1" style="width:70px">
-          <i
-            class="fa fa-pencil-square-o mr-2 text-success"
-            aria-hidden="true"
-            (click)="
-              onEditAction($event, actionDataItem, configuration.dataElements)
-            "
-          >
-          </i>
-          <i
-            class="fa fa-trash ml-2 text-danger"
-            aria-hidden="true"
-            (click)="onDeleteAction($event, actionDataItem)"
-          ></i>
-        </td>
         <td>{{ i + 1 }}</td>
         <td
           matTooltip="Click row to see full text or truncate"
@@ -94,6 +79,21 @@
             (actionDataItem?.dataValues)[actionDataElement.id]
               | textTruncate: 40:actionDataItem.truncateStatus
           }}
+        </td>
+        <td *ngIf="!isActionTracking" class="px-1" style="width:70px">
+          <i
+            class="fa fa-pencil-square-o mr-2 text-success"
+            aria-hidden="true"
+            (click)="
+              onEditAction($event, actionDataItem, configuration.dataElements)
+            "
+          >
+          </i>
+          <i
+            class="fa fa-trash ml-2 text-danger"
+            aria-hidden="true"
+            (click)="onDeleteAction($event, actionDataItem)"
+          ></i>
         </td>
         <td
           class="position-relative"
