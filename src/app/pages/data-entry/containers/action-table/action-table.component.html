@@ -12,7 +12,7 @@
   <table class="table" *ngIf="configuration$ | async as configuration">
     <thead>
       <tr>
-        <th></th>
+        <th *ngIf="!isActionTracking"></th>
         <th>#</th>
         <th
           *ngFor="let dataElement of configuration.dataElements"
@@ -64,7 +64,7 @@
           onEditAction($event, actionDataItem, configuration.dataElements)
         "
       >
-        <td class="px-1" style="width:70px">
+        <td *ngIf="!isActionTracking" class="px-1" style="width:70px">
           <i
             class="fa fa-pencil-square-o mr-2 text-success"
             aria-hidden="true"
