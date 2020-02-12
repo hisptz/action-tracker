@@ -4,6 +4,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { generateUid } from 'src/app/core/helpers/generate-uid.helper';
 import { MatMenuTrigger } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { RootCauseAnalysisConfiguration } from 'src/app/core/models/root-cause-analysis-configuration.model';
 import { State } from 'src/app/core/store/reducers';
@@ -11,9 +12,17 @@ import {
   getMergedActionTrackerConfiguration,
   getConfigurationDataElementsFromProgramStageDEs
 } from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
-import { getMergedActionTrackerDatasWithRowspanAttribute } from 'src/app/core/store/selectors/action-tracker-data.selectors';
+import { getConfigurationLoadedStatus } from 'src/app/core/store/selectors/root-cause-analysis-configuration.selectors';
+import {
+  getAllDataNotification,
+  getNotificationMessageStatus,
+  getOveralLoadingStatus,
+  getMergedActionTrackerDatasWithRowspanAttribute,
+  getActionTrackingQuarters
+} from 'src/app/core/store/selectors/action-tracker-data.selectors';
 import { FormDialogComponent } from 'src/app/shared/components/form-dialog/form-dialog.component';
 import { DeleteConfirmationDialogueComponent } from 'src/app/shared/components/delete-confirmation-dialogue/delete-confirmation-dialogue.component';
+import { NotificationSnackbarComponent } from 'src/app/shared/components/notification-snackbar/notification-snackbar.component';
 import { generateActionDataValue } from 'src/app/shared/helpers/generate-action-data-values.helper';
 import { generateTEI } from 'src/app/core/helpers/generate-tracked-entity-instance.helper';
 import { generateEvent } from 'src/app/core/helpers/generate-event-payload.helper';
@@ -30,7 +39,14 @@ import {
   DeleteActionTrackerData
 } from 'src/app/core/store/actions/action-tracker-data.actions';
 import * as _ from 'lodash';
-import { isDate } from 'date-fns';
+
+import {
+  isDate,
+  startOfQuarter,
+  endOfQuarter,
+  startOfYear,
+  endOfYear
+} from 'date-fns';
 @Component({
   selector: 'app-data-entry',
   templateUrl: './data-entry.component.html',
@@ -41,9 +57,14 @@ export class DataEntryComponent implements OnInit {
   configuration$: Observable<RootCauseAnalysisConfiguration>;
   data$: Observable<any[]>;
   programStageConfiguration$: Observable<any[]>;
+  actionTrackingQuarters$: Observable<any[]>;
   actionTrackingData$: Observable<any[]>;
   legendSetStatus$: Observable<any>;
   legendSetItems$: Observable<any>;
+  notification$: Observable<any>;
+  dataLoading$: Observable<boolean>;
+  configurationLoaded$: Observable<boolean>;
+
   selectedAction: any;
   initialActionStatus: '';
   toBeDeleted = {};
@@ -56,10 +77,9 @@ export class DataEntryComponent implements OnInit {
   constructor(
     private store: Store<State>,
     private legendSetStore: Store<LegendSetState>,
-    private dialog: MatDialog
-  ) {}
-
-  ngOnInit() {
+    private dialog: MatDialog,
+    private _snackBar: MatSnackBar
+  ) {
     this.configuration$ = this.store.select(
       getMergedActionTrackerConfiguration
     );
@@ -70,14 +90,40 @@ export class DataEntryComponent implements OnInit {
       select(getConfigurationDataElementsFromProgramStageDEs)
     );
 
+    this.actionTrackingQuarters$ = this.store.pipe(
+      select(getActionTrackingQuarters)
+    );
+
     this.legendSetStatus$ = this.legendSetStore.select(
       getActionStatusLegendSet
     );
+
+    this.notification$ = this.store.select(getAllDataNotification);
+
+    this.dataLoading$ = this.store.select(getOveralLoadingStatus);
+
+    this.configurationLoaded$ = store.select(getConfigurationLoadedStatus);
+
+    this.store.select(getNotificationMessageStatus).subscribe(notification => {
+      if (notification) {
+        this._snackBar.openFromComponent(NotificationSnackbarComponent, {
+          duration: 5 * 1000,
+          verticalPosition: 'top',
+          data: notification.message
+        });
+      }
+    });
   }
 
+  ngOnInit() {}
+
+  toggleTruncationStatus(actionDataItem) {
+    actionDataItem.truncateStatus = !actionDataItem.truncateStatus;
+  }
   onEditActionTracking(e, dataItem, actionTrackingItem, dataElements) {
     this.selectedAction = dataItem;
     this.initialActionStatus = actionTrackingItem.actionStatus;
+
     actionTrackingItem.isCurrentQuater ||
     (!actionTrackingItem.hasEvents && !actionTrackingItem.isCurrentQuater)
       ? this.dataEntryDialogBoxOperations(dataElements, actionTrackingItem)
@@ -85,6 +131,7 @@ export class DataEntryComponent implements OnInit {
   }
   onEditAction(e, dataItem: any, dataElements: any[]) {
     e.stopPropagation();
+    this.contextMenu.closeMenu();
     if (!this.isActionTracking) {
       this.dataEntryDialogBoxOperations(dataElements, dataItem);
     }
@@ -121,7 +168,13 @@ export class DataEntryComponent implements OnInit {
       height: `${300 + 55 * formDataElements.length}px`,
       data: {
         dataElements: formDataElements,
-        dataValues: dataItem.dataValues || dataItem
+        dataValues: dataItem.dataValues || dataItem,
+        minDate: this.isActionTracking
+          ? startOfQuarter(new Date())
+          : startOfYear(new Date()),
+        maxDate: this.isActionTracking
+          ? endOfQuarter(new Date())
+          : endOfYear(new Date())
       }
     });
 
@@ -150,7 +203,9 @@ export class DataEntryComponent implements OnInit {
         this.isActionTracking ? this.selectedAction : dataItem
       );
 
-      this.store.dispatch(new SaveActionTrackerData(actionTrackerData));
+      formResponse
+        ? this.store.dispatch(new SaveActionTrackerData(actionTrackerData))
+        : null;
     });
   }
   generateAttributePayload(formValues, formDataElements) {
@@ -159,7 +214,7 @@ export class DataEntryComponent implements OnInit {
       attributes.push({
         attribute: index,
         code: _.get(_.find(formDataElements, { id: index }), 'code'),
-        value: formValue
+        value: isDate(formValue) ? getFormattedDate(formValue) : formValue
       });
     });
     return attributes;
@@ -200,7 +255,7 @@ export class DataEntryComponent implements OnInit {
       _.find(eventData.eventDataValues, { dataElement: actionStatusId }),
       'value'
     );
-    eventData.eventId = dataItem.id;
+    eventData.eventId = dataItem.eventId;
     return currentActionStatus == this.initialActionStatus
       ? generateEvent(this.selectedAction, eventData)
       : generateEvent(this.selectedAction, eventData, true);
@@ -224,6 +279,8 @@ export class DataEntryComponent implements OnInit {
     if (event) {
       event.stopPropagation();
     }
+    this.contextMenu.closeMenu();
+
     const dialogRef = this.dialog.open(DeleteConfirmationDialogueComponent, {
       width: '600px',
       height: `${100 + 55 * 1}px`,
