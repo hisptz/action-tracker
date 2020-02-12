@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./data-entry.component.css']
 })
 export class DataEntryComponent implements OnInit {
+  isLinear: true;
   constructor() {}
   ngOnInit() {}
 }

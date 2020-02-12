@@ -71,11 +71,6 @@ export class ActionTableComponent implements OnInit {
   initialActionStatus: '';
   toBeDeleted = {};
 
-  @ViewChild(MatMenuTrigger, { static: false })
-  contextMenu: MatMenuTrigger;
-
-  contextMenuPosition = { x: '0px', y: '0px' };
-
   constructor(
     private store: Store<State>,
     private legendSetStore: Store<LegendSetState>,
@@ -134,7 +129,6 @@ export class ActionTableComponent implements OnInit {
   }
   onEditAction(e, dataItem: any, dataElements: any[]) {
     e.stopPropagation();
-    this.contextMenu.closeMenu();
     if (!this.isActionTracking) {
       this.dataEntryDialogBoxOperations(dataElements, dataItem);
     }
@@ -264,25 +258,10 @@ export class ActionTableComponent implements OnInit {
       : generateEvent(this.selectedAction, eventData, true);
   }
 
-  onContextMenu(event: MouseEvent, item, configuration) {
-    event.preventDefault();
-    if (!this.isActionTracking) {
-      this.contextMenuPosition.x = event.clientX + 'px';
-      this.contextMenuPosition.y = event.clientY + 'px';
-      this.contextMenu.menuData = {
-        dataItem: item,
-        configuration: configuration
-      };
-      this.contextMenu.menu.focusFirstItem('mouse');
-      this.contextMenu.openMenu();
-    }
-  }
-
   onDeleteAction(event, dataItem) {
     if (event) {
       event.stopPropagation();
     }
-    this.contextMenu.closeMenu();
 
     const dialogRef = this.dialog.open(DeleteConfirmationDialogueComponent, {
       width: '600px',
