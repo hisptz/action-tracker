@@ -14,6 +14,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatStepperModule } from '@angular/material/stepper';
 
 import { NgxDhis2DataFilterModule } from '@iapps/ngx-dhis2-data-filter';
 
@@ -40,7 +41,8 @@ import { NotificationSnackbarComponent } from './components/notification-snackba
     MatNativeDateModule,
     MatMenuModule,
     MatTooltipModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatStepperModule
   ],
   entryComponents: [...entryComponents],
   exports: [
@@ -61,7 +63,8 @@ import { NotificationSnackbarComponent } from './components/notification-snackba
     MatNativeDateModule,
     MatMenuModule,
     MatTooltipModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatStepperModule
   ],
   declarations: [...components, ...pipes, NotificationSnackbarComponent]
 })
