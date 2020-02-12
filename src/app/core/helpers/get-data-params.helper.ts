@@ -14,11 +14,13 @@ export function getDataParams(
       (intervention ? intervention.items : []).map(intItem => {
         return (period ? period.items : []).map(peItem => {
           return (orgUnit ? orgUnit.items : []).map(ouItem => {
+            const bottleneckPeriodType =
+              intItem.bottleneckPeriodType || 'Yearly';
             return {
               intervention: intItem.id,
-              bottleneckPeriodType: intItem.bottleneckPeriodType,
+              bottleneckPeriodType,
               period: getPreviousPeriod(
-                intItem.bottleneckPeriodType,
+                bottleneckPeriodType,
                 peItem.id,
                 calendar
               ),
