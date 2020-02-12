@@ -17,6 +17,7 @@ import {
   getAllDataNotification,
   getNotificationMessageStatus,
   getOveralLoadingStatus,
+  getActionTrackerDataLoadedStatus,
   getMergedActionTrackerDatasWithRowspanAttribute,
   getActionTrackingQuarters
 } from 'src/app/core/store/selectors/action-tracker-data.selectors';
@@ -63,6 +64,7 @@ export class DataEntryComponent implements OnInit {
   legendSetItems$: Observable<any>;
   notification$: Observable<any>;
   dataLoading$: Observable<boolean>;
+  dataLoaded$: Observable<boolean>;
   configurationLoaded$: Observable<boolean>;
 
   selectedAction: any;
@@ -101,6 +103,7 @@ export class DataEntryComponent implements OnInit {
     this.notification$ = this.store.select(getAllDataNotification);
 
     this.dataLoading$ = this.store.select(getOveralLoadingStatus);
+    this.dataLoaded$ = this.store.select(getActionTrackerDataLoadedStatus);
 
     this.configurationLoaded$ = store.select(getConfigurationLoadedStatus);
 

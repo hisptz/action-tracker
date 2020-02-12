@@ -44,6 +44,18 @@
       </tr>
     </tbody>
 
+    <tbody *ngIf="!(dataLoading$ | async) && !(dataLoaded$ | async)">
+      <tr>
+        <td colspan="100%">
+          <span>
+            <i>
+              Select Intervention, Period and Organization Unit to see actions
+            </i>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+
     <tbody>
       <tr
         *ngFor="let actionDataItem of data$ | async; let i = index"
@@ -96,10 +108,12 @@
             "
           >
             <td
+              class="action-tracking-column"
               *ngFor="
                 let actionTrackingItem of actionDataItem.actionTrackingColumns;
                 let first = first
               "
+              (click)="toggleTruncationStatus(actionDataItem)"
               (dblclick)="
                 onEditActionTracking(
                   $event,
@@ -120,10 +134,14 @@
                 matTooltip="Double Click to Edit"
                 [matTooltipPosition]="'after'"
               >
-                <p>
-                  <b>{{ actionTrackingConfiguration.name }}</b>
+                <p class="my-0">
+                  <b>{{
+                    actionTrackingConfiguration.shortName ||
+                      actionTrackingConfiguration.name
+                  }}</b>
                 </p>
                 <p
+                  class="mb-1"
                   [style.color]="
                     actionTrackingItem[
                       actionTrackingConfiguration.formControlName
@@ -133,7 +151,9 @@
                   {{
                     actionTrackingItem[
                       actionTrackingConfiguration.formControlName
-                    ] | convertLegendId: (legendSetStatus$ | async)
+                    ]
+                      | convertLegendId: (legendSetStatus$ | async)
+                      | textTruncate: 40:actionDataItem.truncateStatus
                   }}
                 </p>
               </div>
@@ -160,6 +180,9 @@
                 </button>
               </div>
             </td>
+            <ng-container *ngIf="!actionDataItem.actionTrackingColumns">
+              <td *ngFor="let quarter of actionTrackingQuarters$ | async"></td>
+            </ng-container>
           </ng-container>
         </ng-container>
       </tr>
