@@ -97,6 +97,14 @@ export const getConfigurationDataElementsFromProgramStageDEs = createSelector(
                               programStageDataElement,
                               'dataElement.formName'
                             ),
+                            shortName: _.replace(
+                              _.get(
+                                programStageDataElement,
+                                'dataElement.formName'
+                              ),
+                              'Action',
+                              ''
+                            ),
                             formControlName: _.camelCase(
                               _.get(
                                 programStageDataElement,
