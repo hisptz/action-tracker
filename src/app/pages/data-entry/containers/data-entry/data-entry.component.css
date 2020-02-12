@@ -3,3 +3,7 @@
   display: block;
   bottom: 10px;
 }
+
+.action-tracking-column {
+  border: 1px solid #dee2e6;
+}

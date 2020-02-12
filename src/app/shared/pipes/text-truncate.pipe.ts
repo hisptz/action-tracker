@@ -27,6 +27,7 @@ export class TextTruncatePipe implements PipeTransform {
 
       return truncatedText + elipses;
     }
+
     return value;
   }
 }

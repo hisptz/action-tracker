@@ -66,6 +66,11 @@ export const getOveralLoadingStatus = createSelector(
   }
 );
 
+export const getActionTrackerDataLoadedStatus = createSelector(
+  getActionTrackerDataState,
+  (state: ActionTrackerDataState) => state.loaded
+);
+
 export const getAllDataNotification = createSelector(
   getActionTrackerDataState,
   getRootCauseAnalysisDataNotificationStatus,

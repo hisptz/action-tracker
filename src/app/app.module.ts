@@ -14,7 +14,6 @@ import { LegendSetComponent } from './components/legend-set/legend-set.component
 
 import { NgxDhis2HttpClientModule } from '@iapps/ngx-dhis2-http-client';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
-import { MatStepperModule } from '@angular/material/stepper';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -39,7 +38,6 @@ export function HttpLoaderFactory(http: HttpClient) {
       namespace: 'actionTracker',
       models: {}
     }),
-    MatStepperModule,
 
     /**
      * Menu  module
