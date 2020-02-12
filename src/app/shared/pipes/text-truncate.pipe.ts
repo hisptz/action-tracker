@@ -6,7 +6,6 @@ import { find } from 'lodash';
 })
 export class TextTruncatePipe implements PipeTransform {
   transform(value: string, length: number, truncationStatus): string {
-    console.log(value, length, truncationStatus);
     if (value) {
       const biggestWord = 50;
       const elipses = '...';
