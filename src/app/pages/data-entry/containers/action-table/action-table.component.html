@@ -76,7 +76,7 @@
           }}
         </td>
         <td *ngIf="!isActionTracking" class="px-1" style="width:70px">
-          <i
+          <!-- <i
             class="fa fa-pencil-square-o mr-2 text-success"
             aria-hidden="true"
             (click)="
@@ -84,11 +84,26 @@
             "
           >
           </i>
-          <i
-            class="fa fa-trash ml-2 text-danger"
-            aria-hidden="true"
+         -->
+
+          <span
+            title="Click to edit action"
+            class="text-success mr-1"
+            mat-icon-button
+            (click)="
+              onEditAction($event, actionDataItem, configuration.dataElements)
+            "
+          >
+            <mat-icon>edit</mat-icon>
+          </span>
+          <span
+            title="Click to delete action"
+            class="text-danger ml-1"
+            mat-icon-button
             (click)="onDeleteAction($event, actionDataItem)"
-          ></i>
+          >
+            <mat-icon>delete</mat-icon>
+          </span>
         </td>
         <td
           class="position-relative"
