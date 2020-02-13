@@ -101,7 +101,7 @@
           [attr.rowspan]="actionDataItem.rowspan"
           style="border-left: 1px solid #dee2e6;"
         >
-          <div class="add-action-block">
+          <div class="add-action-block" *ngIf="actionDataItem.isCurrentYear">
             <button
               title="Click to add new action"
               mat-icon-button
@@ -172,9 +172,12 @@
               </div>
               <div
                 *ngIf="
-                  (!actionTrackingItem.hasEvent && first) ||
                   (!actionTrackingItem.hasEvent &&
-                    actionTrackingItem.isCurrentQuater)
+                    first &&
+                    actionDataItem.isCurrentYear) ||
+                  (!actionTrackingItem.hasEvent &&
+                    actionTrackingItem.isCurrentQuater &&
+                    actionDataItem.isCurrentYear)
                 "
               >
                 <button

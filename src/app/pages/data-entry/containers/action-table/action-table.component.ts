@@ -122,16 +122,18 @@ export class ActionTableComponent implements OnInit {
     this.selectedAction = dataItem;
     this.initialActionStatus = actionTrackingItem.actionStatus;
 
-    actionTrackingItem.isCurrentQuater ||
-    (!actionTrackingItem.hasEvents && !actionTrackingItem.isCurrentQuater)
+    (actionTrackingItem.isCurrentQuater && dataItem.isCurrentYear) ||
+    (!actionTrackingItem.hasEvents &&
+      !actionTrackingItem.isCurrentQuater &&
+      dataItem.isCurrentYear)
       ? this.dataEntryDialogBoxOperations(dataElements, actionTrackingItem)
-      : console.log('dont open dialogue');
+      : window.alert('This year has been locked from editing actions plans');
   }
   onEditAction(e, dataItem: any, dataElements: any[]) {
     e.stopPropagation();
-    if (!this.isActionTracking) {
-      this.dataEntryDialogBoxOperations(dataElements, dataItem);
-    }
+    !this.isActionTracking && dataItem.isCurrentYear
+      ? this.dataEntryDialogBoxOperations(dataElements, dataItem)
+      : window.alert('This year has been locked from editing actions plans');
   }
 
   onAddAction(e, dataItem: any, dataElements: any[]) {

@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import * as _ from 'lodash';
-import { getQuarter, isSameQuarter, subYears } from 'date-fns';
+import { getQuarter, isSameQuarter, getYear } from 'date-fns';
 
 import { getRootState, State as RootState } from '../reducers';
 import {
@@ -101,6 +101,19 @@ export const getAllDataNotification = createSelector(
   }
 );
 
+export const getYearOfCurrentPeriodSelection = createSelector(
+  getActionTrackerDataState,
+  getDataSelections,
+  (state, dataSelections) => {
+    const periodSelectionId =
+      _.get(
+        _.head(_.get(_.find(dataSelections, { dimension: 'pe' }), 'items')),
+        'id'
+      ) || '';
+    return periodSelectionId.substring(0, 4);
+  }
+);
+
 export const getActionTrackingQuarters = createSelector(
   getActionTrackerDataState,
   getDataSelections,
@@ -124,12 +137,14 @@ export const getActionTrackingReportData = createSelector(
   getAllDataNotification,
   getConfigurationDataElementsFromProgramStageDEs,
   getActionTrackingQuarters,
+  getYearOfCurrentPeriodSelection,
   (
     state: ActionTrackerDataState,
     actionTrackerDatas,
     notification,
     actionTrackerConfig,
-    quartersOfSelectedPeriod
+    quartersOfSelectedPeriod,
+    yearOfCurrentPeriodSelection
   ) => {
     if (notification.percent !== '100') {
       return [];
@@ -139,6 +154,9 @@ export const getActionTrackingReportData = createSelector(
     _.forEach(actionTrackerDatas, action => {
       //TODO: Andre create this structure from the period selection
       const quarters = [];
+
+      action.isCurrentYear =
+        yearOfCurrentPeriodSelection == getYear(new Date());
 
       _.map(quartersOfSelectedPeriod, quarter => {
         quarters.push({ ...quarter });
@@ -150,7 +168,6 @@ export const getActionTrackingReportData = createSelector(
         //go through events sorted by event date
 
         action.hasEvents = enrollment.events.length > 0 ? true : false;
-
         _.forEach(_.sortBy(enrollment.events, 'eventDate'), event => {
           //deduce the quarter of the current event
           const eventQuarter =
