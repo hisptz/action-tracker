@@ -127,13 +127,15 @@ export class ActionTableComponent implements OnInit {
       !actionTrackingItem.isCurrentQuater &&
       dataItem.isCurrentYear)
       ? this.dataEntryDialogBoxOperations(dataElements, actionTrackingItem)
-      : window.alert('This year has been locked from editing actions plans');
+      : window.alert('You can not edit of this period, it has been locked');
   }
   onEditAction(e, dataItem: any, dataElements: any[]) {
     e.stopPropagation();
     !this.isActionTracking && dataItem.isCurrentYear
       ? this.dataEntryDialogBoxOperations(dataElements, dataItem)
-      : window.alert('This year has been locked from editing actions plans');
+      : window.alert(
+          'You can not edit this action make sure you are in the current year and on the action planning page'
+        );
   }
 
   onAddAction(e, dataItem: any, dataElements: any[]) {

@@ -58,12 +58,7 @@
     </tbody>
 
     <tbody>
-      <tr
-        *ngFor="let actionDataItem of data$ | async; let i = index"
-        (dblclick)="
-          onEditAction($event, actionDataItem, configuration.dataElements)
-        "
-      >
+      <tr *ngFor="let actionDataItem of data$ | async; let i = index">
         <td>{{ i + 1 }}</td>
         <td
           matTooltip="Click row to see full text or truncate"
@@ -127,14 +122,6 @@
                 let first = first
               "
               (click)="toggleTruncationStatus(actionDataItem)"
-              (dblclick)="
-                onEditActionTracking(
-                  $event,
-                  actionDataItem,
-                  actionTrackingItem,
-                  actionTrackingConfigurations
-                )
-              "
             >
               <div
                 *ngFor="
@@ -143,6 +130,14 @@
                 [hidden]="
                   (!first && !actionDataItem.hasEvents) ||
                   !actionTrackingItem.hasEvent
+                "
+                (dblclick)="
+                  onEditActionTracking(
+                    $event,
+                    actionDataItem,
+                    actionTrackingItem,
+                    actionTrackingConfigurations
+                  )
                 "
                 matTooltip="Double Click to Edit"
                 [matTooltipPosition]="'after'"
