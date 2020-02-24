@@ -94,24 +94,26 @@
           }}
         </td>
         <td *ngIf="!isActionTracking" class="px-1" style="width:70px">
-          <span
-            title="Click to edit action"
-            class="text-success mr-1"
-            mat-icon-button
-            (click)="
-              onEditAction($event, actionDataItem, configuration.dataElements)
-            "
-          >
-            <mat-icon>edit</mat-icon>
-          </span>
-          <span
-            title="Click to delete action"
-            class="text-danger ml-1"
-            mat-icon-button
-            (click)="onDeleteAction($event, actionDataItem)"
-          >
-            <mat-icon>delete</mat-icon>
-          </span>
+          <ng-container *ngIf="actionDataItem.isCurrentYear">
+            <span
+              title="Click to edit action"
+              class="text-success mr-1"
+              mat-icon-button
+              (click)="
+                onEditAction($event, actionDataItem, configuration.dataElements)
+              "
+            >
+              <mat-icon>edit</mat-icon>
+            </span>
+            <span
+              title="Click to delete action"
+              class="text-danger ml-1"
+              mat-icon-button
+              (click)="onDeleteAction($event, actionDataItem)"
+            >
+              <mat-icon>delete</mat-icon>
+            </span>
+          </ng-container>
         </td>
         <td
           class="position-relative"
@@ -138,8 +140,25 @@
               programStageConfiguration$ | async as actionTrackingConfigurations
             "
           >
+            <!-- (actionTrackingItem.isCurrentQuater && dataItem.isCurrentYear) ||
+    (!actionTrackingItem.hasEvents &&
+      !actionTrackingItem.isCurrentQuater &&
+      dataItem.isCurrentYear) -->
             <td
               class="action-tracking-column"
+              [ngClass]="{
+                'blocked-quater':
+                  (actionDataItem.isCurrentQuater &&
+                    actionDataItem.isCurrentYear) ||
+                  (!actionTrackingItem.hasEvent &&
+                    !actionDataItem.isCurrentQuater &&
+                    actionDataItem.isCurrentYear &&
+                    !(
+                      !actionTrackingItem.hasEvent &&
+                      first &&
+                      actionDataItem.isCurrentYear
+                    ))
+              }"
               *ngFor="
                 let actionTrackingItem of actionDataItem.actionTrackingColumns;
                 let first = first
