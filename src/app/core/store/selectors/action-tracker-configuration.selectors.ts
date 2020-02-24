@@ -161,7 +161,11 @@ export const getMergedActionTrackerConfiguration = createSelector(
     actionTrackerConfigTrackedEntityAttributes,
     currentRootCauseAnalysisConfiguration
   ) => {
+    currentRootCauseAnalysisConfiguration = currentRootCauseAnalysisConfiguration
+      ? currentRootCauseAnalysisConfiguration
+      : {};
     if (currentRootCauseAnalysisConfiguration && currentActionTrackerConfig) {
+      console.log(currentRootCauseAnalysisConfiguration.dataElements);
       _.map(
         currentRootCauseAnalysisConfiguration.dataElements,
         rootCauseConfig => {
@@ -177,10 +181,14 @@ export const getMergedActionTrackerConfiguration = createSelector(
       );
 
       currentActionTrackerConfig.dataElements = [];
-      currentActionTrackerConfig.dataElements.push(
-        ...currentRootCauseAnalysisConfiguration.dataElements,
-        ...actionTrackerConfigTrackedEntityAttributes
-      );
+      currentRootCauseAnalysisConfiguration.dataElements
+        ? currentActionTrackerConfig.dataElements.push(
+            ...currentRootCauseAnalysisConfiguration.dataElements,
+            ...actionTrackerConfigTrackedEntityAttributes
+          )
+        : currentActionTrackerConfig.dataElements.push(
+            ...actionTrackerConfigTrackedEntityAttributes
+          );
     }
     return currentActionTrackerConfig;
   }
