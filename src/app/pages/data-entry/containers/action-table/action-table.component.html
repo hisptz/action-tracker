@@ -57,6 +57,24 @@
       </tr>
     </tbody>
 
+    <tbody
+      *ngIf="
+        (dataLoaded$ | async) &&
+        (data$ | async)?.length == 0 &&
+        !(dataLoading$ | async)
+      "
+    >
+      <tr>
+        <td colspan="100%">
+          <span>
+            <i>
+              There are no possible solutions based on parameters selected.
+            </i>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+
     <tbody>
       <tr *ngFor="let actionDataItem of data$ | async; let i = index">
         <td>{{ i + 1 }}</td>
@@ -76,16 +94,6 @@
           }}
         </td>
         <td *ngIf="!isActionTracking" class="px-1" style="width:70px">
-          <!-- <i
-            class="fa fa-pencil-square-o mr-2 text-success"
-            aria-hidden="true"
-            (click)="
-              onEditAction($event, actionDataItem, configuration.dataElements)
-            "
-          >
-          </i>
-         -->
-
           <span
             title="Click to edit action"
             class="text-success mr-1"

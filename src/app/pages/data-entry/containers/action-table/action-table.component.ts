@@ -83,6 +83,7 @@ export class ActionTableComponent implements OnInit {
     this.data$ = this.store.pipe(
       select(getMergedActionTrackerDatasWithRowspanAttribute)
     );
+
     this.programStageConfiguration$ = this.store.pipe(
       select(getConfigurationDataElementsFromProgramStageDEs)
     );

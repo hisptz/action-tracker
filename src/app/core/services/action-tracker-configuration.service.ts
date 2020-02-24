@@ -3,21 +3,17 @@ import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { of, throwError } from 'rxjs';
 import { catchError, mergeMap, map, switchMap } from 'rxjs/operators';
 import { HandlerService } from './handler.service';
-import { defaultDataSetElements } from '../defaults/configuration-dataelements.default';
+import { defaultActionTrackerProgram } from '../defaults/action-tracker-program-metadata';
 import * as _ from 'lodash';
 @Injectable({
   providedIn: 'root'
 })
 export class ActionTrackerConfigurationService {
-  private _dataStoreUrl: string;
+  private _metadataImportURL: string;
   private _actionTrackerConfig: any;
   constructor(private http: NgxDhis2HttpClientService) {
-    this._dataStoreUrl = 'dataStore/action-tracker-configuration';
-    this._actionTrackerConfig = {
-      id: 'actiontrackerconfig',
-      rootCauseConfigurationId: 'rcaconfig',
-      dataElements: defaultDataSetElements
-    };
+    this._metadataImportURL = 'metadata.json';
+    this._actionTrackerConfig = defaultActionTrackerProgram;
   }
 
   findById(configId: string) {
@@ -39,11 +35,9 @@ export class ActionTrackerConfigurationService {
   }
 
   add(actionTrackerConfig: any) {
+    console.log(actionTrackerConfig);
     return this.http
-      .post(
-        `${this._dataStoreUrl}/${actionTrackerConfig.id}`,
-        actionTrackerConfig
-      )
+      .post(`${this._metadataImportURL}`, actionTrackerConfig)
       .pipe(
         map(() => actionTrackerConfig),
         catchError((error: any) => {
