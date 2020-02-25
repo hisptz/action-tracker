@@ -22,24 +22,25 @@ export class ActionTrackerConfigurationService {
         `programs/ROSaojkGieB.json?fields=id,name,trackedEntityType[id],programTrackedEntityAttributes[valueType,displayInList,searchable,sortOrder,mandatory,trackedEntityAttribute[id,name,formName,ValueType,code]],programStages[id,name,repeatable,executionDateLabel,sortOrder,programStageDataElements[displayInReports,compulsory,sortOrder,dataElement[id,name,formName,valueType,description,attributeValues[value,attribute[id,name]],optionSetValue,optionSet[options[id,name,code]]]]]`
       )
       .pipe(
-        catchError((error: any) => HandlerService.handleError(error, false)),
         switchMap((res: any) => {
-          if (!res) {
-            return this.add(this._actionTrackerConfig);
+          if (res) {
+            res.rootCauseConfigurationId = 'rcaconfig';
           }
-
-          res.rootCauseConfigurationId = 'rcaconfig';
           return of(res);
+        }),
+        catchError((error: any) => {
+          return throwError(error);
         })
       );
   }
 
   add(actionTrackerConfig: any) {
-    console.log(actionTrackerConfig);
     return this.http
       .post(`${this._metadataImportURL}`, actionTrackerConfig)
       .pipe(
-        map(() => actionTrackerConfig),
+        map(importSummary => {
+          return importSummary;
+        }),
         catchError((error: any) => {
           console.warn(
             'Problem creating action tracker configuration: ' + error.message

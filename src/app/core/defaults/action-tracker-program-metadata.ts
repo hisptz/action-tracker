@@ -1,5 +1,4 @@
 export const defaultActionTrackerProgram: any = {
-  date: '2020-02-12T10:24:45.554',
   trackedEntityAttributes: [
     {
       lastUpdated: '2020-01-25T11:40:54.562',
