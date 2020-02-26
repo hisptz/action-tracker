@@ -93,6 +93,7 @@
               | textTruncate: 40:actionDataItem.truncateStatus
           }}
         </td>
+
         <td *ngIf="!isActionTracking" class="px-1" style="width:70px">
           <ng-container *ngIf="actionDataItem.isCurrentYear">
             <span
@@ -121,7 +122,10 @@
           [attr.rowspan]="actionDataItem.rowspan"
           style="border-left: 1px solid #dee2e6;"
         >
-          <div class="add-action-block" *ngIf="actionDataItem.isCurrentYear">
+          <div
+            class="add-action-block"
+            *ngIf="yearSelection$ | async | isCurrentYear"
+          >
             <button
               title="Click to add new action"
               mat-icon-button

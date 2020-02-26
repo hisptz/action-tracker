@@ -19,7 +19,8 @@ import {
   getOveralLoadingStatus,
   getActionTrackerDataLoadedStatus,
   getMergedActionTrackerDatasWithRowspanAttribute,
-  getActionTrackingQuarters
+  getActionTrackingQuarters,
+  getYearOfCurrentPeriodSelection
 } from 'src/app/core/store/selectors/action-tracker-data.selectors';
 import { FormDialogComponent } from 'src/app/shared/components/form-dialog/form-dialog.component';
 import { DeleteConfirmationDialogueComponent } from 'src/app/shared/components/delete-confirmation-dialogue/delete-confirmation-dialogue.component';
@@ -65,6 +66,8 @@ export class ActionTableComponent implements OnInit {
   notification$: Observable<any>;
   dataLoading$: Observable<boolean>;
   dataLoaded$: Observable<boolean>;
+  yearSelection$: Observable<number>;
+
   configurationLoaded$: Observable<boolean>;
 
   selectedAction: any;
@@ -100,6 +103,7 @@ export class ActionTableComponent implements OnInit {
 
     this.dataLoading$ = this.store.select(getOveralLoadingStatus);
     this.dataLoaded$ = this.store.select(getActionTrackerDataLoadedStatus);
+    this.yearSelection$ = this.store.select(getYearOfCurrentPeriodSelection);
 
     this.configurationLoaded$ = store.select(getConfigurationLoadedStatus);
 
