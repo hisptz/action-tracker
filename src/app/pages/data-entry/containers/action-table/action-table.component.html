@@ -57,13 +57,26 @@
       </tr>
     </tbody>
 
+    <tbody
+      *ngIf="
+        (dataLoaded$ | async) &&
+        (data$ | async)?.length == 0 &&
+        !(dataLoading$ | async)
+      "
+    >
+      <tr>
+        <td colspan="100%">
+          <span>
+            <i>
+              There are no possible solutions based on parameters selected.
+            </i>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+
     <tbody>
-      <tr
-        *ngFor="let actionDataItem of data$ | async; let i = index"
-        (dblclick)="
-          onEditAction($event, actionDataItem, configuration.dataElements)
-        "
-      >
+      <tr *ngFor="let actionDataItem of data$ | async; let i = index">
         <td>{{ i + 1 }}</td>
         <td
           matTooltip="Click row to see full text or truncate"
@@ -80,20 +93,28 @@
               | textTruncate: 40:actionDataItem.truncateStatus
           }}
         </td>
+
         <td *ngIf="!isActionTracking" class="px-1" style="width:70px">
-          <i
-            class="fa fa-pencil-square-o mr-2 text-success"
-            aria-hidden="true"
-            (click)="
-              onEditAction($event, actionDataItem, configuration.dataElements)
-            "
-          >
-          </i>
-          <i
-            class="fa fa-trash ml-2 text-danger"
-            aria-hidden="true"
-            (click)="onDeleteAction($event, actionDataItem)"
-          ></i>
+          <ng-container *ngIf="actionDataItem.isCurrentYear">
+            <span
+              title="Click to edit action"
+              class="text-success mr-1"
+              mat-icon-button
+              (click)="
+                onEditAction($event, actionDataItem, configuration.dataElements)
+              "
+            >
+              <mat-icon>edit</mat-icon>
+            </span>
+            <span
+              title="Click to delete action"
+              class="text-danger ml-1"
+              mat-icon-button
+              (click)="onDeleteAction($event, actionDataItem)"
+            >
+              <mat-icon>delete</mat-icon>
+            </span>
+          </ng-container>
         </td>
         <td
           class="position-relative"
@@ -101,7 +122,10 @@
           [attr.rowspan]="actionDataItem.rowspan"
           style="border-left: 1px solid #dee2e6;"
         >
-          <div class="add-action-block">
+          <div
+            class="add-action-block"
+            *ngIf="yearSelection$ | async | isCurrentYear"
+          >
             <button
               title="Click to add new action"
               mat-icon-button
@@ -122,19 +146,14 @@
           >
             <td
               class="action-tracking-column"
+              [ngClass]="{
+                'blocked-quater': !actionTrackingItem.isCurrentQuater
+              }"
               *ngFor="
                 let actionTrackingItem of actionDataItem.actionTrackingColumns;
                 let first = first
               "
               (click)="toggleTruncationStatus(actionDataItem)"
-              (dblclick)="
-                onEditActionTracking(
-                  $event,
-                  actionDataItem,
-                  actionTrackingItem,
-                  actionTrackingConfigurations
-                )
-              "
             >
               <div
                 *ngFor="
@@ -144,7 +163,18 @@
                   (!first && !actionDataItem.hasEvents) ||
                   !actionTrackingItem.hasEvent
                 "
+                (dblclick)="
+                  onEditActionTracking(
+                    $event,
+                    actionDataItem,
+                    actionTrackingItem,
+                    actionTrackingConfigurations
+                  )
+                "
                 matTooltip="Double Click to Edit"
+                matTooltipDisabled="{{
+                  actionTrackingItem.isCurrentQuater ? false : true
+                }}"
                 [matTooltipPosition]="'after'"
               >
                 <p class="my-0">
@@ -172,9 +202,8 @@
               </div>
               <div
                 *ngIf="
-                  (!actionTrackingItem.hasEvent && first) ||
-                  (!actionTrackingItem.hasEvent &&
-                    actionTrackingItem.isCurrentQuater)
+                  !actionTrackingItem.hasEvent &&
+                  actionTrackingItem.isCurrentQuater
                 "
               >
                 <button

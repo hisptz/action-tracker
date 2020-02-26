@@ -46,7 +46,7 @@ export function rootCauseAnalysisConfigurationReducer(
 
     case RootCauseAnalysisConfigurationActionTypes.AddRootCauseAnalysisConfiguration: {
       if (!action.rootCauseAnalysisConfiguration) {
-        return state;
+        return { ...state, loading: false, loaded: true };
       }
       return adapter.addOne(action.rootCauseAnalysisConfiguration, {
         ...state,
