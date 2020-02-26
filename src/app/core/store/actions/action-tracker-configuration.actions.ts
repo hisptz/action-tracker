@@ -11,6 +11,7 @@ export enum ActionTrackerConfigurationActionTypes {
   UpsertActionTrackerConfigurations = '[ActionTrackerConfiguration] Upsert ActionTrackerConfigurations',
   UpdateActionTrackerConfiguration = '[ActionTrackerConfiguration] Update ActionTrackerConfiguration',
   UpdateActionTrackerConfigurations = '[ActionTrackerConfiguration] Update ActionTrackerConfigurations',
+  UploadActionTrackerConfiguration = '[ActionTrackerConfiguration] Upload ActionTrackerConfiguration',
   DeleteActionTrackerConfiguration = '[ActionTrackerConfiguration] Delete ActionTrackerConfiguration',
   DeleteActionTrackerConfigurations = '[ActionTrackerConfiguration] Delete ActionTrackerConfigurations',
   ClearActionTrackerConfigurations = '[ActionTrackerConfiguration] Clear ActionTrackerConfigurations'
@@ -68,6 +69,12 @@ export class UpdateActionTrackerConfiguration implements Action {
     }
   ) {}
 }
+export class UploadActionTrackerConfiguration implements Action {
+  readonly type =
+    ActionTrackerConfigurationActionTypes.UploadActionTrackerConfiguration;
+
+  constructor(public defaultActionTrackerProgram) {}
+}
 
 export class UpdateActionTrackerConfigurations implements Action {
   readonly type =
@@ -107,6 +114,7 @@ export type ActionTrackerConfigurationActions =
   | UpsertActionTrackerConfigurations
   | UpdateActionTrackerConfiguration
   | UpdateActionTrackerConfigurations
+  | UploadActionTrackerConfiguration
   | DeleteActionTrackerConfiguration
   | DeleteActionTrackerConfigurations
   | ClearActionTrackerConfigurations;

@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import * as _ from 'lodash';
-import { getQuarter, isSameQuarter, getYear } from 'date-fns';
+import { getQuarter, setQuarter, isSameQuarter, getYear } from 'date-fns';
 
 import { getRootState, State as RootState } from '../reducers';
 import {
@@ -124,8 +124,18 @@ export const getActionTrackingQuarters = createSelector(
     );
 
     _.forEach(quarterOfSelectedPeriod, quarter => {
+      const splitQuarterId = _.split(_.get(quarter, 'id'), 'Q');
+      const dateOfQuarter = setQuarter(
+        new Date(_.head(splitQuarterId)),
+        _.last(splitQuarterId)
+      );
+      _.set(
+        quarter,
+        'isCurrentQuater',
+        isSameQuarter(dateOfQuarter, new Date())
+      );
       _.set(quarter, 'hasEvent', false);
-      _.set(quarter, 'quarterNumber', _.last(_.split(quarter.id, 'Q')));
+      _.set(quarter, 'quarterNumber', _.last(splitQuarterId));
     });
     return _.sortBy(quarterOfSelectedPeriod, ['quarterNumber']) || [];
   }
@@ -166,7 +176,6 @@ export const getActionTrackingReportData = createSelector(
       //go through enrollments
       _.forEach(action.enrollments, enrollment => {
         //go through events sorted by event date
-
         action.hasEvents = enrollment.events.length > 0 ? true : false;
         _.forEach(_.sortBy(enrollment.events, 'eventDate'), event => {
           //deduce the quarter of the current event
@@ -187,10 +196,6 @@ export const getActionTrackingReportData = createSelector(
             _.head(_.split(event.eventDate, 'T'))
           );
           _.set(eventQuarter, 'hasEvent', true);
-          eventQuarter.isCurrentQuater = isSameQuarter(
-            new Date(_.head(_.split(event.eventDate, 'T'))),
-            new Date()
-          );
 
           eventQuarter.eventId = _.get(event, 'event');
 
