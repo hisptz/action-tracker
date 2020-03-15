@@ -134,6 +134,7 @@ export const getActionTrackingQuarters = createSelector(
         'isCurrentQuater',
         isSameQuarter(dateOfQuarter, new Date())
       );
+      _.set(quarter, 'dateOfQuarter', dateOfQuarter);
       _.set(quarter, 'hasEvent', false);
       _.set(quarter, 'quarterNumber', _.last(splitQuarterId));
     });

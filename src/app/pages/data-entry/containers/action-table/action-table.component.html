@@ -95,10 +95,11 @@
         </td>
 
         <td *ngIf="!isActionTracking" class="px-1" style="width:70px">
-          <ng-container *ngIf="actionDataItem.isCurrentYear">
+          <ng-container>
             <span
               title="Click to edit action"
               class="text-success mr-1"
+              style="cursor: pointer;"
               mat-icon-button
               (click)="
                 onEditAction($event, actionDataItem, configuration.dataElements)
@@ -109,6 +110,7 @@
             <span
               title="Click to delete action"
               class="text-danger ml-1"
+              style="cursor: pointer;"
               mat-icon-button
               (click)="onDeleteAction($event, actionDataItem)"
             >
@@ -122,10 +124,7 @@
           [attr.rowspan]="actionDataItem.rowspan"
           style="border-left: 1px solid #dee2e6;"
         >
-          <div
-            class="add-action-block"
-            *ngIf="yearSelection$ | async | isCurrentYear"
-          >
+          <div class="add-action-block">
             <button
               title="Click to add new action"
               mat-icon-button
@@ -146,9 +145,6 @@
           >
             <td
               class="action-tracking-column"
-              [ngClass]="{
-                'blocked-quater': !actionTrackingItem.isCurrentQuater
-              }"
               *ngFor="
                 let actionTrackingItem of actionDataItem.actionTrackingColumns;
                 let first = first
@@ -200,12 +196,7 @@
                   }}
                 </p>
               </div>
-              <div
-                *ngIf="
-                  !actionTrackingItem.hasEvent &&
-                  actionTrackingItem.isCurrentQuater
-                "
-              >
+              <div *ngIf="!actionTrackingItem.hasEvent">
                 <button
                   title="Click to add new review"
                   mat-icon-button
