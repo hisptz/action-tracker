@@ -66,7 +66,7 @@ export class ActionTableComponent implements OnInit {
   notification$: Observable<any>;
   dataLoading$: Observable<boolean>;
   dataLoaded$: Observable<boolean>;
-  yearSelection$: Observable<number>;
+  periodSelection;
 
   configurationLoaded$: Observable<boolean>;
 
@@ -103,7 +103,11 @@ export class ActionTableComponent implements OnInit {
 
     this.dataLoading$ = this.store.select(getOveralLoadingStatus);
     this.dataLoaded$ = this.store.select(getActionTrackerDataLoadedStatus);
-    this.yearSelection$ = this.store.select(getYearOfCurrentPeriodSelection);
+    this.store
+      .select(getYearOfCurrentPeriodSelection)
+      .subscribe(selectedPeriod => {
+        this.periodSelection = selectedPeriod;
+      });
 
     this.configurationLoaded$ = store.select(getConfigurationLoadedStatus);
 
@@ -126,15 +130,11 @@ export class ActionTableComponent implements OnInit {
   onEditActionTracking(e, dataItem, actionTrackingItem, dataElements) {
     this.selectedAction = dataItem;
     this.initialActionStatus = actionTrackingItem.actionStatus;
-    actionTrackingItem.isCurrentQuater
-      ? this.dataEntryDialogBoxOperations(dataElements, actionTrackingItem)
-      : null;
+    this.dataEntryDialogBoxOperations(dataElements, actionTrackingItem);
   }
   onEditAction(e, dataItem: any, dataElements: any[]) {
     e.stopPropagation();
-    !this.isActionTracking && dataItem.isCurrentYear
-      ? this.dataEntryDialogBoxOperations(dataElements, dataItem)
-      : null;
+    this.dataEntryDialogBoxOperations(dataElements, dataItem);
   }
 
   onAddAction(e, dataItem: any, dataElements: any[]) {
@@ -162,7 +162,7 @@ export class ActionTableComponent implements OnInit {
     const formDataElements = (dataElements || []).filter(
       (dataElement: any) => dataElement.isActionTrackerColumn
     );
-
+    console.log(dataItem);
     const dialogRef = this.dialog.open(FormDialogComponent, {
       width: '600px',
       height: `${300 + 55 * formDataElements.length}px`,
@@ -170,11 +170,11 @@ export class ActionTableComponent implements OnInit {
         dataElements: formDataElements,
         dataValues: dataItem.dataValues || dataItem,
         minDate: this.isActionTracking
-          ? startOfQuarter(new Date())
-          : startOfYear(new Date()),
+          ? startOfQuarter(dataItem.dateOfQuarter)
+          : startOfYear(new Date(this.periodSelection)),
         maxDate: this.isActionTracking
-          ? endOfQuarter(new Date())
-          : endOfYear(new Date())
+          ? endOfQuarter(dataItem.dateOfQuarter)
+          : endOfYear(new Date(this.periodSelection))
       }
     });
 
