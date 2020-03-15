@@ -162,7 +162,6 @@ export class ActionTableComponent implements OnInit {
     const formDataElements = (dataElements || []).filter(
       (dataElement: any) => dataElement.isActionTrackerColumn
     );
-    console.log(dataItem);
     const dialogRef = this.dialog.open(FormDialogComponent, {
       width: '600px',
       height: `${300 + 55 * formDataElements.length}px`,
