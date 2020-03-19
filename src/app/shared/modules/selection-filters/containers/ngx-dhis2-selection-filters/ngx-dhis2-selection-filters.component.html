@@ -92,7 +92,7 @@
       <!--Legend configuration button-->
       <button
         mat-stroked-button
-        *ngIf="filterConfig?.LegendFilter"
+        *ngIf="filterConfig?.showDataFilter"
         color="{{ selectedFilter === 'LEGEND_CONFIGURATION' ? 'primary' : '' }}"
         [title]="'Configure legend' | translate"
         (click)="toggleCurrentFilter($event, 'LEGEND_CONFIGURATION')"

@@ -103,7 +103,8 @@
             *ngIf="!isActionTracking"
             class="px-1"
             [style.background-color]="
-              actionDataItem.latestStatus | colorize: (legendSetStatus$ | async)
+              actionDataItem.latestStatus
+                | colorize: (legendSetStatus$ | async):'#fff'
             "
           >
             {{
@@ -211,7 +212,7 @@
                     [style.color]="
                       actionTrackingItem[
                         actionTrackingConfiguration.formControlName
-                      ] | colorize: (legendSetStatus$ | async)
+                      ] | colorize: (legendSetStatus$ | async):'#000'
                     "
                   >
                     {{

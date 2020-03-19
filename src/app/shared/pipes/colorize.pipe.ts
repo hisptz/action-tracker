@@ -5,11 +5,11 @@ import { find } from 'lodash';
   name: 'colorize'
 })
 export class ColorizePipe implements PipeTransform {
-  transform(value: string, legendSet: any): any {
+  transform(value: string, legendSet: any, fallbackColor: string): any {
     const legend = find(legendSet ? legendSet.legends || [] : [], [
       'id',
       value
     ]);
-    return legend ? legend.color || '#000' : '#000';
+    return legend ? legend.color || fallbackColor : fallbackColor;
   }
 }
