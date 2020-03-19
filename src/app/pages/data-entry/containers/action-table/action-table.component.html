@@ -24,6 +24,7 @@
           >
             {{ dataElement.name }}
           </th>
+          <th *ngIf="!isActionTracking">Status</th>
           <th *ngIf="!isActionTracking"></th>
           <th
             width="5%"
@@ -96,6 +97,18 @@
             {{
               (actionDataItem?.dataValues)[actionDataElement.id]
                 | textTruncate: 40:actionDataItem.truncateStatus
+            }}
+          </td>
+          <td
+            *ngIf="!isActionTracking"
+            class="px-1"
+            [style.background-color]="
+              actionDataItem.latestStatus | colorize: (legendSetStatus$ | async)
+            "
+          >
+            {{
+              actionDataItem.latestStatus
+                | convertLegendId: (legendSetStatus$ | async)
             }}
           </td>
 

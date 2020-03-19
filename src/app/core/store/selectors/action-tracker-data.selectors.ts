@@ -212,6 +212,18 @@ export const getActionTrackingReportData = createSelector(
                 )
               )]: eventDataValues.value
             });
+
+            action.latestStatus =
+              _.camelCase(
+                _.get(
+                  _.find(actionTrackerConfig, {
+                    id: eventDataValues.dataElement
+                  }),
+                  'name'
+                )
+              ) == 'actionStatus'
+                ? eventDataValues.value
+                : action.latestStatus || '';
           });
         });
       });
