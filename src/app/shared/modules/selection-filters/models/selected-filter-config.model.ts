@@ -4,6 +4,7 @@ export interface SelectionFilterConfig {
   showDataFilter?: boolean;
   showPeriodFilter?: boolean;
   showOrgUnitFilter?: boolean;
+  showLegendFilter?: boolean;
   showLayout?: boolean;
   showFilterButton?: boolean;
   orgUnitFilterConfig?: OrgUnitFilterConfig;

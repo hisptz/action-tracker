@@ -1,13 +1,13 @@
 <mat-horizontal-stepper [linear]="isLinear" #stepper>
   <mat-step>
-    <ng-template matStepLabel>
+    <ng-template matStepLabel class="d-print-none">
       <span style="font-size: 12px;">Action Planning</span>
     </ng-template>
     <app-action-table id="pdfExport"></app-action-table>
     <app-export-bar (downloadType)="downloadTable($event)"></app-export-bar>
   </mat-step>
   <mat-step>
-    <ng-template matStepLabel>
+    <ng-template matStepLabel class="d-print-none">
       <span style="font-size: 12px;">Action Tracking</span>
     </ng-template>
     <app-action-table [isActionTracking]="true"></app-action-table>

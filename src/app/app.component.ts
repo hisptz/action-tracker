@@ -35,6 +35,11 @@ export class AppComponent {
       showUserOrgUnitSection: false
     }
   };
+  selectionFilterConfigForLegend: SelectionFilterConfig = {
+    showPeriodFilter: false,
+    showDataFilter: false,
+    showOrgUnitFilter: false
+  };
 
   isLinear: false;
   constructor(
