@@ -3,7 +3,8 @@
     <ng-template matStepLabel>
       <span style="font-size: 12px;">Action Planning</span>
     </ng-template>
-    <app-action-table></app-action-table>
+    <app-action-table id="pdfExport" #actionPlanningTable></app-action-table>
+    <app-export-bar (downloadType)="downloadTable($event)"></app-export-bar>
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>

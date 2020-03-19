@@ -22,6 +22,7 @@ import { components, entryComponents } from './components';
 import { modules } from './modules';
 import { pipes } from './pipes';
 import { NotificationSnackbarComponent } from './components/notification-snackbar/notification-snackbar.component';
+import { ExportBarComponent } from './components/export-bar/export-bar.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -66,6 +67,6 @@ import { NotificationSnackbarComponent } from './components/notification-snackba
     MatSnackBarModule,
     MatStepperModule
   ],
-  declarations: [...components, ...pipes, NotificationSnackbarComponent]
+  declarations: [...components, ...pipes, NotificationSnackbarComponent, ExportBarComponent]
 })
 export class SharedModule {}
