@@ -57,7 +57,18 @@ export class FormDialogComponent implements OnInit {
         formEntity[dataElement.id || dataElement.formControlName] = [
           this.formDialogData.dataValues[dataElement.id] ||
             this.formDialogData.dataValues[dataElement.formControlName],
-          dataElement.required ? Validators.required : ''
+
+          [
+            dataElement.required
+              ? Validators.required
+              : Validators.nullValidator,
+            dataElement.valueType == 'PERCENTAGE'
+              ? Validators.max(100)
+              : Validators.nullValidator,
+            dataElement.valueType == 'PERCENTAGE'
+              ? Validators.min(0)
+              : Validators.nullValidator
+          ]
         ];
       });
     }
