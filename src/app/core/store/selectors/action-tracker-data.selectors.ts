@@ -138,7 +138,10 @@ export const getActionTrackingQuarters = createSelector(
       _.set(quarter, 'hasEvent', false);
       _.set(quarter, 'quarterNumber', _.last(splitQuarterId));
     });
-    return _.sortBy(quarterOfSelectedPeriod, ['quarterNumber']) || [];
+
+    return quarterOfSelectedPeriod
+      ? _.sortBy(quarterOfSelectedPeriod, ['quarterNumber'])
+      : [{}];
   }
 );
 
@@ -168,11 +171,11 @@ export const getActionTrackingReportData = createSelector(
 
       action.isCurrentYear =
         yearOfCurrentPeriodSelection == getYear(new Date());
-
       _.map(quartersOfSelectedPeriod, quarter => {
         quarters.push({ ...quarter });
       });
 
+      action.hasQuarters = quartersOfSelectedPeriod.length == 0 ? false : true;
       action.actionTrackingColumns = quarters;
       //go through enrollments
       _.forEach(action.enrollments, enrollment => {

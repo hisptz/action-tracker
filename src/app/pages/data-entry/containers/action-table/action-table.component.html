@@ -37,7 +37,7 @@
               *ngFor="let quarter of actionTrackingQuarters$ | async"
               style="width: 7% !important;"
             >
-              {{ quarter.name }}
+              {{ quarter.name || 'Quarters Not Supported' }}
             </th>
           </ng-container>
         </tr>
@@ -227,7 +227,12 @@
                     }}
                   </p>
                 </div>
-                <div *ngIf="!actionTrackingItem.hasEvent">
+                <div
+                  *ngIf="
+                    !actionTrackingItem.hasEvent &&
+                    actionTrackingItem.hasQuarters
+                  "
+                >
                   <button
                     title="Click to add new review"
                     mat-icon-button
@@ -244,11 +249,6 @@
                   </button>
                 </div>
               </td>
-              <ng-container *ngIf="!actionDataItem.actionTrackingColumns">
-                <td
-                  *ngFor="let quarter of actionTrackingQuarters$ | async"
-                ></td>
-              </ng-container>
             </ng-container>
           </ng-container>
         </tr>
