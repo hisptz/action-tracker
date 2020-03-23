@@ -229,8 +229,7 @@
                 </div>
                 <div
                   *ngIf="
-                    !actionTrackingItem.hasEvent &&
-                    actionTrackingItem.hasQuarters
+                    !actionTrackingItem.hasEvent && actionDataItem.hasQuarters
                   "
                 >
                   <button
