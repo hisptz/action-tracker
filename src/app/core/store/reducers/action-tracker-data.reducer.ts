@@ -101,6 +101,7 @@ export function actionTrackerDataReducer(
       }
       return adapter.removeOne(action.actionTrackerDataId, {
         ...state,
+        showNotification: true,
         notification: {
           completed: true,
           message: 'Deleting Action Data ' + action.actionTrackerDataId
@@ -111,6 +112,7 @@ export function actionTrackerDataReducer(
     case ActionTrackerDataActionTypes.DeleteActionTrackerDataSuccess: {
       return adapter.removeOne(action.id, {
         ...state,
+        showNotification: true,
         notification: {
           completed: true,
           message: 'Action Data ' + action.id + ' Has been Successfully Deleted'
