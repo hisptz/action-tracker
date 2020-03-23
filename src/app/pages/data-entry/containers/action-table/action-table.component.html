@@ -21,6 +21,7 @@
           <th
             *ngFor="let dataElement of configuration.dataElements"
             [hidden]="dataElement.isHidden"
+            [ngClass]="{ 'bna-column': !dataElement?.isActionTrackerColumn }"
           >
             {{ dataElement.name }}
           </th>
@@ -88,6 +89,9 @@
             matTooltip="Click row to see full text or truncate"
             [matTooltipPosition]="'after'"
             *ngFor="let actionDataElement of configuration.dataElements"
+            [ngClass]="{
+              'bna-column': !actionDataElement?.isActionTrackerColumn
+            }"
             [hidden]="
               actionDataElement.isHidden ||
               (actionDataElement.isNotTrackingColumn && isActionTracking)
