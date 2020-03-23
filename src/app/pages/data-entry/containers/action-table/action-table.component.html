@@ -112,9 +112,8 @@
                 | convertLegendId: (legendSetStatus$ | async)
             }}
           </td>
-
           <td *ngIf="!isActionTracking" class="px-1" style="width:70px">
-            <ng-container>
+            <ng-container *ngIf="actionDataItem.hasActions">
               <span
                 title="Click to edit action"
                 class="text-success mr-1"
