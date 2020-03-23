@@ -1,9 +1,9 @@
 <div class="position-relative form-container">
-  <h5 mat-dialog-title class="mb-0" style="background-color: grey;">
+  <h5 mat-dialog-title class="mb-0">
     Action Tracker Form
   </h5>
   <p>
-    <b> {{ minDate | date }} - {{ maxDate | date }}</b>
+    <b style="color: grey;"> {{ minDate | date }} - {{ maxDate | date }}</b>
   </p>
   <form [formGroup]="formGroup" (ngSubmit)="onSubmitForm()">
     <mat-dialog-content *ngIf="formDialogData" class="form-content">
