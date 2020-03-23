@@ -261,9 +261,8 @@ export class ActionTableComponent implements OnInit {
       'value'
     );
     eventData.eventId = dataItem.eventId;
-    return currentActionStatus == this.initialActionStatus
-      ? generateEvent(this.selectedAction, eventData)
-      : generateEvent(this.selectedAction, eventData, true);
+
+    return generateEvent(this.selectedAction, eventData);
   }
 
   onDeleteAction(event, dataItem) {
