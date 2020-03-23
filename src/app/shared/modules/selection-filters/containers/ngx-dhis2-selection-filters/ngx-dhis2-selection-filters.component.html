@@ -90,20 +90,26 @@
       </button>
 
       <!--Legend configuration button-->
-      <!-- <button mat-stroked-button *ngIf="filterConfig?.showDataFilter"
+      <button
+        mat-stroked-button
+        *ngIf="false"
         color="{{ selectedFilter === 'LEGEND_CONFIGURATION' ? 'primary' : '' }}"
-        [title]="'Configure legend' | translate" (click)="toggleCurrentFilter($event, 'LEGEND_CONFIGURATION')">
-        <i class="fa fa-database"></i>&nbsp;{{ "Legend" | translate }}&nbsp; -->
-      <!-- <span class="badge badge-secondary"
+        [title]="'Configure legend' | translate"
+        (click)="toggleCurrentFilter($event, 'LEGEND_CONFIGURATION')"
+      >
+        <i class="fa fa-database"></i>&nbsp;{{ 'Legend' | translate }}&nbsp;
+        <span class="badge badge-secondary"
           >{{ selectedLegend | summarizeSelection }}
-        </span> -->
-      <!-- &nbsp;
-        <i class="fa {{
+        </span>
+        &nbsp;
+        <i
+          class="fa {{
             selectedFilter === 'LEGEND_CONFIGURATION'
               ? 'fa-caret-up'
               : 'fa-caret-down'
-          }}"></i>
-      </button> -->
+          }}"
+        ></i>
+      </button>
       <!--end of Legend configuration button-->
 
       <button

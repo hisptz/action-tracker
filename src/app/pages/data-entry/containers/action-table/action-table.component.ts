@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -56,6 +56,9 @@ import {
 })
 export class ActionTableComponent implements OnInit {
   @Input() isActionTracking;
+  @ViewChild('tableElement', { static: false })
+  table: ElementRef;
+
   configuration$: Observable<RootCauseAnalysisConfiguration>;
   data$: Observable<any[]>;
   programStageConfiguration$: Observable<any[]>;
@@ -137,6 +140,9 @@ export class ActionTableComponent implements OnInit {
     this.dataEntryDialogBoxOperations(dataElements, dataItem);
   }
 
+  getTableElement() {
+    return this.table ? this.table.nativeElement : null;
+  }
   onAddAction(e, dataItem: any, dataElements: any[]) {
     e.stopPropagation();
     const emptyDataValues = generateActionDataValue(dataElements, dataItem);
