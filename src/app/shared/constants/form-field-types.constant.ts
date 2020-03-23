@@ -3,5 +3,6 @@ export enum FormFieldType {
   LONG_TEXT = 'LONG_TEXT',
   NUMBER = 'NUMBER',
   SELECT = 'SELECT',
-  DATE = 'DATE'
+  DATE = 'DATE',
+  PERCENTAGE = 'PERCENTAGE'
 }
