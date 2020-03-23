@@ -84,6 +84,7 @@
             [min]="minDate"
             [max]="maxDate"
             [matDatepicker]="reviewDate"
+            (click)="reviewDate.open()"
             placeholder="Choose a date"
           />
           <mat-datepicker-toggle
