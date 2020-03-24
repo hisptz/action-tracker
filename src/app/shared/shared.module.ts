@@ -67,6 +67,11 @@ import { ExportBarComponent } from './components/export-bar/export-bar.component
     MatSnackBarModule,
     MatStepperModule
   ],
-  declarations: [...components, ...pipes, NotificationSnackbarComponent, ExportBarComponent]
+  declarations: [
+    ...components,
+    ...pipes,
+    NotificationSnackbarComponent,
+    ExportBarComponent
+  ]
 })
 export class SharedModule {}

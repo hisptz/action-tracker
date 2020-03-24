@@ -12,23 +12,12 @@
       <div class="row mt-3">
         <div class="col-md-6 col-12 d-flex justify-content-start d-print-none">
           <div>
-            <ngx-dhis2-selection-filters
-              [selectionFilterConfig]="selectionFilterConfig"
-              (filterUpdate)="onFilterUpdate($event)"
-            ></ngx-dhis2-selection-filters>
+            <ngx-dhis2-selection-filters [selectionFilterConfig]="selectionFilterConfig"
+              (filterUpdate)="onFilterUpdate($event)"></ngx-dhis2-selection-filters>
           </div>
         </div>
       </div>
-      <div class="row mt-3">
-        <div
-          class="col-md-6 col-12 mt-1 d-flex justify-content-end"
-          *ngIf="route$ | async as routeUrl"
-        >
-          <div *ngIf="!(routeUrl.indexOf('analysis') > -1)">
-            <app-legend></app-legend>
-          </div>
-        </div>
-      </div>
+
       <!-- end of application filter -->
       <div class="row mt-3">
         <div class="col-12">

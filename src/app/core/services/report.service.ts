@@ -12,7 +12,11 @@ export class ReportService {
     this._favoriteDataStoreNamespace = 'dataStore/favorites';
   }
 
-  loadFavorite(favoriteId: string, favoriteName?: string) {
+  loadFavorite(
+    favoriteId: string,
+    bottleneckPeriodType: string,
+    favoriteName?: string
+  ) {
     if (favoriteId === '') {
       return of(null);
     }
@@ -20,7 +24,7 @@ export class ReportService {
       .get(`${this._favoriteDataStoreNamespace}/${favoriteId}`)
       .pipe(
         map((favorite: any) => {
-          return { ...favorite, name: favoriteName };
+          return { ...favorite, name: favoriteName, bottleneckPeriodType };
         })
       );
   }

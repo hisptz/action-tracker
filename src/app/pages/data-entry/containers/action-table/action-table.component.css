@@ -9,8 +9,14 @@
 }
 
 .bna-column {
-  background-color: #eeebeb;
+  background-color: #f5f5f5;
 }
 .blocked-quater {
   background-color: #dee2e6;
+}
+
+.action-table-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
 }

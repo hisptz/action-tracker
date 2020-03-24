@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { State } from 'src/app/core/store/reducers';
 
 import {
   LegendSetState,
   getActionStatusLegendSet
-} from '../../shared/modules/selection-filters/modules/legend-set-configuration/store';
+} from '../../modules/selection-filters/modules/legend-set-configuration/store';
 @Component({
   selector: 'app-legend',
   templateUrl: './legend-set.component.html',
