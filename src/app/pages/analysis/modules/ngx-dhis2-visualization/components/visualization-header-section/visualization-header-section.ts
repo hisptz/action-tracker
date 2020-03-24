@@ -50,6 +50,7 @@ export class VisualizationHeaderSectionComponent {
   constructor() {
     this.selectionFilterConfig = {
       showPeriodFilter: true,
+      showLegendFilter: false,
       showOrgUnitFilter: true,
       showLayout: true,
       showDataFilter: false

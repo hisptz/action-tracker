@@ -38,6 +38,7 @@ export class AppComponent {
   selectionFilterConfigForLegend: SelectionFilterConfig = {
     showPeriodFilter: false,
     showDataFilter: false,
+    showLegendFilter: true,
     showOrgUnitFilter: false
   };
 

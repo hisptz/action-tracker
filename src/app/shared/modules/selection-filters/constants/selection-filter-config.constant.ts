@@ -4,7 +4,7 @@ export const SELECTION_FILTER_CONFIG: SelectionFilterConfig = {
   showDataFilter: true,
   showPeriodFilter: true,
   showOrgUnitFilter: true,
-  showLegendFilter: true,
+  showLegendFilter: false,
   showLayout: false,
   showFilterButton: false
 };
