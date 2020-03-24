@@ -15,6 +15,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatListModule } from '@angular/material/list';
 
 import { NgxDhis2DataFilterModule } from '@iapps/ngx-dhis2-data-filter';
 
@@ -43,7 +44,8 @@ import { ExportBarComponent } from './components/export-bar/export-bar.component
     MatMenuModule,
     MatTooltipModule,
     MatSnackBarModule,
-    MatStepperModule
+    MatStepperModule,
+    MatListModule
   ],
   entryComponents: [...entryComponents],
   exports: [
@@ -65,7 +67,8 @@ import { ExportBarComponent } from './components/export-bar/export-bar.component
     MatMenuModule,
     MatTooltipModule,
     MatSnackBarModule,
-    MatStepperModule
+    MatStepperModule,
+    MatListModule
   ],
   declarations: [
     ...components,

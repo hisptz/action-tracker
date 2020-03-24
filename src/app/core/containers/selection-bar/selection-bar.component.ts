@@ -5,11 +5,11 @@ import { Observable } from 'rxjs';
 import { getRouteUrl } from '../../store/selectors';
 
 @Component({
-  selector: 'app-navigation-bar',
-  templateUrl: './navigation-bar.component.html',
-  styleUrls: ['./navigation-bar.component.css']
+  selector: 'app-selection-bar',
+  templateUrl: './selection-bar.component.html',
+  styleUrls: ['./selection-bar.component.css']
 })
-export class NavigationBarComponent implements OnInit {
+export class SelectionBarComponent implements OnInit {
   currentPage$: Observable<string>;
   constructor(private readonly store: Store<State>) {}
 

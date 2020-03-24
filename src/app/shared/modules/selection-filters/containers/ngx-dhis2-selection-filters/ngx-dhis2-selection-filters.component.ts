@@ -59,6 +59,8 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
   selectedInterventions: any[];
   periodFilterConfig: PeriodFilterConfig;
 
+  selectionFilters: any[];
+
   constructor() {
     this.showFilters = true;
     this.showFilterBody = false;
@@ -109,6 +111,14 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.selectionFilters = [
+      { id: 'ORG_UNIT', name: 'Organisation unit' },
+      {
+        id: 'INTERVENTION',
+        name: 'Intervention'
+      },
+      { id: 'PERIOD', name: 'Period' }
+    ];
     if (!this.dataSelections) {
       this.dataSelections = [];
     }

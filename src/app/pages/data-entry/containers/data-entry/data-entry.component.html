@@ -1,4 +1,4 @@
-<mat-horizontal-stepper [linear]="isLinear" #stepper>
+<mat-horizontal-stepper *ngIf="false" [linear]="isLinear" #stepper>
   <mat-step>
     <ng-template matStepLabel class="d-print-none">
       <span style="font-size: 12px;">Action Planning</span>
@@ -14,3 +14,9 @@
     <app-export-bar (downloadType)="downloadTable($event)"></app-export-bar>
   </mat-step>
 </mat-horizontal-stepper>
+
+<div class="data-entry-container">
+  <mat-card>
+
+  </mat-card>
+</div>

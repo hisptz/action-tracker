@@ -1,0 +1,13 @@
+<div class="selection-bar mat-elevation-z1">
+  <div class="selection-container">
+    <ngx-dhis2-selection-filters></ngx-dhis2-selection-filters>
+  </div>
+  <div class="settings-container">
+    <button class="text-muted" [matMenuTriggerFor]="actionTrackerSettings" mat-icon-button>
+      <mat-icon>settings</mat-icon>
+    </button>
+    <mat-menu #actionTrackerSettings="matMenu">
+
+    </mat-menu>
+  </div>
+</div>
