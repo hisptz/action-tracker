@@ -193,6 +193,7 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
 
     if (this.selectedFilter === selectedFilter) {
       this.showFilterBody = false;
+      this.selectedFilter = '';
     }
   }
 

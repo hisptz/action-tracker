@@ -50,24 +50,22 @@
       </div>
     </div>
     <table #tableElement class="table" *ngIf="configuration$ | async as configuration">
-      <thead>
-        <tr>
-          <th class="text-muted">#</th>
-          <th *ngFor="let dataElement of configuration.dataElements" [hidden]="dataElement.isHidden"
-            [ngClass]="{ 'bna-column': !dataElement?.isActionTrackerColumn , 'text-muted': true}">
-            {{ dataElement.name }}
+      <tr>
+        <th class="text-muted">#</th>
+        <th *ngFor="let dataElement of configuration.dataElements" [hidden]="dataElement.isHidden"
+          [ngClass]="{ 'bna-column': !dataElement?.isActionTrackerColumn , 'text-muted': true}">
+          {{ dataElement.name }}
+        </th>
+        <th class="text-muted" *ngIf="!isActionTracking">Status</th>
+        <th *ngIf="!isActionTracking"></th>
+        <th class="text-muted" width="5%" style="border-left: 1px solid #dee2e6;" *ngIf="!isActionTracking"></th>
+        <ng-container *ngIf="isActionTracking">
+          <th class="text-muted border-left" *ngFor="let quarter of actionTrackingQuarters$ | async"
+            style="width: 7% !important;">
+            {{ quarter.name || 'Quarters Not Supported' }}
           </th>
-          <th class="text-muted" *ngIf="!isActionTracking">Status</th>
-          <th *ngIf="!isActionTracking"></th>
-          <th class="text-muted" width="5%" style="border-left: 1px solid #dee2e6;" *ngIf="!isActionTracking"></th>
-          <ng-container *ngIf="isActionTracking">
-            <th class="text-muted border-left" *ngFor="let quarter of actionTrackingQuarters$ | async"
-              style="width: 7% !important;">
-              {{ quarter.name || 'Quarters Not Supported' }}
-            </th>
-          </ng-container>
-        </tr>
-      </thead>
+        </ng-container>
+      </tr>
 
       <tbody *ngIf="dataLoading$ | async">
         <tr>

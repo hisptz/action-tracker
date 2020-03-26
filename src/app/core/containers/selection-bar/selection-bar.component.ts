@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { State } from '../../store/reducers';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
-import { getRouteUrl } from '../../store/selectors';
+import { SelectionFilterConfig } from 'src/app/shared/modules/selection-filters/models/selected-filter-config.model';
 
 @Component({
   selector: 'app-selection-bar',
@@ -10,10 +8,15 @@ import { getRouteUrl } from '../../store/selectors';
   styleUrls: ['./selection-bar.component.css']
 })
 export class SelectionBarComponent implements OnInit {
+  @Input() selectionFilterConfig: SelectionFilterConfig;
   currentPage$: Observable<string>;
-  constructor(private readonly store: Store<State>) {}
 
-  ngOnInit() {
-    this.currentPage$ = this.store.select(getRouteUrl(true));
+  @Output() filterUpdate: EventEmitter<any> = new EventEmitter<any>();
+  constructor() {}
+
+  ngOnInit() {}
+
+  onFilterUpdate(selections: any) {
+    this.filterUpdate.emit(selections);
   }
 }

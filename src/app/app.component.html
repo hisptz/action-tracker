@@ -3,7 +3,8 @@
   <div class="application-content">
     <!-- application header -->
     <div class="navbar-container d-print-none">
-      <app-selection-bar></app-selection-bar>
+      <app-selection-bar [selectionFilterConfig]="selectionFilterConfig" (filterUpdate)="onFilterUpdate($event)">
+      </app-selection-bar>
     </div>
     <!-- end of application header -->
 

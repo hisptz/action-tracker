@@ -17,6 +17,16 @@
 
 <div class="data-entry-container">
   <mat-card>
-
+    <div class="data-entry-header">
+      <h4>Action Planning</h4>
+      <button class="text-muted" mat-flat-button>
+        <span>Track Action</span>
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="data-entry-content">
+      <app-action-table id="pdfExport"></app-action-table>
+    </div>
   </mat-card>
 </div>

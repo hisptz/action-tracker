@@ -3,17 +3,75 @@
   <div class="selection-filter-header">
     <div class="selection-filter-item-list">
 
-      <div class="selection-filter-item-block" *ngFor="let selectionFilter of selectionFilters">
-        <h6>{{selectionFilter.name}}</h6>
-        <button class="selection-filter-button text-muted" mat-stroked-button>
+      <div class="selection-filter-item-block">
+        <h6>Organisation unit</h6>
+        <button class="selection-filter-button text-muted" mat-stroked-button
+          (click)="toggleCurrentFilter($event, 'ORG_UNIT')" *ngIf="selectedOrgUnits.length === 0">
           <div class="selection-filter-button-content">
-            <div>Select {{selectionFilter.name}}</div>
+            <div>Select organisation unit</div>
             <mat-icon inline=true>keyboard_arrow_down</mat-icon>
           </div>
         </button>
-        <div *ngIf="false" class="selected-item-block">
-          <div>Selected</div>
-          <mat-icon class="text-muted selection-filter-close" matRipple>close</mat-icon>
+        <div (click)="toggleCurrentFilter($event, 'ORG_UNIT')" *ngIf="selectedOrgUnits.length > 0"
+          class="selected-item-block">
+          <div>{{selectedOrgUnits | summarizeSelection}}</div>
+          <!-- <mat-icon class="text-muted selection-filter-close" matRipple>close</mat-icon> -->
+        </div>
+
+        <div class="selection-filter-body mat-elevation-z1" *ngIf="selectedFilter === 'ORG_UNIT'">
+          <!--org unit filter-->
+          <ngx-dhis2-org-unit-filter [selectedOrgUnitItems]="selectedOrgUnits"
+            [orgUnitFilterConfig]="filterConfig?.orgUnitFilterConfig" (orgUnitClose)="onFilterClose($event, 'ORG_UNIT')"
+            (orgUnitUpdate)="onFilterUpdate($event, 'ORG_UNIT')"></ngx-dhis2-org-unit-filter>
+          <!--end of org unit filter-->
+        </div>
+      </div>
+
+      <div class="selection-filter-item-block">
+        <h6>Intervention</h6>
+        <button class="selection-filter-button text-muted" mat-stroked-button
+          (click)="toggleCurrentFilter($event, 'INTERVENTION')" *ngIf="selectedInterventions.length === 0">
+          <div class="selection-filter-button-content">
+            <div>Select intervention</div>
+            <mat-icon inline=true>keyboard_arrow_down</mat-icon>
+          </div>
+        </button>
+        <div (click)="toggleCurrentFilter($event, 'INTERVENTION')" class="selected-item-block"
+          *ngIf="selectedInterventions.length > 0">
+          <div>{{selectedInterventions | summarizeSelection}}</div>
+          <!-- <mat-icon class="text-muted selection-filter-close" matRipple>close</mat-icon> -->
+        </div>
+
+        <div class="selection-filter-body mat-elevation-z1" *ngIf="selectedFilter === 'INTERVENTION'">
+          <!-- intervention filter -->
+          <app-intervention-filter [selectedInterventions]="selectedInterventions"
+            (close)="onFilterClose($event, 'INTERVENTION')" (update)="onFilterUpdate($event, 'INTERVENTION')">
+          </app-intervention-filter>
+          <!-- end of intervention filter -->
+        </div>
+      </div>
+
+      <div class="selection-filter-item-block">
+        <h6>Period</h6>
+        <button class="selection-filter-button text-muted" mat-stroked-button
+          (click)="toggleCurrentFilter($event, 'PERIOD')" *ngIf="selectedPeriods.length === 0">
+          <div class="selection-filter-button-content">
+            <div>Select period</div>
+            <mat-icon inline=true>keyboard_arrow_down</mat-icon>
+          </div>
+        </button>
+        <div (click)="toggleCurrentFilter($event, 'PERIOD')" *ngIf="selectedPeriods.length > 0"
+          class="selected-item-block">
+          <div>{{selectedPeriods | summarizeSelection}}</div>
+          <!-- <mat-icon class="text-muted selection-filter-close" matRipple>close</mat-icon> -->
+        </div>
+
+        <div class="selection-filter-body mat-elevation-z1" *ngIf="selectedFilter === 'PERIOD'">
+          <!--period filter-->
+          <ngx-dhis2-period-filter [selectedPeriods]="selectedPeriods" [periodFilterConfig]="periodFilterConfig"
+            (close)="onFilterClose($event, 'PERIOD')" (update)="onFilterUpdate($event, 'PERIOD')">
+          </ngx-dhis2-period-filter>
+          <!--end of period filter-->
         </div>
       </div>
 
@@ -61,26 +119,4 @@
     </div>
   </div>
   <!--end of selection filter header-->
-
-  <!--selection filter body-->
-  <div class="selection-filter-body" *ngIf="selectedFilter !== '' && showFilterBody">
-    <!-- intervention filter -->
-    <app-intervention-filter *ngIf="selectedFilter === 'INTERVENTION'" [selectedInterventions]="selectedInterventions"
-      (close)="onFilterClose($event, 'INTERVENTION')" (update)="onFilterUpdate($event, 'INTERVENTION')">
-    </app-intervention-filter>
-    <!-- end of intervention filter -->
-
-    <!--period filter-->
-    <ngx-dhis2-period-filter *ngIf="selectedFilter === 'PERIOD'" [selectedPeriods]="selectedPeriods"
-      [periodFilterConfig]="periodFilterConfig" (close)="onFilterClose($event, 'PERIOD')"
-      (update)="onFilterUpdate($event, 'PERIOD')"></ngx-dhis2-period-filter>
-    <!--end of period filter-->
-
-    <!--org unit filter-->
-    <ngx-dhis2-org-unit-filter *ngIf="selectedFilter === 'ORG_UNIT'" [selectedOrgUnitItems]="selectedOrgUnits"
-      [orgUnitFilterConfig]="filterConfig?.orgUnitFilterConfig" (orgUnitClose)="onFilterClose($event, 'ORG_UNIT')"
-      (orgUnitUpdate)="onFilterUpdate($event, 'ORG_UNIT')"></ngx-dhis2-org-unit-filter>
-    <!--end of org unit filter-->
-  </div>
-  <!--end of selection filter body-->
 </div>

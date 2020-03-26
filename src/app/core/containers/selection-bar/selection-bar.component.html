@@ -1,6 +1,7 @@
 <div class="selection-bar mat-elevation-z1">
   <div class="selection-container">
-    <ngx-dhis2-selection-filters></ngx-dhis2-selection-filters>
+    <ngx-dhis2-selection-filters [selectionFilterConfig]="selectionFilterConfig"
+      (filterUpdate)="onFilterUpdate($event)"></ngx-dhis2-selection-filters>
   </div>
   <div class="settings-container">
     <button class="text-muted" [matMenuTriggerFor]="actionTrackerSettings" mat-icon-button>
