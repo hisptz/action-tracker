@@ -4,6 +4,11 @@
   bottom: 10px;
 }
 
+.action-controls-column {
+  position: relative;
+  width: 7%;
+}
+
 .action-tracking-column {
   border: 1px solid #dee2e6;
 }

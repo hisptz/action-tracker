@@ -58,7 +58,7 @@
         </th>
         <th class="text-muted" *ngIf="!isActionTracking">Status</th>
         <th *ngIf="!isActionTracking"></th>
-        <th class="text-muted" width="5%" style="border-left: 1px solid #dee2e6;" *ngIf="!isActionTracking"></th>
+        <th class="text-muted" style="border-left: 1px solid #dee2e6;" *ngIf="!isActionTracking"></th>
         <ng-container *ngIf="isActionTracking">
           <th class="text-muted border-left" *ngFor="let quarter of actionTrackingQuarters$ | async"
             style="width: 7% !important;">
@@ -146,10 +146,14 @@
               </span>
             </ng-container>
           </td>
-          <td class="position-relative" *ngIf="actionDataItem.rowspan && !isActionTracking"
+          <td class="action-controls-column" *ngIf="actionDataItem.rowspan && !isActionTracking"
             [attr.rowspan]="actionDataItem.rowspan" style="border-left: 1px solid #dee2e6;">
             <div class="add-action-block">
-              <button title="Click to add new action" mat-icon-button (click)="
+              <button mat-stroked-button>
+                <mat-icon>bar_chart</mat-icon>
+                <span>Progress</span>
+              </button> <br>
+              <button class="mt-2" title="Click to add new action" mat-stroked-button (click)="
                   onAddAction(
                     $event,
                     actionDataItem,
@@ -157,6 +161,7 @@
                   )
                 ">
                 <mat-icon>add</mat-icon>
+                <span>Add new</span>
               </button>
             </div>
           </td>
