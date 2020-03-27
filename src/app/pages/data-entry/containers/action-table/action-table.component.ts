@@ -46,6 +46,7 @@ import {
   getActionStatusLegendSet,
   LegendSetState
 } from '../../../../shared/modules/selection-filters/modules/legend-set-configuration/store';
+import { TableColumnConfigDialogComponent } from 'src/app/shared/dialogs/table-column-config-dialog/table-column-config-dialog.component';
 
 @Component({
   selector: 'app-action-table',
@@ -294,4 +295,10 @@ export class ActionTableComponent implements OnInit {
       window.alert('There is no action registered for this solution yet.');
     }
   }
+  openColumnConfigDialog() {
+    const dialogRef = this.dialog.open(TableColumnConfigDialogComponent, {
+      width: '500px',
+      height: '520px'
+    });
+ }
 }
