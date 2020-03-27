@@ -1,0 +1,4 @@
+.flex-wrap>* {
+    flex: 0 0 33.3333%;
+    margin: 10px; 
+} 

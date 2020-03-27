@@ -23,12 +23,17 @@ import { modules } from './modules';
 import { pipes } from './pipes';
 import { NotificationSnackbarComponent } from './components/notification-snackbar/notification-snackbar.component';
 import { ExportBarComponent } from './components/export-bar/export-bar.component';
+import { TableColumnConfigDialogComponent } from './dialogs/table-column-config-dialog/table-column-config-dialog.component';
+import { MatCheckboxModule } from '@angular/material';
+import { FilterPipe } from './pipes/filter.pipe';
+import { FormsModule } from '@angular/forms';
 @NgModule({
   imports: [
     CommonModule,
     ...modules,
 
     NgxDhis2DataFilterModule,
+    FormsModule,
     MatCardModule,
     MatProgressBarModule,
     MatIconModule,
@@ -43,14 +48,16 @@ import { ExportBarComponent } from './components/export-bar/export-bar.component
     MatMenuModule,
     MatTooltipModule,
     MatSnackBarModule,
-    MatStepperModule
+    MatStepperModule,
+    MatCheckboxModule
   ],
-  entryComponents: [...entryComponents],
+  entryComponents: [...entryComponents, TableColumnConfigDialogComponent],
   exports: [
     ...modules,
     ...components,
     ...pipes,
     NgxDhis2DataFilterModule,
+    FormsModule,
     MatCardModule,
     MatProgressBarModule,
     MatIconModule,
@@ -65,8 +72,17 @@ import { ExportBarComponent } from './components/export-bar/export-bar.component
     MatMenuModule,
     MatTooltipModule,
     MatSnackBarModule,
-    MatStepperModule
+    MatStepperModule,
+    MatCheckboxModule,
+    FilterPipe
   ],
-  declarations: [...components, ...pipes, NotificationSnackbarComponent, ExportBarComponent]
+  declarations: [
+    ...components,
+    ...pipes,
+    NotificationSnackbarComponent,
+    ExportBarComponent,
+    TableColumnConfigDialogComponent,
+    FilterPipe
+  ]
 })
 export class SharedModule {}
