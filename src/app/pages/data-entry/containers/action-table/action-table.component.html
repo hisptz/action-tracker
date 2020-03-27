@@ -34,7 +34,7 @@
             </mat-radio-button>
           </mat-radio-group>
         </mat-menu>
-        <button class=" ml-2" mat-stroked-button>
+        <button *ngIf="false" class=" ml-2" mat-stroked-button>
           <div class="d-flex justify-content-between align-items-center">
             <span>Responsible Person</span>
             <mat-icon inline=true>keyboard_arrow_down</mat-icon>
@@ -161,7 +161,7 @@
             *ngIf="actionDataItem.rowspan && !isActionTracking" [attr.rowspan]="actionDataItem.rowspan"
             style="border-left: 1px solid #dee2e6;">
             <div class="add-action-block">
-              <button mat-stroked-button>
+              <button *ngIf="false" mat-stroked-button>
                 <mat-icon>bar_chart</mat-icon>
                 <span>Progress</span>
               </button> <br>
