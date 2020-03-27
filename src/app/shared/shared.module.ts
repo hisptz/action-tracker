@@ -29,6 +29,7 @@ import { pipes } from './pipes';
 import { FilterPipe } from './pipes/filter.pipe';
 import { FilterByAttributePipe } from './pipes/filter-by-attribute.pipe';
 
+
 @NgModule({
   imports: [
     CommonModule,

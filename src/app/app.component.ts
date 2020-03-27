@@ -12,8 +12,6 @@ import { getDataSelections } from 'src/app/core/store/selectors/global-selection
 import { OrgUnitFilterConfig } from '@iapps/ngx-dhis2-org-unit-filter';
 import { SelectionFilterConfig } from './shared/modules/selection-filters/models/selected-filter-config.model';
 import { MatDialog } from '@angular/material';
-import { TableColumnConfigDialogComponent } from './shared/dialogs/table-column-config-dialog/table-column-config-dialog.component';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -49,8 +47,7 @@ export class AppComponent {
   constructor(
     private store: Store<State>,
     private translate: TranslateService,
-    private titleService: Title,
-    public dialog: MatDialog
+    private titleService: Title
   ) {
     // this language will be used as a fallback when a translation isn't found in the current language
     this.translate.setDefaultLang('en');
@@ -70,10 +67,4 @@ export class AppComponent {
   onFilterUpdate(dataSelections) {
     this.store.dispatch(new UpsertDataSelectionsAction(dataSelections));
   }
-  openColumnConfigDialog(data) {
-    const dialogRef = this.dialog.open(TableColumnConfigDialogComponent, {
-      width: '500px',
-      height: '520px'
-    });
- }
 }
