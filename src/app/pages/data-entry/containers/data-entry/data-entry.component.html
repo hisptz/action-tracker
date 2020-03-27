@@ -8,7 +8,7 @@
   </mat-step>
   <mat-step>
     <ng-template matStepLabel class="d-print-none">
-      <span style="font-size: 12px;">Action Tracking</span>
+      <span style="font-size: 12px;">{{isActionTracking ? 'Action Tracking' : 'Action Tracking'}}</span>
     </ng-template>
     <app-action-table [isActionTracking]="true"></app-action-table>
     <app-export-bar (downloadType)="downloadTable($event)"></app-export-bar>
@@ -18,15 +18,20 @@
 <div class="data-entry-container">
   <mat-card>
     <div class="data-entry-header">
-      <h4>Action Planning</h4>
-      <button class="text-muted" mat-flat-button>
-        <span>Track Action</span>
+      <h4>{{isActionTracking ? 'Action Tracking' : 'Action Planning'}}</h4>
+      <button *ngIf="!isActionTracking" class="text-muted" mat-stroked-button (click)="onToggleActionTracking($event)">
+        <span class="mr-2">Action Tracking</span>
         <mat-icon>arrow_forward</mat-icon>
+      </button>
+
+      <button *ngIf="isActionTracking" class="text-muted" mat-stroked-button (click)="onToggleActionTracking($event)">
+        <mat-icon class="mr-2">arrow_backward</mat-icon>
+        <span>Back to Planning</span>
       </button>
     </div>
     <mat-divider></mat-divider>
     <div class="data-entry-content">
-      <app-action-table id="pdfExport"></app-action-table>
+      <app-action-table [isActionTracking]="isActionTracking" id="pdfExport"></app-action-table>
     </div>
   </mat-card>
 </div>
