@@ -9,6 +9,7 @@ import { InterventionFilterModule } from './modules/intervention-filter/interven
 import { LegendSetConfigurationModule } from './modules/legend-set-configuration/legend-set-configuration.module';
 import { pipes } from './pipes';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 @NgModule({
   declarations: [NgxDhis2SelectionFiltersComponent, ...pipes],
   exports: [NgxDhis2SelectionFiltersComponent],
@@ -19,7 +20,8 @@ import { MatButtonModule } from '@angular/material/button';
     NgxDhis2OrgUnitFilterModule,
     InterventionFilterModule,
     LegendSetConfigurationModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule
   ]
 })
 export class SelectionFiltersModule {}

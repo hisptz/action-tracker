@@ -95,6 +95,8 @@ export class ReportEffects {
                       .map((dashboardItem: any) => {
                         return {
                           ...dashboardItem,
+                          bottleneckPeriodType:
+                            intervention.bottleneckPeriodType,
                           name: intervention.name
                         };
                       });
@@ -106,6 +108,7 @@ export class ReportEffects {
             ...interventionItems.map((interventionItem: any) =>
               this.reportService.loadFavorite(
                 interventionItem.chart ? interventionItem.chart.id : '',
+                interventionItem.bottleneckPeriodType,
                 interventionItem.name
               )
             )

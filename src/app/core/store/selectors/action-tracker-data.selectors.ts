@@ -1,6 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import * as _ from 'lodash';
 import { getQuarter, setQuarter, isSameQuarter, getYear } from 'date-fns';
+import { Fn } from '@iapps/function-analytics';
 
 import { getRootState, State as RootState } from '../reducers';
 import {
@@ -19,6 +20,7 @@ import {
 } from './action-tracker-configuration.selectors';
 
 import { getDataSelections } from './global-selection.selectors';
+import { getCurrentCalendarId } from './system-info.selectors';
 export const getActionTrackerDataState = createSelector(
   getRootState,
   (state: RootState) => state.actionTrackerData
@@ -118,6 +120,12 @@ export const getActionTrackingQuarters = createSelector(
   getActionTrackerDataState,
   getDataSelections,
   (state, dataSelections) => {
+    // TODO: Find best way to deduce quarter periods based on period selections
+    const date = new Date();
+    const quarterNumber = getQuarter(new Date());
+    const currentYear = date.getFullYear();
+    const currentQuarterId = `${currentYear}Q${quarterNumber}`;
+
     const quarterOfSelectedPeriod = _.get(
       _.head(_.get(_.find(dataSelections, { dimension: 'pe' }), 'items')),
       'quarterly'
@@ -139,9 +147,14 @@ export const getActionTrackingQuarters = createSelector(
       _.set(quarter, 'quarterNumber', _.last(splitQuarterId));
     });
 
-    return quarterOfSelectedPeriod
+    const quarters = quarterOfSelectedPeriod
       ? _.sortBy(quarterOfSelectedPeriod, ['quarterNumber'])
       : [{}];
+
+    return _.filter(
+      quarters,
+      (quarterPeriod: any) => quarterPeriod.id <= currentQuarterId
+    );
   }
 );
 

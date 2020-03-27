@@ -1,12 +1,6 @@
 <div class="row" *ngIf="legendSet$ | async as legendSet">
-  <div
-    class="col"
-    style="width:200px;text-align: right; "
-    *ngFor="let legendSetItem of legendSet?.legends"
-  >
-    <ng-container
-      *ngIf="legendSetItem.color as legendColor"
-    >
+  <div class="col" *ngFor="let legendSetItem of legendSet?.legends">
+    <ng-container *ngIf="legendSetItem.color as legendColor">
       <i class="fa fa-square" [style.color]="legendSetItem.color"> </i>
       <span style="font-size: 12px;"> {{ legendSetItem.name }}</span>
     </ng-container>

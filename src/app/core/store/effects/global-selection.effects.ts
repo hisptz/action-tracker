@@ -40,6 +40,7 @@ export class GlobalSelectionEffects {
             actionTrackerConfig,
             systemInfo.calendar
           );
+
           this.store.dispatch(new SetRootCauseDataCount(dataParams.length));
           dataParams.forEach((params: any) => {
             // Load root cause analysis data

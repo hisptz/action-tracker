@@ -17,6 +17,7 @@ export class DataEntryComponent implements OnInit {
   isLinear: true;
   @ViewChild(ActionTableComponent, { static: false })
   tableComponent: ActionTableComponent;
+  isActionTracking: boolean;
   constructor(private downloadService: DownloadService) {}
   ngOnInit() {}
 
@@ -66,5 +67,10 @@ export class DataEntryComponent implements OnInit {
     //   pdf.addImage(dataUrl, 'JPEG', 40, 40, 520, 150);
     //   pdf.save(filename + '.pdf');
     // });
+  }
+
+  onToggleActionTracking(e) {
+    e.stopPropagation();
+    this.isActionTracking = !this.isActionTracking;
   }
 }

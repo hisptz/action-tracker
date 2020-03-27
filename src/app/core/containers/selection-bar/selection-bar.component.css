@@ -1,0 +1,23 @@
+.selection-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  width: 100%;
+  padding: 10px;
+  z-index: 400;
+}
+
+.settings-container {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+}
+
+.selection-container {
+  flex: 3;
+}
