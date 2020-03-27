@@ -49,6 +49,8 @@ import {
   startOfYear,
   endOfYear
 } from 'date-fns';
+import { TableColumnConfigDialogComponent } from 'src/app/shared/dialogs/table-column-config-dialog/table-column-config-dialog.component';
+import { getColumnSettingsData } from 'src/app/core/store/selectors/column-settings.selectors';
 @Component({
   selector: 'app-action-table',
   templateUrl: './action-table.component.html',
@@ -58,6 +60,7 @@ export class ActionTableComponent implements OnInit {
   @Input() isActionTracking;
   @ViewChild('tableElement', { static: false })
   table: ElementRef;
+  searchText;
 
   configuration$: Observable<RootCauseAnalysisConfiguration>;
   data$: Observable<any[]>;
@@ -70,6 +73,7 @@ export class ActionTableComponent implements OnInit {
   dataLoading$: Observable<boolean>;
   dataLoaded$: Observable<boolean>;
   periodSelection;
+  columnSettings$: Observable<any>;
 
   configurationLoaded$: Observable<boolean>;
 
@@ -100,6 +104,10 @@ export class ActionTableComponent implements OnInit {
 
     this.legendSetStatus$ = this.legendSetStore.select(
       getActionStatusLegendSet
+    );
+
+    this.columnSettings$ = this.store.pipe(
+      select(getColumnSettingsData)
     );
 
     this.notification$ = this.store.select(getAllDataNotification);
@@ -283,6 +291,7 @@ export class ActionTableComponent implements OnInit {
       }
     });
   }
+ 
 
   onConfirmDeleteAction(dataItem) {
     if (dataItem && dataItem.trackedEntityInstance) {

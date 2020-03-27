@@ -8,19 +8,22 @@
         ></mat-progress-bar></mat-card-content
     ></mat-card>
   </div>
-
   <div *ngIf="configurationLoaded$ | async">
     <table
       #tableElement
       class="table"
       *ngIf="configuration$ | async as configuration"
     >
+      <!-- <thead  *ngIf="columnSettings$ | async as columnSettings"> -->
       <thead>
         <tr>
           <th>#</th>
+          <!-- (settings[dataElement.id] || {}).visible ||  -->
           <th
             *ngFor="let dataElement of configuration.dataElements"
-            [hidden]="dataElement.isHidden"
+            [hidden]="
+              dataElement.isHidden || !(columnSettings$ | async)[dataElement.id]
+            "
           >
             {{ dataElement.name }}
           </th>
@@ -39,6 +42,12 @@
               {{ quarter.name }}
             </th>
           </ng-container>
+        </tr>
+        <tr>
+          <mat-form-field>
+            <mat-label>Search</mat-label>
+            <input matInput type="text" [(ngModel)]="searchText" />
+          </mat-form-field>
         </tr>
       </thead>
 
@@ -81,7 +90,7 @@
         </tr>
       </tbody>
 
-      <tbody>
+      <tbody *ngIf="columnSettings$ | async as columnSettings">
         <tr *ngFor="let actionDataItem of data$ | async; let i = index">
           <td>{{ i + 1 }}</td>
           <td
@@ -90,7 +99,8 @@
             *ngFor="let actionDataElement of configuration.dataElements"
             [hidden]="
               actionDataElement.isHidden ||
-              (actionDataElement.isNotTrackingColumn && isActionTracking)
+              (actionDataElement.isNotTrackingColumn && isActionTracking) ||
+               !(columnSettings$ | async)[actionDataElement.id]
             "
             (click)="toggleTruncationStatus(actionDataItem)"
           >
