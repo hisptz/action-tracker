@@ -78,12 +78,14 @@ export class ActionTableComponent implements OnInit {
   dataLoaded$: Observable<boolean>;
   periodSelection;
   columnSettings$: Observable<any>;
+  legendSet$: Observable<any>;
 
   configurationLoaded$: Observable<boolean>;
 
   selectedAction: any;
   initialActionStatus: '';
   toBeDeleted = {};
+  selectedStatus: any;
 
   @Output() download: EventEmitter<string> = new EventEmitter<string>();
 
@@ -125,6 +127,7 @@ export class ActionTableComponent implements OnInit {
       });
 
     this.configurationLoaded$ = store.select(getConfigurationLoadedStatus);
+    this.legendSet$ = this.store.select(getActionStatusLegendSet);
 
     this.store.select(getNotificationMessageStatus).subscribe(notification => {
       if (notification) {
@@ -308,5 +311,18 @@ export class ActionTableComponent implements OnInit {
   onDownload(e, downloadType) {
     e.stopPropagation();
     this.download.emit(downloadType);
+  }
+
+  onChangeStatus(e, actionStatuses: any) {
+    if (e) {
+      this.selectedStatus = (actionStatuses || []).find(
+        (status: any) => status.id === e.value
+      );
+    }
+  }
+
+  onClearStatus(e) {
+    e.stopPropagation();
+    console.log('closes');
   }
 }
