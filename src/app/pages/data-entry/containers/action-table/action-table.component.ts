@@ -1,4 +1,12 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { select, Store } from '@ngrx/store';
@@ -76,6 +84,8 @@ export class ActionTableComponent implements OnInit {
   selectedAction: any;
   initialActionStatus: '';
   toBeDeleted = {};
+
+  @Output() download: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(
     private store: Store<State>,
@@ -293,5 +303,10 @@ export class ActionTableComponent implements OnInit {
     } else {
       window.alert('There is no action registered for this solution yet.');
     }
+  }
+
+  onDownload(e, downloadType) {
+    e.stopPropagation();
+    this.download.emit(downloadType);
   }
 }

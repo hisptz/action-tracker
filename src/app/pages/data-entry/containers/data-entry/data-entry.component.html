@@ -17,7 +17,7 @@
 
 <div class="data-entry-container">
   <mat-card>
-    <div class="data-entry-header">
+    <div class="data-entry-header d-print-none">
       <h4>{{isActionTracking ? 'Action Tracking' : 'Action Planning'}}</h4>
       <button *ngIf="!isActionTracking" class="text-muted" mat-stroked-button (click)="onToggleActionTracking($event)">
         <span class="mr-2">Action Tracking</span>
@@ -29,9 +29,10 @@
         <span>Back to Planning</span>
       </button>
     </div>
-    <mat-divider></mat-divider>
+    <mat-divider class="d-print-none"></mat-divider>
     <div class="data-entry-content">
-      <app-action-table [isActionTracking]="isActionTracking" id="pdfExport"></app-action-table>
+      <app-action-table [isActionTracking]="isActionTracking" (download)="onDownloadActions($event)" id="pdfExport">
+      </app-action-table>
     </div>
   </mat-card>
 </div>
