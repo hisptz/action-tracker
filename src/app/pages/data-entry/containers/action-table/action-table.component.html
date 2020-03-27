@@ -11,13 +11,30 @@
   <div class="action-table-container border-top border-left border-right" *ngIf="configurationLoaded$ | async">
     <div class="action-table-header d-print-none">
       <div class="d-flex">
-        <button mat-stroked-button>
+        <button mat-stroked-button [matMenuTriggerFor]="statusFilter" color="">
           <div class="d-flex justify-content-between align-items-center">
             <span>Status</span>
+            <div class="d-flex align-items-center" *ngIf="selectedStatus">
+              <span>: {{selectedStatus.name}}</span>
+              <mat-icon *ngIf="false" class="status-close-btn" color="warn" inline=true (click)="onClearStatus($event)">
+                close
+              </mat-icon>
+            </div>
             <mat-icon inline=true>keyboard_arrow_down</mat-icon>
           </div>
         </button>
-        <button class="ml-2" mat-stroked-button>
+        <mat-menu class="d-print-none p-3" #statusFilter="matMenu">
+          <mat-radio-group *ngIf="legendSet$ | async as legendSet" class="action-status-options"
+            (change)="onChangeStatus($event, legendSet.legends)">
+            <mat-radio-button checked value="">
+              All
+            </mat-radio-button>
+            <mat-radio-button *ngFor="let legend of legendSet.legends" [value]="legend.id">
+              {{legend.name}}
+            </mat-radio-button>
+          </mat-radio-group>
+        </mat-menu>
+        <button class=" ml-2" mat-stroked-button>
           <div class="d-flex justify-content-between align-items-center">
             <span>Responsible Person</span>
             <mat-icon inline=true>keyboard_arrow_down</mat-icon>
@@ -40,7 +57,7 @@
         </mat-menu>
       </div>
     </div>
-    <table #tableElement class="table" *ngIf="configuration$ | async as configuration">
+    <table #tableElement class="table action-table" *ngIf="configuration$ | async as configuration">
       <tr>
         <th class="text-muted">#</th>
         <th *ngFor="let dataElement of configuration.dataElements" [hidden]="dataElement.isHidden"
@@ -97,7 +114,8 @@
       </tbody>
 
       <tbody *ngIf="columnSettings$ | async as columnSettings">
-        <tr *ngFor="let actionDataItem of data$ | async; let i = index">
+        <tr
+          *ngFor="let actionDataItem of data$ | async | filterByAttribute:'latestStatus':selectedStatus?.id; let i = index">
           <td>{{ i + 1 }}</td>
           <td matTooltip="Click row to see full text or truncate" [matTooltipPosition]="'after'"
             *ngFor="let actionDataElement of configuration.dataElements" [ngClass]="{
