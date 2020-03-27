@@ -328,7 +328,7 @@ export class ActionTableComponent implements OnInit {
           );
         }
       });
-
+    }
   onDownload(e, downloadType) {
     e.stopPropagation();
     this.download.emit(downloadType);
