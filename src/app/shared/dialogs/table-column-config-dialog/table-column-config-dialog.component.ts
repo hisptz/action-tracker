@@ -23,7 +23,7 @@ export class TableColumnConfigDialogComponent implements OnInit {
   configuration$: Observable<RootCauseAnalysisConfiguration>;
   columnsMap;
   columnSettings$: Observable<any>;
-
+  checkAll = true;
   constructor(
     private store: Store<State>,
     private fb: FormBuilder,
@@ -54,5 +54,18 @@ export class TableColumnConfigDialogComponent implements OnInit {
   }
   closeDialog(action: string) {
     this.dialogRef.close(action);
+  }
+  checkAllCheckboxes(settings) {
+      if ( this.checkAll) {
+         for (const setting of settings) {
+            setting.isVisible = true;
+         }
+      }
+  }
+  checkCheckAllStatus(settings) {
+        const uncheckedArr  = _.filter(settings, item => {
+          return item && !item.isVisible
+        });
+      !uncheckedArr.length ? this.checkAll = true : this.checkAll = false;
   }
 }
