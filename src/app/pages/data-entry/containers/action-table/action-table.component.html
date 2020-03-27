@@ -8,19 +8,33 @@
     </mat-card>
   </div>
 
-  <div
-    class="action-table-container border-top border-left border-right"
-    *ngIf="configurationLoaded$ | async"
-  >
-    <div class="action-table-header">
+  <div class="action-table-container border-top border-left border-right" *ngIf="configurationLoaded$ | async">
+    <div class="action-table-header d-print-none">
       <div class="d-flex">
-        <button mat-stroked-button>
+        <button mat-stroked-button [matMenuTriggerFor]="statusFilter" color="">
           <div class="d-flex justify-content-between align-items-center">
             <span>Status</span>
-            <mat-icon inline="true">keyboard_arrow_down</mat-icon>
+            <div class="d-flex align-items-center" *ngIf="selectedStatus">
+              <span>: {{selectedStatus.name}}</span>
+              <mat-icon *ngIf="false" class="status-close-btn" color="warn" inline=true (click)="onClearStatus($event)">
+                close
+              </mat-icon>
+            </div>
+            <mat-icon inline=true>keyboard_arrow_down</mat-icon>
           </div>
         </button>
-        <button class="ml-2" mat-stroked-button>
+        <mat-menu class="d-print-none p-3" #statusFilter="matMenu">
+          <mat-radio-group *ngIf="legendSet$ | async as legendSet" class="action-status-options"
+            (change)="onChangeStatus($event, legendSet.legends)">
+            <mat-radio-button checked value="">
+              All
+            </mat-radio-button>
+            <mat-radio-button *ngFor="let legend of legendSet.legends" [value]="legend.id">
+              {{legend.name}}
+            </mat-radio-button>
+          </mat-radio-group>
+        </mat-menu>
+        <button *ngIf="false" class=" ml-2" mat-stroked-button>
           <div class="d-flex justify-content-between align-items-center">
             <span>Responsible Person</span>
             <mat-icon inline="true">keyboard_arrow_down</mat-icon>
@@ -40,27 +54,14 @@
           <mat-icon>more_horiz</mat-icon>
         </button>
 
-        <mat-menu #moreTableOptions="matMenu">
-          <mat-list>
-            <div mat-subheader>Download</div>
-            <mat-list-item>
-              <div mat-line>Excel</div>
-            </mat-list-item>
-            <mat-list-item>
-              <div mat-line>CSV</div>
-            </mat-list-item>
-            <mat-list-item>
-              <div mat-line>Print PDF</div>
-            </mat-list-item>
-          </mat-list>
+        <mat-menu class="d-print-none" #moreTableOptions="matMenu">
+          <button mat-menu-item (click)="onDownload($event, 'XLSX')">Excel</button>
+          <button mat-menu-item (click)="onDownload($event, 'CSV')">CSV</button>
+          <button mat-menu-item (click)="onDownload($event, 'PDF')">PDF</button>
         </mat-menu>
       </div>
     </div>
-    <table
-      #tableElement
-      class="table"
-      *ngIf="configuration$ | async as configuration"
-    >
+    <table #tableElement class="table action-table" *ngIf="configuration$ | async as configuration">
       <tr>
         <th class="text-muted">#</th>
         <th
@@ -74,12 +75,9 @@
           {{ dataElement.name }}
         </th>
         <th class="text-muted" *ngIf="!isActionTracking">Status</th>
-        <th *ngIf="!isActionTracking"></th>
-        <th
-          class="text-muted"
-          style="border-left: 1px solid #dee2e6;"
-          *ngIf="!isActionTracking"
-        ></th>
+        <th class="hide-on-export d-print-none" *ngIf="!isActionTracking"></th>
+        <th class="text-muted hide-on-export d-print-none" style="border-left: 1px solid #dee2e6;"
+          *ngIf="!isActionTracking"></th>
         <ng-container *ngIf="isActionTracking">
           <th
             class="text-muted border-left"
@@ -131,7 +129,8 @@
       </tbody>
 
       <tbody *ngIf="columnSettings$ | async as columnSettings">
-        <tr *ngFor="let actionDataItem of data$ | async; let i = index">
+        <tr
+          *ngFor="let actionDataItem of data$ | async | filterByAttribute:'latestStatus':selectedStatus?.id; let i = index">
           <td>{{ i + 1 }}</td>
           <td
             matTooltip="Click row to see full text or truncate"
@@ -165,7 +164,7 @@
                 | convertLegendId: (legendSetStatus$ | async)
             }}
           </td>
-          <td *ngIf="!isActionTracking" class="px-1" style="width:70px">
+          <td *ngIf="!isActionTracking" class="px-1 hide-on-export d-print-none" style="width:70px">
             <ng-container *ngIf="actionDataItem.attributes">
               <span
                 title="Click to edit action"
@@ -193,14 +192,11 @@
               </span>
             </ng-container>
           </td>
-          <td
-            class="action-controls-column"
-            *ngIf="actionDataItem.rowspan && !isActionTracking"
-            [attr.rowspan]="actionDataItem.rowspan"
-            style="border-left: 1px solid #dee2e6;"
-          >
+          <td class="action-controls-column hide-on-export d-print-none"
+            *ngIf="actionDataItem.rowspan && !isActionTracking" [attr.rowspan]="actionDataItem.rowspan"
+            style="border-left: 1px solid #dee2e6;">
             <div class="add-action-block">
-              <button mat-stroked-button>
+              <button *ngIf="false" mat-stroked-button>
                 <mat-icon>bar_chart</mat-icon>
                 <span>Progress</span>
               </button>

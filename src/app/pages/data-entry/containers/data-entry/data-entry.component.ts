@@ -39,7 +39,7 @@ export class DataEntryComponent implements OnInit {
     return filename;
   }
 
-  downloadTable(downloadFormat) {
+  onDownloadActions(downloadFormat) {
     if (this.tableComponent) {
       const el = this.tableComponent.getTableElement();
       const filename = this.generateFileName();

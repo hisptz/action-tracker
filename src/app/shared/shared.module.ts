@@ -17,6 +17,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatRadioModule } from '@angular/material/radio';
 import { NgxDhis2DataFilterModule } from '@iapps/ngx-dhis2-data-filter';
 
 import { components, entryComponents } from './components';
@@ -26,6 +27,7 @@ import { TableColumnConfigDialogComponent } from './dialogs/table-column-config-
 import { modules } from './modules';
 import { pipes } from './pipes';
 import { FilterPipe } from './pipes/filter.pipe';
+import { FilterByAttributePipe } from './pipes/filter-by-attribute.pipe';
 
 
 @NgModule({
@@ -50,7 +52,8 @@ import { FilterPipe } from './pipes/filter.pipe';
     MatSnackBarModule,
     MatStepperModule,
     MatCheckboxModule,
-    MatListModule
+    MatListModule,
+    MatRadioModule
   ],
   entryComponents: [...entryComponents, TableColumnConfigDialogComponent],
   exports: [
@@ -76,7 +79,9 @@ import { FilterPipe } from './pipes/filter.pipe';
     MatStepperModule,
     MatCheckboxModule,
     FilterPipe,
-    MatListModule
+    MatListModule,
+    MatRadioModule,
+    FilterByAttributePipe
   ],
   declarations: [
     ...components,
@@ -84,7 +89,8 @@ import { FilterPipe } from './pipes/filter.pipe';
     NotificationSnackbarComponent,
     ExportBarComponent,
     TableColumnConfigDialogComponent,
-    FilterPipe
+    FilterPipe,
+    FilterByAttributePipe
   ]
 })
 export class SharedModule {}
