@@ -1,12 +1,10 @@
 <h1 mat-dialog-title>Choose Columns to be displayed on a table</h1>
 <div mat-dialog-content *ngIf="columnSettings$ | async as columnSettings">
- 
-       <p style="font-size: 1.2em; font-weight: bold; text-align: center;">
-        <mat-checkbox>Check all</mat-checkbox> &nbsp;
-       </p>
-     
-    
- 
+  <mat-checkbox style="font-size: 1.2em;"
+    >Check all</mat-checkbox
+  >
+  &nbsp;
+
   <form
     class="d-flex flex-column"
     #columnForm="ngForm"
@@ -16,9 +14,10 @@
       <mat-checkbox
         *ngFor="let columnSetting of columnSettings; let i = index"
         style="font-size: 1.2em;"
+        class="text-muted"
         name="{{ columnSetting.id }}"
         [checked]="columnSetting.isVisible"
-        [(ngModel)]="columnSetting.isVisible"
+        [(ngModel)]="columnSetting.id"
         >{{ columnSetting.name }}</mat-checkbox
       >
     </div>
