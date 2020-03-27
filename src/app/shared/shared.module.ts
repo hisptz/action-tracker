@@ -1,35 +1,38 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatCheckboxModule, MatListModule } from '@angular/material';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
-import { MatListModule } from '@angular/material/list';
-
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxDhis2DataFilterModule } from '@iapps/ngx-dhis2-data-filter';
 
 import { components, entryComponents } from './components';
+import { ExportBarComponent } from './components/export-bar/export-bar.component';
+import { NotificationSnackbarComponent } from './components/notification-snackbar/notification-snackbar.component';
+import { TableColumnConfigDialogComponent } from './dialogs/table-column-config-dialog/table-column-config-dialog.component';
 import { modules } from './modules';
 import { pipes } from './pipes';
-import { NotificationSnackbarComponent } from './components/notification-snackbar/notification-snackbar.component';
-import { ExportBarComponent } from './components/export-bar/export-bar.component';
+import { FilterPipe } from './pipes/filter.pipe';
+
 @NgModule({
   imports: [
     CommonModule,
     ...modules,
-
     NgxDhis2DataFilterModule,
+    FormsModule,
     MatCardModule,
     MatProgressBarModule,
     MatIconModule,
@@ -45,14 +48,16 @@ import { ExportBarComponent } from './components/export-bar/export-bar.component
     MatTooltipModule,
     MatSnackBarModule,
     MatStepperModule,
+    MatCheckboxModule,
     MatListModule
   ],
-  entryComponents: [...entryComponents],
+  entryComponents: [...entryComponents, TableColumnConfigDialogComponent],
   exports: [
     ...modules,
     ...components,
     ...pipes,
     NgxDhis2DataFilterModule,
+    FormsModule,
     MatCardModule,
     MatProgressBarModule,
     MatIconModule,
@@ -68,13 +73,17 @@ import { ExportBarComponent } from './components/export-bar/export-bar.component
     MatTooltipModule,
     MatSnackBarModule,
     MatStepperModule,
+    MatCheckboxModule,
+    FilterPipe,
     MatListModule
   ],
   declarations: [
     ...components,
     ...pipes,
     NotificationSnackbarComponent,
-    ExportBarComponent
+    ExportBarComponent,
+    TableColumnConfigDialogComponent,
+    FilterPipe
   ]
 })
 export class SharedModule {}

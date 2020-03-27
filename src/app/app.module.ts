@@ -13,6 +13,8 @@ import { CoreModule } from './core';
 import { DataEntryModule } from './pages/data-entry/data-entry.module';
 import { sharedModules } from './shared';
 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -36,6 +38,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       namespace: 'actionTracker',
       models: {}
     }),
+    FormsModule,
+    ReactiveFormsModule,
 
     /**
      * Menu  module

@@ -35,6 +35,7 @@ import {
   getOveralLoadingStatus,
   getYearOfCurrentPeriodSelection
 } from 'src/app/core/store/selectors/action-tracker-data.selectors';
+import { getColumnSettingsData } from 'src/app/core/store/selectors/column-settings.selectors';
 import { getConfigurationLoadedStatus } from 'src/app/core/store/selectors/root-cause-analysis-configuration.selectors';
 import { DeleteConfirmationDialogueComponent } from 'src/app/shared/components/delete-confirmation-dialogue/delete-confirmation-dialogue.component';
 import { FormDialogComponent } from 'src/app/shared/components/form-dialog/form-dialog.component';
@@ -55,6 +56,7 @@ export class ActionTableComponent implements OnInit {
   @Input() isActionTracking;
   @ViewChild('tableElement', { static: false })
   table: ElementRef;
+  searchText;
 
   configuration$: Observable<RootCauseAnalysisConfiguration>;
   data$: Observable<any[]>;
@@ -67,6 +69,7 @@ export class ActionTableComponent implements OnInit {
   dataLoading$: Observable<boolean>;
   dataLoaded$: Observable<boolean>;
   periodSelection;
+  columnSettings$: Observable<any>;
 
   configurationLoaded$: Observable<boolean>;
 
@@ -98,6 +101,8 @@ export class ActionTableComponent implements OnInit {
     this.legendSetStatus$ = this.legendSetStore.select(
       getActionStatusLegendSet
     );
+
+    this.columnSettings$ = this.store.pipe(select(getColumnSettingsData));
 
     this.notification$ = this.store.select(getAllDataNotification);
 

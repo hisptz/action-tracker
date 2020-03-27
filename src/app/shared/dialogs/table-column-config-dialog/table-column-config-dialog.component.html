@@ -1,0 +1,33 @@
+<h1 mat-dialog-title>Choose Columns to be displayed on a table</h1>
+<div mat-dialog-content *ngIf="columnSettings$ | async as columnSettings">
+ 
+       <p style="font-size: 1.2em; font-weight: bold; text-align: center;">
+        <mat-checkbox>Check all</mat-checkbox> &nbsp;
+       </p>
+     
+    
+ 
+  <form
+    class="d-flex flex-column"
+    #columnForm="ngForm"
+    (ngSubmit)="saveColumns(columnForm)"
+  >
+    <div class="d-flex flex-wrap overflow-hidden align-items-center">
+      <mat-checkbox
+        *ngFor="let columnSetting of columnSettings; let i = index"
+        style="font-size: 1.2em;"
+        name="{{ columnSetting.id }}"
+        [checked]="columnSetting.isVisible"
+        [(ngModel)]="columnSetting.isVisible"
+        >{{ columnSetting.name }}</mat-checkbox
+      >
+    </div>
+    <p>
+      <button mat-stroked-button (click)="closeDialog()">Cancel</button> &nbsp;
+
+      <button type="submit" mat-stroked-button color="primary">
+        Save
+      </button>
+    </p>
+  </form>
+</div>

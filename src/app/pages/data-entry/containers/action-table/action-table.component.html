@@ -104,7 +104,7 @@
         </tr>
       </tbody>
 
-      <tbody>
+      <tbody *ngIf="columnSettings$ | async as columnSettings">
         <tr *ngFor="let actionDataItem of data$ | async; let i = index">
           <td>{{ i + 1 }}</td>
           <td matTooltip="Click row to see full text or truncate" [matTooltipPosition]="'after'"
@@ -112,7 +112,8 @@
               'bna-column': !actionDataElement?.isActionTrackerColumn
             }" [hidden]="
               actionDataElement.isHidden ||
-              (actionDataElement.isNotTrackingColumn && isActionTracking)
+              (actionDataElement.isNotTrackingColumn && isActionTracking) ||
+               !(columnSettings$ | async)[actionDataElement.id]
             " (click)="toggleTruncationStatus(actionDataItem)">
             {{
               (actionDataItem?.dataValues)[actionDataElement.id]
