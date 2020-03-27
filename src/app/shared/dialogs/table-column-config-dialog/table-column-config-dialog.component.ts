@@ -50,9 +50,9 @@ export class TableColumnConfigDialogComponent implements OnInit {
       }
     });
     this.columnsMap = this.store.dispatch(new SetColumnSettingsAction(data));
+    this.closeDialog('Saved');
   }
-  closeDialog() {
-    // this.initilizeData();
-    this.dialogRef.close();
+  closeDialog(action: string) {
+    this.dialogRef.close(action);
   }
 }

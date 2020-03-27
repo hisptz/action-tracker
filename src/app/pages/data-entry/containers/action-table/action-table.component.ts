@@ -47,6 +47,7 @@ import {
   LegendSetState
 } from '../../../../shared/modules/selection-filters/modules/legend-set-configuration/store';
 import { TableColumnConfigDialogComponent } from 'src/app/shared/dialogs/table-column-config-dialog/table-column-config-dialog.component';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-action-table',
@@ -300,5 +301,19 @@ export class ActionTableComponent implements OnInit {
       width: '500px',
       height: '520px'
     });
- }
+    dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe(result => {
+        if (result === 'Saved') {
+          this._snackBar.open(
+            'Column Settings configured successfully!',
+            'Close',
+            {
+              duration: 2000
+            }
+          );
+        }
+      });
+  }
 }

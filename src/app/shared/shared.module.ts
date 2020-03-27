@@ -27,6 +27,7 @@ import { modules } from './modules';
 import { pipes } from './pipes';
 import { FilterPipe } from './pipes/filter.pipe';
 
+
 @NgModule({
   imports: [
     CommonModule,

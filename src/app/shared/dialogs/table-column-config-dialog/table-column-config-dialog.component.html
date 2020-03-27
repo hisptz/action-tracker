@@ -1,5 +1,17 @@
 <h1 mat-dialog-title>Choose Columns to be displayed on a table</h1>
-<div mat-dialog-content *ngIf="columnSettings$ | async as columnSettings">
+<div mat-dialog-content *ngIf="!(columnSettings$ | async)">
+  <div >
+    <mat-card>
+      <mat-card-content>
+        <div>Discovering Column Settings</div>
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+
+<div mat-dialog-content *ngIf="(columnSettings$ | async) as columnSettings">
   <mat-checkbox style="font-size: 1.2em;"
     >Check all</mat-checkbox
   >
@@ -22,7 +34,7 @@
       >
     </div>
     <p>
-      <button mat-stroked-button (click)="closeDialog()">Cancel</button> &nbsp;
+      <button mat-stroked-button type="button" (click)="closeDialog('Cancelled')">Cancel</button> &nbsp;
 
       <button type="submit" mat-stroked-button color="primary">
         Save
