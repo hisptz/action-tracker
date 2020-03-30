@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RootCauseAnalysisConfiguration } from 'src/app/core/models/root-cause-analysis-configuration.model';
 import { Store } from '@ngrx/store';
@@ -12,7 +12,7 @@ import {
   getColumnSettingsData,
   getColumnSettingsInitialData
 } from 'src/app/core/store/selectors/column-settings.selectors';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-table-column-config-dialog',
@@ -32,17 +32,34 @@ export class TableColumnConfigDialogComponent implements OnInit {
   constructor(
     private store: Store<State>,
     private fb: FormBuilder,
-    public dialogRef: MatDialogRef<TableColumnConfigDialogComponent>
+    public dialogRef: MatDialogRef<TableColumnConfigDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   ngOnInit() {
     this.initilizeData();
   }
   initilizeData() {
+    this.checkInitialCheckStatus();
     this.configuration$ = this.store.select(
       getMergedActionTrackerConfiguration
     );
     this.columnSettings$ = this.store.select(getColumnSettingsInitialData);
+  }
+  checkInitialCheckStatus() {
+    const uncheckedArr = _.filter(Object.keys(this.data), item => {
+      return item && !this.data[item];
+    });
+    if (!uncheckedArr.length) {
+      this.checkAll = true;
+      this.unCheckAll = false;
+    } else if (uncheckedArr.length === Object.keys(this.data).length) {
+      this.unCheckAll = true;
+      this.checkAll = false;
+    } else {
+      this.unCheckAll = false;
+      this.checkAll = false;
+    }
   }
   saveColumns(form) {
     const { value } = form;
