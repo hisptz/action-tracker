@@ -309,10 +309,11 @@ export class ActionTableComponent implements OnInit {
       window.alert('There is no action registered for this solution yet.');
     }
   }
-  openColumnConfigDialog() {
+  openColumnConfigDialog(settings) {
     const dialogRef = this.dialog.open(TableColumnConfigDialogComponent, {
       width: '600px',
-      height: '850px'
+      height: '850px',
+      data: settings
     });
     dialogRef
       .afterClosed()
