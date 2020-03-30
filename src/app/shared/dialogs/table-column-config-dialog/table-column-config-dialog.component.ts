@@ -24,6 +24,11 @@ export class TableColumnConfigDialogComponent implements OnInit {
   columnsMap;
   columnSettings$: Observable<any>;
   checkAll = true;
+  unCheckAll = false;
+  checkSettings = {
+    checkAll: true,
+    uncheckAll: false
+  };
   constructor(
     private store: Store<State>,
     private fb: FormBuilder,
@@ -55,17 +60,43 @@ export class TableColumnConfigDialogComponent implements OnInit {
   closeDialog(action: string) {
     this.dialogRef.close(action);
   }
-  checkAllCheckboxes(settings) {
-      if ( this.checkAll) {
-         for (const setting of settings) {
+  manageCheckboxes(settings, type) {
+    switch (type) {
+      case 'checkAll': {
+        if (this.checkAll) {
+          this.unCheckAll = false;
+          for (const setting of settings) {
             setting.isVisible = true;
-         }
+          }
+        }
+        break;
       }
+      case 'uncheckAll': {
+        if (this.unCheckAll) {
+          this.checkAll = false;
+          for (const setting of settings) {
+            setting.isVisible = false;
+          }
+        }
+        break;
+      }
+      default:
+        break;
+    }
   }
   checkCheckAllStatus(settings) {
-        const uncheckedArr  = _.filter(settings, item => {
-          return item && !item.isVisible
-        });
-      !uncheckedArr.length ? this.checkAll = true : this.checkAll = false;
+    const uncheckedArr = _.filter(settings, item => {
+      return item && !item.isVisible;
+    });
+    if (!uncheckedArr.length) {
+      this.checkAll = true;
+      this.unCheckAll = false;
+    } else if (uncheckedArr.length === settings.length) {
+      this.unCheckAll = true;
+      this.checkAll = false;
+    } else {
+      this.unCheckAll = false;
+      this.checkAll = false;
+    }
   }
 }

@@ -311,8 +311,8 @@ export class ActionTableComponent implements OnInit {
   }
   openColumnConfigDialog() {
     const dialogRef = this.dialog.open(TableColumnConfigDialogComponent, {
-      width: '500px',
-      height: '520px'
+      width: '600px',
+      height: '850px'
     });
     dialogRef
       .afterClosed()
