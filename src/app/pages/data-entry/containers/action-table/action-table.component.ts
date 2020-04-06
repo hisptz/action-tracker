@@ -5,8 +5,9 @@ import {
   OnInit,
   ViewChild,
   Output,
-  EventEmitter
+  EventEmitter,
 } from '@angular/core';
+import { find } from 'lodash';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { select, Store } from '@ngrx/store';
@@ -15,7 +16,7 @@ import {
   endOfYear,
   isDate,
   startOfQuarter,
-  startOfYear
+  startOfYear,
 } from 'date-fns';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
@@ -27,12 +28,12 @@ import { upsertEnrollmentPayload } from 'src/app/core/helpers/upsert-enrollment-
 import { RootCauseAnalysisConfiguration } from 'src/app/core/models/root-cause-analysis-configuration.model';
 import {
   DeleteActionTrackerData,
-  SaveActionTrackerData
+  SaveActionTrackerData,
 } from 'src/app/core/store/actions/action-tracker-data.actions';
 import { State } from 'src/app/core/store/reducers';
 import {
   getConfigurationDataElementsFromProgramStageDEs,
-  getMergedActionTrackerConfiguration
+  getMergedActionTrackerConfiguration,
 } from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
 import {
   getActionTrackerDataLoadedStatus,
@@ -41,7 +42,7 @@ import {
   getMergedActionTrackerDatasWithRowspanAttribute,
   getNotificationMessageStatus,
   getOveralLoadingStatus,
-  getYearOfCurrentPeriodSelection
+  getYearOfCurrentPeriodSelection,
 } from 'src/app/core/store/selectors/action-tracker-data.selectors';
 import { getColumnSettingsData } from 'src/app/core/store/selectors/column-settings.selectors';
 import { getConfigurationLoadedStatus } from 'src/app/core/store/selectors/root-cause-analysis-configuration.selectors';
@@ -52,15 +53,19 @@ import { generateActionDataValue } from 'src/app/shared/helpers/generate-action-
 
 import {
   getActionStatusLegendSet,
-  LegendSetState
+  LegendSetState,
 } from '../../../../shared/modules/selection-filters/modules/legend-set-configuration/store';
 import { TableColumnConfigDialogComponent } from 'src/app/shared/dialogs/table-column-config-dialog/table-column-config-dialog.component';
 import { take } from 'rxjs/operators';
+import { ProgressVisualizationDialogComponent } from '../../components/progress-visualization-dialog/progress-visualization-dialog.component';
+import { Visualization } from 'src/app/pages/analysis/modules/ngx-dhis2-visualization/models';
+import { getReportVisualizations } from 'src/app/core/store/selectors/report-visualization.selectors';
+import { getVisualizationForAction } from '../../helpers/get-visualization-for-action.helper';
 
 @Component({
   selector: 'app-action-table',
   templateUrl: './action-table.component.html',
-  styleUrls: ['./action-table.component.css']
+  styleUrls: ['./action-table.component.css'],
 })
 export class ActionTableComponent implements OnInit {
   @Input() isActionTracking;
@@ -78,6 +83,7 @@ export class ActionTableComponent implements OnInit {
   notification$: Observable<any>;
   dataLoading$: Observable<boolean>;
   dataLoaded$: Observable<boolean>;
+  reportVisualizations$: Observable<Visualization[]>;
   periodSelection;
   columnSettings$: Observable<any>;
   legendSet$: Observable<any>;
@@ -124,22 +130,28 @@ export class ActionTableComponent implements OnInit {
     this.dataLoaded$ = this.store.select(getActionTrackerDataLoadedStatus);
     this.store
       .select(getYearOfCurrentPeriodSelection)
-      .subscribe(selectedPeriod => {
+      .subscribe((selectedPeriod) => {
         this.periodSelection = selectedPeriod;
       });
 
     this.configurationLoaded$ = store.select(getConfigurationLoadedStatus);
     this.legendSet$ = this.store.select(getActionStatusLegendSet);
 
-    this.store.select(getNotificationMessageStatus).subscribe(notification => {
-      if (notification) {
-        this._snackBar.openFromComponent(NotificationSnackbarComponent, {
-          duration: 5 * 1000,
-          verticalPosition: 'top',
-          data: notification.message
-        });
-      }
-    });
+    this.store
+      .select(getNotificationMessageStatus)
+      .subscribe((notification) => {
+        if (notification) {
+          this._snackBar.openFromComponent(NotificationSnackbarComponent, {
+            duration: 5 * 1000,
+            verticalPosition: 'top',
+            data: notification.message,
+          });
+        }
+      });
+
+    this.reportVisualizations$ = this.store.pipe(
+      select(getReportVisualizations)
+    );
   }
 
   ngOnInit() {}
@@ -175,7 +187,7 @@ export class ActionTableComponent implements OnInit {
           _.find(dataElements, { name: 'orgUnitId' }),
           'id'
         )}]`
-      )
+      ),
     };
 
     this.dataEntryDialogBoxOperations(dataElements, newDataItem);
@@ -196,11 +208,11 @@ export class ActionTableComponent implements OnInit {
           : startOfYear(new Date(this.periodSelection)),
         maxDate: this.isActionTracking
           ? endOfQuarter(dataItem.dateOfQuarter)
-          : endOfYear(new Date(this.periodSelection))
-      }
+          : endOfYear(new Date(this.periodSelection)),
+      },
     });
 
-    dialogRef.afterClosed().subscribe(formResponse => {
+    dialogRef.afterClosed().subscribe((formResponse) => {
       if (formResponse && !this.isActionTracking) {
         const { formValues, formAction } = formResponse;
         dataItem.attributes = this.generateAttributePayload(
@@ -236,7 +248,7 @@ export class ActionTableComponent implements OnInit {
       attributes.push({
         attribute: index,
         code: _.get(_.find(formDataElements, { id: index }), 'code'),
-        value: isDate(formValue) ? getFormattedDate(formValue) : formValue
+        value: isDate(formValue) ? getFormattedDate(formValue) : formValue,
       });
     });
     return attributes;
@@ -245,11 +257,11 @@ export class ActionTableComponent implements OnInit {
   sanitizeActionTrackingData(selectedAction, formValues, formDataElements) {
     const eventDataValues = [];
     const eventData: any = {};
-    _.forEach(formDataElements, formDataElement =>
+    _.forEach(formDataElements, (formDataElement) =>
       formDataElement.id
         ? eventDataValues.push({
             dataElement: formDataElement.id,
-            value: formValues[formDataElement.id]
+            value: formValues[formDataElement.id],
           })
         : _.set(
             eventData,
@@ -290,10 +302,10 @@ export class ActionTableComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteConfirmationDialogueComponent, {
       width: '600px',
       height: `${100 + 55 * 1}px`,
-      data: {}
+      data: {},
     });
 
-    dialogRef.afterClosed().subscribe(formResponse => {
+    dialogRef.afterClosed().subscribe((formResponse) => {
       if (formResponse.action == 'DELETE') {
         this.onConfirmDeleteAction(dataItem);
       }
@@ -313,23 +325,23 @@ export class ActionTableComponent implements OnInit {
     const dialogRef = this.dialog.open(TableColumnConfigDialogComponent, {
       width: '600px',
       height: '850px',
-      data: settings
+      data: settings,
     });
     dialogRef
       .afterClosed()
       .pipe(take(1))
-      .subscribe(result => {
+      .subscribe((result) => {
         if (result === 'Saved') {
           this._snackBar.open(
             'Column Settings configured successfully!',
             'Close',
             {
-              duration: 2000
+              duration: 2000,
             }
           );
         }
       });
-    }
+  }
   onDownload(e, downloadType) {
     e.stopPropagation();
     this.download.emit(downloadType);
@@ -346,5 +358,44 @@ export class ActionTableComponent implements OnInit {
   onClearStatus(e) {
     e.stopPropagation();
     console.log('closes');
+  }
+
+  onViewProgress(
+    e,
+    visualizations: Visualization[],
+    dataItem: any,
+    configurationDataElements: any[]
+  ) {
+    e.stopPropagation();
+    const indicatorConfig = find(configurationDataElements || [], [
+      'name',
+      'indicatorId',
+    ]);
+    const interventionConfig = find(configurationDataElements || [], [
+      'name',
+      'interventionId',
+    ]);
+    const indicatorId =
+      dataItem && dataItem.dataValues
+        ? dataItem.dataValues[indicatorConfig ? indicatorConfig.id : '']
+        : undefined;
+
+    const interventionId =
+      dataItem && dataItem.dataValues
+        ? dataItem.dataValues[interventionConfig ? interventionConfig.id : '']
+        : undefined;
+
+    const visualization = getVisualizationForAction(visualizations, {
+      interventionId,
+      indicatorId,
+    });
+
+    if (visualization) {
+      this.dialog.open(ProgressVisualizationDialogComponent, {
+        width: '95%',
+        height: '94vh',
+        data: { visualization },
+      });
+    }
   }
 }

@@ -14,14 +14,14 @@ import { AddCurrentUser, UserActionTypes } from '../actions';
 import { addReportVisualizations } from '../actions/report-visualization.actions';
 import {
   AddRootCauseAnalysisDatas,
-  RootCauseAnalysisDataActionTypes
+  RootCauseAnalysisDataActionTypes,
 } from '../actions/root-cause-analysis-data.actions';
 import { State } from '../reducers';
 import { getDataSelections } from '../selectors/global-selection.selectors';
 import { getCurrentRootCauseAnalysisConfiguration } from '../selectors/root-cause-analysis-configuration.selectors';
 import {
   getRootCauseDataLoadingCompletionStatus,
-  getRootCauseAnalysisDatas
+  getRootCauseAnalysisDatas,
 } from '../selectors/root-cause-analysis-data.selectors';
 import { getCurrentCalendarId } from '../selectors';
 
@@ -36,7 +36,7 @@ export class ReportEffects {
   @Effect({ dispatch: false })
   loadRootCauseDataSuccess$ = this.actions$.pipe(
     ofType(RootCauseAnalysisDataActionTypes.AddRootCauseAnalysisDatas),
-    concatMap(action =>
+    concatMap((action) =>
       of(action).pipe(
         withLatestFrom(
           this.store.select(getRootCauseAnalysisDatas),
@@ -54,7 +54,7 @@ export class ReportEffects {
         dataSelections,
         rootCauseConfiguration,
         loadingCompletion,
-        calendarId
+        calendarId,
       ]: [
         AddRootCauseAnalysisDatas,
         any,
@@ -95,9 +95,10 @@ export class ReportEffects {
                       .map((dashboardItem: any) => {
                         return {
                           ...dashboardItem,
+                          id: intervention.id,
                           bottleneckPeriodType:
                             intervention.bottleneckPeriodType,
-                          name: intervention.name
+                          name: intervention.name,
                         };
                       });
                   });
@@ -106,11 +107,7 @@ export class ReportEffects {
           );
           zip(
             ...interventionItems.map((interventionItem: any) =>
-              this.reportService.loadFavorite(
-                interventionItem.chart ? interventionItem.chart.id : '',
-                interventionItem.bottleneckPeriodType,
-                interventionItem.name
-              )
+              this.reportService.loadFavorite(interventionItem)
             )
           )
             .pipe(
@@ -123,13 +120,13 @@ export class ReportEffects {
                     calendarId
                   );
                   return {
-                    id: generateUid(),
+                    id: favorite.id,
                     type: 'CHART',
                     isNonVisualizable: false,
                     name: favorite.name,
                     uiConfig: {
                       shape: 'NORMAL',
-                      height: '450px',
+                      height: '88vh',
                       width: 'span 12',
                       showBody: true,
                       showFilters: false,
@@ -139,9 +136,9 @@ export class ReportEffects {
                       hideTypeButtons: true,
                       showInterpretionBlock: true,
                       hideResizeButtons: false,
-                      showTitleBlock: false
+                      showTitleBlock: false,
                     },
-                    layers: visualizationLayers
+                    layers: visualizationLayers,
                   };
                 });
               })
