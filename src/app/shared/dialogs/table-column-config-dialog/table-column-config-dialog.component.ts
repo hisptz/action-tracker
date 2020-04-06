@@ -23,8 +23,8 @@ export class TableColumnConfigDialogComponent implements OnInit {
   configuration$: Observable<RootCauseAnalysisConfiguration>;
   columnsMap;
   columnSettings$: Observable<any>;
-  checkAll = true;
-  unCheckAll = false;
+  checkAll;
+  unCheckAll;
   checkSettings = {
     checkAll: true,
     uncheckAll: false
