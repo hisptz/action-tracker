@@ -357,7 +357,6 @@ export class ActionTableComponent implements OnInit {
 
   onClearStatus(e) {
     e.stopPropagation();
-    console.log('closes');
   }
 
   onViewProgress(
