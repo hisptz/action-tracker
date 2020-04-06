@@ -5,7 +5,7 @@ import {
   Input,
   OnInit,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
@@ -21,13 +21,13 @@ import { VisualizationUiConfig } from '../../models/visualization-ui-config.mode
 import { Visualization } from '../../models/visualization.model';
 import {
   LoadVisualizationAnalyticsAction,
-  UpdateVisualizationLayerAction
+  UpdateVisualizationLayerAction,
 } from '../../store/actions/visualization-layer.actions';
 import {
   InitializeVisualizationObjectAction,
   SaveVisualizationFavoriteAction,
   ToggleVisualizationFullScreenAction,
-  UpdateVisualizationObjectAction
+  UpdateVisualizationObjectAction,
 } from '../../store/actions/visualization-object.actions';
 import { ShowOrHideVisualizationBodyAction } from '../../store/actions/visualization-ui-configuration.actions';
 import { VisualizationState } from '../../store/reducers/visualization.reducer';
@@ -40,7 +40,7 @@ import { getFocusedVisualization } from '../../store/selectors/visualization-ui-
   selector: 'ngx-dhis2-visualization',
   templateUrl: './visualization.component.html',
   styleUrls: ['./visualization.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VisualizationComponent implements OnInit {
   @Input()
@@ -144,7 +144,7 @@ export class VisualizationComponent implements OnInit {
   onToggleVisualizationBody(uiConfig) {
     this.store.dispatch(
       new ShowOrHideVisualizationBodyAction(uiConfig.id, {
-        showBody: uiConfig.showBody
+        showBody: uiConfig.showBody,
       })
     );
   }
@@ -152,7 +152,7 @@ export class VisualizationComponent implements OnInit {
   onVisualizationTypeChange(visualizationType: string) {
     this.store.dispatch(
       new UpdateVisualizationObjectAction(this.visualizationObject.id, {
-        currentType: visualizationType
+        currentType: visualizationType,
       })
     );
 
@@ -177,7 +177,7 @@ export class VisualizationComponent implements OnInit {
     this.toggleFullScreen.emit({
       id: this.visualizationObject.id,
       dashboardId: this.dashboardId,
-      fullScreen: fullScreenStatus
+      fullScreen: fullScreenStatus,
     });
     this.store.dispatch(
       new ToggleVisualizationFullScreenAction(this.visualizationObject.id)
@@ -200,7 +200,7 @@ export class VisualizationComponent implements OnInit {
   onVisualizationLayerConfigUpdate(visualizationLayer: VisualizationLayer) {
     this.store.dispatch(
       new UpdateVisualizationLayerAction(visualizationLayer.id, {
-        config: visualizationLayer.config
+        config: visualizationLayer.config,
       })
     );
   }
@@ -226,8 +226,8 @@ export class VisualizationComponent implements OnInit {
               uiConfig: {
                 ...visualizationUiConfig,
                 hideFooter: !focused,
-                hideResizeButtons: !focused
-              }
+                hideResizeButtons: !focused,
+              },
             })
           );
           this.cardFocused = focused;
@@ -241,15 +241,15 @@ export class VisualizationComponent implements OnInit {
       .subscribe((visualization: Visualization) => {
         this.deleteVisualization.emit({
           visualization,
-          deleteFavorite: options.deleteFavorite
+          deleteFavorite: options.deleteFavorite,
         });
 
         this.store.dispatch(
           new UpdateVisualizationObjectAction(this.id, {
             notification: {
               message: 'Removing dasboard item...',
-              type: 'progress'
-            }
+              type: 'progress',
+            },
           })
         );
       });

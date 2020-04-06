@@ -1,12 +1,16 @@
 export function getVisualizationWidthFromShape(
   dashboardItemShape: string
-): string {
+): number {
+  const fullWidth =
+    window.innerWidth ||
+    document.documentElement.clientWidth ||
+    document.body.clientWidth;
   switch (dashboardItemShape) {
     case 'DOUBLE_WIDTH':
-      return 'span 6';
+      return (fullWidth * 3) / 4;
     case 'FULL_WIDTH':
-      return 'span 12';
+      return fullWidth;
     default:
-      return 'span 6';
+      return fullWidth / 2;
   }
 }

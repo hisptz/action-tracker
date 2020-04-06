@@ -5,13 +5,13 @@ import {
   Input,
   Output,
   ViewChild,
-  OnInit
+  OnInit,
 } from '@angular/core';
 import * as _ from 'lodash';
 
 import {
   getVisualizationLayout,
-  getVisualizationMetadataIdentifiers
+  getVisualizationMetadataIdentifiers,
 } from '../../helpers';
 import { VisualizationConfig } from '../../models/visualization-config.model';
 import { VisualizationLayer } from '../../models/visualization-layer.model';
@@ -24,7 +24,7 @@ import { TableListComponent } from '../../modules/ngx-dhis2-table/components/tab
   selector: 'visualization-body-section',
   templateUrl: 'visualization-body-section.html',
   styleUrls: ['./visualization-body-section.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VisualizationBodySectionComponent implements OnInit {
   @Input()
@@ -73,13 +73,13 @@ export class VisualizationBodySectionComponent implements OnInit {
           layout: getVisualizationLayout(visualizationLayer.dataSelections),
           metadataIdentifiers: getVisualizationMetadataIdentifiers(
             visualizationLayer.dataSelections
-          )
+          ),
         };
       }
     );
 
     this.metadataIdentifiers = _.uniq(
-      _.flatten(_.map(this.layers, layer => layer.metadataIdentifiers))
+      _.flatten(_.map(this.layers, (layer) => layer.metadataIdentifiers))
     );
   }
 

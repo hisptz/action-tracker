@@ -7,7 +7,7 @@ export interface VisualizationUiConfig {
   hideTypeButtons?: boolean;
   hideManagementBlock?: boolean;
   height?: string;
-  width?: string;
+  width?: number;
   fullScreen?: boolean;
   showInterpretionBlock?: boolean;
   hideResizeButtons?: boolean;

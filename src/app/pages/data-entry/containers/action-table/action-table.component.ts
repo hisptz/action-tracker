@@ -390,9 +390,9 @@ export class ActionTableComponent implements OnInit {
     });
 
     if (visualization) {
+      const width = visualization.uiConfig ? visualization.uiConfig.width : 0;
       this.dialog.open(ProgressVisualizationDialogComponent, {
-        width: '95%',
-        height: '94vh',
+        width: width + 'px',
         data: { visualization },
       });
     }

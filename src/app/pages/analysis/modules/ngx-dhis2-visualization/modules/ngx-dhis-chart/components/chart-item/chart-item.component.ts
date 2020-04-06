@@ -24,7 +24,7 @@ import { VisualizationExportService } from '../../../../services/visualization-e
   // tslint:disable-next-line:component-selector
   selector: 'ngx-dhis2-chart-item',
   templateUrl: './chart-item.component.html',
-  styleUrls: ['./chart-item.component.css']
+  styleUrls: ['./chart-item.component.css'],
 })
 export class ChartItemComponent implements OnInit {
   @Input()
@@ -41,6 +41,7 @@ export class ChartItemComponent implements OnInit {
   chart: any;
   currentChartType: string;
   renderId: string;
+  chartWidth: number;
 
   constructor(private visualizationExportService: VisualizationExportService) {
     this.chartTypes = CHART_TYPES;
@@ -48,6 +49,10 @@ export class ChartItemComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.chartWidth =
+      (window.innerWidth ||
+        document.documentElement.clientWidth ||
+        document.body.clientWidth) - 100;
     if (this.chartConfiguration && this.analyticsObject) {
       this.currentChartType = this.chartConfiguration.type;
       this.renderId = this.chartConfiguration.renderId;
@@ -67,7 +72,7 @@ export class ChartItemComponent implements OnInit {
   }
 
   redrawChart() {
-    this.ngOnInit();
+    this.drawChart(this.analyticsObject, this.chartConfiguration);
   }
   updateChartType(chartType: string, e) {
     e.stopPropagation();
@@ -75,11 +80,11 @@ export class ChartItemComponent implements OnInit {
     this.drawChart(this.analyticsObject, {
       ...this.chartConfiguration,
       type: chartType,
-      touched: true
+      touched: true,
     });
     this.chartUpdate.emit({
       id: this.renderId,
-      type: chartType.toUpperCase()
+      type: chartType.toUpperCase(),
     });
   }
 
@@ -97,7 +102,7 @@ export class ChartItemComponent implements OnInit {
       if (downloadFormat === 'PDF') {
         this.chart.exportChartLocal({
           filename: filename,
-          type: 'application/pdf'
+          type: 'application/pdf',
         });
       } else if (downloadFormat === 'PNG') {
         this.chart.exportChartLocal({ filename: filename, type: 'image/png' });
@@ -106,7 +111,7 @@ export class ChartItemComponent implements OnInit {
       } else if (downloadFormat === 'SVG') {
         this.chart.exportChartLocal({
           filename: filename,
-          type: 'image/svg+xml'
+          type: 'image/svg+xml',
         });
       } else if (downloadFormat === 'CSV') {
         this.visualizationExportService.exportCSV(

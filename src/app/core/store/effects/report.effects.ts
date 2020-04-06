@@ -126,8 +126,11 @@ export class ReportEffects {
                     name: favorite.name,
                     uiConfig: {
                       shape: 'NORMAL',
-                      height: '88vh',
-                      width: 'span 12',
+                      height: '85vh',
+                      width:
+                        (window.innerWidth ||
+                          document.documentElement.clientWidth ||
+                          document.body.clientWidth) - 100,
                       showBody: true,
                       showFilters: false,
                       hideFooter: true,
