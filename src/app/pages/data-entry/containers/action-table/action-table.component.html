@@ -43,8 +43,8 @@
         <!-- <app-legend></app-legend> -->
       </div>
       <div>
-        <button class="text-muted" mat-icon-button>
-          <mat-icon (click)="openColumnConfigDialog()">settings</mat-icon>
+        <button class="text-muted" mat-icon-button *ngIf="columnSettings$ | async as columnSettings">
+          <mat-icon (click)="openColumnConfigDialog(columnSettings)">settings</mat-icon>
         </button>
         <button
           class="text-muted"
