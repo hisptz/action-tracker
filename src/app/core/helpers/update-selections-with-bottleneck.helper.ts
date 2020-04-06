@@ -11,11 +11,16 @@ export function updateSelectionsWithBottleneckParams(
     switch (dataSelection.dimension) {
       case 'dx': {
         const effectiveCoverageIndicators = (
-          find(dataSelection ? dataSelection.groups || [] : [], [
-            'name',
-            'Effective Coverage'
-          ]) || { members: [] }
-        ).members;
+          (
+            find(dataSelection ? dataSelection.groups || [] : [], [
+              'name',
+              'Effective Coverage',
+            ]) || { members: [] }
+          ).members || []
+        ).map((effectiveCoverageIndicator: any) => ({
+          ...effectiveCoverageIndicator,
+          isEffectiveCoverage: true,
+        }));
 
         const bottleneckIndicators = filter(
           dataSelection ? dataSelection.items || [] : [],
@@ -31,7 +36,7 @@ export function updateSelectionsWithBottleneckParams(
             items: uniqBy(
               [...bottleneckIndicators, ...effectiveCoverageIndicators],
               'id'
-            )
+            ),
           },
           'groups'
         );
@@ -54,7 +59,7 @@ export function updateSelectionsWithBottleneckParams(
               4
             )
           ),
-          layout: 'rows'
+          layout: 'rows',
         };
       }
 
@@ -62,7 +67,7 @@ export function updateSelectionsWithBottleneckParams(
         return {
           ...(find(globalSelections, ['dimension', dataSelection.dimension]) ||
             dataSelection),
-          layout: 'filters'
+          layout: 'filters',
         };
       }
 
@@ -81,7 +86,7 @@ function getPeriodsBasedOnType(periodtype: string, calendarId: string) {
     .setType(periodtype)
     .setCalendar(calendarId)
     .setPreferences({
-      allowFuturePeriods: true
+      allowFuturePeriods: true,
     })
     .get();
 
