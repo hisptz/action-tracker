@@ -25,6 +25,8 @@
           >
             {{ dataElement.name }}
           </th>
+          
+          <!-- Extra action planning columns -->
           <th *ngIf="!isActionTracking">Status</th>
           <th *ngIf="!isActionTracking"></th>
           <th
@@ -32,6 +34,8 @@
             style="border-left: 1px solid #dee2e6;"
             *ngIf="!isActionTracking"
           ></th>
+          <!-- Extra action planning columns ends here -->
+          
           <ng-container *ngIf="isActionTracking">
             <th
               *ngFor="let quarter of actionTrackingQuarters$ | async"
@@ -43,6 +47,7 @@
         </tr>
       </thead>
 
+      <!-- Loading Table Body -->
       <tbody *ngIf="dataLoading$ | async">
         <tr>
           <td colspan="100%">
@@ -51,7 +56,9 @@
           </td>
         </tr>
       </tbody>
+      <!-- Loading Table Body Ends-->
 
+<!-- Table instance on start up with explanations of how to fetch data -->
       <tbody *ngIf="!(dataLoading$ | async) && !(dataLoaded$ | async)">
         <tr>
           <td colspan="100%">
@@ -63,7 +70,9 @@
           </td>
         </tr>
       </tbody>
+      <!-- Explanation body ends here -->
 
+      <!-- Body for there is no data -->
       <tbody
         *ngIf="
           (dataLoaded$ | async) &&
@@ -81,6 +90,7 @@
           </td>
         </tr>
       </tbody>
+      <!-- Body for there is no data ends here -->
 
       <tbody>
         <tr *ngFor="let actionDataItem of data$ | async; let i = index">
