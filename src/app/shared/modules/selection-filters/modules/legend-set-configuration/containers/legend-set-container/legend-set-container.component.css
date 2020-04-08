@@ -283,5 +283,5 @@
   display: flex;
   justify-content: flex-end;
   padding-top: 0.2em;
-  padding-right: 5px;
+  /* padding-right: 5px; */
 }

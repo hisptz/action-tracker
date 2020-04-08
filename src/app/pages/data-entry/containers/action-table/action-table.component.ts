@@ -1,54 +1,62 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { generateUid } from 'src/app/core/helpers/generate-uid.helper';
-import { MatMenuTrigger } from '@angular/material';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
-import { RootCauseAnalysisConfiguration } from 'src/app/core/models/root-cause-analysis-configuration.model';
-import { State } from 'src/app/core/store/reducers';
+import { select, Store } from '@ngrx/store';
 import {
-  getMergedActionTrackerConfiguration,
-  getConfigurationDataElementsFromProgramStageDEs
-} from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
-import { getConfigurationLoadedStatus } from 'src/app/core/store/selectors/root-cause-analysis-configuration.selectors';
-import {
-  getAllDataNotification,
-  getNotificationMessageStatus,
-  getOveralLoadingStatus,
-  getActionTrackerDataLoadedStatus,
-  getMergedActionTrackerDatasWithRowspanAttribute,
-  getActionTrackingQuarters,
-  getYearOfCurrentPeriodSelection
-} from 'src/app/core/store/selectors/action-tracker-data.selectors';
-import { FormDialogComponent } from 'src/app/shared/components/form-dialog/form-dialog.component';
-import { DeleteConfirmationDialogueComponent } from 'src/app/shared/components/delete-confirmation-dialogue/delete-confirmation-dialogue.component';
-import { NotificationSnackbarComponent } from 'src/app/shared/components/notification-snackbar/notification-snackbar.component';
-import { generateActionDataValue } from 'src/app/shared/helpers/generate-action-data-values.helper';
-import { generateTEI } from 'src/app/core/helpers/generate-tracked-entity-instance.helper';
-import { generateEvent } from 'src/app/core/helpers/generate-event-payload.helper';
-import { getFormattedDate } from 'src/app/core/helpers/generate-formatted-date.helper';
-import { upsertEnrollmentPayload } from 'src/app/core/helpers/upsert-enrollment-payload.helper';
-
-import {
-  LegendSetState,
-  getActionStatusLegendSet
-} from '../../../../shared/modules/selection-filters/modules/legend-set-configuration/store';
-
-import {
-  SaveActionTrackerData,
-  DeleteActionTrackerData
-} from 'src/app/core/store/actions/action-tracker-data.actions';
-import * as _ from 'lodash';
-
-import {
+  endOfQuarter,
+  endOfYear,
   isDate,
   startOfQuarter,
-  endOfQuarter,
-  startOfYear,
-  endOfYear
+  startOfYear
 } from 'date-fns';
+import * as _ from 'lodash';
+import { Observable } from 'rxjs';
+import { generateEvent } from 'src/app/core/helpers/generate-event-payload.helper';
+import { getFormattedDate } from 'src/app/core/helpers/generate-formatted-date.helper';
+import { generateTEI } from 'src/app/core/helpers/generate-tracked-entity-instance.helper';
+import { generateUid } from 'src/app/core/helpers/generate-uid.helper';
+import { upsertEnrollmentPayload } from 'src/app/core/helpers/upsert-enrollment-payload.helper';
+import { RootCauseAnalysisConfiguration } from 'src/app/core/models/root-cause-analysis-configuration.model';
+import {
+  DeleteActionTrackerData,
+  SaveActionTrackerData
+} from 'src/app/core/store/actions/action-tracker-data.actions';
+import { State } from 'src/app/core/store/reducers';
+import {
+  getConfigurationDataElementsFromProgramStageDEs,
+  getMergedActionTrackerConfiguration
+} from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
+import {
+  getActionTrackerDataLoadedStatus,
+  getActionTrackingQuarters,
+  getAllDataNotification,
+  getMergedActionTrackerDatasWithRowspanAttribute,
+  getNotificationMessageStatus,
+  getOveralLoadingStatus,
+  getYearOfCurrentPeriodSelection
+} from 'src/app/core/store/selectors/action-tracker-data.selectors';
+import { getColumnSettingsData } from 'src/app/core/store/selectors/column-settings.selectors';
+import { getConfigurationLoadedStatus } from 'src/app/core/store/selectors/root-cause-analysis-configuration.selectors';
+import { DeleteConfirmationDialogueComponent } from 'src/app/shared/components/delete-confirmation-dialogue/delete-confirmation-dialogue.component';
+import { FormDialogComponent } from 'src/app/shared/components/form-dialog/form-dialog.component';
+import { NotificationSnackbarComponent } from 'src/app/shared/components/notification-snackbar/notification-snackbar.component';
+import { generateActionDataValue } from 'src/app/shared/helpers/generate-action-data-values.helper';
+
+import {
+  getActionStatusLegendSet,
+  LegendSetState
+} from '../../../../shared/modules/selection-filters/modules/legend-set-configuration/store';
+import { TableColumnConfigDialogComponent } from 'src/app/shared/dialogs/table-column-config-dialog/table-column-config-dialog.component';
+import { take } from 'rxjs/operators';
+
 @Component({
   selector: 'app-action-table',
   templateUrl: './action-table.component.html',
@@ -58,6 +66,7 @@ export class ActionTableComponent implements OnInit {
   @Input() isActionTracking;
   @ViewChild('tableElement', { static: false })
   table: ElementRef;
+  searchText;
 
   configuration$: Observable<RootCauseAnalysisConfiguration>;
   data$: Observable<any[]>;
@@ -70,12 +79,17 @@ export class ActionTableComponent implements OnInit {
   dataLoading$: Observable<boolean>;
   dataLoaded$: Observable<boolean>;
   periodSelection;
+  columnSettings$: Observable<any>;
+  legendSet$: Observable<any>;
 
   configurationLoaded$: Observable<boolean>;
 
   selectedAction: any;
   initialActionStatus: '';
   toBeDeleted = {};
+  selectedStatus: any;
+
+  @Output() download: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(
     private store: Store<State>,
@@ -102,6 +116,8 @@ export class ActionTableComponent implements OnInit {
       getActionStatusLegendSet
     );
 
+    this.columnSettings$ = this.store.pipe(select(getColumnSettingsData));
+
     this.notification$ = this.store.select(getAllDataNotification);
 
     this.dataLoading$ = this.store.select(getOveralLoadingStatus);
@@ -113,6 +129,7 @@ export class ActionTableComponent implements OnInit {
       });
 
     this.configurationLoaded$ = store.select(getConfigurationLoadedStatus);
+    this.legendSet$ = this.store.select(getActionStatusLegendSet);
 
     this.store.select(getNotificationMessageStatus).subscribe(notification => {
       if (notification) {
@@ -291,5 +308,43 @@ export class ActionTableComponent implements OnInit {
     } else {
       window.alert('There is no action registered for this solution yet.');
     }
+  }
+  openColumnConfigDialog(settings) {
+    const dialogRef = this.dialog.open(TableColumnConfigDialogComponent, {
+      width: '600px',
+      height: '850px',
+      data: settings
+    });
+    dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe(result => {
+        if (result === 'Saved') {
+          this._snackBar.open(
+            'Column Settings configured successfully!',
+            'Close',
+            {
+              duration: 2000
+            }
+          );
+        }
+      });
+    }
+  onDownload(e, downloadType) {
+    e.stopPropagation();
+    this.download.emit(downloadType);
+  }
+
+  onChangeStatus(e, actionStatuses: any) {
+    if (e) {
+      this.selectedStatus = (actionStatuses || []).find(
+        (status: any) => status.id === e.value
+      );
+    }
+  }
+
+  onClearStatus(e) {
+    e.stopPropagation();
+    console.log('closes');
   }
 }

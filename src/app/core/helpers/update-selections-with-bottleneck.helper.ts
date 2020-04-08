@@ -1,11 +1,11 @@
-import { filter, find, map, omit, uniqBy, reverse } from 'lodash';
 import { Fn } from '@iapps/function-analytics';
+import { filter, find, map, omit, reverse, uniqBy, take } from 'lodash';
 
 export function updateSelectionsWithBottleneckParams(
   dataSelections: any[],
   globalSelections: any[],
   bottleneckIndicatorIds: string[] = [],
-  calendarId: string = null
+  calendarId: string
 ) {
   return map(dataSelections || [], (dataSelection: any) => {
     switch (dataSelection.dimension) {
@@ -41,13 +41,17 @@ export function updateSelectionsWithBottleneckParams(
         const periodSelection =
           find(globalSelections, ['dimension', dataSelection.dimension]) ||
           dataSelection;
+
         const period = (periodSelection.items || [])[0];
         return {
           ...periodSelection,
           items: reverse(
-            filter(
-              getPeriodsBasedOnType(period.type, calendarId) || [],
-              (periodItem: any) => periodItem.id >= period.id
+            take(
+              filter(
+                getPeriodsBasedOnType(period.type, calendarId) || [],
+                (periodItem: any) => periodItem.id <= period.id
+              ),
+              4
             )
           ),
           layout: 'rows'
@@ -76,14 +80,18 @@ function getPeriodsBasedOnType(periodtype: string, calendarId: string) {
   periodInstance
     .setType(periodtype)
     .setCalendar(calendarId)
+    .setPreferences({
+      allowFuturePeriods: true
+    })
     .get();
+
   const currentYear = periodInstance.currentYear();
-  const periods =
-    periodInstance.list().length > 0
-      ? periodInstance.list()
-      : periodInstance
-          .setYear(currentYear - 1)
-          .get()
-          .list();
-  return periods;
+
+  const periodList = periodInstance.list() || [];
+  const previousPeriodList = periodInstance
+    .setYear(currentYear - 1)
+    .get()
+    .list();
+
+  return uniqBy([...(periodList || []), ...(previousPeriodList || [])], 'id');
 }

@@ -11,15 +11,16 @@ import { getRouteUrl } from './core/store/selectors';
 import { getDataSelections } from 'src/app/core/store/selectors/global-selection.selectors';
 import { OrgUnitFilterConfig } from '@iapps/ngx-dhis2-org-unit-filter';
 import { SelectionFilterConfig } from './shared/modules/selection-filters/models/selected-filter-config.model';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
   routeParams = {
-    dashboardItemId: 'rcawidget'
+    dashboardItemId: 'rcawidget',
   };
   configurationId = 'rcaconfig';
 
@@ -32,14 +33,8 @@ export class AppComponent {
     orgUnitFilterConfig: {
       singleSelection: true,
       showOrgUnitLevelGroupSection: false,
-      showUserOrgUnitSection: false
-    }
-  };
-  selectionFilterConfigForLegend: SelectionFilterConfig = {
-    showPeriodFilter: false,
-    showDataFilter: false,
-    showLegendFilter: true,
-    showOrgUnitFilter: false
+      showUserOrgUnitSection: false,
+    },
   };
 
   isLinear: false;

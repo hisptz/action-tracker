@@ -5,28 +5,29 @@ import {
   ModuleWithProviders,
   NgModule,
   Optional,
-  SkipSelf
+  SkipSelf,
 } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import {
   RouterStateSerializer,
-  StoreRouterConnectingModule
+  StoreRouterConnectingModule,
 } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
 
 import { RoutingModule } from '../app.routes';
-import { NavigationBarComponent } from './containers/navigation-bar/navigation-bar.component';
 import {
   Dhis2ApiService,
   IndexDbService,
-  IndexDbServiceConfig
+  IndexDbServiceConfig,
 } from './services';
 import { effects } from './store/effects';
 import { metaReducers, reducers } from './store/reducers';
 import { RouteSerializer } from './utils';
 import { MatButtonModule } from '@angular/material/button';
+import { SelectionBarComponent } from './containers/selection-bar/selection-bar.component';
+import { SharedModule } from '../shared/shared.module';
 
 export function initialize(dhis2ApiService: Dhis2ApiService) {
   return () => dhis2ApiService.initialize();
@@ -41,6 +42,7 @@ export function initializeDb(indexDbServiceConfig: IndexDbServiceConfig) {
     CommonModule,
     HttpClientModule,
     MatButtonModule,
+    SharedModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(effects),
 
@@ -49,19 +51,19 @@ export function initializeDb(indexDbServiceConfig: IndexDbServiceConfig) {
     // ngrx/router-store keeps router state up-to-date in the store
     StoreRouterConnectingModule.forRoot(),
 
-    !environment.production ? StoreDevtoolsModule.instrument() : []
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
-  declarations: [NavigationBarComponent],
+  declarations: [SelectionBarComponent],
   providers: [
     {
       provide: APP_INITIALIZER,
       useFactory: initialize,
       deps: [Dhis2ApiService],
-      multi: true
+      multi: true,
     },
-    { provide: RouterStateSerializer, useClass: RouteSerializer }
+    { provide: RouterStateSerializer, useClass: RouteSerializer },
   ],
-  exports: [RoutingModule, NavigationBarComponent]
+  exports: [RoutingModule, SelectionBarComponent],
 })
 export class CoreModule {
   /* make sure CoreModule is imported only by one NgModule the AppModule */
@@ -84,9 +86,9 @@ export class CoreModule {
           provide: APP_INITIALIZER,
           useFactory: initializeDb,
           deps: [IndexDbServiceConfig],
-          multi: true
-        }
-      ]
+          multi: true,
+        },
+      ],
     };
   }
 }

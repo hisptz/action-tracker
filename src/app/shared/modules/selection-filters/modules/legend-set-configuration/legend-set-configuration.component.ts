@@ -4,7 +4,7 @@ import {
   Input,
   Output,
   EventEmitter,
-  OnDestroy
+  OnDestroy,
 } from '@angular/core';
 import { flatten as _flatten, map as _map, filter as _filter } from 'lodash';
 import * as _ from 'lodash';
@@ -13,7 +13,7 @@ import { Store, select } from '@ngrx/store';
 import {
   LegendSetState,
   getAllLegendSets,
-  getLegendSetLoaded
+  getLegendSetLoaded,
 } from './store/index';
 import { Observable } from 'rxjs';
 import * as legendSetHelper from './helpers/legend-set-helper';
@@ -23,7 +23,7 @@ import { getDataSelectionUpdatedWithLegendSets } from './helpers/get-data-select
 @Component({
   selector: 'app-legend-set-configuration',
   templateUrl: './legend-set-configuration.component.html',
-  styleUrls: ['./legend-set-configuration.component.css']
+  styleUrls: ['./legend-set-configuration.component.css'],
 })
 export class LegendSetConfigurationComponent implements OnInit, OnDestroy {
   @Input()

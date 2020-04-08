@@ -1,7 +1,6 @@
 import { routerReducer, RouterReducerState } from '@ngrx/router-store';
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { environment } from 'src/environments/environment';
-
 import {
   actionTrackerConfigurationReducer,
   ActionTrackerConfigurationState
@@ -29,6 +28,7 @@ import {
   ReportVisualizationState,
   reportVisualizationReducer
 } from './report-visualization.reducer';
+import { ColumnSettingsState, columnSettingsReducer} from './column-settings.reducer'
 
 export interface State {
   // User state
@@ -52,6 +52,9 @@ export interface State {
   rootCauseAnalysisConfiguration: RootCauseAnalysisConfigurationState;
 
   reportVisualization: ReportVisualizationState;
+
+  // Column Settings State
+  columnSettings: ColumnSettingsState;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -63,7 +66,8 @@ export const reducers: ActionReducerMap<State> = {
   actionTrackerData: actionTrackerDataReducer,
   rootCauseAnalysisData: rootCauseAnalysisDataReducer,
   rootCauseAnalysisConfiguration: rootCauseAnalysisConfigurationReducer,
-  reportVisualization: reportVisualizationReducer
+  reportVisualization: reportVisualizationReducer,
+  columnSettings: columnSettingsReducer
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production

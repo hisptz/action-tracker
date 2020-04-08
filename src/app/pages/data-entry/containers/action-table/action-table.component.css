@@ -4,13 +4,45 @@
   bottom: 10px;
 }
 
+.action-controls-column {
+  position: relative;
+  width: 140px;
+}
+
 .action-tracking-column {
   border: 1px solid #dee2e6;
 }
 
 .bna-column {
-  background-color: #eeebeb;
+  background-color: #f5f5f5;
 }
 .blocked-quater {
   background-color: #dee2e6;
+}
+
+.action-table {
+  font-size: 14px;
+}
+
+.action-table th {
+  font-weight: 400 !important;
+}
+
+.action-table-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.action-status-options {
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+}
+
+.status-close-btn {
+  width: 20px;
+  height: 20px;
+  background-color: #f5f5f5;
+  border-radius: 50%;
 }
