@@ -17,7 +17,7 @@ export class DownloadService {
           '<x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/>' +
           '</x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->' +
           '</head><body><table border="1">{table}</table><br /><table border="1">{table}</table></body></html>',
-        base64 = s => window.btoa(unescape(encodeURIComponent(s))),
+        base64 = (s) => window.btoa(unescape(encodeURIComponent(s))),
         format = (s, c) => s.replace(/{(\w+)}/g, (m, p) => c[p]);
 
       const ctx = { worksheet: 'Sheet 1', filename: filename };
@@ -45,7 +45,7 @@ export class DownloadService {
 
       setTimeout(() => {
         const link = document.createElement('a');
-        link.download = filename + '.xlsx';
+        link.download = filename + '.xls';
         link.href = uri + base64(format(str, ctx));
         link.click();
       }, 100);
@@ -129,10 +129,10 @@ export class DownloadService {
 
   private _tableToCSV(table) {
     return _.join(
-      _.map(table.rows, row =>
+      _.map(table.rows, (row) =>
         _.join(
           _.compact(
-            _.map(row.cells, cell =>
+            _.map(row.cells, (cell) =>
               cell.hidden || _.includes(cell.classList.value, 'hide-on-export')
                 ? null
                 : cell.textContent
