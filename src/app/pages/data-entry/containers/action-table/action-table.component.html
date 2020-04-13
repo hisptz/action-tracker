@@ -64,7 +64,7 @@
           *ngIf="columnSettings$ | async as columnSettings"
         >
           <mat-icon (click)="openColumnConfigDialog(columnSettings)"
-            >settings</mat-icon
+            >list</mat-icon
           >
         </button>
         <button
@@ -146,7 +146,6 @@
       </tbody>
       <!-- Explanation body ends here -->
 
-      <!-- Body for there is no data -->
       <tbody
         *ngIf="
           (dataLoaded$ | async) &&
@@ -248,7 +247,18 @@
             style="border-left: 1px solid #dee2e6;"
           >
             <div class="add-action-block">
-              <button *ngIf="false" mat-stroked-button>
+              <button
+                *ngIf="reportVisualizations$ | async as reportVisualizations"
+                (click)="
+                  onViewProgress(
+                    $event,
+                    reportVisualizations,
+                    actionDataItem,
+                    configuration.dataElements
+                  )
+                "
+                mat-stroked-button
+              >
                 <mat-icon>bar_chart</mat-icon>
                 <span>Progress</span>
               </button>

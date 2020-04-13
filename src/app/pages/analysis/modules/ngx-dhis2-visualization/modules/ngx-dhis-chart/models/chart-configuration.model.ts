@@ -27,4 +27,5 @@ export interface ChartConfiguration {
   axes: any[];
   dataSelections?: any;
   touched?: boolean;
+  width: number;
 }

@@ -77,6 +77,9 @@ export function getChartConfiguration(
       : 'ou',
     zAxisType: visualizationLayout.filters
       ? visualizationLayout.filters
-      : ['pe']
+      : ['pe'],
+    width: visualizationSettings.hasOwnProperty('width')
+      ? visualizationSettings.width
+      : 500,
   };
 }

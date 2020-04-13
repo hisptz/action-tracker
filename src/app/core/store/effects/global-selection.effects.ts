@@ -5,19 +5,17 @@ import { Observable } from 'rxjs';
 import { tap, withLatestFrom } from 'rxjs/operators';
 
 import { getDataParams } from '../../helpers/get-data-params.helper';
-import { LoadActionTrackerDatas } from '../actions/action-tracker-data.actions';
 import {
   GlobalSelectionActionTypes,
-  UpsertDataSelectionsAction
+  UpsertDataSelectionsAction,
 } from '../actions/global-selection.actions';
 import {
   LoadRootCauseAnalysisDatas,
-  SetRootCauseDataCount
+  SetRootCauseDataCount,
 } from '../actions/root-cause-analysis-data.actions';
 import { State } from '../reducers';
-import { getCurrentActionTrackerConfig } from '../selectors/action-tracker-configuration.selectors';
 import { getSystemInfo } from '../selectors';
-import { SystemInfo } from '@iapps/ngx-dhis2-http-client';
+import { getCurrentActionTrackerConfig } from '../selectors/action-tracker-configuration.selectors';
 
 @Injectable()
 export class GlobalSelectionEffects {
