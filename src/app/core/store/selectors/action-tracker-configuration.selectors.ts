@@ -165,7 +165,6 @@ export const getMergedActionTrackerConfiguration = createSelector(
       ? currentRootCauseAnalysisConfiguration
       : {};
     if (currentRootCauseAnalysisConfiguration && currentActionTrackerConfig) {
-      console.log(currentRootCauseAnalysisConfiguration.dataElements);
       _.map(
         currentRootCauseAnalysisConfiguration.dataElements,
         rootCauseConfig => {

@@ -140,24 +140,10 @@
               programStageConfiguration$ | async as actionTrackingConfigurations
             "
           >
-            <!-- (actionTrackingItem.isCurrentQuater && dataItem.isCurrentYear) ||
-    (!actionTrackingItem.hasEvents &&
-      !actionTrackingItem.isCurrentQuater &&
-      dataItem.isCurrentYear) -->
             <td
               class="action-tracking-column"
               [ngClass]="{
-                'blocked-quater':
-                  (actionDataItem.isCurrentQuater &&
-                    actionDataItem.isCurrentYear) ||
-                  (!actionTrackingItem.hasEvent &&
-                    !actionDataItem.isCurrentQuater &&
-                    actionDataItem.isCurrentYear &&
-                    !(
-                      !actionTrackingItem.hasEvent &&
-                      first &&
-                      actionDataItem.isCurrentYear
-                    ))
+                'blocked-quater': !actionTrackingItem.isCurrentQuater
               }"
               *ngFor="
                 let actionTrackingItem of actionDataItem.actionTrackingColumns;
@@ -209,12 +195,8 @@
               </div>
               <div
                 *ngIf="
-                  (!actionTrackingItem.hasEvent &&
-                    first &&
-                    actionDataItem.isCurrentYear) ||
-                  (!actionTrackingItem.hasEvent &&
-                    actionTrackingItem.isCurrentQuater &&
-                    actionDataItem.isCurrentYear)
+                  !actionTrackingItem.hasEvent &&
+                  actionTrackingItem.isCurrentQuater
                 "
               >
                 <button
