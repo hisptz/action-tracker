@@ -168,6 +168,9 @@
                   )
                 "
                 matTooltip="Double Click to Edit"
+                matTooltipDisabled="{{
+                  actionTrackingItem.isCurrentQuater ? false : true
+                }}"
                 [matTooltipPosition]="'after'"
               >
                 <p class="my-0">

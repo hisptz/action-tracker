@@ -122,21 +122,15 @@ export class ActionTableComponent implements OnInit {
   onEditActionTracking(e, dataItem, actionTrackingItem, dataElements) {
     this.selectedAction = dataItem;
     this.initialActionStatus = actionTrackingItem.actionStatus;
-
-    (actionTrackingItem.isCurrentQuater && dataItem.isCurrentYear) ||
-    (!actionTrackingItem.hasEvents &&
-      !actionTrackingItem.isCurrentQuater &&
-      dataItem.isCurrentYear)
+    actionTrackingItem.isCurrentQuater
       ? this.dataEntryDialogBoxOperations(dataElements, actionTrackingItem)
-      : window.alert('You can not edit of this period, it has been locked');
+      : null;
   }
   onEditAction(e, dataItem: any, dataElements: any[]) {
     e.stopPropagation();
     !this.isActionTracking && dataItem.isCurrentYear
       ? this.dataEntryDialogBoxOperations(dataElements, dataItem)
-      : window.alert(
-          'You can not edit this action make sure you are in the current year and on the action planning page'
-        );
+      : null;
   }
 
   onAddAction(e, dataItem: any, dataElements: any[]) {
