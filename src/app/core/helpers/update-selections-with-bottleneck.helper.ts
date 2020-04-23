@@ -1,25 +1,34 @@
-import { filter, find, map, omit, uniqBy, take, reverse } from 'lodash';
-import { getPeriodsBasedOnType } from '@iapps/ngx-dhis2-period-filter';
+import { Fn } from '@iapps/function-analytics';
+import { filter, find, map, omit, reverse, uniqBy, take } from 'lodash';
 
 export function updateSelectionsWithBottleneckParams(
   dataSelections: any[],
   globalSelections: any[],
-  bottleneckIndicatorIds: string[] = []
+  bottleneckIndicatorIds: string[] = [],
+  calendarId: string
 ) {
   return map(dataSelections || [], (dataSelection: any) => {
     switch (dataSelection.dimension) {
       case 'dx': {
         const effectiveCoverageIndicators = (
-          find(dataSelection ? dataSelection.groups || [] : [], [
-            'name',
-            'Effective Coverage'
-          ]) || { members: [] }
-        ).members;
+          (
+            find(dataSelection ? dataSelection.groups || [] : [], [
+              'name',
+              'Effective Coverage',
+            ]) || { members: [] }
+          ).members || []
+        ).map((effectiveCoverageIndicator: any) => ({
+          ...effectiveCoverageIndicator,
+          isEffectiveCoverage: true,
+        }));
 
         const bottleneckIndicators = filter(
           dataSelection ? dataSelection.items || [] : [],
-          (item: any) => (bottleneckIndicatorIds || []).includes(item.id)
+          (item: any) =>
+            (bottleneckIndicatorIds || []).includes(item.id) &&
+            !find(effectiveCoverageIndicators || [], ['id', item.id])
         );
+
         return omit(
           {
             ...dataSelection,
@@ -27,7 +36,7 @@ export function updateSelectionsWithBottleneckParams(
             items: uniqBy(
               [...bottleneckIndicators, ...effectiveCoverageIndicators],
               'id'
-            )
+            ),
           },
           'groups'
         );
@@ -39,18 +48,18 @@ export function updateSelectionsWithBottleneckParams(
           dataSelection;
 
         const period = (periodSelection.items || [])[0];
-        const date = new Date();
-        const currentYear = date.getFullYear();
-
         return {
           ...periodSelection,
           items: reverse(
-            filter(
-              getPeriodsBasedOnType(period.type, currentYear) || [],
-              (periodItem: any) => periodItem.id >= period.id
+            take(
+              filter(
+                getPeriodsBasedOnType(period.type, calendarId) || [],
+                (periodItem: any) => periodItem.id <= period.id
+              ),
+              4
             )
           ),
-          layout: 'rows'
+          layout: 'rows',
         };
       }
 
@@ -58,7 +67,7 @@ export function updateSelectionsWithBottleneckParams(
         return {
           ...(find(globalSelections, ['dimension', dataSelection.dimension]) ||
             dataSelection),
-          layout: 'filters'
+          layout: 'filters',
         };
       }
 
@@ -69,4 +78,25 @@ export function updateSelectionsWithBottleneckParams(
         );
     }
   });
+}
+
+function getPeriodsBasedOnType(periodtype: string, calendarId: string) {
+  const periodInstance = new Fn.Period();
+  periodInstance
+    .setType(periodtype)
+    .setCalendar(calendarId)
+    .setPreferences({
+      allowFuturePeriods: true,
+    })
+    .get();
+
+  const currentYear = periodInstance.currentYear();
+
+  const periodList = periodInstance.list() || [];
+  const previousPeriodList = periodInstance
+    .setYear(currentYear - 1)
+    .get()
+    .list();
+
+  return uniqBy([...(periodList || []), ...(previousPeriodList || [])], 'id');
 }

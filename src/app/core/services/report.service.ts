@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ReportService {
   private _favoriteDataStoreNamespace: string;
@@ -12,7 +12,9 @@ export class ReportService {
     this._favoriteDataStoreNamespace = 'dataStore/favorites';
   }
 
-  loadFavorite(favoriteId: string, favoriteName?: string) {
+  loadFavorite(intervention: any) {
+    const favoriteId =
+      intervention && intervention.chart ? intervention.chart.id : '';
     if (favoriteId === '') {
       return of(null);
     }
@@ -20,7 +22,12 @@ export class ReportService {
       .get(`${this._favoriteDataStoreNamespace}/${favoriteId}`)
       .pipe(
         map((favorite: any) => {
-          return { ...favorite, name: favoriteName };
+          return {
+            ...favorite,
+            id: intervention.id,
+            name: intervention.name,
+            bottleneckPeriodType: intervention.bottleneckPeriodType,
+          };
         })
       );
   }

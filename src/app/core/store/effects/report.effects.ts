@@ -3,7 +3,7 @@ import { LoadFunctions } from '@iapps/ngx-dhis2-data-filter';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
-import { forkJoin, of } from 'rxjs';
+import { of, zip } from 'rxjs';
 import { concatMap, map, tap, withLatestFrom } from 'rxjs/operators';
 
 import { generateUid } from '../../helpers/generate-uid.helper';
@@ -14,12 +14,16 @@ import { AddCurrentUser, UserActionTypes } from '../actions';
 import { addReportVisualizations } from '../actions/report-visualization.actions';
 import {
   AddRootCauseAnalysisDatas,
-  RootCauseAnalysisDataActionTypes
+  RootCauseAnalysisDataActionTypes,
 } from '../actions/root-cause-analysis-data.actions';
 import { State } from '../reducers';
 import { getDataSelections } from '../selectors/global-selection.selectors';
 import { getCurrentRootCauseAnalysisConfiguration } from '../selectors/root-cause-analysis-configuration.selectors';
-import { getRootCauseDataLoadingCompletionStatus } from '../selectors/root-cause-analysis-data.selectors';
+import {
+  getRootCauseDataLoadingCompletionStatus,
+  getRootCauseAnalysisDatas,
+} from '../selectors/root-cause-analysis-data.selectors';
+import { getCurrentCalendarId } from '../selectors';
 
 @Injectable()
 export class ReportEffects {
@@ -32,28 +36,40 @@ export class ReportEffects {
   @Effect({ dispatch: false })
   loadRootCauseDataSuccess$ = this.actions$.pipe(
     ofType(RootCauseAnalysisDataActionTypes.AddRootCauseAnalysisDatas),
-    concatMap(action =>
+    concatMap((action) =>
       of(action).pipe(
         withLatestFrom(
+          this.store.select(getRootCauseAnalysisDatas),
           this.store.select(getDataSelections),
           this.store.select(getCurrentRootCauseAnalysisConfiguration),
-          this.store.select(getRootCauseDataLoadingCompletionStatus)
+          this.store.select(getRootCauseDataLoadingCompletionStatus),
+          this.store.select(getCurrentCalendarId)
         )
       )
     ),
     tap(
-      ([action, dataSelections, rootCauseConfiguration, loadingCompletion]: [
+      ([
+        action,
+        rootCauseAnalysisDatas,
+        dataSelections,
+        rootCauseConfiguration,
+        loadingCompletion,
+        calendarId,
+      ]: [
         AddRootCauseAnalysisDatas,
         any,
+        any,
         RootCauseAnalysisConfiguration,
-        boolean
+        boolean,
+        string
       ]) => {
         if (loadingCompletion) {
           const bottleneckIndicatorConfig = _.find(
             rootCauseConfiguration.dataElements,
             ['name', 'indicatorId']
           );
-          const bottleneckIndicatorIds = action.rootCauseAnalysisDatas.map(
+
+          const bottleneckIndicatorIds = rootCauseAnalysisDatas.map(
             (rootCauseData: any) => {
               const dataValues = rootCauseData.dataValues || [];
               return dataValues[
@@ -79,20 +95,19 @@ export class ReportEffects {
                       .map((dashboardItem: any) => {
                         return {
                           ...dashboardItem,
-                          name: intervention.name
+                          id: intervention.id,
+                          bottleneckPeriodType:
+                            intervention.bottleneckPeriodType,
+                          name: intervention.name,
                         };
                       });
                   });
                 })
             )
           );
-
-          forkJoin(
-            interventionItems.map((interventionItem: any) =>
-              this.reportService.loadFavorite(
-                interventionItem.chart ? interventionItem.chart.id : '',
-                interventionItem.name
-              )
+          zip(
+            ...interventionItems.map((interventionItem: any) =>
+              this.reportService.loadFavorite(interventionItem)
             )
           )
             .pipe(
@@ -101,17 +116,21 @@ export class ReportEffects {
                   const visualizationLayers = getVisualizationLayersFromFavorite(
                     favorite,
                     dataSelections,
-                    bottleneckIndicatorIds
+                    bottleneckIndicatorIds,
+                    calendarId
                   );
                   return {
-                    id: generateUid(),
+                    id: favorite.id,
                     type: 'CHART',
                     isNonVisualizable: false,
                     name: favorite.name,
                     uiConfig: {
                       shape: 'NORMAL',
-                      height: '450px',
-                      width: 'span 12',
+                      height: '85vh',
+                      width:
+                        (window.innerWidth ||
+                          document.documentElement.clientWidth ||
+                          document.body.clientWidth) - 100,
                       showBody: true,
                       showFilters: false,
                       hideFooter: true,
@@ -119,10 +138,10 @@ export class ReportEffects {
                       hideManagementBlock: true,
                       hideTypeButtons: true,
                       showInterpretionBlock: true,
-                      hideResizeButtons: true,
-                      showTitleBlock: false
+                      hideResizeButtons: false,
+                      showTitleBlock: false,
                     },
-                    layers: visualizationLayers
+                    layers: visualizationLayers,
                   };
                 });
               })

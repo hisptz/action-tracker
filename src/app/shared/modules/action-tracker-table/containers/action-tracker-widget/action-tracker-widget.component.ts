@@ -3,38 +3,52 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { ContextMenuComponent } from 'ngx-contextmenu';
+import { ContextMenuService } from 'ngx-contextmenu';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { openEntryForm } from 'src/app/core/helpers/open-entry-form.helper';
 import { RootCauseAnalysisConfiguration } from 'src/app/core/models/root-cause-analysis-configuration.model';
 import { RootCauseAnalysisData } from 'src/app/core/models/root-cause-analysis-data.model';
+
+import { State } from 'src/app/core/store/reducers';
+import {
+  getCurrentActionTrackerConfig,
+  getMergedActionTrackerConfiguration,
+  getConfigurationDataElementsFromProgramStageDEs
+} from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
+import {
+  LegendSetState,
+  getActionStatusLegendSet,
+  getActionStatusLegendSetItems
+} from '../../../selection-filters/modules/legend-set-configuration/store';
+import { getDataSelections } from 'src/app/core/store/selectors/global-selection.selectors';
+import {
+  getConfigurationLoadedStatus,
+  getConfigurationLoadingStatus
+} from 'src/app/core/store/selectors/root-cause-analysis-configuration.selectors';
+import {
+  getRootCauseAnalysisDataLoadedStatus,
+  getAllRootCauseAnalysisData
+} from 'src/app/core/store/selectors/root-cause-analysis-data.selectors';
+
+import {
+  getAllDataNotification,
+  getOveralLoadingStatus,
+  getMergedActionTrackerDatasWithRowspanAttribute
+} from 'src/app/core/store/selectors/action-tracker-data.selectors';
+
 import {
   AddActionTrackerData,
   CancelActionTrackerData,
   DeleteActionTrackerData,
   SaveActionTrackerData
 } from 'src/app/core/store/actions/action-tracker-data.actions';
-import { State } from 'src/app/core/store/reducers';
-import {
-  getCurrentActionTrackerConfig,
-  getMergedActionTrackerConfiguration
-} from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
-import {
-  getAllDataNotification,
-  getMergedActionTrackerDatasWithRowspanAttribute,
-  getOveralLoadingStatus
-} from 'src/app/core/store/selectors/action-tracker-data.selectors';
-import { getDataSelections } from 'src/app/core/store/selectors/global-selection.selectors';
-import {
-  getConfigurationLoadedStatus,
-  getConfigurationLoadingStatus
-} from 'src/app/core/store/selectors/root-cause-analysis-configuration.selectors';
-import { getRootCauseAnalysisDataLoadedStatus } from 'src/app/core/store/selectors/root-cause-analysis-data.selectors';
 
 import * as fromRootCauseAnalysisDataActions from '../../../../../core/store/actions/root-cause-analysis-data.actions';
 import { listEnterAnimation } from '../../../../animations/list-enter-animation';
 import { generateUid } from '../../helpers';
 import { DownloadWidgetService } from '../../services/downloadWidgetService.service';
+import * as jsPDF from 'jspdf';
+import domtoimage from 'dom-to-image';
 
 @Component({
   selector: 'app-bna-widget',
@@ -63,6 +77,11 @@ export class ActionTrackerWidgetComponent implements OnInit {
   @Input()
   selectedPeriod;
 
+  @Input()
+  isReport: boolean;
+
+  selectedDataItem: any = {};
+
   @ViewChild('rootCauseAnalysisTable', { static: false })
   table: ElementRef;
 
@@ -72,6 +91,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
   configuration$: Observable<RootCauseAnalysisConfiguration>;
   data$: Observable<RootCauseAnalysisData[]>;
   actionTrackerConfiguration$: Observable<any>;
+  programStageConfiguration$: Observable<any>;
   configurationLoading$: Observable<boolean>;
   configurationLoaded$: Observable<boolean>;
   dataLoading$: Observable<boolean>;
@@ -91,53 +111,116 @@ export class ActionTrackerWidgetComponent implements OnInit {
    * key value pair object for each row to show/hide during deletion
    */
   toBeDeleted = {};
+  legendSetStatus$: Observable<any>;
+  legendSetItems$: Observable<any>;
+
+  display = 'none';
 
   constructor(
     private store: Store<State>,
-    private downloadWidgetService: DownloadWidgetService
+    private legendSetStore: Store<LegendSetState>,
+    private downloadWidgetService: DownloadWidgetService,
+    private contextMenuService: ContextMenuService
   ) {
+    this.data$ = store.select(getMergedActionTrackerDatasWithRowspanAttribute);
+
     this.configuration$ = store.select(getMergedActionTrackerConfiguration);
     this.actionTrackerConfiguration$ = store.select(
       getCurrentActionTrackerConfig
     );
-    this.data$ = store.select(getMergedActionTrackerDatasWithRowspanAttribute);
+    this.programStageConfiguration$ = store.select(
+      getConfigurationDataElementsFromProgramStageDEs
+    );
+    this.legendSetStatus$ = this.legendSetStore.select(
+      getActionStatusLegendSet
+    );
+
+    this.legendSetItems$ = this.legendSetStore.select(
+      getActionStatusLegendSetItems
+    );
+
     this.configurationLoading$ = store.select(getConfigurationLoadingStatus);
     this.configurationLoaded$ = store.select(getConfigurationLoadedStatus);
     this.dataLoaded$ = store.select(getRootCauseAnalysisDataLoadedStatus);
     this.dataLoading$ = store.select(getOveralLoadingStatus);
     this.notification$ = store.select(getAllDataNotification);
     this.dataSelections$ = store.select(getDataSelections);
-
     this.unSavedDataItemValues = {};
-
-    this.data$
-      .pipe(
-        switchMap((data: any) =>
-          this.configuration$.pipe(
-            map((config: any) => {
-              return { config, lastData: _.last(data) };
-            })
-          )
-        )
-      )
-      .subscribe((dataDetails: any) => {
-        of(dataDetails);
-      });
   }
 
   ngOnInit() {}
 
-  onActionEdit(dataItem) {
-    if (dataItem) {
-      !(dataItem.rowspan = 1)
-        ? this.openActionTrackerEntryForm(dataItem)
-        : openEntryForm(dataItem);
-      // dataItem.parentAction
-      //   ? this.openActionTrackerEntryForm(dataItem)
-      //   : openEntryForm(dataItem);
+  onAddAction(dataItem, configuration) {
+    if (!dataItem.id) {
+      this.openModal(dataItem);
+    } else {
+      const emptyDataValues = this.generateConfigurations(
+        configuration,
+        dataItem
+      );
+      const newDataItem = {
+        trackedEntityInstance: generateUid(),
+        dataValues: emptyDataValues,
+        isNewRow: true,
+        rootCauseDataId: dataItem.rootCauseDataId,
+        parentAction: dataItem.id
+      };
+      this.openModal(newDataItem);
     }
   }
 
+  openModal(dataItem) {
+    this.selectedDataItem = dataItem;
+    this.display = 'block';
+  }
+
+  onActionEdit(dataItem) {
+    this.display = 'block';
+    this.selectedDataItem = dataItem;
+  }
+
+  onCloseHandled() {
+    this.display = 'none';
+  }
+
+  onSave(actionTrackerData: any, placeHolderData?: any) {
+    actionTrackerData
+      ? actionTrackerData.trackedEntityInstance
+        ? this.store.dispatch(
+            new SaveActionTrackerData(
+              actionTrackerData,
+              actionTrackerData.trackedEntityInstance
+            )
+          )
+        : this.store.dispatch(new SaveActionTrackerData(actionTrackerData))
+      : null;
+    this.onCloseHandled();
+    // this.store.dispatch(new CancelActionTrackerData(placeHolderData));
+  }
+
+  cancelDataEntryForm(dataItem, allDataItems) {
+    if (dataItem.isNewRow) {
+      this.store.dispatch(new CancelActionTrackerData(dataItem));
+      this.onCloseHandled();
+    } else {
+      this.onCloseHandled();
+    }
+  }
+
+  onContextMenu(event, dataItem) {
+    if (!this.isReport) {
+      this.contextMenuService.show.next({
+        // Optional - if unspecified, all context menu components will open
+        contextMenu: this.extraActions,
+        event: event,
+        item: dataItem
+      });
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }
+
+  onActionTrackingDataValuesUpdate(event, dataItem, dataElement) {}
   onActionDelete(dataItem) {
     const dataItemToDelete = document.getElementById(dataItem.id);
     if (dataItemToDelete) {
@@ -168,200 +251,74 @@ export class ActionTrackerWidgetComponent implements OnInit {
       this.toBeDeleted[dataItem.id] = false;
     }
   }
+
   onConfirmActionDelete(dataItem, dataElements) {
-    const selectionParams = {};
-    if (dataItem && dataElements) {
-      selectionParams['orgUnit'] =
-        dataItem.dataValues[
-          _.get(_.find(dataElements, { name: 'orgUnitId' }), 'id')
-        ];
-      selectionParams['period'] =
-        dataItem.dataValues[
-          _.get(_.find(dataElements, { name: 'periodId' }), 'id')
-        ];
-      selectionParams['dashboard'] =
-        dataItem.dataValues[
-          _.get(_.find(dataElements, { name: 'interventionId' }), 'id')
-        ];
-    }
-    if (dataItem && dataItem.id) {
+    if (dataItem && dataItem.trackedEntityInstance) {
       this.store.dispatch(
-        new DeleteActionTrackerData(
-          { ...dataItem, selectionParams },
-          dataItem.id
-        )
+        new DeleteActionTrackerData(dataItem.trackedEntityInstance)
       );
     } else {
       window.alert('There is no action registered for this solution yet.');
     }
   }
+
+  generateFileName() {
+    const dateTime = new Date();
+    const filename =
+      'Action Tracker gen. on ' +
+      dateTime.getFullYear() +
+      (dateTime.getMonth() + 1 < 10 ? '-0' : '-') +
+      (dateTime.getMonth() + 1) +
+      (dateTime.getDay() < 10 ? '-0' : '-') +
+      dateTime.getDay() +
+      ' ' +
+      (dateTime.getHours() < 10 ? ':0' : ':') +
+      dateTime.getHours() +
+      (dateTime.getMinutes() < 10 ? ':0' : ':') +
+      dateTime.getMinutes() +
+      'hrs';
+    return filename;
+  }
+
+  printPDF(filename, htmlElement) {
+    domtoimage.toJpeg(htmlElement, { quality: 1 }).then(function(dataUrl) {
+      let pdf = new jsPDF('p', 'pt', 'a4');
+      pdf.addImage(dataUrl, 'JPEG', 40, 40, 520, 150);
+      pdf.save(filename + '.pdf');
+    });
+  }
+
   downloadTable(downloadFormat) {
     if (this.table) {
-      const dateTime = new Date();
       const el = this.table.nativeElement;
-      const filename =
-        'Root causes - ' +
-        this.routerParams.dashboard.name +
-        ' - ' +
-        this.selectedOrgUnit +
-        ' - ' +
-        this.selectedPeriod +
-        ' gen. on ' +
-        dateTime.getFullYear() +
-        (dateTime.getMonth() + 1 < 10 ? '-0' : '-') +
-        (dateTime.getMonth() + 1) +
-        (dateTime.getDay() < 10 ? '-0' : '-') +
-        dateTime.getDay() +
-        ' ' +
-        (dateTime.getHours() < 10 ? ':0' : ':') +
-        dateTime.getHours() +
-        (dateTime.getMinutes() < 10 ? ':0' : ':') +
-        dateTime.getMinutes() +
-        'hrs';
-      if (downloadFormat === 'XLSX') {
-        if (el) {
-          this.downloadWidgetService.exportXLS(filename, el.outerHTML);
+      const filename = this.generateFileName();
+
+      if (el) {
+        if (downloadFormat === 'PDF') {
+          this.printPDF(filename, el);
+        } else if (downloadFormat === 'XLSX') {
+          const item = el.cloneNode(true);
+          _.map(item.querySelectorAll('.hide-on-export'), elementNotExport =>
+            elementNotExport.remove()
+          );
+          this.downloadWidgetService.exportXLS(filename, item.outerHTML);
+        } else if (downloadFormat === 'CSV') {
+          this.downloadWidgetService.exportCSV(filename, el);
         }
       }
     }
-  }
-  checkIfSolutionHasAnAction(dataItem) {
-    if (dataItem) {
-      const relatedSolutionDataItems = document.getElementsByClassName(
-        dataItem.rootCauseDataId
-      );
-
-      if (relatedSolutionDataItems.length == 1) {
-        let emptyColumnCount = 0;
-        const tableRow = _.head(relatedSolutionDataItems);
-        const actionTrackerColumns = tableRow.getElementsByClassName(
-          'action-tracker-column'
-        );
-        _.map(actionTrackerColumns, actionTrackerColumn => {
-          if (actionTrackerColumn.innerText === '') {
-            emptyColumnCount++;
-          }
-        });
-        return emptyColumnCount > 6 ? false : true;
-      } else {
-        return true;
-      }
-    }
-  }
-
-  onAddAction(event, dataItem, configuration) {
-    if (this.checkIfSolutionHasAnAction(dataItem) == false) {
-      this.openActionTrackerEntryForm(dataItem);
-    } else {
-      const emptyDataValues = this.generateConfigurations(
-        configuration.dataElements,
-        dataItem.dataValues
-      );
-      const newDataItem = {
-        id: generateUid(),
-        dataValues: emptyDataValues,
-        isNewRow: true,
-        rootCauseDataId: dataItem.rootCauseDataId,
-        actionTrackerConfigId: dataItem.actionTrackerConfigId,
-        parentAction: dataItem.id
-      };
-      this.store.dispatch(new AddActionTrackerData(newDataItem));
-    }
-  }
-
-  openActionTrackerEntryForm(dataItem) {
-    const dataItemRowElement = document.getElementById(
-      `${dataItem.id || dataItem.rootCauseDataId}`
-    );
-
-    const actionTrackerItems = dataItemRowElement.getElementsByClassName(
-      'action-tracker-column'
-    );
-
-    _.map(actionTrackerItems, (actionTrackerColumn, index) => {
-      if (index !== actionTrackerItems.length - 1) {
-        actionTrackerColumn.setAttribute('hidden', true);
-      } else {
-        actionTrackerColumn.colSpan = _.toString(actionTrackerItems.length);
-        const buttonElement = _.head(
-          actionTrackerColumn.getElementsByClassName('add-action-block')
-        );
-
-        const formElement = _.head(
-          actionTrackerColumn.getElementsByClassName(
-            'action-tracker-form-wrapper'
-          )
-        );
-        buttonElement.setAttribute('hidden', true);
-        formElement.removeAttribute('hidden');
-      }
-    });
-  }
-
-  cancelDataEntryForm(dataItem, allDataItems) {
-    if (dataItem.isNewRow) {
-      this.closeDataEntryForm(dataItem);
-      this.store.dispatch(new CancelActionTrackerData(dataItem));
-    } else {
-      this.closeDataEntryForm(dataItem);
-    }
-  }
-  closeDataEntryForm(dataItem) {
-    const dataItemRowElement = document.getElementById(
-      `${dataItem.id || dataItem.rootCauseDataId}`
-    );
-
-    const parentDataItemElement = document.getElementById(
-      `${dataItem.parentAction || dataItem.id}`
-    );
-    const actionTrackerItems = dataItemRowElement.getElementsByClassName(
-      'action-tracker-column'
-    );
-    _.map(actionTrackerItems, (actionTrackerColumn, index) => {
-      if (index !== actionTrackerItems.length - 1) {
-        actionTrackerColumn.removeAttribute('hidden', false);
-      } else {
-        actionTrackerColumn.colSpan = _.toString(1);
-        const buttonElement = _.head(
-          actionTrackerColumn.getElementsByClassName('btn-add-action')
-        );
-
-        const formElement = _.head(
-          actionTrackerColumn.getElementsByClassName(
-            'action-tracker-form-wrapper'
-          )
-        );
-        buttonElement.removeAttribute('hidden');
-        formElement.setAttribute('hidden', true);
-        if (dataItem.parentAction) {
-          const parentButtonElement = _.head(
-            parentDataItemElement.getElementsByClassName('btn-add-action')
-          ).parentNode;
-          parentButtonElement.removeAttribute('hidden');
-          buttonElement.setAttribute('hidden', true);
-        }
-      }
-    });
   }
 
   generateConfigurations(configurationDataElements, dataItem) {
-    const dataValues: any = {};
-    _.forEach(configurationDataElements, element => {
-      element.isActionTrackerColumn ? (dataValues[element.id] = '') : null;
+    _.map(dataItem.dataValues, (dataValue, index) => {
+      return _.find(configurationDataElements, {
+        isActionTrackerColumn: true,
+        id: index
+      })
+        ? _.set(dataItem.dataValues, `${index}`, '')
+        : null;
     });
-    return dataValues;
-  }
-
-  // Hook your saving logic here
-  onSave(actionTrackerData: any, placeHolderData?: any) {
-    actionTrackerData
-      ? actionTrackerData.id
-        ? this.store.dispatch(
-            new SaveActionTrackerData(actionTrackerData, actionTrackerData.id)
-          )
-        : this.store.dispatch(new SaveActionTrackerData(actionTrackerData))
-      : null;
-    this.store.dispatch(new CancelActionTrackerData(placeHolderData));
+    return dataItem.dataValues;
   }
 
   onResetNotification(emptyNotificationMessage) {
@@ -372,33 +329,5 @@ export class ActionTrackerWidgetComponent implements OnInit {
         }
       })
     );
-  }
-
-  onDataValueEntry(e, dataElement) {
-    if (e) {
-      e.stopPropagation();
-    }
-    const newEnteredData = e.target.value.trim();
-    if (newEnteredData !== '') {
-      const dataValueId = dataElement;
-
-      this.newRootCauseAnalysisData.dataValues[dataElement] = newEnteredData;
-      const unSavedDataItem = this.newRootCauseAnalysisData;
-      this.newRootCauseAnalysisData = unSavedDataItem
-        ? {
-            ...unSavedDataItem,
-            dataValues: {
-              ...unSavedDataItem.dataValues,
-              ...{ [dataValueId]: newEnteredData }
-            }
-          }
-        : {
-            ...this.newRootCauseAnalysisData,
-            dataValues: {
-              ...this.newRootCauseAnalysisData.dataValues,
-              ...{ [dataValueId]: newEnteredData }
-            }
-          };
-    }
   }
 }

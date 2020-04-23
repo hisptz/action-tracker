@@ -2,7 +2,10 @@ import { createSelector } from '@ngrx/store';
 import * as _ from 'lodash';
 
 import { getRootState, State as RootState } from '../reducers';
-import { adapter, State } from '../reducers/root-cause-analysis-data.reducer';
+import {
+  adapter,
+  RootCauseAnalysisDataState
+} from '../reducers/root-cause-analysis-data.reducer';
 import { getCurrentRootCauseAnalysisConfiguration } from './root-cause-analysis-configuration.selectors';
 import { getRouterParams } from './router.selectors';
 import { RootCauseAnalysisConfiguration } from '../../models/root-cause-analysis-configuration.model';
@@ -20,27 +23,27 @@ export const {
 
 export const getRootCauseAnalysisDataLoadingStatus = createSelector(
   getRootCauseAnalysisDataState,
-  (state: State) => state.loading
+  (state: RootCauseAnalysisDataState) => state.loading
 );
 export const getRootCauseAnalysisDataLoadedStatus = createSelector(
   getRootCauseAnalysisDataState,
-  (state: State) => state.loaded
+  (state: RootCauseAnalysisDataState) => state.loaded
 );
 export const getRootCauseAnalysisDataHasErrorStatus = createSelector(
   getRootCauseAnalysisDataState,
-  (state: State) => state.hasError
+  (state: RootCauseAnalysisDataState) => state.hasError
 );
 export const getRootCauseAnalysisDataSavingColorStatus = createSelector(
   getRootCauseAnalysisDataState,
-  (state: State) => state.savingColor
+  (state: RootCauseAnalysisDataState) => state.savingColor
 );
 export const getRootCauseAnalysisDataErrorStatus = createSelector(
   getRootCauseAnalysisDataState,
-  (state: State) => state.error
+  (state: RootCauseAnalysisDataState) => state.error
 );
 export const getRootCauseAnalysisDataNotificationStatus = createSelector(
   getRootCauseAnalysisDataState,
-  (state: State) => state.notification
+  (state: RootCauseAnalysisDataState) => state.notification
 );
 
 export const getAllRootCauseAnalysisData = createSelector(
@@ -72,6 +75,7 @@ export const getAllRootCauseAnalysisData = createSelector(
         );
         return {
           ...rootCauseAnalysisData,
+          rootCauseDataId: rootCauseAnalysisData.id,
           dataValues: rootCauseAnalysisData.isActive
             ? newDataValues
             : rootCauseAnalysisData.dataValues
@@ -83,6 +87,6 @@ export const getAllRootCauseAnalysisData = createSelector(
 
 export const getRootCauseDataLoadingCompletionStatus = createSelector(
   getRootCauseAnalysisDataState,
-  (state: State) =>
+  (state: RootCauseAnalysisDataState) =>
     state && state.completedDataCount === state.dataCount && state.loaded
 );

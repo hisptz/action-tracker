@@ -4,9 +4,12 @@
       <input
         class="form-control"
         value="{{ defaultValue }}"
-        [autoClose]="outside"
+        (click)="rangeDatePicker.toggle()"
+        readonly="readonly"
+        [autoClose]="'outside'"
         [dayTemplate]="rangeSelectorTemplate"
         name="dp"
+        [placement]="bottom"
         [displayMonths]="rangeSelector.displayMonths"
         [navigation]="rangeSelector.navigation"
         [outsideDays]="rangeSelector.outsideDays"
@@ -40,17 +43,20 @@
   </div>
 </span>
 
-<span class="form-inline" *ngIf="periodUI == 'PERIOD'">
+<span class="form-inline" *ngIf="periodUI == 'DATE'">
   <div class="form-group">
     <div class="input-group">
       <input
         class="form-control"
-        value="{{ defaultValue }}"
         name="sdp"
-        [(ngModel)]="model"
+        readonly="readonly"
+        [(ngModel)]="currentReviewDate"
+        (click)="singleDatePicker.toggle()"
+        [placement]="bottom"
         (dateSelect)="onReviewDateSelection($event)"
         ngbDatepicker
         #singleDatePicker="ngbDatepicker"
+        style="width: auto !important;"
       />
       <div class="input-group-append">
         <button

@@ -5,7 +5,8 @@ import {
   ActionTrackerConfigurationActionTypes
 } from '../actions/action-tracker-configuration.actions';
 
-export interface State extends EntityState<ActionTrackerConfiguration> {
+export interface ActionTrackerConfigurationState
+  extends EntityState<ActionTrackerConfiguration> {
   // additional entities state properties
   loading: boolean;
   loaded: boolean;
@@ -14,22 +15,24 @@ export interface State extends EntityState<ActionTrackerConfiguration> {
   currentConfig: string;
 }
 
-export const adapter: EntityAdapter<
+export const adapter: EntityAdapter<ActionTrackerConfiguration> = createEntityAdapter<
   ActionTrackerConfiguration
-> = createEntityAdapter<ActionTrackerConfiguration>();
+>();
 
-export const initialState: State = adapter.getInitialState({
-  loading: false,
-  loaded: false,
-  hasError: false,
-  error: null,
-  currentConfig: 'actiontrackerconfig'
-});
+export const initialState: ActionTrackerConfigurationState = adapter.getInitialState(
+  {
+    loading: false,
+    loaded: false,
+    hasError: false,
+    error: null,
+    currentConfig: 'ROSaojkGieB'
+  }
+);
 
-export function reducer(
+export function actionTrackerConfigurationReducer(
   state = initialState,
   action: ActionTrackerConfigurationActions
-): State {
+): ActionTrackerConfigurationState {
   switch (action.type) {
     case ActionTrackerConfigurationActionTypes.UpsertActionTrackerConfiguration: {
       return adapter.upsertOne(

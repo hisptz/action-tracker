@@ -8,6 +8,7 @@ import { FormComponent } from './form/form.component';
 import { FormInputItemComponent } from './form-input-item/form-input-item.component';
 import { TextViewComponent } from './text-view/text-view.component';
 import { DatePickerComponent } from './date-picker/date-picker.component';
+import { ReportDownloadComponent } from './report-download/report-download.component';
 export const components: any = [
   AutoFilledInputComponent,
   SelectBoxInputComponent,
@@ -18,5 +19,6 @@ export const components: any = [
   FormComponent,
   FormInputItemComponent,
   DatePickerComponent,
+  ReportDownloadComponent,
   TextViewComponent
 ];

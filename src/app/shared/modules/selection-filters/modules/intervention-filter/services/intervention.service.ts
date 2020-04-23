@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import * as _ from 'lodash';
-import { Observable, of, forkJoin } from 'rxjs';
-import { mergeMap, catchError } from 'rxjs/operators';
+import { Observable, of, zip } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class InterventionService {
@@ -10,7 +10,7 @@ export class InterventionService {
 
   loadAll(settings: any = { namespace: 'bna-dashboard' }): Observable<any[]> {
     return this.http.get('dataStore/dashboards').pipe(
-      mergeMap((dashboardIds: Array<string>) => {
+      switchMap((dashboardIds: Array<string>) => {
         const filteredDashboardIds = _.filter(
           dashboardIds,
           (dashboardId: string) => {
@@ -23,8 +23,8 @@ export class InterventionService {
         if (filteredDashboardIds.length === 0) {
           return of([]);
         }
-        return forkJoin(
-          _.map(filteredDashboardIds, dashboardId => {
+        return zip(
+          ..._.map(filteredDashboardIds, dashboardId => {
             return this.http.get(`dataStore/dashboards/${dashboardId}`);
           })
         );

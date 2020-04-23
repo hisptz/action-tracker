@@ -3,18 +3,18 @@ import {
   GlobalSelectionActionTypes
 } from '../actions/global-selection.actions';
 
-export interface State {
+export interface DataSelectionState {
   dataSelections: any[];
 }
 
-export const initialState: State = {
+export const initialState: DataSelectionState = {
   dataSelections: []
 };
 
-export function reducer(
+export function dataSelectionReducer(
   state = initialState,
   action: GlobalSelectionActions
-): State {
+): DataSelectionState {
   switch (action.type) {
     case GlobalSelectionActionTypes.UpsertDataSelections: {
       return {

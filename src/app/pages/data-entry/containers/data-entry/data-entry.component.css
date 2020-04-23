@@ -1,0 +1,11 @@
+.data-entry-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 15px;
+}
+
+.data-entry-content {
+  padding-top: 15px;
+}

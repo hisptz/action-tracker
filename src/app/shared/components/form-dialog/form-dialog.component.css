@@ -1,0 +1,16 @@
+.form-container {
+  height: 100%;
+}
+
+.form-action {
+  position: absolute;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  bottom: 10px;
+}
+
+.form-content {
+  max-height: calc(100vh - 200px) !important;
+  overflow: auto;
+}

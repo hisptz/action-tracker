@@ -12,3 +12,22 @@ body {
 button:focus {
   outline: none;
 }
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+tr {
+  border-top: 1px solid #dee2e6;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.cdk-overlay-container {
+  top: -25px !important;
+  z-index: 1410 !important;
+}

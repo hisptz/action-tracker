@@ -1,0 +1,22 @@
+<div class="my-2">
+  <ng-container *ngIf="showDownloadTypes">
+    <div class="mat-stroked-button mx-1" (click)="onSelectDownloadType('CSV')">
+      <i class="fa fa-file-text-o"></i>
+    </div>
+
+    <div class="mat-stroked-button " (click)="onSelectDownloadType('XLSX')">
+      <i class="fa fa-file-excel-o"></i>
+    </div>
+
+    <div class="mat-stroked-button mx-1" (click)="onSelectDownloadType('PDF')">
+      <i class="fa fa-file-pdf-o"></i>
+    </div>
+  </ng-container>
+
+  <div
+    class="mat-stroked-button mx-1"
+    (click)="onToggleDownloadTypesVisibility()"
+  >
+    <i class="fa fa-share-square-o"></i>
+  </div>
+</div>

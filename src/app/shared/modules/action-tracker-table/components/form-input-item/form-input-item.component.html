@@ -1,19 +1,79 @@
 <div
   class="col"
-  *ngIf="dataElement?.valueType == 'TEXT' || dataElement?.valueType == 'PERIOD'"
+  *ngIf="dataElement?.valueType == 'TEXT' && !dataElement.hasLegend"
 >
-  <label for="dataElement?.id">{{ dataElement?.name }}</label>
-  <input type="text" class="form-control" id="dataElement?.id" />
+  <label for="dataElement?.id"
+    ><b>{{ dataElement?.name }}</b></label
+  >
+  <input
+    type="text"
+    class="form-control"
+    value="{{ actionTrackingItem[dataElement.formControlName] }}"
+    id="dataElement?.id"
+    [(ngModel)]="actionTrackingItem[dataElement.formControlName]"
+    (change)="
+      onDataValueChange($event, dataItem, dataElement, actionTrackingItem)
+    "
+  />
+</div>
+<div class="col" *ngIf="dataElement?.valueType == 'DATE'">
+  <label for="{{ dataItem?.id }}_{{ dataElement?.id }}">
+    <b>{{ dataElement?.name }}</b>
+  </label>
+  <app-date-picker
+    [periodUI]="dataElement?.valueType"
+    [defaultValue]="actionTrackingItem[dataElement.formControlName]"
+    [rangeSelector]="rangeSelectorParams"
+    (singleSelectionDate)="
+      setReviewDate($event, actionTrackingItem, dataElement, dataItem)
+    "
+    (rangeSelectionDate)="
+      setActionPeriod($event, actionTrackingItem, dataElement.formControlName)
+    "
+  ></app-date-picker>
 </div>
 
-<div class="col" *ngIf="dataElement?.valueType == 'TEXTAREA'">
-  <label for="dataElement?.id">{{ dataElement?.name }}</label>
+<div class="col" *ngIf="dataElement?.valueType == 'LONG_TEXT'">
+  <label for="dataElement?.id">
+    <b>{{ dataElement?.name }}</b>
+  </label>
   <textarea
     class="form-control"
     id="dataElement?.id"
     rows="1"
+    value="{{ actionTrackingItem[dataElement.formControlName] }}"
     placeholder="{{ dataElement?.name }}"
+    [(ngModel)]="actionTrackingItem[dataElement.formControlName]"
+    (change)="
+      onDataValueChange($event, dataItem, dataElement, actionTrackingItem)
+    "
     tabindex="j-9"
     autofocus
   ></textarea>
+</div>
+
+<div
+  class="form-group"
+  *ngIf="
+    (dataElement && dataElement?.valueType == 'SELECT') || dataElement.hasLegend
+  "
+>
+  <label for="{{ dataItem?.id }}_{{ dataElement?.id }}">
+    <b>{{ dataElement?.name }}</b>
+  </label>
+  <select
+    class="form-control"
+    *ngIf="dataElement.formControlName"
+    id="{{ dataItem?.id }}_{{ dataElement?.id }}"
+    [(ngModel)]="actionTrackingItem[dataElement.formControlName]"
+    (change)="
+      onDataValueChange($event, dataItem, dataElement, actionTrackingItem)
+    "
+  >
+    <option
+      value="{{ legendSetItem.id }}"
+      *ngFor="let legendSetItem of legendSetItems"
+      >{{ legendSetItem.name }}</option
+    >
+  </select>
 </div>

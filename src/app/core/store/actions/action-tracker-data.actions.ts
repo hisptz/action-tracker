@@ -23,7 +23,8 @@ export enum ActionTrackerDataActionTypes {
   CancelActionTrackerDataFail = '[ActionTrackerData] Cancel ActionTrackerData Fail',
   SaveActionTrackerData = '[ActionTrackerData] Save ActionTrackerData',
   SaveActionTrackerDataSuccess = '[ActionTrackerData] Save ActionTrackerData Success',
-  SaveActionTrackerDataFail = '[ActionTrackerData] Save ActionTrackerData Fail'
+  SaveActionTrackerDataFail = '[ActionTrackerData] Save ActionTrackerData Fail',
+  ResetNotifications = '[ActionTrackerData] Reset Notifications'
 }
 
 export class LoadActionTrackerDatas implements Action {
@@ -109,10 +110,7 @@ export class UpdateActionTrackerDatas implements Action {
 export class DeleteActionTrackerData implements Action {
   readonly type = ActionTrackerDataActionTypes.DeleteActionTrackerData;
 
-  constructor(
-    public actionTrackerData: any,
-    public actionTrackerDataId?: string
-  ) {}
+  constructor(public actionTrackerDataId: string) {}
 }
 
 export class DeleteActionTrackerDataSuccess implements Action {
@@ -123,7 +121,7 @@ export class DeleteActionTrackerDataSuccess implements Action {
 
 export class DeleteActionTrackerDataFail implements Action {
   readonly type = ActionTrackerDataActionTypes.DeleteActionTrackerDataFail;
-  constructor(public actionTrackerData: ActionTrackerData, public error: any) {}
+  constructor(public actionTrackerDataId: string, public error: any) {}
 }
 
 export class DeleteActionTrackerDatas implements Action {
@@ -148,13 +146,19 @@ export class SaveActionTrackerData implements Action {
 export class SaveActionTrackerDataSuccess implements Action {
   readonly type = ActionTrackerDataActionTypes.SaveActionTrackerDataSuccess;
 
-  constructor(public actionTrackerData: ActionTrackerData, public state: any) {}
+  constructor(public actionTrackerData: any) {}
 }
 
 export class SaveActionTrackerDataFail implements Action {
   readonly type = ActionTrackerDataActionTypes.SaveActionTrackerDataFail;
 
   constructor(public error: any) {}
+}
+
+export class ResetNotifications implements Action {
+  readonly type = ActionTrackerDataActionTypes.ResetNotifications;
+
+  constructor() {}
 }
 
 export type ActionTrackerDataActions =
@@ -178,4 +182,5 @@ export type ActionTrackerDataActions =
   | ClearActionTrackerDatas
   | SaveActionTrackerData
   | SaveActionTrackerDataSuccess
-  | SaveActionTrackerDataFail;
+  | SaveActionTrackerDataFail
+  | ResetNotifications;

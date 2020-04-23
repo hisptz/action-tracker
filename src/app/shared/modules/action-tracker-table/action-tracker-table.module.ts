@@ -4,6 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 import { ContextMenuModule } from 'ngx-contextmenu';
 import { NgPipesModule } from 'ngx-pipes';
 
@@ -11,6 +13,8 @@ import { components } from './components';
 import { containers } from './containers';
 import { directives } from './directives';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { ColorizePipe } from '../../pipes/colorize.pipe';
+import { ConvertLegendIdPipe } from 'src/app/shared/pipes/convertLegendId.pipe';
 
 @NgModule({
   declarations: [...containers, ...components, ...directives],
@@ -22,6 +26,7 @@ import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
     MatProgressBarModule,
     MatCardModule,
     MatButtonModule,
+    MatSnackBarModule,
     NgbDatepickerModule,
     ContextMenuModule.forRoot(),
     NgPipesModule

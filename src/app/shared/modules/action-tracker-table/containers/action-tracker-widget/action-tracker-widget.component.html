@@ -1,6 +1,15 @@
-<div>
+<div class="row mb-2 justify-content-end">
+  <div
+    class="col-12 d-flex justify-content-end"
+    *ngIf="(data$ | async)?.length > 0"
+  >
+    <app-report-download (downloadType)="downloadTable($event)">
+    </app-report-download>
+  </div>
+</div>
+<div id="pdfExport">
   <table
-    class="table table-bordered table-responsive"
+    class="table table-responsive"
     #rootCauseAnalysisTable
     *ngIf="configuration$ | async as rootCauseAnalysisConfiguration"
   >
@@ -8,16 +17,24 @@
       <tr>
         <th width="1%">SN.</th>
         <th
-          [hidden]="dataElement.isHidden"
+          [hidden]="
+            dataElement.isHidden || (dataElement.isNotReportColumn && isReport)
+          "
+          [ngClass]="{ 'hide-on-export': dataElement.isHidden }"
           *ngFor="
             let dataElement of rootCauseAnalysisConfiguration.dataElements
           "
         >
           {{ dataElement.name }}
         </th>
-        <th>Actions</th>
+        <th *ngIf="!isReport" class="hide-on-export">Add Actions</th>
+        <th *ngIf="isReport">Q1</th>
+        <th *ngIf="isReport">Q2</th>
+        <th *ngIf="isReport">Q3</th>
+        <th *ngIf="isReport">Q4</th>
       </tr>
     </thead>
+
     <tbody *ngIf="dataLoading$ | async">
       <tr>
         <td colspan="100%">
@@ -26,6 +43,7 @@
         </td>
       </tr>
     </tbody>
+
     <tbody *ngIf="data$ | async as rootCauseAnalysisData" [@listEnter]>
       <tr
         *ngFor="
@@ -33,14 +51,15 @@
           let i = index;
           trackBy: dataItem?.id
         "
+        (contextmenu)="onContextMenu($event, dataItem)"
         class="{{ dataItem?.rootCauseDataId }}"
         id="{{ dataItem?.id || dataItem?.rootCauseDataId }}"
-        [contextMenu]="extraActions"
-        [contextMenuSubject]="dataItem"
       >
-        <td>{{ i + 1 }}</td>
+        <td style=" background-color: #f5f5f5">
+          {{ i + 1 }}
+        </td>
         <td [attr.colspan]="11" *ngIf="toBeDeleted[dataItem.id]" align="center">
-          <div class="d-flex align-items-center justify-content-end">
+          <div class="d-flex align-items-center justify-content-center">
             <span>Are you sure wish to delete this data?</span>&nbsp;
             <button
               mat-stroked-button
@@ -63,12 +82,17 @@
           </div>
         </td>
         <td
-          [hidden]="dataElement.isHidden || toBeDeleted[dataItem.id]"
+          [hidden]="
+            dataElement.isHidden ||
+            toBeDeleted[dataItem.id] ||
+            (dataElement.isNotReportColumn && isReport)
+          "
           *ngFor="
             let dataElement of rootCauseAnalysisConfiguration.dataElements;
             let j = index
           "
           [ngClass]="{
+            'hide-on-export': dataElement.isHidden,
             'for-display': !dataElement.isHidden,
             'action-tracker-column': dataElement.isActionTrackerColumn,
             'solution-column': !dataElement.isActionTrackerColumn
@@ -88,33 +112,79 @@
                 *ngIf="dataElement.valueType === 'TEXTAREA'"
                 [text]="dataItem.dataValues[dataElement.id]"
               ></app-text-view>
-              <div *ngIf="dataElement.valueType !== 'TEXTAREA'">
-                {{ dataItem.dataValues[dataElement.id] }}
-              </div>
+              <!-- <div *ngIf="dataElement.valueType !== 'TEXTAREA'">
+                {{
+                  dataItem.dataValues[
+                    dataElement.id || dataElement.formControlName
+                  ] | convertLegendId: (legendSetStatus$ | async)
+                }}
+              </div> -->
             </div>
           </ng-container>
         </td>
 
+        <ng-container *ngIf="isReport">
+          <td
+            *ngFor="let actionTrackingItem of dataItem.actionTrackingColumns"
+            [ngClass]="{ 'pr-5': actionTrackingItem.isCurrentQuater }"
+          >
+            <div
+              *ngFor="let programStageDE of programStageConfiguration$ | async"
+            >
+              <div *ngIf="!actionTrackingItem.isCurrentQuater">
+                <p>
+                  <b>{{ programStageDE.name }}</b>
+                </p>
+                <!-- <p
+                  [style.color]="
+                    actionTrackingItem[programStageDE.formControlName]
+                      | colorize: (legendSetStatus$ | async)
+                  "
+                >
+                  {{
+                    actionTrackingItem[programStageDE.formControlName]
+                      | convertLegendId: (legendSetStatus$ | async)
+                  }}
+                </p> -->
+              </div>
+
+              <form-input-item
+                *ngIf="actionTrackingItem.isCurrentQuater"
+                [dataItem]="dataItem"
+                [dataElement]="programStageDE"
+                [configuration]="programStageConfiguration$ | async"
+                [actionTrackingItem]="actionTrackingItem"
+                [legendSetItems]="legendSetItems$ | async"
+                (updateDataValue)="
+                  onActionTrackingDataValuesUpdate(
+                    $event,
+                    dataItem,
+                    dataElement
+                  )
+                "
+              >
+              </form-input-item>
+            </div>
+          </td>
+        </ng-container>
+
         <td
-          class="action-tracker-column"
+          class="action-tracker-column hide-on-export"
+          style=" background-color: #f5f5f5"
           [hidden]="!dataItem.rowspan"
           [attr.rowspan]="dataItem.rowspan"
+          *ngIf="!isReport"
         >
-          <div class="action-tracker-form-wrapper" hidden="true">
-            <action-tracker-form
-              [dataItem]="dataItem"
-              [configurations]="actionTrackerConfiguration$ | async"
-              (save)="onSave($event, dataItem)"
-              (cancel)="cancelDataEntryForm($event, rootCauseAnalysisData)"
-            ></action-tracker-form>
-          </div>
           <div class="add-action-block">
             <button
               mat-icon-button
               class="btn-add-action"
               title="Click to add new action"
               (click)="
-                onAddAction($event, dataItem, rootCauseAnalysisConfiguration)
+                onAddAction(
+                  dataItem,
+                  rootCauseAnalysisConfiguration.dataElements
+                )
               "
             >
               <i class="fa fa-plus"></i>
@@ -127,8 +197,9 @@
           <mat-card>
             <mat-card-content>
               <i>
-                Select Intervention, Period and Organisation unit to view manage
-                your actions
+                Select Intervention, Period and Organisation unit to view
+                {{ isReport ? '' : 'and
+                manage' }} your actions
               </i>
             </mat-card-content></mat-card
           >
@@ -146,21 +217,71 @@
         ></mat-progress-bar></mat-card-content
     ></mat-card>
   </div>
+
+  <!-- Modal -->
+  <div class="backdrop" [ngStyle]="{ display: display }"></div>
+
+  <div
+    class="modal"
+    tabindex="-1"
+    role="dialog"
+    [ngStyle]="{ display: display }"
+    style="margin-top: 100px; z-index: 1500;"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title">Action Tracker Data Entry Form</h6>
+        </div>
+
+        <div class="modal-body">
+          <action-tracker-form
+            *ngIf="display != 'none'"
+            [dataItem]="selectedDataItem"
+            [legendSetItems]="legendSetItems$ | async"
+            [configurations]="actionTrackerConfiguration$ | async"
+            (save)="onSave($event, selectedDataItem)"
+            (cancel)="cancelDataEntryForm($event, rootCauseAnalysisData)"
+          ></action-tracker-form>
+        </div>
+
+        <!-- <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-default"
+            (click)="onCloseHandled()"
+          >
+            Close
+          </button>
+        </div> -->
+      </div>
+    </div>
+  </div>
 </div>
 
-<context-menu
-  [useBootstrap4]="true"
-  *ngIf="configuration$ | async as rootCauseAnalysisConfiguration"
->
-  <ng-template contextMenuItem (execute)="onActionEdit($event.item)">
-    <a class="context-menu-item"> <i class="fa fa-pencil"></i> Edit </a>
-  </ng-template>
-  <ng-template
-    contextMenuItem
-    (execute)="
-      onActionDelete($event.item, rootCauseAnalysisConfiguration?.dataElements)
-    "
+<!-- Context menu logic -->
+<div *ngIf="!isReport">
+  <context-menu
+    [useBootstrap4]="true"
+    *ngIf="configuration$ | async as rootCauseAnalysisConfiguration"
   >
-    <a class="context-menu-item"> <i class="fa fa-trash-o"></i> Delete </a>
-  </ng-template>
-</context-menu>
+    <ng-template contextMenuItem (execute)="onActionEdit($event.item)">
+      <a class="context-menu-item">
+        <i class="fa fa-pencil" style="float: right; color: green"></i> Edit
+      </a>
+    </ng-template>
+    <ng-template
+      contextMenuItem
+      (execute)="
+        onActionDelete(
+          $event.item,
+          rootCauseAnalysisConfiguration?.dataElements
+        )
+      "
+    >
+      <a class="context-menu-item">
+        <i class="fa fa-trash-o" style="float: right; color: red"></i> Delete
+      </a>
+    </ng-template>
+  </context-menu>
+</div>

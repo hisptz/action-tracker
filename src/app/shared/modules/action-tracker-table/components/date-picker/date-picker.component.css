@@ -21,3 +21,8 @@ select.custom-select {
   margin: 0.5rem 0.5rem 0 0;
   width: auto;
 }
+
+.form-control {
+  background-color: white;
+  cursor: pointer;
+}

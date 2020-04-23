@@ -6,25 +6,38 @@ import { Observable } from 'rxjs';
 import * as _ from 'lodash';
 
 import { UpsertDataSelectionsAction } from './core/store/actions/global-selection.actions';
-import { State } from './core/store/reducers';
-import { getRouterParams } from './core/store/selectors';
+import { State } from 'src/app/core/store/reducers';
+import { getRouteUrl } from './core/store/selectors';
 import { getDataSelections } from 'src/app/core/store/selectors/global-selection.selectors';
+import { OrgUnitFilterConfig } from '@iapps/ngx-dhis2-org-unit-filter';
+import { SelectionFilterConfig } from './shared/modules/selection-filters/models/selected-filter-config.model';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
   routeParams = {
-    dashboardItemId: 'rcawidget'
+    dashboardItemId: 'rcawidget',
   };
   configurationId = 'rcaconfig';
 
   dataSelections$: Observable<any>;
   selectedOrgUnit$: Observable<string>;
   selectedPeriod$: Observable<string>;
+  legend$: Observable<any>;
+  route$: Observable<any>;
+  selectionFilterConfig: SelectionFilterConfig = {
+    orgUnitFilterConfig: {
+      singleSelection: true,
+      showOrgUnitLevelGroupSection: false,
+      showUserOrgUnitSection: false,
+    },
+  };
 
+  isLinear: false;
   constructor(
     private store: Store<State>,
     private translate: TranslateService,
@@ -38,6 +51,7 @@ export class AppComponent {
 
     // Set application title
     this.setTitle('Action Tracker');
+    this.route$ = this.store.select(getRouteUrl(true));
   }
 
   public setTitle(newTitle: string) {
