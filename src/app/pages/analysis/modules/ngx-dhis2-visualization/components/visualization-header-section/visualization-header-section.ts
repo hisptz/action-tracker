@@ -1,15 +1,15 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import * as _ from 'lodash';
 
-import { SelectionFilterConfig } from '@iapps/ngx-dhis2-selection-filters';
 import { getMergedDataSelections } from '../../helpers';
 import { VisualizationDataSelection } from '../../models/visualization-data-selection.model';
 import { VisualizationLayer } from '../../models/visualization-layer.model';
+import { SelectionFilterConfig } from 'src/app/shared/modules/selection-filters/models/selected-filter-config.model';
 
 @Component({
   selector: 'visualization-header-section',
   templateUrl: 'visualization-header-section.html',
-  styleUrls: ['./visualization-header-section.css']
+  styleUrls: ['./visualization-header-section.css'],
 })
 export class VisualizationHeaderSectionComponent {
   @Input()
@@ -53,7 +53,7 @@ export class VisualizationHeaderSectionComponent {
       showLegendFilter: false,
       showOrgUnitFilter: true,
       showLayout: true,
-      showDataFilter: false
+      showDataFilter: false,
     };
   }
 
@@ -71,7 +71,7 @@ export class VisualizationHeaderSectionComponent {
           this.favoriteType
         ),
         'layoutOrder'
-      )
+      ),
     });
   }
 
