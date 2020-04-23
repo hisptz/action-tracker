@@ -24,7 +24,7 @@
     "@angular/material": "^8.1.4",
     "@angular/platform-browser": "^8.2.5",
     "@angular/platform-browser-dynamic": "^8.2.5",
-    "@angular/pwa": "^0.800.3",
+    "@angular/pwa": "^0.901.3",
     "@angular/router": "^8.2.5",
     "@angular/service-worker": "^8.2.5",
     "@hisptz/ngx-dhis2-http-client": "^2.0.2",
