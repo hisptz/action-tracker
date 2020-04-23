@@ -30,13 +30,17 @@ export function HttpLoaderFactory(http: HttpClient) {
       namespace: 'iapps',
       version: 1,
       models: {
-        users: 'id'
-      }
+        users: 'id',
+      },
     }),
     NgxDhis2HttpClientModule.forRoot({
       version: 1,
-      namespace: 'actionTracker',
-      models: {}
+      namespace: 'action-tracker',
+      models: {
+        organisationUnits: 'id,name,level',
+        organisationUnitLevels: 'id',
+        organisationUnitGroups: 'id',
+      },
     }),
     FormsModule,
     ReactiveFormsModule,
@@ -62,13 +66,13 @@ export function HttpLoaderFactory(http: HttpClient) {
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    })
+        deps: [HttpClient],
+      },
+    }),
   ],
   providers: [
-    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true } }
+    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true } },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
