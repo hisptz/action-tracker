@@ -31,3 +31,6 @@ tr {
   top: -25px !important;
   z-index: 1410 !important;
 }
+.custom-dialog-container .mat-dialog-container {
+   padding-top: 0 !important;
+}
