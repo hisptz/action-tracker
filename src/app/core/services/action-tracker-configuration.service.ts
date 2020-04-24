@@ -6,7 +6,7 @@ import { HandlerService } from './handler.service';
 import { defaultActionTrackerProgram } from '../defaults/action-tracker-program-metadata';
 import * as _ from 'lodash';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ActionTrackerConfigurationService {
   private _metadataImportURL: string;
@@ -19,7 +19,7 @@ export class ActionTrackerConfigurationService {
   findById(configId: string) {
     return this.http
       .get(
-        `programs/ROSaojkGieB.json?fields=id,name,trackedEntityType[id],programTrackedEntityAttributes[valueType,displayInList,searchable,sortOrder,mandatory,trackedEntityAttribute[id,name,formName,ValueType,code]],programStages[id,name,repeatable,executionDateLabel,sortOrder,programStageDataElements[displayInReports,compulsory,sortOrder,dataElement[id,name,formName,valueType,description,attributeValues[value,attribute[id,name]],optionSetValue,optionSet[options[id,name,code]]]]]`
+        `programs/ROSaojkGieB.json?fields=id,name,trackedEntityType[id],programTrackedEntityAttributes[valueType,displayInList,searchable,sortOrder,mandatory,trackedEntityAttribute[id,name,formName,ValueType,code,attributeValues[value,attribute[id,name]]]],programStages[id,name,repeatable,executionDateLabel,sortOrder,programStageDataElements[displayInReports,compulsory,sortOrder,dataElement[id,name,formName,valueType,description,attributeValues[value,attribute[id,name]],optionSetValue,optionSet[options[id,name,code]]]]]`
       )
       .pipe(
         switchMap((res: any) => {
@@ -38,7 +38,7 @@ export class ActionTrackerConfigurationService {
     return this.http
       .post(`${this._metadataImportURL}`, actionTrackerConfig)
       .pipe(
-        map(importSummary => {
+        map((importSummary) => {
           return importSummary;
         }),
         catchError((error: any) => {
