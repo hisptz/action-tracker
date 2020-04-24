@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { getCurrentUserManagementAuthoritiesStatus } from '../../store/selectors/user.selectors';
 import { Store, select} from '@ngrx/store';
 import { State } from '../../store/reducers';
+import { FieldsSettingsDialogComponent } from 'src/app/shared/dialogs/fields-settings-dialog/fields-settings-dialog.component';
 
 @Component({
   selector: 'app-selection-bar',
@@ -31,6 +32,13 @@ export class SelectionBarComponent implements OnInit {
   openLegendDialog() {
     this.dialog.open(LegendConfigurationDialogComponent, {
       height: '400px',
+    });
+  }
+  openFieldsSettingsDialog() {
+    this.dialog.open(FieldsSettingsDialogComponent, {
+      width: '600px',
+      height: '850px',
+      panelClass: 'custom-dialog-container'
     });
   }
 }
