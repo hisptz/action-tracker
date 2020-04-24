@@ -24,7 +24,6 @@ import { SafePipe } from './pipes/safe';
 import { VisualizationLayerEffects } from './store/effects/visualization-layer.effects';
 import { VisualizationObjectEffects } from './store/effects/visualization-object.effects';
 import { reducers } from './store/reducers/visualization.reducer';
-import { NgxDhis2SelectionFiltersModule } from '@iapps/ngx-dhis2-selection-filters';
 
 // store
 // import { MapModule } from './modules/map/map.module';
@@ -37,12 +36,11 @@ import { NgxDhis2SelectionFiltersModule } from '@iapps/ngx-dhis2-selection-filte
     StoreModule.forFeature('visualization', reducers),
     EffectsModule.forFeature([
       VisualizationObjectEffects,
-      VisualizationLayerEffects
+      VisualizationLayerEffects,
     ]),
     NgxDhis2ChartModule,
     NgxDhis2TableModule,
-    NgxDhis2SelectionFiltersModule,
-    ReportsModule
+    ReportsModule,
   ],
   declarations: [
     SafePipe,
@@ -58,8 +56,8 @@ import { NgxDhis2SelectionFiltersModule } from '@iapps/ngx-dhis2-selection-filte
     VisualizationWidgetComponent,
     VisualizationDownloadsSectionComponent,
     VisualizationErrorNotifierComponent,
-    VisualizationComponent
+    VisualizationComponent,
   ],
-  exports: [VisualizationComponent]
+  exports: [VisualizationComponent],
 })
 export class NgxDhis2VisualizationModule {}
