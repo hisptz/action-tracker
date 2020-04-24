@@ -3,7 +3,7 @@
   "version": "1.0.0-beta.1",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --port 4600",
     "build": "ng build --prod --aot && cd dist/action-tracker && zip -r -D action-tracker.zip .",
     "test": "ng test --source-map=false",
     "test:travis": "ng test --source-map=false --no-watch --no-progress --browsers=ChromeHeadlessCI",

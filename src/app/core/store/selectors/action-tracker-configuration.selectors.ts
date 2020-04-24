@@ -55,8 +55,8 @@ export const getConfigurationDataElementsFromTEAs = createSelector(
       ? _.compact(
           _.map(
             currentActionTrackerConfig.programTrackedEntityAttributes,
-            (trackedEntityAttributes) =>
-              _.merge(
+            (trackedEntityAttributes) => {
+              return _.merge(
                 trackedEntityAttributes.trackedEntityAttribute,
                 _.pick(trackedEntityAttributes, 'valueType'),
                 {
@@ -68,12 +68,16 @@ export const getConfigurationDataElementsFromTEAs = createSelector(
                     )
                   ),
                   isHidden:
-                    trackedEntityAttributes.displayInList == true
+                    trackedEntityAttributes.displayInList === true
                       ? false
                       : true,
+
+                  required:
+                    trackedEntityAttributes.mandatory === true ? true : false,
                   isActionTrackerColumn: true,
                 }
-              )
+              );
+            }
           )
         )
       : [];
@@ -91,8 +95,8 @@ export const getConfigurationDataElementsFromProgramStageDEs = createSelector(
               _.compact(
                 _.map(
                   programStage.programStageDataElements,
-                  (programStageDataElement) => {
-                    return programStageDataElement.displayInReports
+                  (programStageDataElement) =>
+                    programStageDataElement.displayInReports
                       ? _.merge(
                           {
                             name: _.get(
@@ -135,8 +139,7 @@ export const getConfigurationDataElementsFromProgramStageDEs = createSelector(
                             'valueType',
                           ])
                         )
-                      : [];
-                  }
+                      : []
                 )
               ),
               [
