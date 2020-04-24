@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 import { getRootState, State as RootState } from '../reducers';
 import {
   adapter,
-  ActionTrackerConfigurationState
+  ActionTrackerConfigurationState,
 } from '../reducers/action-tracker-configuration.reducer';
 import { getCurrentRootCauseAnalysisConfiguration } from './root-cause-analysis-configuration.selectors';
 
@@ -15,7 +15,7 @@ const getActionTrackerConfigurationState = createSelector(
 );
 
 export const {
-  selectEntities: getActionTrackerConfigurationEntities
+  selectEntities: getActionTrackerConfigurationEntities,
 } = adapter.getSelectors(getActionTrackerConfigurationState);
 
 export const getCurrentActionTrackerConfigId = createSelector(
@@ -39,7 +39,7 @@ export const getCurrentActionTrackerConfigLegend = createSelector(
   (actionTrackerConfigurationsState, currentActionTrackerConfigurations) => {
     return _.get(
       _.find(_.get(currentActionTrackerConfigurations, 'dataElements'), {
-        formControlName: 'actionStatus'
+        formControlName: 'actionStatus',
       }),
       'legendSet.legends'
     );
@@ -49,12 +49,13 @@ export const getCurrentActionTrackerConfigLegend = createSelector(
 export const getConfigurationDataElementsFromTEAs = createSelector(
   getActionTrackerConfigurationState,
   getCurrentActionTrackerConfig,
-  (actionTrackerConfigState, currentActionTrackerConfig) =>
-    currentActionTrackerConfig
+  (actionTrackerConfigState, currentActionTrackerConfig) => {
+    console.log({ currentActionTrackerConfig });
+    return currentActionTrackerConfig
       ? _.compact(
           _.map(
             currentActionTrackerConfig.programTrackedEntityAttributes,
-            trackedEntityAttributes =>
+            (trackedEntityAttributes) =>
               _.merge(
                 trackedEntityAttributes.trackedEntityAttribute,
                 _.pick(trackedEntityAttributes, 'valueType'),
@@ -70,12 +71,13 @@ export const getConfigurationDataElementsFromTEAs = createSelector(
                     trackedEntityAttributes.displayInList == true
                       ? false
                       : true,
-                  isActionTrackerColumn: true
+                  isActionTrackerColumn: true,
                 }
               )
           )
         )
-      : []
+      : [];
+  }
 );
 
 export const getConfigurationDataElementsFromProgramStageDEs = createSelector(
@@ -84,12 +86,12 @@ export const getConfigurationDataElementsFromProgramStageDEs = createSelector(
   (actionTrackerConfigState, currentActionTrackerConfig) =>
     currentActionTrackerConfig
       ? _.compact(
-          _.flatMap(currentActionTrackerConfig.programStages, programStage =>
+          _.flatMap(currentActionTrackerConfig.programStages, (programStage) =>
             _.concat(
               _.compact(
                 _.map(
                   programStage.programStageDataElements,
-                  programStageDataElement => {
+                  (programStageDataElement) => {
                     return programStageDataElement.displayInReports
                       ? _.merge(
                           {
@@ -126,11 +128,11 @@ export const getConfigurationDataElementsFromProgramStageDEs = createSelector(
                               'true'
                             )
                               ? true
-                              : false
+                              : false,
                           },
                           _.pick(programStageDataElement.dataElement, [
                             'id',
-                            'valueType'
+                            'valueType',
                           ])
                         )
                       : [];
@@ -143,8 +145,8 @@ export const getConfigurationDataElementsFromProgramStageDEs = createSelector(
                   valueType: 'DATE',
                   isActionTrackerColumn: true,
                   formControlName: 'eventDate',
-                  isNotReportColumn: true
-                }
+                  isNotReportColumn: true,
+                },
               ]
             )
           )
@@ -167,7 +169,7 @@ export const getMergedActionTrackerConfiguration = createSelector(
     if (currentRootCauseAnalysisConfiguration && currentActionTrackerConfig) {
       _.map(
         currentRootCauseAnalysisConfiguration.dataElements,
-        rootCauseConfig => {
+        (rootCauseConfig) => {
           if (
             rootCauseConfig.name === 'OrgUnit' ||
             rootCauseConfig.name === 'Possible root cause' ||
@@ -190,5 +192,18 @@ export const getMergedActionTrackerConfiguration = createSelector(
           );
     }
     return currentActionTrackerConfig;
+  }
+);
+export const getDataElementsFromConfiguration = createSelector(
+  getMergedActionTrackerConfiguration,
+  (config) => {
+    console.log(config);
+    if (config) {
+      const { dataElements } = config;
+
+      return dataElements && dataElements.length ? dataElements : [];
+    } else {
+      return [];
+    }
   }
 );
