@@ -10,14 +10,14 @@ import * as _ from 'lodash';
 import { SetColumnSettingsAction } from 'src/app/core/store/actions/columns-settings.actions';
 import {
   getColumnSettingsData,
-  getColumnSettingsInitialData
+  getColumnSettingsInitialData,
 } from 'src/app/core/store/selectors/column-settings.selectors';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-table-column-config-dialog',
   templateUrl: './table-column-config-dialog.component.html',
-  styleUrls: ['./table-column-config-dialog.component.css']
+  styleUrls: ['./table-column-config-dialog.component.css'],
 })
 export class TableColumnConfigDialogComponent implements OnInit {
   configuration$: Observable<RootCauseAnalysisConfiguration>;
@@ -27,7 +27,7 @@ export class TableColumnConfigDialogComponent implements OnInit {
   unCheckAll;
   checkSettings = {
     checkAll: true,
-    uncheckAll: false
+    uncheckAll: false,
   };
   constructor(
     private store: Store<State>,
@@ -47,7 +47,7 @@ export class TableColumnConfigDialogComponent implements OnInit {
     this.columnSettings$ = this.store.select(getColumnSettingsInitialData);
   }
   checkInitialCheckStatus() {
-    const uncheckedArr = _.filter(Object.keys(this.data), item => {
+    const uncheckedArr = _.filter(Object.keys(this.data), (item) => {
       return item && !this.data[item];
     });
     if (!uncheckedArr.length) {
@@ -61,16 +61,28 @@ export class TableColumnConfigDialogComponent implements OnInit {
       this.checkAll = false;
     }
   }
-  saveColumns(form) {
+  saveColumns(form, columnSettings) {
     const { value } = form;
-    const data = _.map(Object.entries(value), valueArr => {
-      const key = valueArr[0];
-      if (valueArr[1] === false) {
-        return { id: key, isVisible: false };
-      } else {
-        return { id: key, isVisible: true };
-      }
-    });
+
+    const data = _.flattenDeep(
+      _.map(columnSettings || [], (setting) => {
+        if (
+          setting &&
+          setting.hasOwnProperty('id') &&
+          setting.hasOwnProperty('isVisible') &&
+          setting.hasOwnProperty('columnMandatory')
+        ) {
+          const { id, isVisible, columnMandatory } = setting;
+          if (value.hasOwnProperty('id') && value.hasOwnProperty('isVisible')) {
+            return { id, isVisible: value.isVisible, columnMandatory } || [];
+          } else {
+            return { id, isVisible, columnMandatory } || [];
+          }
+        } else {
+          return [];
+        }
+      })
+    );
     this.columnsMap = this.store.dispatch(new SetColumnSettingsAction(data));
     this.closeDialog('Saved');
   }
@@ -83,7 +95,9 @@ export class TableColumnConfigDialogComponent implements OnInit {
         if (this.checkAll) {
           this.unCheckAll = false;
           for (const setting of settings) {
-            setting.isVisible = true;
+            if (setting && !setting.columnMandatory) {
+              setting.isVisible = true;
+            }
           }
         }
         break;
@@ -92,7 +106,9 @@ export class TableColumnConfigDialogComponent implements OnInit {
         if (this.unCheckAll) {
           this.checkAll = false;
           for (const setting of settings) {
-            setting.isVisible = false;
+            if (setting && !setting.columnMandatory) {
+              setting.isVisible = false;
+            }
           }
         }
         break;
@@ -102,7 +118,7 @@ export class TableColumnConfigDialogComponent implements OnInit {
     }
   }
   checkCheckAllStatus(settings) {
-    const uncheckedArr = _.filter(settings, item => {
+    const uncheckedArr = _.filter(settings, (item) => {
       return item && !item.isVisible;
     });
     if (!uncheckedArr.length) {
