@@ -200,11 +200,38 @@ export const getMergedActionTrackerConfiguration = createSelector(
 export const getDataElementsFromConfiguration = createSelector(
   getMergedActionTrackerConfiguration,
   (config) => {
-    console.log(config);
+    console.log({ getAttributeByNameAndValue });
     if (config) {
       const { dataElements } = config;
 
-      return dataElements && dataElements.length ? dataElements : [];
+      return (
+        _.flattenDeep(
+          _.map(dataElements || [], (element) => {
+            let newElement = element;
+            const { attributeValues } = element;
+            if (attributeValues && attributeValues.length) {
+              let columnMandatory;
+              for (const attributeValue of attributeValues) {
+                const { attribute } = attributeValue;
+                if (
+                  attribute &&
+                  attribute.hasOwnProperty('name') &&
+                  attribute.name === 'columnMandatory'
+                ) {
+                  columnMandatory =
+                    typeof attributeValue.value === 'boolean'
+                      ? attributeValue.value
+                      : typeof attributeValue.value === 'string'
+                      ? JSON.parse(attributeValue.value)
+                      : false;
+                  newElement = { ...newElement, columnMandatory };
+                }
+              }
+            }
+            return newElement || [];
+          })
+        ) || []
+      );
     } else {
       return [];
     }
