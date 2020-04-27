@@ -1,0 +1,38 @@
+<form
+*ngIf="dataElements$ | async as fields"
+  #fieldsSettingsForm="ngForm"
+  (ngSubmit)="saveSettings(fieldsSettingsForm, fields)"
+  style="width: 100%; height: 100%;"
+>
+  <table class="table table-borderless" style="height: 90%;">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Show in list</th>
+      </tr>
+    </thead>
+    <tbody >
+      <tr *ngFor="let field of fields">
+        <td>{{ field.name }}</td>
+        <td>
+          <mat-checkbox
+            name="{{ field.id }}"
+            [(ngModel)]="field.columnMandatory"
+          ></mat-checkbox>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="bottom-section">
+    <button type="button" mat-stroked-button>Cancel</button>
+    <button
+      type="submit"
+      style="margin-left: 0.5em;"
+      mat-stroked-button
+      color="primary"
+    >
+      Update
+    </button>
+  </div>
+</form>

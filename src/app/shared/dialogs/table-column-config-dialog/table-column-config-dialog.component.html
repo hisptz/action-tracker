@@ -14,13 +14,6 @@
   class="d-flex flex-column"
   *ngIf="columnSettings$ | async as columnSettings"
 >
-  <!-- <mat-checkbox
-    style="font-size: 0.9em;"
-    [(ngModel)]="checkAll"
-    (change)="checkAllCheckboxes(columnSettings)"
-    >Check all</mat-checkbox
-  > -->
-
   <strong class="text-muted">Column</strong>
   <mat-selection-list #checkSettings>
     <mat-list-item>
@@ -43,14 +36,15 @@
       <mat-divider></mat-divider>
     </mat-list-item>
   </mat-selection-list>
-  <form #columnForm="ngForm" (ngSubmit)="saveColumns(columnForm)">
-    <mat-selection-list #columSettings>
+  <form #columnForm="ngForm"  *ngIf="columnSettings$ | async as settings" (ngSubmit)="saveColumns(columnForm, settings)">
+    <mat-selection-list >
       <mat-list-item
-        *ngFor="let columnSetting of columnSettings; let i = index"
+        *ngFor="let columnSetting of settings; let i = index"
       >
         <mat-checkbox
           style="font-size: 0.9em; width: 100%;"
           name="{{ columnSetting.id }}"
+          [disabled]="columnSetting?.columnMandatory"
           (change)="checkCheckAllStatus(columnSettings)"
           [(ngModel)]="columnSetting.isVisible"
           >{{ columnSetting.name }}

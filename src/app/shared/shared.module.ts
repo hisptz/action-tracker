@@ -29,6 +29,7 @@ import { pipes } from './pipes';
 import { FilterPipe } from './pipes/filter.pipe';
 import { FilterByAttributePipe } from './pipes/filter-by-attribute.pipe';
 import { LegendConfigurationDialogComponent } from './dialogs/legend-configuration-dialog/legend-configuration-dialog.component';
+import { FieldsSettingsDialogComponent } from './dialogs/fields-settings-dialog/fields-settings-dialog.component';
 
 @NgModule({
   imports: [
@@ -59,6 +60,7 @@ import { LegendConfigurationDialogComponent } from './dialogs/legend-configurati
     ...entryComponents,
     TableColumnConfigDialogComponent,
     LegendConfigurationDialogComponent,
+    FieldsSettingsDialogComponent,
   ],
   exports: [
     ...modules,
@@ -98,6 +100,7 @@ import { LegendConfigurationDialogComponent } from './dialogs/legend-configurati
     FilterPipe,
     FilterByAttributePipe,
     LegendConfigurationDialogComponent,
+    FieldsSettingsDialogComponent,
   ],
 })
 export class SharedModule {}
