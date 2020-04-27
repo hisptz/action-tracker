@@ -55,27 +55,17 @@ export const getConfigurationDataElementsFromTEAs = createSelector(
           _.map(
             currentActionTrackerConfig.programTrackedEntityAttributes,
             (trackedEntityAttributes) => {
-              return _.merge(
-                trackedEntityAttributes.trackedEntityAttribute,
-                _.pick(trackedEntityAttributes, 'valueType'),
-                {
-                  isTrackedEntityAttribute: true,
-                  formControlName: _.camelCase(
-                    _.get(
-                      trackedEntityAttributes.trackedEntityAttribute,
-                      'name'
-                    )
-                  ),
-                  isHidden:
-                    trackedEntityAttributes.displayInList === true
-                      ? false
-                      : true,
+              return {
+                ...trackedEntityAttributes.trackedEntityAttribute,
+                ..._.pick(trackedEntityAttributes, 'valueType'),
 
-                  required:
-                    trackedEntityAttributes.mandatory === true ? true : false,
-                  isActionTrackerColumn: true,
-                }
-              );
+                isTrackedEntityAttribute: true,
+                formControlName: _.camelCase(
+                  _.get(trackedEntityAttributes.trackedEntityAttribute, 'name')
+                ),
+                isHidden: !trackedEntityAttributes.displayInList,
+                isActionTrackerColumn: true,
+              };
             }
           )
         )
@@ -93,8 +83,8 @@ export const getConfigurationDataElementsFromProgramStageDEs = createSelector(
               _.compact(
                 _.map(
                   programStage.programStageDataElements,
-                  (programStageDataElement) =>
-                    programStageDataElement.displayInReports
+                  (programStageDataElement) => {
+                    return programStageDataElement.displayInReports
                       ? _.merge(
                           {
                             name: _.get(
@@ -137,7 +127,8 @@ export const getConfigurationDataElementsFromProgramStageDEs = createSelector(
                             'valueType',
                           ])
                         )
-                      : []
+                      : [];
+                  }
                 )
               ),
               [
@@ -167,31 +158,30 @@ export const getMergedActionTrackerConfiguration = createSelector(
     currentRootCauseAnalysisConfiguration = currentRootCauseAnalysisConfiguration
       ? currentRootCauseAnalysisConfiguration
       : {};
+
+    const dataElements = [];
+
     if (currentRootCauseAnalysisConfiguration && currentActionTrackerConfig) {
       _.map(
         currentRootCauseAnalysisConfiguration.dataElements,
         (rootCauseConfig) => {
-          if (
-            rootCauseConfig.name === 'OrgUnit' ||
-            rootCauseConfig.name === 'Possible root cause' ||
-            rootCauseConfig.name === 'Period'
-          ) {
-            rootCauseConfig['isHidden'] = true;
-          }
-          return rootCauseConfig;
+          return {
+            ...rootCauseConfig,
+            isHidden:
+              rootCauseConfig.name === 'OrgUnit' ||
+              rootCauseConfig.name === 'Possible root cause' ||
+              rootCauseConfig.name === 'Period',
+          };
         }
       );
 
-      currentActionTrackerConfig.dataElements = [];
       currentRootCauseAnalysisConfiguration.dataElements
-        ? currentActionTrackerConfig.dataElements.push(
+        ? dataElements.push(
             ...currentRootCauseAnalysisConfiguration.dataElements,
             ...actionTrackerConfigTrackedEntityAttributes
           )
-        : currentActionTrackerConfig.dataElements.push(
-            ...actionTrackerConfigTrackedEntityAttributes
-          );
+        : dataElements.push(...actionTrackerConfigTrackedEntityAttributes);
     }
-    return currentActionTrackerConfig;
+    return { ...currentActionTrackerConfig, dataElements };
   }
 );
