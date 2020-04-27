@@ -31,6 +31,11 @@ export class AppComponent {
       showOrgUnitLevelGroupSection: false,
       showUserOrgUnitSection: false,
     },
+    periodFilterConfig: {
+      singleSelection: true,
+      allowDateRangeSelection: false,
+      emitOnSelection: true,
+    },
   };
 
   isLinear: false;

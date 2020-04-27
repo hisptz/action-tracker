@@ -1,80 +1,50 @@
-<div
-  class="selection-filter-container"
-  appClickOutside
-  (clickOutside)="onClickOutside()"
->
+<div class="selection-filter-container" appClickOutside (clickOutside)="onClickOutside()">
   <!--selection filter header-->
   <div class="selection-filter-header">
     <div class="selection-filter-item-list">
       <div class="selection-filter-item-block">
         <h6>Organisation unit</h6>
-        <button
-          class="selection-filter-button text-muted"
-          mat-stroked-button
-          (click)="toggleCurrentFilter($event, 'ORG_UNIT')"
-          *ngIf="selectedOrgUnits.length === 0"
-        >
+        <button class="selection-filter-button text-muted" mat-stroked-button
+          (click)="toggleCurrentFilter($event, 'ORG_UNIT')" *ngIf="selectedOrgUnits.length === 0">
           <div class="selection-filter-button-content">
             <div>Select organisation unit</div>
             <mat-icon inline="true">keyboard_arrow_down</mat-icon>
           </div>
         </button>
-        <div
-          (click)="toggleCurrentFilter($event, 'ORG_UNIT')"
-          *ngIf="selectedOrgUnits.length > 0"
-          class="selected-item-block"
-        >
+        <div (click)="toggleCurrentFilter($event, 'ORG_UNIT')" *ngIf="selectedOrgUnits.length > 0"
+          class="selected-item-block">
           <div>{{ selectedOrgUnits | summarizeSelection }}</div>
           <!-- <mat-icon class="text-muted selection-filter-close" matRipple>close</mat-icon> -->
         </div>
 
-        <div
-          class="selection-filter-body mat-elevation-z1"
-          *ngIf="selectedFilter === 'ORG_UNIT'"
-        >
+        <div class="selection-filter-body mat-elevation-z1" *ngIf="selectedFilter === 'ORG_UNIT'">
           <!--org unit filter-->
-          <ngx-dhis2-org-unit-filter
-            [selectedOrgUnitItems]="selectedOrgUnits"
-            [orgUnitFilterConfig]="filterConfig?.orgUnitFilterConfig"
-            (orgUnitClose)="onFilterClose($event, 'ORG_UNIT')"
-            (orgUnitUpdate)="onFilterUpdate($event, 'ORG_UNIT')"
-          ></ngx-dhis2-org-unit-filter>
+          <ngx-dhis2-org-unit-filter [selectedOrgUnitItems]="selectedOrgUnits"
+            [orgUnitFilterConfig]="filterConfig?.orgUnitFilterConfig" (orgUnitClose)="onFilterClose($event, 'ORG_UNIT')"
+            (orgUnitUpdate)="onFilterUpdate($event, 'ORG_UNIT')"></ngx-dhis2-org-unit-filter>
           <!--end of org unit filter-->
         </div>
       </div>
 
       <div class="selection-filter-item-block">
         <h6>Intervention</h6>
-        <button
-          class="selection-filter-button text-muted"
-          mat-stroked-button
-          (click)="toggleCurrentFilter($event, 'INTERVENTION')"
-          *ngIf="selectedInterventions.length === 0"
-        >
+        <button class="selection-filter-button text-muted" mat-stroked-button
+          (click)="toggleCurrentFilter($event, 'INTERVENTION')" *ngIf="selectedInterventions.length === 0">
           <div class="selection-filter-button-content">
             <div>Select intervention</div>
             <mat-icon inline="true">keyboard_arrow_down</mat-icon>
           </div>
         </button>
-        <div
-          (click)="toggleCurrentFilter($event, 'INTERVENTION')"
-          class="selected-item-block"
-          *ngIf="selectedInterventions.length > 0"
-        >
+        <div (click)="toggleCurrentFilter($event, 'INTERVENTION')" class="selected-item-block"
+          *ngIf="selectedInterventions.length > 0">
           <div>{{ selectedInterventions | summarizeSelection }}</div>
           <!-- <mat-icon class="text-muted selection-filter-close" matRipple>close</mat-icon> -->
         </div>
 
-        <div
-          class="selection-filter-body mat-elevation-z1"
-          *ngIf="selectedFilter === 'INTERVENTION'"
-        >
+        <div class="selection-filter-body mat-elevation-z1" *ngIf="selectedFilter === 'INTERVENTION'">
           <!-- intervention filter -->
-          <app-intervention-filter
-            [selectedInterventions]="selectedInterventions"
-            (close)="onFilterClose($event, 'INTERVENTION')"
-            (update)="onFilterUpdate($event, 'INTERVENTION')"
-          >
+          <app-intervention-filter [selectedInterventions]="selectedInterventions"
+            (close)="onFilterClose($event, 'INTERVENTION')" (update)="onFilterUpdate($event, 'INTERVENTION')">
           </app-intervention-filter>
           <!-- end of intervention filter -->
         </div>
@@ -82,105 +52,69 @@
 
       <div class="selection-filter-item-block">
         <h6>Period</h6>
-        <button
-          class="selection-filter-button text-muted"
-          mat-stroked-button
-          (click)="toggleCurrentFilter($event, 'PERIOD')"
-          *ngIf="selectedPeriods.length === 0"
-        >
+        <button class="selection-filter-button text-muted" mat-stroked-button
+          (click)="toggleCurrentFilter($event, 'PERIOD')" *ngIf="selectedPeriods.length === 0">
           <div class="selection-filter-button-content">
             <div>Select period</div>
             <mat-icon inline="true">keyboard_arrow_down</mat-icon>
           </div>
         </button>
-        <div
-          (click)="toggleCurrentFilter($event, 'PERIOD')"
-          *ngIf="selectedPeriods.length > 0"
-          class="selected-item-block"
-        >
+        <div (click)="toggleCurrentFilter($event, 'PERIOD')" *ngIf="selectedPeriods.length > 0"
+          class="selected-item-block">
           <div>{{ selectedPeriods | summarizeSelection }}</div>
           <!-- <mat-icon class="text-muted selection-filter-close" matRipple>close</mat-icon> -->
         </div>
 
-        <div
-          class="selection-filter-body mat-elevation-z1"
-          *ngIf="selectedFilter === 'PERIOD'"
-        >
+        <div class="selection-filter-body mat-elevation-z1" *ngIf="selectedFilter === 'PERIOD'">
           <!--period filter-->
-          <ngx-dhis2-period-filter
-            [selectedPeriods]="selectedPeriods"
-            [periodFilterConfig]="periodFilterConfig"
-            (close)="onFilterClose($event, 'PERIOD')"
-            (update)="onFilterUpdate($event, 'PERIOD')"
-          >
+          <ngx-dhis2-period-filter [selectedPeriods]="selectedPeriods"
+            [periodFilterConfig]="filterConfig?.periodFilterConfig" (close)="onFilterClose($event, 'PERIOD')"
+            (update)="onFilterUpdate($event, 'PERIOD')">
           </ngx-dhis2-period-filter>
           <!--end of period filter-->
         </div>
       </div>
 
       <!--data filter button-->
-      <button
-        mat-stroked-button
-        [disabled]="saving"
-        *ngIf="false"
-        color="{{ selectedFilter === 'INTERVENTION' ? 'primary' : '' }}"
-        [title]="'Filter by data' | translate"
-        (click)="toggleCurrentFilter($event, 'INTERVENTION')"
-      >
+      <button mat-stroked-button [disabled]="saving" *ngIf="false"
+        color="{{ selectedFilter === 'INTERVENTION' ? 'primary' : '' }}" [title]="'Filter by data' | translate"
+        (click)="toggleCurrentFilter($event, 'INTERVENTION')">
         <i class="fa fa-th"></i>&nbsp;{{ 'Intervention' | translate }}&nbsp;
         <span class="badge badge-secondary">{{
           selectedInterventions | summarizeSelection
-        }}</span
-        >&nbsp;
-        <i
-          class="fa {{
+        }}</span>&nbsp;
+        <i class="fa {{
             selectedFilter === 'INTERVENTION' ? 'fa-caret-up' : 'fa-caret-down'
-          }}"
-        ></i>
+          }}"></i>
       </button>
       <!--end of data filter button-->
 
       <!--period filter button-->
-      <button
-        mat-stroked-button
-        [disabled]="saving"
-        *ngIf="false"
-        color="{{ selectedFilter === 'PERIOD' ? 'primary' : '' }}"
-        [title]="'Filter by period' | translate"
-        (click)="toggleCurrentFilter($event, 'PERIOD')"
-      >
+      <button mat-stroked-button [disabled]="saving" *ngIf="false"
+        color="{{ selectedFilter === 'PERIOD' ? 'primary' : '' }}" [title]="'Filter by period' | translate"
+        (click)="toggleCurrentFilter($event, 'PERIOD')">
         <i class="fa fa-clock-o"></i>&nbsp;{{ 'Period' | translate }}&nbsp;
         <span class="badge badge-secondary">{{
           selectedPeriods | summarizeSelection
-        }}</span
-        >&nbsp;
-        <i
-          class="fa {{
+        }}</span>&nbsp;
+        <i class="fa {{
             selectedFilter === 'PERIOD' ? 'fa-caret-up' : 'fa-caret-down'
-          }}"
-        ></i>
+          }}"></i>
       </button>
       <!--end of period filter button-->
 
       <!--org unit filter button-->
-      <button
-        mat-stroked-button
-        [disabled]="saving"
-        *ngIf="false"
-        color="{{ selectedFilter === 'ORG_UNIT' ? 'primary' : '' }}"
-        [title]="'Filter by organisation unit' | translate"
-        (click)="toggleCurrentFilter($event, 'ORG_UNIT')"
-      >
+      <button mat-stroked-button [disabled]="saving" *ngIf="false"
+        color="{{ selectedFilter === 'ORG_UNIT' ? 'primary' : '' }}" [title]="'Filter by organisation unit' | translate"
+        (click)="toggleCurrentFilter($event, 'ORG_UNIT')">
         <i class="fa fa-sitemap"></i>&nbsp;{{ 'Org-Unit' | translate }}
         &nbsp;
         <span class="badge badge-secondary">{{
           selectedOrgUnits | summarizeSelection
         }}</span>
-        &nbsp;<i
-          class="fa {{
+        &nbsp;<i class="fa {{
             selectedFilter === 'ORG_UNIT' ? 'fa-caret-up' : 'fa-caret-down'
-          }}"
-        ></i>
+          }}"></i>
       </button>
     </div>
   </div>
