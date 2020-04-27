@@ -4,9 +4,15 @@ export enum TableFieldsSettingsTypes {
   CheckMandatorySettingsExist = '[TableFieldsSettings] Check Mandatory Settings Exist',
   CheckMandatorySettingsExistSuccess = '[TableFieldsSettings] Check Mandatory Settings Exist Success',
   CheckMandatorySettingsExistFailure = '[TableFieldsSettings] Check Mandatory Settings Exist Failure',
-  SetMandatoryFieldsForTheTable = '[TableFieldsSettings] Set Mandatory Fields in a table',
-  SetMandatoryFieldsForTheTableSuccess = '[TableFieldsSettings] Set Mandatory Fields in a table Success',
-  SetMandatoryFieldsForTheTableFailure = '[TableFieldsSettings] Set Mandatory Fields in a table Failure',
+  LoadMandatoryFieldsForTheTable = '[TableFieldsSettings] Load Mandatory Fields in a table',
+  LoadMandatoryFieldsForTheTableSuccess = '[TableFieldsSettings] Load Mandatory Fields in a table Success',
+  LoadMandatoryFieldsForTheTableFailure = '[TableFieldsSettings] Load Mandatory Fields in a table Failure',
+  CreateMandatoryFieldsForTheTable = '[TableFieldsSettings] Create Mandatory Fields in a table',
+  CreateMandatoryFieldsForTheTableSuccess = '[TableFieldsSettings] Create Mandatory Fields in a table Success',
+  CreateMandatoryFieldsForTheTableFailure = '[TableFieldsSettings] Create Mandatory Fields in a table Failure',
+  UpdateMandatoryFieldsForTheTable = '[TableFieldsSettings] Update Mandatory Fields in a table',
+  UpdateMandatoryFieldsForTheTableSuccess = '[TableFieldsSettings] Update Mandatory Fields in a table Success',
+  UpdateMandatoryFieldsForTheTableFailure = '[TableFieldsSettings] Update Mandatory Fields in a table Failure',
 }
 
 
@@ -22,28 +28,63 @@ export class CheckMandatorySettingsExistSuccessAction implements Action {
     readonly type = TableFieldsSettingsTypes.CheckMandatorySettingsExistFailure;
     constructor(public error: any) {}
   }
+  export class LoadMandatoryFieldsForTheTableAction implements Action {
+    readonly type =
+      TableFieldsSettingsTypes.LoadMandatoryFieldsForTheTable;
+  }
+  export class LoadMandatoryFieldsForTheTableSuccessAction implements Action {
+      readonly type =
+        TableFieldsSettingsTypes.LoadMandatoryFieldsForTheTableSuccess;
+      constructor(public payload: any) {}
+    }
+    export class LoadMandatoryFieldsForTheTableFailureAction implements Action {
+      readonly type =
+        TableFieldsSettingsTypes.LoadMandatoryFieldsForTheTableFailure;
+      constructor(public error: any) {}
+    }
 
-export class SetMandatoryFieldsForTheTableAction implements Action {
+export class CreateMandatoryFieldsForTheTableAction implements Action {
   readonly type =
-    TableFieldsSettingsTypes.SetMandatoryFieldsForTheTable;
+    TableFieldsSettingsTypes.CreateMandatoryFieldsForTheTable;
   constructor(public payload: any) {}
 }
-export class SetMandatoryFieldsForTheTableSuccessAction implements Action {
+export class CreateMandatoryFieldsForTheTableSuccessAction implements Action {
     readonly type =
-      TableFieldsSettingsTypes.SetMandatoryFieldsForTheTableSuccess;
+      TableFieldsSettingsTypes.CreateMandatoryFieldsForTheTableSuccess;
     constructor(public payload: any) {}
   }
-  export class SetMandatoryFieldsForTheTableFailureAction implements Action {
+  export class CreateMandatoryFieldsForTheTableFailureAction implements Action {
     readonly type =
-      TableFieldsSettingsTypes.SetMandatoryFieldsForTheTableFailure;
+      TableFieldsSettingsTypes.CreateMandatoryFieldsForTheTableFailure;
     constructor(public error: any) {}
   }
+  export class UpdateMandatoryFieldsForTheTableAction implements Action {
+    readonly type =
+      TableFieldsSettingsTypes.UpdateMandatoryFieldsForTheTable;
+    constructor(public payload: any) {}
+  }
+  export class UpdateMandatoryFieldsForTheTableSuccessAction implements Action {
+      readonly type =
+        TableFieldsSettingsTypes.UpdateMandatoryFieldsForTheTableSuccess;
+      constructor(public payload: any) {}
+    }
+    export class UpdateMandatoryFieldsForTheTableFailureAction implements Action {
+      readonly type =
+        TableFieldsSettingsTypes.UpdateMandatoryFieldsForTheTableFailure;
+      constructor(public error: any) {}
+    }
 
 
 export type TableFieldsSettingsActions =
   | CheckMandatorySettingsExistAction
   | CheckMandatorySettingsExistSuccessAction
   | CheckMandatorySettingsExistFailureAction
-  | SetMandatoryFieldsForTheTableAction
-  | SetMandatoryFieldsForTheTableSuccessAction
-  | SetMandatoryFieldsForTheTableFailureAction;
+  | LoadMandatoryFieldsForTheTableAction
+  | LoadMandatoryFieldsForTheTableSuccessAction
+  | LoadMandatoryFieldsForTheTableFailureAction
+  | CreateMandatoryFieldsForTheTableAction
+  | CreateMandatoryFieldsForTheTableSuccessAction
+  | CreateMandatoryFieldsForTheTableFailureAction
+  | UpdateMandatoryFieldsForTheTableAction
+  | UpdateMandatoryFieldsForTheTableSuccessAction
+  | UpdateMandatoryFieldsForTheTableFailureAction;
