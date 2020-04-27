@@ -22,7 +22,7 @@ export const initialState: any = adapter.getInitialState({
   currentConfig: 'ROSaojkGieB',
 });
 
-export function TablefieldsSettingsReducer(
+export function tableFieldsSettingsReducer(
   state = initialState,
   action: TableFieldsSettingsActions
 ): any {

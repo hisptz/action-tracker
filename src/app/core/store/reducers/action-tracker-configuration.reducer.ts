@@ -2,7 +2,7 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { ActionTrackerConfiguration } from '../../models/action-tracker-configuration.model';
 import {
   ActionTrackerConfigurationActions,
-  ActionTrackerConfigurationActionTypes
+  ActionTrackerConfigurationActionTypes,
 } from '../actions/action-tracker-configuration.actions';
 
 export interface ActionTrackerConfigurationState
@@ -25,7 +25,7 @@ export const initialState: ActionTrackerConfigurationState = adapter.getInitialS
     loaded: false,
     hasError: false,
     error: null,
-    currentConfig: 'ROSaojkGieB'
+    currentConfig: 'ROSaojkGieB',
   }
 );
 
@@ -77,7 +77,7 @@ export function actionTrackerConfigurationReducer(
     case ActionTrackerConfigurationActionTypes.LoadActionTrackerConfiguration: {
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     }
 
