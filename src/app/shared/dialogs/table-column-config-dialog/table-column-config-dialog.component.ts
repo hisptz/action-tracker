@@ -1,23 +1,19 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { RootCauseAnalysisConfiguration } from 'src/app/core/models/root-cause-analysis-configuration.model';
-import { Store } from '@ngrx/store';
+import { SetColumnSettingsAction } from 'src/app/core/store/actions/columns-settings.actions';
 import { State } from 'src/app/core/store/reducers';
 import { getMergedActionTrackerConfiguration } from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { take } from 'rxjs/operators';
-import * as _ from 'lodash';
-import { SetColumnSettingsAction } from 'src/app/core/store/actions/columns-settings.actions';
-import {
-  getColumnSettingsData,
-  getColumnSettingsInitialData
-} from 'src/app/core/store/selectors/column-settings.selectors';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { getColumnSettingsInitialData } from 'src/app/core/store/selectors/column-settings.selectors';
 
 @Component({
   selector: 'app-table-column-config-dialog',
   templateUrl: './table-column-config-dialog.component.html',
-  styleUrls: ['./table-column-config-dialog.component.css']
+  styleUrls: ['./table-column-config-dialog.component.css'],
 })
 export class TableColumnConfigDialogComponent implements OnInit {
   configuration$: Observable<RootCauseAnalysisConfiguration>;
@@ -27,7 +23,7 @@ export class TableColumnConfigDialogComponent implements OnInit {
   unCheckAll;
   checkSettings = {
     checkAll: true,
-    uncheckAll: false
+    uncheckAll: false,
   };
   constructor(
     private store: Store<State>,
@@ -47,7 +43,7 @@ export class TableColumnConfigDialogComponent implements OnInit {
     this.columnSettings$ = this.store.select(getColumnSettingsInitialData);
   }
   checkInitialCheckStatus() {
-    const uncheckedArr = _.filter(Object.keys(this.data), item => {
+    const uncheckedArr = _.filter(Object.keys(this.data), (item) => {
       return item && !this.data[item];
     });
     if (!uncheckedArr.length) {
@@ -63,7 +59,7 @@ export class TableColumnConfigDialogComponent implements OnInit {
   }
   saveColumns(form) {
     const { value } = form;
-    const data = _.map(Object.entries(value), valueArr => {
+    const data = _.map(Object.entries(value), (valueArr) => {
       const key = valueArr[0];
       if (valueArr[1] === false) {
         return { id: key, isVisible: false };
@@ -102,7 +98,7 @@ export class TableColumnConfigDialogComponent implements OnInit {
     }
   }
   checkCheckAllStatus(settings) {
-    const uncheckedArr = _.filter(settings, item => {
+    const uncheckedArr = _.filter(settings, (item) => {
       return item && !item.isVisible;
     });
     if (!uncheckedArr.length) {

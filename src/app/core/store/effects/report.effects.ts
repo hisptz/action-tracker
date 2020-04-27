@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { LoadFunctions } from '@iapps/ngx-dhis2-data-filter';
+import { loadFunctions } from '@iapps/ngx-dhis2-data-filter';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { of, zip } from 'rxjs';
 import { concatMap, map, tap, withLatestFrom } from 'rxjs/operators';
 
-import { generateUid } from '../../helpers/generate-uid.helper';
 import { getVisualizationLayersFromFavorite } from '../../helpers/get-visualization-layers-from-favorite.helper';
 import { RootCauseAnalysisConfiguration } from '../../models/root-cause-analysis-configuration.model';
 import { ReportService } from '../../services/report.service';
@@ -17,20 +16,20 @@ import {
   RootCauseAnalysisDataActionTypes,
 } from '../actions/root-cause-analysis-data.actions';
 import { State } from '../reducers';
+import { getCurrentCalendarId } from '../selectors';
 import { getDataSelections } from '../selectors/global-selection.selectors';
 import { getCurrentRootCauseAnalysisConfiguration } from '../selectors/root-cause-analysis-configuration.selectors';
 import {
-  getRootCauseDataLoadingCompletionStatus,
   getRootCauseAnalysisDatas,
+  getRootCauseDataLoadingCompletionStatus,
 } from '../selectors/root-cause-analysis-data.selectors';
-import { getCurrentCalendarId } from '../selectors';
 
 @Injectable()
 export class ReportEffects {
   @Effect()
   addCurrentUser$ = this.actions$.pipe(
     ofType(UserActionTypes.AddCurrentUser),
-    map((action: AddCurrentUser) => new LoadFunctions(action.currentUser))
+    map(({ currentUser }: AddCurrentUser) => loadFunctions({ currentUser }))
   );
 
   @Effect({ dispatch: false })
@@ -49,7 +48,7 @@ export class ReportEffects {
     ),
     tap(
       ([
-        action,
+        {},
         rootCauseAnalysisDatas,
         dataSelections,
         rootCauseConfiguration,

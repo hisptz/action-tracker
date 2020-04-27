@@ -1,17 +1,13 @@
-import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
-import { defer, Observable, of } from 'rxjs';
-import { map, switchMap, withLatestFrom, catchError } from 'rxjs/operators';
-import { set } from 'lodash';
-import { State } from '../reducers';
+import { Actions, Effect } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
 import { ActionTrackerConfigurationService } from '../../services';
+import { State } from '../reducers';
 
 export class ColumsSettingsEffects {
-    @Effect()
-    loadColumnSetting: Observable<any>
-
-
+  @Effect()
+  loadColumnSetting: Observable<any>;
 
   constructor(
     private actions$: Actions,
