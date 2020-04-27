@@ -63,8 +63,7 @@ export const getConfigurationDataElementsFromTEAs = createSelector(
                 formControlName: _.camelCase(
                   _.get(trackedEntityAttributes.trackedEntityAttribute, 'name')
                 ),
-                required:
-                  trackedEntityAttributes.mandatory === true ? true : false,
+                required: trackedEntityAttributes.mandatory,
                 isHidden: !trackedEntityAttributes.displayInList,
                 isActionTrackerColumn: true,
               };
