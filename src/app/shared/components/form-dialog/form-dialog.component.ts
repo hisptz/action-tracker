@@ -3,21 +3,21 @@ import {
   OnInit,
   Inject,
   ViewChild,
-  ElementRef
+  ElementRef,
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormFieldType } from '../../constants/form-field-types.constant';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   LegendSetState,
-  getActionStatusLegendSetItems
+  getActionStatusLegendSetItems,
 } from '../../modules/selection-filters/modules/legend-set-configuration/store';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 @Component({
   selector: 'app-form-dialog',
   templateUrl: './form-dialog.component.html',
-  styleUrls: ['./form-dialog.component.css']
+  styleUrls: ['./form-dialog.component.css'],
 })
 export class FormDialogComponent implements OnInit {
   formFieldType: any;
@@ -53,7 +53,7 @@ export class FormDialogComponent implements OnInit {
     ) {
       this.minDate = this.formDialogData.minDate;
       this.maxDate = this.formDialogData.maxDate;
-      this.formDialogData.dataElements.forEach(dataElement => {
+      this.formDialogData.dataElements.forEach((dataElement) => {
         formEntity[dataElement.id || dataElement.formControlName] = [
           this.formDialogData.dataValues[dataElement.id] ||
             this.formDialogData.dataValues[dataElement.formControlName],
@@ -67,18 +67,22 @@ export class FormDialogComponent implements OnInit {
               : Validators.nullValidator,
             dataElement.valueType == 'PERCENTAGE'
               ? Validators.min(0)
-              : Validators.nullValidator
-          ]
+              : Validators.nullValidator,
+          ],
         ];
       });
     }
     this.formGroup = this.formBuilder.group(formEntity);
+
+    this.formGroup.valueChanges.pipe().subscribe(() => {
+      console.log(this.formGroup);
+    });
   }
 
   onSubmitForm() {
     this.dialogRef.close({
       formValues: this.formGroup.value,
-      formAction: 'SUBMIT'
+      formAction: 'SUBMIT',
     });
   }
 }
