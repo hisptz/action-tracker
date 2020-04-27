@@ -40,17 +40,41 @@ export function tableFieldsSettingsReducer(
     case TableFieldsSettingsTypes.CheckMandatorySettingsExistFailure: {
       return { ...state, loading: false, hasError: true };
     }
-
-    case TableFieldsSettingsTypes.SetMandatoryFieldsForTheTable: {
+    case TableFieldsSettingsTypes.LoadMandatoryFieldsForTheTable: {
       return {
         ...state,
         loading: true,
       };
     }
-    case TableFieldsSettingsTypes.SetMandatoryFieldsForTheTableSuccess: {
+    case TableFieldsSettingsTypes.LoadMandatoryFieldsForTheTableSuccess: {
       return adapter.addAll(action.payload, state);
     }
-    case TableFieldsSettingsTypes.SetMandatoryFieldsForTheTableFailure: {
+    case TableFieldsSettingsTypes.LoadMandatoryFieldsForTheTableFailure: {
+      return { ...state, loading: false, hasError: true };
+    }
+
+    case TableFieldsSettingsTypes.CreateMandatoryFieldsForTheTable: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case TableFieldsSettingsTypes.CreateMandatoryFieldsForTheTableSuccess: {
+      return adapter.addAll(action.payload, state);
+    }
+    case TableFieldsSettingsTypes.CreateMandatoryFieldsForTheTableFailure: {
+      return { ...state, loading: false, hasError: true };
+    }
+    case TableFieldsSettingsTypes.UpdateMandatoryFieldsForTheTable: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case TableFieldsSettingsTypes.UpdateMandatoryFieldsForTheTableSuccess: {
+      return adapter.addAll(action.payload, state);
+    }
+    case TableFieldsSettingsTypes.UpdateMandatoryFieldsForTheTableFailure: {
       return { ...state, loading: false, hasError: true };
     }
     default: {
