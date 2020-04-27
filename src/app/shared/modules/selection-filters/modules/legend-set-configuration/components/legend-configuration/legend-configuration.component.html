@@ -42,6 +42,7 @@
     <button title="Make default status" class="legend-button">
       <img
         [src]="isDefault ? setDefaultIcon : unsetDefaultIcon"
+        (click)="onSetDefaultStatus($event)"
         alt="Make Default Status"
       />
     </button>

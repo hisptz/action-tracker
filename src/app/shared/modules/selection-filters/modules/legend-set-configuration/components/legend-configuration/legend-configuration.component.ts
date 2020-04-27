@@ -38,6 +38,9 @@ export class LegendConfigurationComponent implements OnInit {
   @Output()
   deleteLegend = new EventEmitter();
 
+  @Output()
+  setDefaultLegend = new EventEmitter();
+
   constructor() {
     this.deleteIcon = DELETE_ICON;
     this.lessThanIcon = LESS_THAN_ICON;
@@ -88,6 +91,12 @@ export class LegendConfigurationComponent implements OnInit {
     e.stopPropagation();
     const { id } = this.legend;
     this.deleteLegend.emit({ id });
+  }
+
+  onSetDefaultStatus(e) {
+    e.stopPropagation();
+    const { id } = this.legend;
+    this.setDefaultLegend.emit({ id });
   }
 
   ngOnInit() {

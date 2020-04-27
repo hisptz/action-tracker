@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { LegendSet, Legend } from '../../models/legend-set';
 import * as _ from 'lodash';
 import * as lengeSetHelper from '../../helpers';
+import { id } from 'date-fns/locale';
 
 @Component({
   selector: 'app-legend-set',
@@ -27,6 +28,7 @@ export class LegendSetComponent implements OnInit {
       }),
       'startValue'
     );
+
     this.legendSetUpdates.emit(this.legendSet);
   }
 
@@ -35,5 +37,18 @@ export class LegendSetComponent implements OnInit {
     this.legendSet.legends = _.filter(this.legendSet.legends, (legend) => {
       return legend.id !== id;
     });
+  }
+
+  onSetDefaultLegend(data) {
+    const { id } = data;
+    const legendSet = _.cloneDeep(this.legendSet);
+    // unset current default
+    _.unset(_.find(legendSet.legends, 'isDefault'), 'isDefault');
+
+    // set current default
+    _.set(_.find(legendSet.legends, { id }), 'isDefault', true);
+    this.legendSet = legendSet;
+
+    this.legendSetUpdates.emit(this.legendSet);
   }
 }
