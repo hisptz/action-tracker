@@ -14,6 +14,7 @@ import {
 } from '../../modules/selection-filters/modules/legend-set-configuration/store';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
+
 @Component({
   selector: 'app-form-dialog',
   templateUrl: './form-dialog.component.html',
@@ -28,8 +29,8 @@ export class FormDialogComponent implements OnInit {
   minDate: Date;
   maxDate: Date;
 
-  actionStartDate: any;
-  actionEndDate: any;
+  actionStartDateId: any;
+  actionEndDateId: any;
 
   constructor(
     private dialogRef: MatDialogRef<FormDialogComponent>,
@@ -54,18 +55,23 @@ export class FormDialogComponent implements OnInit {
       this.minDate = this.formDialogData.minDate;
       this.maxDate = this.formDialogData.maxDate;
       this.formDialogData.dataElements.forEach((dataElement) => {
+        if (dataElement.formControlName === 'startDate') {
+          this.actionStartDateId =
+            dataElement.id || dataElement.formControlName;
+        } else if (dataElement.formControlName === 'endDate') {
+          this.actionEndDateId = dataElement.id || dataElement.formControlName;
+        }
         formEntity[dataElement.id || dataElement.formControlName] = [
           this.formDialogData.dataValues[dataElement.id] ||
             this.formDialogData.dataValues[dataElement.formControlName],
-
           [
             dataElement.required
               ? Validators.required
               : Validators.nullValidator,
-            dataElement.valueType == 'PERCENTAGE'
+            dataElement.valueType === 'PERCENTAGE'
               ? Validators.max(100)
               : Validators.nullValidator,
-            dataElement.valueType == 'PERCENTAGE'
+            dataElement.valueType === 'PERCENTAGE'
               ? Validators.min(0)
               : Validators.nullValidator,
           ],
@@ -73,12 +79,14 @@ export class FormDialogComponent implements OnInit {
       });
     }
     this.formGroup = this.formBuilder.group(formEntity);
-
-    this.formGroup.valueChanges.pipe().subscribe(() => {
-      console.log(this.formGroup);
-    });
   }
 
+  get startDate(): any {
+    return this.formGroup.get(this.actionStartDateId).value || null;
+  }
+  get endDate(): any {
+    return this.formGroup.get(this.actionEndDateId).value || null;
+  }
   onSubmitForm() {
     this.dialogRef.close({
       formValues: this.formGroup.value,
