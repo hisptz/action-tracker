@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { State } from 'src/app/core/store/reducers';
+import * as _ from 'lodash';
 import { getDataElementsFromConfiguration } from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
 
 @Component({
@@ -18,8 +19,10 @@ export class FieldsSettingsDialogComponent implements OnInit {
       select(getDataElementsFromConfiguration)
     );
   }
-  saveSettings(form) {
-    const { value } = form.form;
-    console.log({ value });
+  saveSettings(form, fields) {
+    if(form && form.hasOwnProperty('form')) {
+      const { value } = form.form;
+    }
+    
   }
 }
