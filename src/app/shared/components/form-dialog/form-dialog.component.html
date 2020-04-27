@@ -93,6 +93,7 @@
               *ngFor="let legendSetItem of legendSetItems$ | async"
               [value]="legendSetItem?.id"
             >
+              {{ legendSetItem?.isDefault }}
               {{ legendSetItem?.name }}
             </mat-option>
           </mat-select>
