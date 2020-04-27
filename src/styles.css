@@ -32,5 +32,5 @@ tr {
   z-index: 1410 !important;
 }
 .custom-dialog-container .mat-dialog-container {
-   padding-top: 0 !important;
+   /* padding-top: 0 !important; */
 }
