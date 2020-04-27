@@ -1,18 +1,18 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { RootCauseAnalysisConfiguration } from 'src/app/core/models/root-cause-analysis-configuration.model';
-import { Store } from '@ngrx/store';
+import { SetColumnSettingsAction } from 'src/app/core/store/actions/columns-settings.actions';
 import { State } from 'src/app/core/store/reducers';
 import { getMergedActionTrackerConfiguration } from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
-import { FormGroup, FormBuilder } from '@angular/forms';
 import { take } from 'rxjs/operators';
-import * as _ from 'lodash';
-import { SetColumnSettingsAction } from 'src/app/core/store/actions/columns-settings.actions';
 import {
   getColumnSettingsData,
   getColumnSettingsInitialData,
 } from 'src/app/core/store/selectors/column-settings.selectors';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-table-column-config-dialog',

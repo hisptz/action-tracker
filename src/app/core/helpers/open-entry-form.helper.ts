@@ -1,7 +1,7 @@
-import * as _ from 'lodash';
+import { map, toString, head } from 'lodash';
 export function openEntryForm(dataItem) {
   let dataItemRowElement;
-  setTimeout(function() {
+  setTimeout(function () {
     dataItemRowElement = document.getElementById(
       `${dataItem.id || dataItem.rootCauseDataId}`
     );
@@ -11,24 +11,24 @@ export function openEntryForm(dataItem) {
     const actionTrackerItems = dataItemRowElement.getElementsByClassName(
       'action-tracker-column'
     );
-    _.map(actionTrackerItems, (actionTrackerColumn, index) => {
+    map(actionTrackerItems, (actionTrackerColumn, index) => {
       if (index !== actionTrackerItems.length - 1) {
         actionTrackerColumn.setAttribute('hidden', true);
       } else {
-        actionTrackerColumn.colSpan = _.toString(actionTrackerItems.length - 1);
+        actionTrackerColumn.colSpan = toString(actionTrackerItems.length - 1);
 
-        const buttonElement = _.head(
+        const buttonElement = head(
           actionTrackerColumn.getElementsByClassName('add-action-block')
         );
 
-        const formElement = _.head(
+        const formElement = head(
           actionTrackerColumn.getElementsByClassName(
             'action-tracker-form-wrapper'
           )
         );
 
         if (dataItem.parentAction) {
-          const parentButtonElement = _.head(
+          const parentButtonElement = head(
             parentDataItemElement.getElementsByClassName('add-action-block')
           ).parentNode;
           parentButtonElement.setAttribute('hidden', true);

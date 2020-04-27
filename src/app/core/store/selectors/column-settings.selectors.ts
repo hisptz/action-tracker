@@ -7,7 +7,6 @@ import {
   ColumnSettingsState,
 } from '../reducers/column-settings.reducer';
 
-import { ucFirst } from 'ngx-pipes/src/pipes/helpers/helpers';
 import {
   getMergedActionTrackerConfiguration,
   getDataElementsFromConfiguration,

@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import { uniqBy } from 'lodash';
 export function addInterventionToList(
   interventionList: any[],
   intervention: any
@@ -9,7 +9,7 @@ export function addInterventionToList(
   return (interventionList || []).some(
     (interventionItem: any) => interventionItem.type === intervention.type
   )
-    ? _.uniqBy(
+    ? uniqBy(
         [...interventionList, intervention].sort((a, b) => b.id - a.id),
         'id'
       )

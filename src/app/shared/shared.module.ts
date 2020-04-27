@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatCheckboxModule, MatListModule } from '@angular/material';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -30,6 +30,7 @@ import { FilterPipe } from './pipes/filter.pipe';
 import { FilterByAttributePipe } from './pipes/filter-by-attribute.pipe';
 import { LegendConfigurationDialogComponent } from './dialogs/legend-configuration-dialog/legend-configuration-dialog.component';
 import { FieldsSettingsDialogComponent } from './dialogs/fields-settings-dialog/fields-settings-dialog.component';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   imports: [

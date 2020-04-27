@@ -3,15 +3,11 @@ import { Title } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import * as _ from 'lodash';
+import { State } from 'src/app/core/store/reducers';
 
 import { UpsertDataSelectionsAction } from './core/store/actions/global-selection.actions';
-import { State } from 'src/app/core/store/reducers';
 import { getRouteUrl } from './core/store/selectors';
-import { getDataSelections } from 'src/app/core/store/selectors/global-selection.selectors';
-import { OrgUnitFilterConfig } from '@iapps/ngx-dhis2-org-unit-filter';
 import { SelectionFilterConfig } from './shared/modules/selection-filters/models/selected-filter-config.model';
-import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-root',
@@ -34,6 +30,11 @@ export class AppComponent {
       singleSelection: true,
       showOrgUnitLevelGroupSection: false,
       showUserOrgUnitSection: false,
+    },
+    periodFilterConfig: {
+      singleSelection: true,
+      allowDateRangeSelection: false,
+      emitOnSelection: true,
     },
   };
 
