@@ -1,26 +1,24 @@
 import { createSelector } from '@ngrx/store';
+import { getQuarter, getYear, isSameQuarter, setQuarter } from 'date-fns';
 import * as _ from 'lodash';
-import { getQuarter, setQuarter, isSameQuarter, getYear } from 'date-fns';
-import { Fn } from '@iapps/function-analytics';
 
+import { ActionTrackerData } from '../../models/action-tracker-data.model';
 import { getRootState, State as RootState } from '../reducers';
 import {
+  ActionTrackerDataState,
   adapter,
-  ActionTrackerDataState
 } from '../reducers/action-tracker-data.reducer';
 import {
-  getRootCauseAnalysisDatas,
+  getConfigurationDataElementsFromProgramStageDEs,
+  getMergedActionTrackerConfiguration,
+} from './action-tracker-configuration.selectors';
+import { getDataSelections } from './global-selection.selectors';
+import {
   getRootCauseAnalysisDataLoadingStatus,
-  getRootCauseAnalysisDataNotificationStatus
+  getRootCauseAnalysisDataNotificationStatus,
+  getRootCauseAnalysisDatas,
 } from './root-cause-analysis-data.selectors';
 
-import {
-  getMergedActionTrackerConfiguration,
-  getConfigurationDataElementsFromProgramStageDEs
-} from './action-tracker-configuration.selectors';
-
-import { getDataSelections } from './global-selection.selectors';
-import { getCurrentCalendarId } from './system-info.selectors';
 export const getActionTrackerDataState = createSelector(
   getRootState,
   (state: RootState) => state.actionTrackerData
@@ -28,7 +26,7 @@ export const getActionTrackerDataState = createSelector(
 
 export const {
   selectEntities: getActionTrackerEntities,
-  selectAll: getActionTrackerDatas
+  selectAll: getActionTrackerDatas,
 } = adapter.getSelectors(getActionTrackerDataState);
 
 export const getActionTrackerDataNotificationStatus = createSelector(
@@ -98,7 +96,7 @@ export const getAllDataNotification = createSelector(
 
     return {
       message: currentNotification,
-      percent: percentCompleted
+      percent: percentCompleted,
     };
   }
 );
@@ -117,42 +115,39 @@ export const getYearOfCurrentPeriodSelection = createSelector(
 );
 
 export const getActionTrackingQuarters = createSelector(
-  getActionTrackerDataState,
   getDataSelections,
-  (state, dataSelections) => {
+  (dataSelections) => {
     // TODO: Find best way to deduce quarter periods based on period selections
     const date = new Date();
     const quarterNumber = getQuarter(new Date());
     const currentYear = date.getFullYear();
     const currentQuarterId = `${currentYear}Q${quarterNumber}`;
 
-    const quarterOfSelectedPeriod = _.get(
-      _.head(_.get(_.find(dataSelections, { dimension: 'pe' }), 'items')),
-      'quarterly'
-    );
-
-    _.forEach(quarterOfSelectedPeriod, quarter => {
-      const splitQuarterId = _.split(_.get(quarter, 'id'), 'Q');
-      const dateOfQuarter = setQuarter(
-        new Date(_.head(splitQuarterId)),
-        _.last(splitQuarterId)
-      );
-      _.set(
-        quarter,
-        'isCurrentQuater',
-        isSameQuarter(dateOfQuarter, new Date())
-      );
-      _.set(quarter, 'dateOfQuarter', dateOfQuarter);
-      _.set(quarter, 'hasEvent', false);
-      _.set(quarter, 'quarterNumber', _.last(splitQuarterId));
-    });
-
-    const quarters = quarterOfSelectedPeriod
-      ? _.sortBy(quarterOfSelectedPeriod, ['quarterNumber'])
-      : [{}];
-
     return _.filter(
-      quarters,
+      _.sortBy(
+        _.map(
+          _.get(
+            _.head(_.get(_.find(dataSelections, { dimension: 'pe' }), 'items')),
+            'quarterly'
+          ) || [],
+          (quarter: any) => {
+            const splitQuarterId = _.split(_.get(quarter, 'id'), 'Q');
+            const dateOfQuarter = setQuarter(
+              new Date(_.head(splitQuarterId)),
+              _.last(splitQuarterId)
+            );
+            return {
+              id: quarter.id,
+              name: quarter.name,
+              isCurrentQuater: isSameQuarter(dateOfQuarter, new Date()),
+              dateOfQuarter,
+              hasEvent: false,
+              quarterNumber: _.last(splitQuarterId),
+            };
+          }
+        ),
+        'quarterNumber'
+      ),
       (quarterPeriod: any) => quarterPeriod.id <= currentQuarterId
     );
   }
@@ -177,72 +172,66 @@ export const getActionTrackingReportData = createSelector(
       return [];
     }
 
-    // go through actions
-    _.forEach(actionTrackerDatas, action => {
-      //TODO: Andre create this structure from the period selection
-      const quarters = [];
+    return _.map(actionTrackerDatas, (actionTrackerData: ActionTrackerData) => {
+      // TODO: Andre create this structure from the period selection
 
-      action.isCurrentYear =
-        yearOfCurrentPeriodSelection == getYear(new Date());
-      _.map(quartersOfSelectedPeriod, quarter => {
-        quarters.push({ ...quarter });
-      });
+      let trackerData = {
+        ...actionTrackerData,
+        isCurrentYear: yearOfCurrentPeriodSelection === getYear(new Date()),
+        hasQuarters: quartersOfSelectedPeriod.length > 0,
+        actionTrackingColumns: quartersOfSelectedPeriod,
+      };
 
-      action.hasQuarters = quartersOfSelectedPeriod.length == 0 ? false : true;
-      action.actionTrackingColumns = quarters;
-      //go through enrollments
-      _.forEach(action.enrollments, enrollment => {
-        //go through events sorted by event date
-        action.hasEvents = enrollment.events.length > 0 ? true : false;
-        _.forEach(_.sortBy(enrollment.events, 'eventDate'), event => {
-          //deduce the quarter of the current event
-          const eventQuarter =
-            _.get(
-              action,
-              `actionTrackingColumns[${_.findIndex(
-                action.actionTrackingColumns,
-                quarter =>
-                  getQuarter(new Date(_.head(_.split(event.eventDate, 'T')))) ==
-                  quarter.quarterNumber
-              )}]`
-            ) || {};
+      const enrollment = _.head(trackerData.enrollments || []);
 
-          _.set(
-            eventQuarter,
-            'eventDate',
-            _.head(_.split(event.eventDate, 'T'))
-          );
-          _.set(eventQuarter, 'hasEvent', true);
+      const actionEvents = _.sortBy(
+        enrollment ? enrollment.events : [],
+        'eventDate'
+      );
 
-          eventQuarter.eventId = _.get(event, 'event');
+      return {
+        ...trackerData,
+        actionTrackingColumns: quartersOfSelectedPeriod.map(
+          (selectedPeriodQuarter: any) => {
+            const selectedEvent = _.head(
+              _.sortBy(
+                actionEvents.filter(
+                  (actionEvent: any) =>
+                    getQuarter(new Date(actionEvent.eventDate)) ===
+                    parseInt(selectedPeriodQuarter.quarterNumber, 10)
+                ),
+                'eventDate'
+              )
+            );
 
-          _.forEach(event.dataValues, eventDataValues => {
-            //merge action tracking stage data elements and data to their respective quarter
-            _.merge(eventQuarter, {
-              [_.camelCase(
-                _.get(
-                  _.find(actionTrackerConfig, {
-                    id: eventDataValues.dataElement
-                  }),
-                  'name'
-                )
-              )]: eventDataValues.value
-            });
+            if (selectedEvent) {
+              let dataValues = {};
+              selectedEvent.dataValues.forEach((dataValue: any) => {
+                dataValues = {
+                  ...dataValues,
+                  [_.camelCase(
+                    _.get(
+                      _.find(actionTrackerConfig, {
+                        id: dataValue.dataElement,
+                      }),
+                      'name'
+                    )
+                  )]: dataValue.value,
+                };
+              });
+              return {
+                ...selectedPeriodQuarter,
+                ...dataValues,
+                hasEvent: true,
+                eventId: selectedEvent.id,
+                eventDate: _.head(_.split(selectedEvent.eventDate, 'T')),
+              };
+            }
 
-            action.latestStatus =
-              _.camelCase(
-                _.get(
-                  _.find(actionTrackerConfig, {
-                    id: eventDataValues.dataElement
-                  }),
-                  'name'
-                )
-              ) == 'actionStatus'
-                ? eventDataValues.value
-                : action.latestStatus || '';
-          });
-        });
-      });
+            return selectedPeriodQuarter;
+          }
+        ),
+      };
     });
   }
 );
@@ -270,45 +259,48 @@ export const getMergedActionTrackerDatas = createSelector(
     return _.flatten(
       _.map(rootCauseDatas, (rootCauseData: any) => {
         const actions = _.filter(
-          actionTrackerDatas,
+          actionTrackingData,
           (actionTrackerData: any) =>
             _.get(
               _.find(_.get(actionTrackerData, 'attributes'), {
-                code: 'BNA_REF'
+                code: 'BNA_REF',
               }),
               'value'
             ) === rootCauseData.id
         );
         return actions.length > 0
-          ? _.map(actions, (action: any, actionIndex: number) => {
-              actions.dataValues = {};
-
-              _.map(action.attributes, trackedEntityAttribute => {
-                _.find(actionTrackerConfig.dataElements, {
-                  id: trackedEntityAttribute.attribute
-                })
-                  ? _.merge(actions.dataValues, {
-                      [trackedEntityAttribute.attribute]:
-                        trackedEntityAttribute.value
-                    })
-                  : null;
-                _.set(action, 'rootCauseDataId', rootCauseData.id);
-              });
-              return {
+          ? _.map(actions, (action: any) => {
+              let dataValues = { ...rootCauseData.dataValues };
+              const newAction = {
                 ...action,
+                rootCauseDataId: rootCauseData.id,
                 id: action.trackedEntityInstance,
-                dataValues: {
-                  ...actions.dataValues,
-                  ...rootCauseData.dataValues
+              };
+
+              _.forEach(action.attributes, (trackedEntityAttribute) => {
+                if (
+                  _.find(actionTrackerConfig.dataElements, {
+                    id: trackedEntityAttribute.attribute,
+                  })
+                ) {
+                  dataValues = {
+                    ...dataValues,
+                    [trackedEntityAttribute.attribute]:
+                      trackedEntityAttribute.value,
+                  };
                 }
+              });
+
+              return {
+                ...newAction,
+                dataValues,
               };
             })
           : [
               {
                 ...rootCauseData,
                 rootCauseDataId: rootCauseData.id,
-                id: undefined
-              }
+              },
             ];
       })
     );
@@ -316,10 +308,8 @@ export const getMergedActionTrackerDatas = createSelector(
 );
 
 export const getMergedActionTrackerDatasWithRowspanAttribute = createSelector(
-  getActionTrackerDataState,
-  getRootCauseAnalysisDatas,
   getMergedActionTrackerDatas,
-  (state, rootCauseDatas, mergedActionTrackerDatas) => {
+  (mergedActionTrackerDatas) => {
     _.map(
       _.groupBy(mergedActionTrackerDatas, 'rootCauseDataId'),
       (groupedActions, index) => {
@@ -327,20 +317,20 @@ export const getMergedActionTrackerDatasWithRowspanAttribute = createSelector(
         firstElementOfGroup.id
           ? _.set(
               _.find(mergedActionTrackerDatas, {
-                id: firstElementOfGroup.id
+                id: firstElementOfGroup.id,
               }),
               'rowspan',
               groupedActions.length
             )
           : _.set(
               _.find(mergedActionTrackerDatas, {
-                rootCauseDataId: firstElementOfGroup.rootCauseDataId
+                rootCauseDataId: firstElementOfGroup.rootCauseDataId,
               }),
               'rowspan',
               groupedActions.length
             );
 
-        _.map(groupedActions, actionElement => {
+        _.map(groupedActions, (actionElement) => {
           if (firstElementOfGroup.id !== actionElement.id) {
             _.set(actionElement, 'parentAction', firstElementOfGroup.id);
           }

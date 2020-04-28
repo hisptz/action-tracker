@@ -4,16 +4,18 @@ import * as _ from 'lodash';
 import { getRootState, State as RootState } from '../reducers';
 import {
   adapter,
-  ColumnSettingsState
+  ColumnSettingsState,
 } from '../reducers/column-settings.reducer';
 
-import { ucFirst } from 'ngx-pipes/src/pipes/helpers/helpers';
-import { getMergedActionTrackerConfiguration } from './action-tracker-configuration.selectors';
+import {
+  getMergedActionTrackerConfiguration,
+  getDataElementsFromConfiguration,
+} from './action-tracker-configuration.selectors';
 
 export const {
   selectEntities: getColumnSettingsEntities,
   selectAll: getColumneSettingsDatas,
-  selectTotal
+  selectTotal,
 } = adapter.getSelectors();
 
 const getColumnSettingsState = createSelector(
@@ -21,22 +23,30 @@ const getColumnSettingsState = createSelector(
   (state: RootState) => state.columnSettings
 );
 export const getColumnSettingsInitialData = createSelector(
-  getMergedActionTrackerConfiguration,
-  actionTrackerConfig => {
-    const { dataElements } = actionTrackerConfig;
-
+  getDataElementsFromConfiguration,
+  (dataElements) => {
     if (dataElements) {
-      return _.map(
-        _.filter(dataElements, element => {
-          return element && !element.isHidden;
-        }),
-        filtered => {
-          if (filtered && filtered.id) {
-            return { id: filtered.id, name: filtered.name, isVisible: true };
-          } else {
-            return '';
+      return _.flattenDeep(
+        _.map(
+          _.filter(dataElements, (element) => {
+            return element && !element.isHidden;
+          }),
+          (filtered) => {
+            if (filtered && filtered.id && filtered.name) {
+              const { columnMandatory } = filtered;
+              return (
+                {
+                  id: filtered.id,
+                  name: filtered.name,
+                  isVisible: true,
+                  columnMandatory,
+                } || []
+              );
+            } else {
+              return [];
+            }
           }
-        }
+        )
       );
     }
   }
