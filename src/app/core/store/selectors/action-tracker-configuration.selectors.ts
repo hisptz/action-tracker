@@ -49,8 +49,8 @@ export const getCurrentActionTrackerConfigLegend = createSelector(
 export const getConfigurationDataElementsFromTEAs = createSelector(
   getActionTrackerConfigurationState,
   getCurrentActionTrackerConfig,
-  (actionTrackerConfigState, currentActionTrackerConfig) =>
-    currentActionTrackerConfig
+  (actionTrackerConfigState, currentActionTrackerConfig) => {
+    return currentActionTrackerConfig
       ? _.compact(
           _.map(
             currentActionTrackerConfig.programTrackedEntityAttributes,
@@ -63,13 +63,15 @@ export const getConfigurationDataElementsFromTEAs = createSelector(
                 formControlName: _.camelCase(
                   _.get(trackedEntityAttributes.trackedEntityAttribute, 'name')
                 ),
+                required: trackedEntityAttributes.mandatory,
                 isHidden: !trackedEntityAttributes.displayInList,
                 isActionTrackerColumn: true,
               };
             }
           )
         )
-      : []
+      : [];
+  }
 );
 
 export const getConfigurationDataElementsFromProgramStageDEs = createSelector(
@@ -183,5 +185,44 @@ export const getMergedActionTrackerConfiguration = createSelector(
         : dataElements.push(...actionTrackerConfigTrackedEntityAttributes);
     }
     return { ...currentActionTrackerConfig, dataElements };
+  }
+);
+export const getDataElementsFromConfiguration = createSelector(
+  getMergedActionTrackerConfiguration,
+  (config) => {
+    if (config) {
+      const { dataElements } = config;
+
+      return (
+        _.flattenDeep(
+          _.map(dataElements || [], (element) => {
+            let newElement = element;
+            const { attributeValues } = element;
+            if (attributeValues && attributeValues.length) {
+              let columnMandatory;
+              for (const attributeValue of attributeValues) {
+                const { attribute } = attributeValue;
+                if (
+                  attribute &&
+                  attribute.hasOwnProperty('name') &&
+                  attribute.name === 'columnMandatory'
+                ) {
+                  columnMandatory =
+                    typeof attributeValue.value === 'boolean'
+                      ? attributeValue.value
+                      : typeof attributeValue.value === 'string'
+                      ? JSON.parse(attributeValue.value)
+                      : false;
+                  newElement = { ...newElement, columnMandatory };
+                }
+              }
+            }
+            return newElement || [];
+          })
+        ) || []
+      );
+    } else {
+      return [];
+    }
   }
 );

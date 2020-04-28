@@ -29,6 +29,7 @@ import {
   reportVisualizationReducer
 } from './report-visualization.reducer';
 import { ColumnSettingsState, columnSettingsReducer} from './column-settings.reducer'
+import { TableFieldsSettingsState, tableFieldsSettingsReducer } from './table-fields-settings.reducer';
 
 export interface State {
   // User state
@@ -55,6 +56,9 @@ export interface State {
 
   // Column Settings State
   columnSettings: ColumnSettingsState;
+
+  // Table Fields Settings
+  tableFieldsSettings: TableFieldsSettingsState;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -67,7 +71,8 @@ export const reducers: ActionReducerMap<State> = {
   rootCauseAnalysisData: rootCauseAnalysisDataReducer,
   rootCauseAnalysisConfiguration: rootCauseAnalysisConfigurationReducer,
   reportVisualization: reportVisualizationReducer,
-  columnSettings: columnSettingsReducer
+  columnSettings: columnSettingsReducer,
+  tableFieldsSettings: tableFieldsSettingsReducer
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production
