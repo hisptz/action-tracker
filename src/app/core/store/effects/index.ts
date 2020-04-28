@@ -7,6 +7,7 @@ import { GlobalSelectionEffects } from './global-selection.effects';
 import { RootCauseAnalysisDataEffects } from './root-cause-analysis-data.effects';
 import { RootCauseAnalysisConfigurationEffects } from './root-cause-analysis-configuration.effects';
 import { ReportEffects } from './report.effects';
+import { TableFieldsSettingsEffects } from './table-fields-settings.effects';
 
 export const effects: any[] = [
   UserEffects,
@@ -17,5 +18,6 @@ export const effects: any[] = [
   RootCauseAnalysisDataEffects,
   RootCauseAnalysisConfigurationEffects,
   GlobalSelectionEffects,
-  ReportEffects
+  ReportEffects,
+  TableFieldsSettingsEffects
 ];
