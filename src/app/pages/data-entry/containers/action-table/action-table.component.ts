@@ -210,6 +210,7 @@ export class ActionTableComponent implements OnInit {
           ? endOfQuarter(dataItem.dateOfQuarter)
           : endOfYear(new Date(this.periodSelection)),
       },
+      disableClose: true
     });
 
     dialogRef.afterClosed().subscribe((formResponse) => {
@@ -303,6 +304,7 @@ export class ActionTableComponent implements OnInit {
       width: '600px',
       height: `${100 + 55 * 1}px`,
       data: {},
+      disableClose: true
     });
 
     dialogRef.afterClosed().subscribe((formResponse) => {
@@ -326,6 +328,7 @@ export class ActionTableComponent implements OnInit {
       width: '600px',
       height: '850px',
       data: settings,
+      disableClose: true
     });
     dialogRef
       .afterClosed()
@@ -394,6 +397,7 @@ export class ActionTableComponent implements OnInit {
       this.dialog.open(ProgressVisualizationDialogComponent, {
         width: width + 'px',
         data: { visualization },
+        disableClose: true
       });
     }
   }

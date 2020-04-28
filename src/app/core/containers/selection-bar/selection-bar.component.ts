@@ -40,6 +40,7 @@ export class SelectionBarComponent implements OnInit {
   openLegendDialog() {
     this.dialog.open(LegendConfigurationDialogComponent, {
       height: '400px',
+      disableClose: true
     });
   }
   openFieldsSettingsDialog(tableFields) {
