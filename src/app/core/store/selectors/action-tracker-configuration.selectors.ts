@@ -50,7 +50,6 @@ export const getConfigurationDataElementsFromTEAs = createSelector(
   getActionTrackerConfigurationState,
   getCurrentActionTrackerConfig,
   (actionTrackerConfigState, currentActionTrackerConfig) => {
-    console.log({ currentActionTrackerConfig });
     return currentActionTrackerConfig
       ? _.compact(
           _.map(
@@ -191,7 +190,6 @@ export const getMergedActionTrackerConfiguration = createSelector(
 export const getDataElementsFromConfiguration = createSelector(
   getMergedActionTrackerConfiguration,
   (config) => {
-    console.log({ getAttributeByNameAndValue });
     if (config) {
       const { dataElements } = config;
 

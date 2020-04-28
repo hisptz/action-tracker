@@ -47,7 +47,6 @@ export class TableFieldsSettingsEffects {
         return this.tableFieldsService.getDatastoreNamespaces().pipe(
           map((data: any) => {
             if (!data || !data.includes('table-fields-settings')) {
-              console.log('Table fields settings not present');
               return new CreateMandatoryFieldsForTheTableAction({
                 fieldsSettings,
               });
@@ -69,7 +68,6 @@ export class TableFieldsSettingsEffects {
     switchMap(() => {
       return this.tableFieldsService.getMandatoryFieldsSettings().pipe(
         map((data: any) => {
-          console.log({ data });
           const { fieldsSettings } = data;
           if (fieldsSettings) {
             return new LoadMandatoryFieldsForTheTableSuccessAction(

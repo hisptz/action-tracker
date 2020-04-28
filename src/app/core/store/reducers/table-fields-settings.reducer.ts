@@ -4,7 +4,6 @@ import {
   TableFieldsSettingsActions,
   TableFieldsSettingsTypes,
 } from '../actions/table-fields-settings.actions';
-import { v4 as uuidV4 } from 'uuid';
 
 export interface TableFieldsSettingsState extends EntityState<any> {
   // additional entities state properties
@@ -48,8 +47,6 @@ export function tableFieldsSettingsReducer(
       };
     }
     case TableFieldsSettingsTypes.LoadMandatoryFieldsForTheTableSuccess: {
-      const uuidStr = uuidV4();
-      console.log({ action: action.payload, uuidStr });
       return adapter.upsertMany(
        action.payload,
         state
