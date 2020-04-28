@@ -19,7 +19,7 @@ export const initialState: any = adapter.getInitialState({
   loaded: false,
   hasError: false,
   error: null,
-  currentConfig: 'ROSaojkGieB',
+  currentConfig: 'ROSaojkGieB'
 });
 
 export function tableFieldsSettingsReducer(
@@ -34,7 +34,7 @@ export function tableFieldsSettingsReducer(
       };
     }
     case TableFieldsSettingsTypes.CheckMandatorySettingsExistSuccess: {
-      return adapter.addAll(action.payload, state);
+      return adapter.addMany(action.payload, state);
     }
 
     case TableFieldsSettingsTypes.CheckMandatorySettingsExistFailure: {
@@ -47,7 +47,10 @@ export function tableFieldsSettingsReducer(
       };
     }
     case TableFieldsSettingsTypes.LoadMandatoryFieldsForTheTableSuccess: {
-      return adapter.addAll(action.payload, state);
+      return adapter.upsertMany(
+       action.payload,
+        state
+      );
     }
     case TableFieldsSettingsTypes.LoadMandatoryFieldsForTheTableFailure: {
       return { ...state, loading: false, hasError: true };
@@ -60,7 +63,10 @@ export function tableFieldsSettingsReducer(
       };
     }
     case TableFieldsSettingsTypes.CreateMandatoryFieldsForTheTableSuccess: {
-      return adapter.addAll(action.payload, state);
+      return adapter.setAll(
+      action.payload,
+        state
+      );
     }
     case TableFieldsSettingsTypes.CreateMandatoryFieldsForTheTableFailure: {
       return { ...state, loading: false, hasError: true };
@@ -72,7 +78,10 @@ export function tableFieldsSettingsReducer(
       };
     }
     case TableFieldsSettingsTypes.UpdateMandatoryFieldsForTheTableSuccess: {
-      return adapter.addAll(action.payload, state);
+      return adapter.upsertMany(
+       action.payload,
+        state
+      );
     }
     case TableFieldsSettingsTypes.UpdateMandatoryFieldsForTheTableFailure: {
       return { ...state, loading: false, hasError: true };

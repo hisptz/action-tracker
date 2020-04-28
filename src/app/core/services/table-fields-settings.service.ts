@@ -12,7 +12,7 @@ export class TableFieldsSettingsService {
   constructor(private http: HttpClient) {
     this.dataStoreUrl = '/api/dataStore';
     this.tableSettingsNamespace = 'table-fields-settings';
-    this.mandatorySettingsKey = 'mandatory-settings';
+    this.mandatorySettingsKey = 'fields-mandatory-settings';
   }
   getDatastoreNamespaces(): Observable<any> {
     return this.http.get(`${this.dataStoreUrl}`);
@@ -20,7 +20,7 @@ export class TableFieldsSettingsService {
   getTableFieldsSettingsNamespaceKeys(): Observable<any> {
     return this.http.get(`${this.dataStoreUrl}/${this.tableSettingsNamespace}`);
   }
-  createMandatorySettingsKey(data = {mandatoryFields: []}): Observable<any> {
+  createMandatorySettingsKey(data = {fieldsSettings: []}): Observable<any> {
     return this.http.post(
       `${this.dataStoreUrl}/${this.tableSettingsNamespace}/${this.mandatorySettingsKey}`,
       data

@@ -1,5 +1,4 @@
 <form
-*ngIf="dataElements$ | async as fields"
   #fieldsSettingsForm="ngForm"
   (ngSubmit)="saveSettings(fieldsSettingsForm, fields)"
   style="width: 100%; height: 100%;"
@@ -11,7 +10,7 @@
         <th>Show in list</th>
       </tr>
     </thead>
-    <tbody >
+    <tbody>
       <tr *ngFor="let field of fields">
         <td>{{ field.name }}</td>
         <td>
@@ -25,7 +24,9 @@
   </table>
 
   <div class="bottom-section">
-    <button type="button" mat-stroked-button>Cancel</button>
+    <button type="button" (click)="closeDialog('Close')" mat-stroked-button>
+      Cancel
+    </button>
     <button
       type="submit"
       style="margin-left: 0.5em;"

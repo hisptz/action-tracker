@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { defer, Observable, of } from 'rxjs';
 import { map, switchMap, withLatestFrom, catchError } from 'rxjs/operators';
-import { set } from 'lodash';
+import * as _ from 'lodash';
 import { State } from '../reducers';
 import { TableFieldsSettingsService } from '../../services/table-fields-settings.service';
 import {
@@ -19,36 +19,62 @@ import {
   LoadMandatoryFieldsForTheTableFailureAction,
   LoadMandatoryFieldsForTheTableAction,
 } from '../actions/table-fields-settings.actions';
+import { getDataElementsFromConfiguration } from '../selectors/action-tracker-configuration.selectors';
+import { LoadActionTrackerConfigurationAction } from '../actions/action-tracker-configuration.actions';
 
 @Injectable()
 export class TableFieldsSettingsEffects {
   @Effect()
   checkTableFieldsExist$: Observable<Action> = this.actions$.pipe(
     ofType(TableFieldsSettingsTypes.CheckMandatorySettingsExist),
-    switchMap(() => {
-      return this.tableFieldsService.getDatastoreNamespaces().pipe(
-        map((data: any) => {
-          if (!data || !data.includes('table-fields-settings')) {
-            return new CreateMandatoryFieldsForTheTableAction({});
-          }
-          return new CheckMandatorySettingsExistSuccessAction(data);
-          //   return new LoadMandatoryFieldsForTheTableAction();
-        }),
-        catchError((error) => {
-          console.log(error);
-          return of(new CheckMandatorySettingsExistFailureAction(error));
-        })
-      );
-    })
+    withLatestFrom(this.store.select(getDataElementsFromConfiguration)),
+    switchMap(
+      ([action, dataElements]: [LoadActionTrackerConfigurationAction, any]) => {
+        const fieldsSettings = _.flattenDeep(
+          _.map(dataElements || [], (element) => {
+            if (
+              element &&
+              element.hasOwnProperty('id') &&
+              element.hasOwnProperty('name') &&
+              element.hasOwnProperty('columnMandatory')
+            ) {
+              return { ...element, columnMandatory: false };
+            } else {
+              return [];
+            }
+          })
+        );
+        return this.tableFieldsService.getDatastoreNamespaces().pipe(
+          map((data: any) => {
+            if (!data || !data.includes('table-fields-settings')) {
+              return new CreateMandatoryFieldsForTheTableAction({
+                fieldsSettings,
+              });
+            }
+            // return new CheckMandatorySettingsExistSuccessAction(data);
+            return new LoadMandatoryFieldsForTheTableAction();
+          }),
+          catchError((error) => {
+            console.log(error);
+            return of(new CheckMandatorySettingsExistFailureAction(error));
+          })
+        );
+      }
+    )
   );
   @Effect()
-  loadTableFieldsExist$: Observable<Action> = this.actions$.pipe(
+  loadTableMandatoryFields$: Observable<Action> = this.actions$.pipe(
     ofType(TableFieldsSettingsTypes.LoadMandatoryFieldsForTheTable),
     switchMap(() => {
       return this.tableFieldsService.getMandatoryFieldsSettings().pipe(
         map((data: any) => {
-          console.log({ data });
-          return new LoadMandatoryFieldsForTheTableSuccessAction(data);
+          const { fieldsSettings } = data;
+          if (fieldsSettings) {
+            return new LoadMandatoryFieldsForTheTableSuccessAction(
+              fieldsSettings
+            );
+          }
+          return new LoadMandatoryFieldsForTheTableSuccessAction([]);
         }),
         catchError((error) => {
           console.log(error);
