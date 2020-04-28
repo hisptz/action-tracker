@@ -149,8 +149,12 @@
       <tbody
         *ngIf="
           (dataLoaded$ | async) &&
-          (data$ | async)?.length == 0 &&
-          !(dataLoading$ | async)
+          !(dataLoading$ | async) &&
+          !(
+            data$
+            | async
+            | filterByAttribute: 'latestStatus':selectedStatus?.id
+          )?.length
         "
       >
         <tr>
