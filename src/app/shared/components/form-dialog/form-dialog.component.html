@@ -104,15 +104,21 @@
           class="w-100"
           *ngIf="dataElement.valueType === formFieldType.DATE"
         >
-          <mat-label>{{ dataElement.name }}</mat-label>
-
+          <mat-label>{{ dataElement.name }} </mat-label>
+          <!-- dataElement?.id === actionEndDateId ? startDate : minDate -->
           <input
             matInput
             [formControlName]="dataElement?.id || dataElement?.formControlName"
             [disabled]="
-              dataElement?.id === actionEndDateId && (startDate ? false : true)
+              (dataElement?.id || dataElement?.formControlName) ==
+                actionEndDateId && (startDate ? false : true)
             "
-            [min]="dataElement?.id === actionEndDateId ? startDate : minDate"
+            [min]="
+              (dataElement?.id || dataElement?.formControlName) ==
+              actionEndDateId
+                ? startDate
+                : minDate
+            "
             [max]="maxDate"
             [matDatepicker]="datePicker"
             (click)="datePicker.open()"
