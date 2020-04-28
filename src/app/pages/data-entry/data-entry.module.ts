@@ -7,11 +7,13 @@ import { ActionTableComponent } from './containers/action-table/action-table.com
 import { DataEntryRoutingModule } from './data-entry-routing.module';
 import { ProgressVisualizationDialogComponent } from './components/progress-visualization-dialog/progress-visualization-dialog.component';
 import { NgxDhis2VisualizationModule } from '../analysis/modules/ngx-dhis2-visualization/ngx-dhis2-visualization.module';
+import { DisableControlDirective } from './directives/disable-control.directive';
 @NgModule({
   declarations: [
     DataEntryComponent,
     ActionTableComponent,
     ProgressVisualizationDialogComponent,
+    DisableControlDirective,
   ],
   imports: [
     CommonModule,

@@ -39,7 +39,15 @@
       class="legend-input legend-start-end-value-input"
       [(ngModel)]="endValue"
     /> -->
+    <button title="Make default status" class="legend-button">
+      <img
+        [src]="isDefault ? setDefaultIcon : unsetDefaultIcon"
+        (click)="onSetDefaultStatus($event)"
+        alt="Make Default Status"
+      />
+    </button>
     <button
+      *ngIf="showDeleteIcon"
       title="Delete legend"
       class="legend-button"
       (click)="onDeleteLegend($event)"

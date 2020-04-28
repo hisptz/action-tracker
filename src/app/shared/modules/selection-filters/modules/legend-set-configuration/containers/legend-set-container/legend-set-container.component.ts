@@ -22,6 +22,8 @@ export class LegendSetContainerComponent implements OnInit, OnDestroy {
   @Input()
   legendSetEntities;
   @Input()
+  showDeleteIcon: boolean;
+  @Input()
   legendItems: LegendSet[];
   @Input()
   legendSetLoaded;

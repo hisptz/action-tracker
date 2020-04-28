@@ -3,6 +3,7 @@
 </h5>
 <app-legend-set-container
   [legendItems]="legendItems"
+  [showDeleteIcon]="false"
   [legendSetLoaded]="legendSetLoadedState$ | async"
   [legendSetEntities]="legendSetEntities$ | async"
   (legendSetConfigurationClose)="onLegendSetConfigurationClose($event)"

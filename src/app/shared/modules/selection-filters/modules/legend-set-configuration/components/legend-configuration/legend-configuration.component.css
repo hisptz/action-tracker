@@ -55,7 +55,7 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 3px;
+  /* padding: 3px; */
   border-radius: 3px;
   margin: 2px;
   cursor: pointer;
