@@ -137,7 +137,8 @@ export const getActionTrackingQuarters = createSelector(
               _.last(splitQuarterId)
             );
             return {
-              ...quarter,
+              id: quarter.id,
+              name: quarter.name,
               isCurrentQuater: isSameQuarter(dateOfQuarter, new Date()),
               dateOfQuarter,
               hasEvent: false,
@@ -171,9 +172,8 @@ export const getActionTrackingReportData = createSelector(
       return [];
     }
 
-    // go through actions
     return _.map(actionTrackerDatas, (actionTrackerData: ActionTrackerData) => {
-      //TODO: Andre create this structure from the period selection
+      // TODO: Andre create this structure from the period selection
 
       let trackerData = {
         ...actionTrackerData,
@@ -182,59 +182,56 @@ export const getActionTrackingReportData = createSelector(
         actionTrackingColumns: quartersOfSelectedPeriod,
       };
 
-      _.forEach(trackerData.enrollments, (enrollment: any) => {
-        _.forEach(_.sortBy(enrollment.events, 'eventDate'), (event: any) => {
-          // deduce the quarter of the current event
-          let eventQuarter = {
-            ...(_.get(
-              trackerData,
-              `actionTrackingColumns[${_.findIndex(
-                trackerData.actionTrackingColumns,
-                (quarter) =>
-                  getQuarter(
-                    new Date(_.head(_.split(event.eventDate, 'T')))
-                  ) === quarter.quarterNumber
-              )}]`
-            ) || {}),
-            eventDate: _.head(_.split(event.eventDate, 'T')),
-            hasEvent: true,
-            eventId: _.get(event, 'event'),
-          };
+      const enrollment = _.head(trackerData.enrollments || []);
 
-          _.forEach(event.dataValues, (eventDataValues: any) => {
-            // merge action tracking stage data elements and data to their respective quarter
-            eventQuarter = {
-              ...eventQuarter,
-              [_.camelCase(
-                _.get(
-                  _.find(actionTrackerConfig, {
-                    id: eventDataValues.dataElement,
-                  }),
-                  'name'
-                )
-              )]: eventDataValues.value,
-            };
+      const actionEvents = _.sortBy(
+        enrollment ? enrollment.events : [],
+        'eventDate'
+      );
 
-            trackerData = {
-              ...trackerData,
-              eventQuarter,
-              latestStatus:
-                _.camelCase(
-                  _.get(
-                    _.find(actionTrackerConfig, {
-                      id: eventDataValues.dataElement,
-                    }),
-                    'name'
-                  )
-                ) === 'actionStatus'
-                  ? eventDataValues.value
-                  : trackerData.latestStatus || '',
-            };
-          });
-        });
-      });
+      return {
+        ...trackerData,
+        actionTrackingColumns: quartersOfSelectedPeriod.map(
+          (selectedPeriodQuarter: any) => {
+            const selectedEvent = _.head(
+              _.sortBy(
+                actionEvents.filter(
+                  (actionEvent: any) =>
+                    getQuarter(new Date(actionEvent.eventDate)) ===
+                    parseInt(selectedPeriodQuarter.quarterNumber, 10)
+                ),
+                'eventDate'
+              )
+            );
 
-      return trackerData;
+            if (selectedEvent) {
+              let dataValues = {};
+              selectedEvent.dataValues.forEach((dataValue: any) => {
+                dataValues = {
+                  ...dataValues,
+                  [_.camelCase(
+                    _.get(
+                      _.find(actionTrackerConfig, {
+                        id: dataValue.dataElement,
+                      }),
+                      'name'
+                    )
+                  )]: dataValue.value,
+                };
+              });
+              return {
+                ...selectedPeriodQuarter,
+                ...dataValues,
+                hasEvent: true,
+                eventId: selectedEvent.id,
+                eventDate: _.head(_.split(selectedEvent.eventDate, 'T')),
+              };
+            }
+
+            return selectedPeriodQuarter;
+          }
+        ),
+      };
     });
   }
 );
@@ -262,7 +259,7 @@ export const getMergedActionTrackerDatas = createSelector(
     return _.flatten(
       _.map(rootCauseDatas, (rootCauseData: any) => {
         const actions = _.filter(
-          actionTrackerDatas,
+          actionTrackingData,
           (actionTrackerData: any) =>
             _.get(
               _.find(_.get(actionTrackerData, 'attributes'), {
