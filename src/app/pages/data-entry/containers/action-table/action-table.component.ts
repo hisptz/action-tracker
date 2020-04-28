@@ -394,6 +394,7 @@ export class ActionTableComponent implements OnInit {
       this.dialog.open(ProgressVisualizationDialogComponent, {
         width: width + 'px',
         data: { visualization },
+        disableClose: true
       });
     }
   }

@@ -1,1 +1,13 @@
-<ngx-dhis2-visualization [visualizationObject]="data?.visualization"></ngx-dhis2-visualization>
+<ngx-dhis2-visualization
+  [visualizationObject]="data?.visualization"
+></ngx-dhis2-visualization>
+<div style="width: 100%;">
+  <button
+    style="float: right;"
+    (click)="closeDialog()"
+    mat-stroked-button
+    color="warn"
+  >
+    Close
+  </button>
+</div>
