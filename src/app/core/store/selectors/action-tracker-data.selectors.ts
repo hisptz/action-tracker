@@ -189,8 +189,21 @@ export const getActionTrackingReportData = createSelector(
         'eventDate'
       );
 
+      const actionStatusConfig = _.find(actionTrackerConfig, [
+        'formControlName',
+        'actionStatus',
+      ]);
+
+      const latestEvent = _.head(actionEvents);
+
+      const latestStatusEvent = _.find(
+        latestEvent ? latestEvent.dataValues : [],
+        ['dataElement', actionStatusConfig ? actionStatusConfig.id : '']
+      );
+
       return {
         ...trackerData,
+        latestStatus: latestStatusEvent ? latestStatusEvent.value : '',
         actionTrackingColumns: quartersOfSelectedPeriod.map(
           (selectedPeriodQuarter: any) => {
             const selectedEvent = _.head(
