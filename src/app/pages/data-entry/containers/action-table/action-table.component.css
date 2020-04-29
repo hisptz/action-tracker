@@ -46,3 +46,17 @@
   background-color: #f5f5f5;
   border-radius: 50%;
 }
+
+@media print {
+  .action-table {
+    word-wrap: break-word;
+    table-layout: fixed;
+  }
+  .action-table th,
+  .action-table td {
+    border: solid thin gray;
+  }
+  .table-count-column {
+    width: 4%;
+  }
+}
