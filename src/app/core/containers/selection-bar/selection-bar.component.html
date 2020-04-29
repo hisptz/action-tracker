@@ -1,25 +1,16 @@
 <div class="selection-bar mat-elevation-z1">
   <div class="selection-container">
-    <ngx-dhis2-selection-filters
-      [selectionFilterConfig]="selectionFilterConfig"
-      (filterUpdate)="onFilterUpdate($event)"
-    ></ngx-dhis2-selection-filters>
+    <ngx-dhis2-selection-filters [selectionFilterConfig]="selectionFilterConfig"
+      (filterUpdate)="onFilterUpdate($event)"></ngx-dhis2-selection-filters>
   </div>
-  <div
-    class="settings-container"
-    *ngIf="tableFields$ | async as tableFields"
-  >
-    
-    <button
-      class="text-muted"
-      [matMenuTriggerFor]="actionTrackerSettings"
-      mat-icon-button
-    >
+  <div class="settings-container" *ngIf="tableFields$ | async as tableFields">
+
+    <button class="text-muted" [matMenuTriggerFor]="actionTrackerSettings" mat-icon-button>
       <mat-icon>settings</mat-icon>
     </button>
     <mat-menu #actionTrackerSettings="matMenu">
       <button mat-menu-item (click)="openLegendDialog()">
-        Legend Settings
+        Action Status Settings
       </button>
       <button *ngIf="isAdmin$ | async" mat-menu-item (click)="openFieldsSettingsDialog(tableFields)">
         Mandatory Fields Settings
