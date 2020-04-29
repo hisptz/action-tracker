@@ -303,10 +303,7 @@
                   *ngFor="
                     let actionTrackingConfiguration of actionTrackingConfigurations
                   "
-                  [hidden]="
-                    (!first && !actionDataItem.hasEvents) ||
-                    !actionTrackingItem.hasEvent
-                  "
+                  [hidden]="!actionTrackingItem.hasEvent"
                   (dblclick)="
                     onEditActionTracking(
                       $event,

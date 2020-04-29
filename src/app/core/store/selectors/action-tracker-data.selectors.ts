@@ -236,7 +236,7 @@ export const getActionTrackingReportData = createSelector(
                 ...selectedPeriodQuarter,
                 ...dataValues,
                 hasEvent: true,
-                eventId: selectedEvent.id,
+                eventId: selectedEvent.event,
                 eventDate: _.head(_.split(selectedEvent.eventDate, 'T')),
               };
             }

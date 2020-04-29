@@ -210,7 +210,7 @@ export class ActionTableComponent implements OnInit {
           ? endOfQuarter(dataItem.dateOfQuarter)
           : endOfYear(new Date(this.periodSelection)),
       },
-      disableClose: true
+      disableClose: true,
     });
 
     dialogRef.afterClosed().subscribe((formResponse) => {
@@ -228,10 +228,14 @@ export class ActionTableComponent implements OnInit {
           formDataElements
         );
 
-        upsertEnrollmentPayload(
+        const enrollmentPayload = upsertEnrollmentPayload(
           _.head(this.selectedAction.enrollments),
           eventPayload
         );
+        this.selectedAction = {
+          ...this.selectedAction,
+          enrollments: [enrollmentPayload],
+        };
       }
 
       const actionTrackerData = generateTEI(
@@ -304,7 +308,7 @@ export class ActionTableComponent implements OnInit {
       width: '600px',
       height: `${100 + 55 * 1}px`,
       data: {},
-      disableClose: true
+      disableClose: true,
     });
 
     dialogRef.afterClosed().subscribe((formResponse) => {
@@ -328,7 +332,7 @@ export class ActionTableComponent implements OnInit {
       width: '600px',
       height: '850px',
       data: settings,
-      disableClose: true
+      disableClose: true,
     });
     dialogRef
       .afterClosed()
@@ -397,7 +401,7 @@ export class ActionTableComponent implements OnInit {
       this.dialog.open(ProgressVisualizationDialogComponent, {
         width: width + 'px',
         data: { visualization },
-        disableClose: true
+        disableClose: true,
       });
     }
   }
