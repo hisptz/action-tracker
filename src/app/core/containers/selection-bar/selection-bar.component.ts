@@ -27,7 +27,7 @@ export class SelectionBarComponent implements OnInit {
 
   ngOnInit() {
     this.isAdmin$ = this.store.pipe(select(getCurrentUserManagementAuthoritiesStatus));
-    this.store.dispatch(new CheckMandatorySettingsExistAction());
+    // this.store.dispatch(new CheckMandatorySettingsExistAction());
     this.tableFields$ = this.store.pipe(
       select(getTableFieldsSettings)
     );
@@ -43,13 +43,11 @@ export class SelectionBarComponent implements OnInit {
       disableClose: true
     });
   }
-  openFieldsSettingsDialog(tableFields) {
-    const fields = [...tableFields];
+  openFieldsSettingsDialog() {
     const dialogRef = this.dialog.open(FieldsSettingsDialogComponent, {
       width: '600px',
       height: '850px',
       panelClass: 'custom-dialog-container',
-      data: fields,
       disableClose: true
     });
     dialogRef
