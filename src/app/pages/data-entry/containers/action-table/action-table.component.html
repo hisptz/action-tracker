@@ -208,10 +208,11 @@
             "
           >
             {{
-              actionDataItem.latestStatus
-                | convertLegendId: (legendSetStatus$ | async)
+              (actionDataItem.latestStatus
+                | convertLegendId: (legendSetStatus$ | async)) || 'Not Set'
             }}
           </td>
+
           <td
             *ngIf="!isActionTracking"
             class="px-1 hide-on-export d-print-none"
