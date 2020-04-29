@@ -10,58 +10,39 @@
   </div>
 </div>
 
-<div
-  class="d-flex flex-column"
-  *ngIf="(tableFieldsSettingsLoaded$ |async) && (columnSettings$ | async) as columnSettings"
->
+<div class="d-flex flex-column"
+  *ngIf="(tableFieldsSettingsLoaded$ |async) && (columnSettings$ | async) as columnSettings">
   <strong class="text-muted">Column</strong>
   <mat-selection-list *ngIf="fieldsSettings$ | async as fieldsSettings" #checkSettings>
     <mat-list-item>
-      <mat-checkbox
-        style="font-size: 0.9em; width: 100%; font-weight: 500;"
-        [(ngModel)]="checkAll"
-        (change)="manageCheckboxes(columnSettings, fieldsSettings,'checkAll')"
-        >Check all</mat-checkbox
-      ><mat-icon style="float: right;">menu</mat-icon>
+      <mat-checkbox style="font-size: 0.9em; width: 100%; font-weight: 500;" [(ngModel)]="checkAll"
+        (change)="manageCheckboxes(columnSettings, fieldsSettings,'checkAll')">Check all</mat-checkbox>
+      <mat-icon style="float: right;">menu</mat-icon>
       <mat-divider></mat-divider>
     </mat-list-item>
     <mat-list-item>
-      <mat-checkbox
-        style="font-size: 0.9em; width: 100%; font-weight: 500;"
-        [(ngModel)]="unCheckAll"
-        (change)="manageCheckboxes(columnSettings, fieldsSettings, 'uncheckAll')"
-        >Uncheck all</mat-checkbox
-      >
+      <mat-checkbox style="font-size: 0.9em; width: 100%; font-weight: 500;" [(ngModel)]="unCheckAll"
+        (change)="manageCheckboxes(columnSettings, fieldsSettings, 'uncheckAll')">Uncheck all <span
+          class="text-muted">(except mandatory columns)</span></mat-checkbox>
       <mat-icon style="float: right;">menu</mat-icon>
       <mat-divider></mat-divider>
     </mat-list-item>
   </mat-selection-list>
-  <form
-    #columnForm="ngForm"
-    *ngIf="(tableFieldsSettingsLoaded$ |async) && columnSettings$ | async as settings"
-    (ngSubmit)="saveColumns(columnForm, settings)"
-  >
+  <form #columnForm="ngForm" *ngIf="(tableFieldsSettingsLoaded$ |async) && columnSettings$ | async as settings"
+    (ngSubmit)="saveColumns(columnForm, settings)">
     <mat-selection-list *ngIf="fieldsSettings$ | async as fieldsSettings">
       <mat-list-item *ngFor="let columnSetting of settings; let i = index">
-        <mat-checkbox
-          style="font-size: 0.9em; width: 100%;"
-          name="{{ columnSetting.id }}"
-          [disabled]="
+        <mat-checkbox style="font-size: 0.9em; width: 100%;" name="{{ columnSetting.id }}" [disabled]="
             getDisableStatusOfCheckbox(columnSetting?.id, fieldsSettings)
-          "
-          (change)="checkCheckAllStatus(columnSettings)"
-          [(ngModel)]="columnSetting.isVisible"
-          >{{ columnSetting.name }}
-          <mat-icon style="float: right;">menu</mat-icon> </mat-checkbox
-        ><mat-divider></mat-divider>
+          " (change)="checkCheckAllStatus(columnSettings)" [(ngModel)]="columnSetting.isVisible">
+          {{ columnSetting.name }}
+          <mat-icon style="float: right;">menu</mat-icon>
+        </mat-checkbox>
+        <mat-divider></mat-divider>
       </mat-list-item>
     </mat-selection-list>
     <p style="float: right;" class="mt-4">
-      <button
-        mat-stroked-button
-        type="button"
-        (click)="closeDialog('Cancelled')"
-      >
+      <button mat-stroked-button type="button" (click)="closeDialog('Cancelled')">
         Close
       </button>
       &nbsp;
