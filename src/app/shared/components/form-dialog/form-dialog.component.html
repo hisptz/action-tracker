@@ -104,22 +104,32 @@
           class="w-100"
           *ngIf="dataElement.valueType === formFieldType.DATE"
         >
-          <mat-label>{{ dataElement.name }}</mat-label>
+          <mat-label>{{ dataElement.name }} </mat-label>
+          <!-- dataElement?.id === actionEndDateId ? startDate : minDate -->
           <input
             matInput
             [formControlName]="dataElement?.id || dataElement?.formControlName"
-            [min]="minDate"
+            [disabled]="
+              (dataElement?.id || dataElement?.formControlName) ==
+                actionEndDateId && (startDate ? false : true)
+            "
+            [min]="
+              (dataElement?.id || dataElement?.formControlName) ==
+              actionEndDateId
+                ? startDate
+                : minDate
+            "
             [max]="maxDate"
-            [matDatepicker]="reviewDate"
-            (click)="reviewDate.open()"
+            [matDatepicker]="datePicker"
+            (click)="datePicker.open()"
             placeholder="Choose a date"
             required="{{ dataElement.required }}"
           />
           <mat-datepicker-toggle
             matSuffix
-            [for]="reviewDate"
+            [for]="datePicker"
           ></mat-datepicker-toggle>
-          <mat-datepicker #reviewDate></mat-datepicker>
+          <mat-datepicker #datePicker></mat-datepicker>
         </mat-form-field>
         <!-- end of date field -->
       </div>
@@ -131,7 +141,7 @@
         mat-flat-button
         color="primary"
         type="submit"
-        [disabled]="!formGroup.valid"
+        [disabled]="!formGroup?.valid"
       >
         Save
       </button>
