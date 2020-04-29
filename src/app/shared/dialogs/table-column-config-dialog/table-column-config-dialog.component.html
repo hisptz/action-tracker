@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>Choose Columns to be displayed on a table</h1>
-<div mat-dialog-content *ngIf="!(columnSettings$ | async)">
+<div mat-dialog-content *ngIf="!(columnSettings$ | async) || !(tableFieldsSettingsLoaded$ |async)">
   <div>
     <mat-card>
       <mat-card-content>
@@ -12,7 +12,7 @@
 
 <div
   class="d-flex flex-column"
-  *ngIf="columnSettings$ | async as columnSettings"
+  *ngIf="(tableFieldsSettingsLoaded$ |async) && (columnSettings$ | async) as columnSettings"
 >
   <strong class="text-muted">Column</strong>
   <mat-selection-list *ngIf="fieldsSettings$ | async as fieldsSettings" #checkSettings>
@@ -38,7 +38,7 @@
   </mat-selection-list>
   <form
     #columnForm="ngForm"
-    *ngIf="columnSettings$ | async as settings"
+    *ngIf="(tableFieldsSettingsLoaded$ |async) && columnSettings$ | async as settings"
     (ngSubmit)="saveColumns(columnForm, settings)"
   >
     <mat-selection-list *ngIf="fieldsSettings$ | async as fieldsSettings">

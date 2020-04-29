@@ -16,6 +16,8 @@ import {
 import {
   getFieldsSettingsData,
   getTableFieldsSettings,
+  tableFieldsSettingsLoadingStatus,
+  tableFieldsSettingsLoadedStatus,
 } from 'src/app/core/store/selectors/table-fields-settings.selectors';
 
 @Component({
@@ -34,6 +36,8 @@ export class TableColumnConfigDialogComponent implements OnInit {
     checkAll: true,
     uncheckAll: false,
   };
+  tableFieldsSettingsLoading$: Observable<boolean>;
+  tableFieldsSettingsLoaded$: Observable<boolean>;
   constructor(
     private store: Store<State>,
     private fb: FormBuilder,
@@ -43,6 +47,8 @@ export class TableColumnConfigDialogComponent implements OnInit {
 
   ngOnInit() {
     this.initilizeData();
+    this.tableFieldsSettingsLoading$ = this.store.pipe(select(tableFieldsSettingsLoadingStatus));
+    this.tableFieldsSettingsLoaded$ = this.store.pipe(select(tableFieldsSettingsLoadedStatus));
   }
   initilizeData() {
     this.checkInitialCheckStatus();
