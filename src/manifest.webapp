@@ -1,7 +1,7 @@
 
 {
-    "version": "1.0.0-beta.11",
-    "name": "Action Tracker Demo",
+    "version": "1.0.0-rc.0",
+    "name": "Action Tracker",
     "description": "Action Tracker",
     "appType": "APP",
     "launch_path": "index.html",
