@@ -12,7 +12,7 @@
       <button mat-menu-item (click)="openLegendDialog()">
         Action Status Settings
       </button>
-      <button *ngIf="isAdmin$ | async" mat-menu-item (click)="openFieldsSettingsDialog(tableFields)">
+      <button *ngIf="isAdmin$ | async" mat-menu-item (click)="openFieldsSettingsDialog()">
         Mandatory Fields Settings
       </button>
     </mat-menu>

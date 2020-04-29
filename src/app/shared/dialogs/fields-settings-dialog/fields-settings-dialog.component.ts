@@ -4,27 +4,34 @@ import { Store, select } from '@ngrx/store';
 import { State } from 'src/app/core/store/reducers';
 import * as _ from 'lodash';
 import { getDataElementsFromConfiguration } from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
-import { getTableFieldsSettings } from 'src/app/core/store/selectors/table-fields-settings.selectors';
+import { getTableFieldsSettings, tableFieldsSettingsLoadingStatus, tableFieldsSettingsLoadedStatus } from 'src/app/core/store/selectors/table-fields-settings.selectors';
 import {
   CheckMandatorySettingsExistAction,
   UpdateMandatoryFieldsForTheTableAction,
 } from 'src/app/core/store/actions/table-fields-settings.actions';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'app-fields-settings-dialog',
   templateUrl: './fields-settings-dialog.component.html',
   styleUrls: ['./fields-settings-dialog.component.css'],
 })
 export class FieldsSettingsDialogComponent implements OnInit {
-  fields;
+
+  tableFields$: Observable<any>;
+  dataLoading$: Observable<boolean>;
+  dataLoaded$: Observable<boolean>;
+  
   constructor(
     private store: Store<State>,
     public dialogRef: MatDialogRef<FieldsSettingsDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   ngOnInit() {
-    this.fields = [...this.data];
+    this.dataLoading$ = this.store.pipe(select(tableFieldsSettingsLoadingStatus));
+    this.dataLoaded$ = this.store.pipe(select(tableFieldsSettingsLoadedStatus));
+    this.tableFields$ = this.store.pipe(
+      select(getTableFieldsSettings)
+    );
   }
   saveSettings(form, fields) {
     if (form && form.hasOwnProperty('form')) {

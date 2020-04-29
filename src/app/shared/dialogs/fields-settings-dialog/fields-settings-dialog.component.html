@@ -1,8 +1,4 @@
-<form
-  #fieldsSettingsForm="ngForm"
-  (ngSubmit)="saveSettings(fieldsSettingsForm, fields)"
-  style="width: 100%; height: 100%;"
->
+<form #fieldsSettingsForm="ngForm" style="width: 100%; height: 100%;">
   <table class="table table-borderless" style="height: 90%;">
     <thead>
       <tr>
@@ -10,8 +6,36 @@
         <th>Show in list</th>
       </tr>
     </thead>
-    <tbody>
-      <tr *ngFor="let field of fields">
+    <tbody
+      *ngIf="
+        (dataLoaded$ | async) &&
+        !(dataLoading$ | async) &&
+        !(tableFields$ | async)
+      "
+    >
+      <tr>
+        <i>There are no fields settings to be displayed</i>
+      </tr>
+    </tbody>
+    <tbody *ngIf="(dataLoading$ | async) && !(dataLoaded$ | async)">
+      <tr style="margin-top: 0.5em;">
+        <mat-card>
+          <mat-card-content>
+            <div>Discovering Configurations</div>
+            <mat-progress-bar
+              mode="indeterminate"
+            ></mat-progress-bar></mat-card-content
+        ></mat-card>
+      </tr>
+    </tbody>
+    <tbody
+      *ngIf="
+        (dataLoaded$ | async) &&
+        !(dataLoading$ | async) &&
+        (tableFields$ | async)
+      "
+    >
+      <tr *ngFor="let field of tableFields$ | async">
         <td>{{ field.name }}</td>
         <td>
           <mat-checkbox
@@ -28,10 +52,12 @@
       Cancel
     </button>
     <button
+      *ngIf="tableFields$ | async as fields"
       type="submit"
       style="margin-left: 0.5em;"
       mat-stroked-button
       color="primary"
+      (click)="saveSettings(fieldsSettingsForm, fields)"
     >
       Update
     </button>
