@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { LegendSet, Legend } from '../../models/legend-set';
 import * as _ from 'lodash';
-import * as lengeSetHelper from '../../helpers';
 import { id } from 'date-fns/locale';
 
 @Component({
@@ -10,10 +9,8 @@ import { id } from 'date-fns/locale';
   styleUrls: ['./legend-set.component.css'],
 })
 export class LegendSetComponent implements OnInit {
-  @Input()
-  legendSet: LegendSet;
-  @Input()
-  showDeleteIcon: boolean;
+  @Input() legendSet: LegendSet;
+  @Input() showDeleteIcon: boolean;
 
   @Output() legendSetUpdates: EventEmitter<any> = new EventEmitter<any>();
 
@@ -22,14 +19,14 @@ export class LegendSetComponent implements OnInit {
   ngOnInit() {}
 
   onLegendUpdates(data: Legend) {
-    this.legendSet.legends = _.sortBy(
+    const legends = _.sortBy(
       _.map(this.legendSet.legends, (legend) => {
         return legend.id === data.id ? data : legend;
       }),
       'startValue'
     );
 
-    this.legendSetUpdates.emit(this.legendSet);
+    this.legendSetUpdates.emit({ ...this.legendSet, legends });
   }
 
   onDeleteLegend(data) {
