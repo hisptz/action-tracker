@@ -14,20 +14,13 @@
   class="d-flex flex-column"
   *ngIf="columnSettings$ | async as columnSettings"
 >
-  <!-- <mat-checkbox
-    style="font-size: 0.9em;"
-    [(ngModel)]="checkAll"
-    (change)="checkAllCheckboxes(columnSettings)"
-    >Check all</mat-checkbox
-  > -->
-
   <strong class="text-muted">Column</strong>
-  <mat-selection-list #checkSettings>
+  <mat-selection-list *ngIf="fieldsSettings$ | async as fieldsSettings" #checkSettings>
     <mat-list-item>
       <mat-checkbox
         style="font-size: 0.9em; width: 100%; font-weight: 500;"
         [(ngModel)]="checkAll"
-        (change)="manageCheckboxes(columnSettings, 'checkAll')"
+        (change)="manageCheckboxes(columnSettings, fieldsSettings,'checkAll')"
         >Check all</mat-checkbox
       ><mat-icon style="float: right;">menu</mat-icon>
       <mat-divider></mat-divider>
@@ -36,21 +29,26 @@
       <mat-checkbox
         style="font-size: 0.9em; width: 100%; font-weight: 500;"
         [(ngModel)]="unCheckAll"
-        (change)="manageCheckboxes(columnSettings, 'uncheckAll')"
+        (change)="manageCheckboxes(columnSettings, fieldsSettings, 'uncheckAll')"
         >Uncheck all</mat-checkbox
       >
       <mat-icon style="float: right;">menu</mat-icon>
       <mat-divider></mat-divider>
     </mat-list-item>
   </mat-selection-list>
-  <form #columnForm="ngForm" (ngSubmit)="saveColumns(columnForm)">
-    <mat-selection-list #columSettings>
-      <mat-list-item
-        *ngFor="let columnSetting of columnSettings; let i = index"
-      >
+  <form
+    #columnForm="ngForm"
+    *ngIf="columnSettings$ | async as settings"
+    (ngSubmit)="saveColumns(columnForm, settings)"
+  >
+    <mat-selection-list *ngIf="fieldsSettings$ | async as fieldsSettings">
+      <mat-list-item *ngFor="let columnSetting of settings; let i = index">
         <mat-checkbox
           style="font-size: 0.9em; width: 100%;"
           name="{{ columnSetting.id }}"
+          [disabled]="
+            getDisableStatusOfCheckbox(columnSetting?.id, fieldsSettings)
+          "
           (change)="checkCheckAllStatus(columnSettings)"
           [(ngModel)]="columnSetting.isVisible"
           >{{ columnSetting.name }}
