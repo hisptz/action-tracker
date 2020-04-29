@@ -1,12 +1,7 @@
 .legend-configuration-container {
   display: flex;
-  display: -webkit-flex;
   justify-content: flex-start;
-  align-items: flex-start;
-}
-
-.legend-configuration-container > div {
-  margin: 3px;
+  align-items: center;
 }
 
 .legend-input-container {
@@ -64,4 +59,8 @@ img {
 
 .legend-button:hover {
   background-color: #eeeeee;
+}
+
+.mat-form-field-infix {
+  border-top: none !important;
 }

@@ -1,58 +1,13 @@
 <div class="legend-configuration-container">
-  <div>
-    <app-legend-color-picker
-      (colorSelect)="onColorSelect($event)"
-      [color]="color"
-    ></app-legend-color-picker>
-  </div>
-  <div class="legend-input-container">
-    <input
-      (blur)="onLegendUpdate($event)"
-      type="text"
-      class="legend-input legend-name-input"
-      [(ngModel)]="name"
-    />&nbsp;
-    <!-- <input
-      (blur)="onLegendUpdate($event)"
-      type="text"
-      class="legend-input legend-start-end-value-input"
-      [(ngModel)]="startValue"
-    /> -->
-    <!-- <button
-      title="Set negative infinity on start value"
-      class="legend-button"
-      (click)="setNegativeInfinity($event)"
-    >
-      <img [src]="lessThanIcon" alt="" />
-    </button> -->
-    <!-- <span style="padding: 0.375rem 0.75rem;">-</span> -->
-    <!-- <button
-      title="Set positive infinity on end value"
-      class="legend-button"
-      (click)="setPositiveInfinity($event)"
-    >
-      <img [src]="greaterThanIcon" alt="" />
-    </button> -->
-    <!-- <input
-      (blur)="onLegendUpdate($event)"
-      type="text"
-      class="legend-input legend-start-end-value-input"
-      [(ngModel)]="endValue"
-    /> -->
-    <button title="Make default status" class="legend-button">
-      <img
-        [src]="isDefault ? setDefaultIcon : unsetDefaultIcon"
-        (click)="onSetDefaultStatus($event)"
-        alt="Make Default Status"
-      />
-    </button>
-    <button
-      *ngIf="showDeleteIcon"
-      title="Delete legend"
-      class="legend-button"
-      (click)="onDeleteLegend($event)"
-    >
-      <img [src]="deleteIcon" alt="" />
-    </button>
-  </div>
+  <app-legend-color-picker (colorSelect)="onColorSelect($event)" [color]="color"></app-legend-color-picker>
+  <mat-form-field class="ml-2">
+    <input matInput (blur)="onLegendUpdate($event)" type="text" [(ngModel)]="name" />
+  </mat-form-field>
+  <button title="Make default status" class="legend-button">
+    <img [src]="isDefault ? setDefaultIcon : unsetDefaultIcon" (click)="onSetDefaultStatus($event)"
+      alt="Make Default Status" />
+  </button>
+  <button *ngIf="showDeleteIcon" title="Delete legend" class="legend-button" (click)="onDeleteLegend($event)">
+    <img [src]="deleteIcon" alt="" />
+  </button>
 </div>

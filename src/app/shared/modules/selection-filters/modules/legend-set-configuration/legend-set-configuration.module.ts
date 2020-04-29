@@ -16,6 +16,8 @@ import { components } from './components';
 import { containers } from './containers';
 import { LegendSetConfigurationComponent } from './legend-set-configuration.component';
 import { services } from './services';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   imports: [
@@ -23,13 +25,15 @@ import { services } from './services';
     FormsModule,
     MatButtonModule,
     MatTooltipModule,
+    MatFormFieldModule,
+    MatInputModule,
     HttpClientModule,
     ColorPickerModule,
     StoreModule.forFeature('legendSet', legendSetReducer),
-    EffectsModule.forFeature([LegendSetEffects])
+    EffectsModule.forFeature([LegendSetEffects]),
   ],
   declarations: [LegendSetConfigurationComponent, ...components, ...containers],
   exports: [LegendSetConfigurationComponent, ...components, ...containers],
-  providers: [...services]
+  providers: [...services],
 })
 export class LegendSetConfigurationModule {}

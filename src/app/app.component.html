@@ -3,26 +3,12 @@
   <div class="application-content">
     <!-- application header -->
     <div class="navbar-container d-print-none">
-      <app-selection-bar
-        [selectionFilterConfig]="selectionFilterConfig"
-        (filterUpdate)="onFilterUpdate($event)"
-      >
+      <app-selection-bar [selectionFilterConfig]="selectionFilterConfig" (filterUpdate)="onFilterUpdate($event)">
       </app-selection-bar>
     </div>
     <!-- end of application header -->
 
     <div class="container-fluid application-content-container">
-      <!-- application filter -->
-      <!-- <div class="row mt-3">
-        <div class="col-md-6 col-12 d-flex justify-content-start d-print-none">
-          <div>
-            <ngx-dhis2-selection-filters [selectionFilterConfig]="selectionFilterConfig"
-              (filterUpdate)="onFilterUpdate($event)"></ngx-dhis2-selection-filters>
-          </div>
-        </div>
-      </div> -->
-
-      <!-- end of application filter -->
       <div class="row mt-3">
         <div class="col-12">
           <router-outlet></router-outlet>
