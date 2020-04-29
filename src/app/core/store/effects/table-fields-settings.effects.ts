@@ -43,7 +43,6 @@ export class TableFieldsSettingsEffects {
       const fieldsSettings = this.getFieldsSettings(dataElements);
       const initialDataStored =
         JSON.parse(localStorage.getItem('tableFieldsInitialItem')) || '';
-      console.log({ dataElements, loadedStatus, initialDataStored });
 
       if (initialDataStored && loadedStatus) {
         localStorage.removeItem('tableFieldsInitialItem');
