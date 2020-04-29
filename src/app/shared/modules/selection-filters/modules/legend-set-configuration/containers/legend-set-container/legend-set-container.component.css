@@ -3,7 +3,7 @@
 }
 
 .legend-set-body {
-  padding-top: 15px;
+  padding-top: 10px;
   display: flex;
   overflow: auto;
   height: 320px;
@@ -246,11 +246,11 @@
 
 .legend-set-btns {
   position: absolute;
-  bottom: 10px;
+  bottom: 0;
   width: 100%;
   font-size: 14px;
-  border-top: solid thin #fafafa;
   display: flex;
   justify-content: flex-end;
-  padding-top: 0.2em;
+  padding-top: 10px;
+  z-index: 100;
 }

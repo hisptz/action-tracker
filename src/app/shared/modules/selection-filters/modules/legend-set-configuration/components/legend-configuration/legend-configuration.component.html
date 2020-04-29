@@ -1,9 +1,12 @@
-<div class="legend-configuration-container">
-  <app-legend-color-picker (colorSelect)="onColorSelect($event)" [color]="color"></app-legend-color-picker>
-  <mat-form-field class="ml-2">
-    <input matInput (blur)="onLegendUpdate($event)" type="text" [(ngModel)]="name" />
-  </mat-form-field>
-  <button title="Make default status" class="legend-button">
+<div class="legend-configuration-container w-100">
+  <div class="d-flex align-items-center">
+    <app-legend-color-picker (colorSelect)="onColorSelect($event)" [color]="color"></app-legend-color-picker>
+    <mat-form-field class="ml-2">
+      <input matInput (blur)="onLegendUpdate($event)" type="text" [(ngModel)]="name" />
+    </mat-form-field>
+  </div>
+  <small *ngIf="isDefault" class="text-muted bg-light p-1 ml-2">default</small>
+  <button matTooltip="Set as default status" mat-icon-button class="ml-2">
     <img [src]="isDefault ? setDefaultIcon : unsetDefaultIcon" (click)="onSetDefaultStatus($event)"
       alt="Make Default Status" />
   </button>
