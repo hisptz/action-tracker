@@ -1,10 +1,7 @@
-<h5>
-  {{ 'Legend Sets' }}
-</h5>
-<app-legend-set-container
-  [legendItems]="legendItems"
-  [legendSetLoaded]="legendSetLoadedState$ | async"
-  [legendSetEntities]="legendSetEntities$ | async"
-  (legendSetConfigurationClose)="onLegendSetConfigurationClose($event)"
-  (legendSetConfigurationUpdate)="onLegendSetConfigurationUpdate($event)"
-></app-legend-set-container>
+<div>
+  <h5>Action Status Settings</h5>
+  <app-legend-set-container [legendItems]="legendItems" [showDeleteIcon]="false"
+    [legendSetLoaded]="legendSetLoadedState$ | async" [legendSetEntities]="legendSetEntities$ | async"
+    (legendSetConfigurationClose)="onLegendSetConfigurationClose($event)"
+    (legendSetConfigurationUpdate)="onLegendSetConfigurationUpdate($event)"></app-legend-set-container>
+</div>

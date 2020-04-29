@@ -42,3 +42,12 @@ export const getTableFieldsSettings = createSelector(
     return data;
   }
 );
+
+export const tableFieldsSettingsLoadingStatus = createSelector(
+  getFieldsSettingsState,
+  (state) => state.loading
+);
+export const tableFieldsSettingsLoadedStatus = createSelector(
+  getFieldsSettingsState,
+  (state) => state.loaded
+);

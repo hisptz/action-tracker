@@ -35,20 +35,15 @@
             </mat-radio-button>
           </mat-radio-group>
         </mat-menu>
-        <button *ngIf="false" class="ml-2" mat-stroked-button>
-          <div class="d-flex justify-content-between align-items-center">
-            <span>Responsible Person</span>
-            <mat-icon inline="true">keyboard_arrow_down</mat-icon>
-          </div>
-        </button>
-        <!-- <app-legend></app-legend> -->
       </div>
       <div>
-        <button class="text-muted" mat-icon-button *ngIf="columnSettings$ | async as columnSettings">
+        <button class="text-muted" matTooltip="Open column settings" mat-icon-button
+          *ngIf="columnSettings$ | async as columnSettings">
           <mat-icon (click)="openColumnConfigDialog(columnSettings)">list</mat-icon>
         </button>
-        <button class="text-muted" [matMenuTriggerFor]="moreTableOptions" mat-icon-button>
-          <mat-icon>more_horiz</mat-icon>
+        <button class="text-muted download-btn" matTooltip="Open download options"
+          [matMenuTriggerFor]="moreTableOptions" mat-icon-button>
+          <mat-icon>publish</mat-icon>
         </button>
 
         <mat-menu class="d-print-none" #moreTableOptions="matMenu">
@@ -62,7 +57,7 @@
     </div>
     <table #tableElement class="table action-table" *ngIf="configuration$ | async as configuration">
       <tr>
-        <th class="text-muted">#</th>
+        <th class="text-muted table-count-column">#</th>
         <th *ngFor="let dataElement of configuration.dataElements" [hidden]="
             dataElement.isHidden || !(columnSettings$ | async)[dataElement.id]
           " [ngClass]="{
@@ -156,10 +151,11 @@
                 | colorize: (legendSetStatus$ | async):'#fff'
             ">
             {{
-              actionDataItem.latestStatus
-                | convertLegendId: (legendSetStatus$ | async)
+              (actionDataItem.latestStatus
+                | convertLegendId: (legendSetStatus$ | async)) || 'Not Set'
             }}
           </td>
+
           <td *ngIf="!isActionTracking" class="px-1 hide-on-export d-print-none" style="width: 70px;">
             <ng-container *ngIf="actionDataItem.attributes">
               <span title="Click to edit action" class="text-success mr-1" style="cursor: pointer;" mat-icon-button
@@ -215,10 +211,7 @@
                 " (click)="toggleTruncationStatus(actionDataItem)">
                 <div *ngFor="
                     let actionTrackingConfiguration of actionTrackingConfigurations
-                  " [hidden]="
-                    (!first && !actionDataItem.hasEvents) ||
-                    !actionTrackingItem.hasEvent
-                  " (dblclick)="
+                  " [hidden]="!actionTrackingItem.hasEvent" (dblclick)="
                     onEditActionTracking(
                       $event,
                       actionDataItem,
@@ -251,7 +244,7 @@
                 <div *ngIf="
                     !actionTrackingItem.hasEvent && actionDataItem.hasQuarters
                   ">
-                  <button class="text-muted" matTooltip="Click to add new review" mat-icon-button (click)="
+                  <button class="text-muted d-print-none" matTooltip="Click to add new review" mat-icon-button (click)="
                       onEditActionTracking(
                         $event,
                         actionDataItem,
