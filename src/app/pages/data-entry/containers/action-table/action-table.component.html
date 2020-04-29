@@ -35,20 +35,15 @@
             </mat-radio-button>
           </mat-radio-group>
         </mat-menu>
-        <button *ngIf="false" class="ml-2" mat-stroked-button>
-          <div class="d-flex justify-content-between align-items-center">
-            <span>Responsible Person</span>
-            <mat-icon inline="true">keyboard_arrow_down</mat-icon>
-          </div>
-        </button>
-        <!-- <app-legend></app-legend> -->
       </div>
       <div>
-        <button class="text-muted" mat-icon-button *ngIf="columnSettings$ | async as columnSettings">
+        <button class="text-muted" matTooltip="Open column settings" mat-icon-button
+          *ngIf="columnSettings$ | async as columnSettings">
           <mat-icon (click)="openColumnConfigDialog(columnSettings)">list</mat-icon>
         </button>
-        <button class="text-muted" [matMenuTriggerFor]="moreTableOptions" mat-icon-button>
-          <mat-icon>more_horiz</mat-icon>
+        <button class="text-muted download-btn" matTooltip="Open download options"
+          [matMenuTriggerFor]="moreTableOptions" mat-icon-button>
+          <mat-icon>publish</mat-icon>
         </button>
 
         <mat-menu class="d-print-none" #moreTableOptions="matMenu">

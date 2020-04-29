@@ -47,6 +47,10 @@
   border-radius: 50%;
 }
 
+.download-btn mat-icon {
+  transform: rotate(180deg);
+}
+
 @media print {
   .action-table {
     word-wrap: break-word;
