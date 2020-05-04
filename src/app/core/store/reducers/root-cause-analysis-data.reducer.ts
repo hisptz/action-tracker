@@ -2,7 +2,7 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { RootCauseAnalysisData } from '../../models/root-cause-analysis-data.model';
 import {
   RootCauseAnalysisDataActions,
-  RootCauseAnalysisDataActionTypes
+  RootCauseAnalysisDataActionTypes,
 } from '../actions/root-cause-analysis-data.actions';
 
 export interface RootCauseAnalysisDataState
@@ -38,7 +38,7 @@ export const initialState: RootCauseAnalysisDataState = adapter.getInitialState(
     hasError: false,
     error: null,
     dataCount: 0,
-    completedDataCount: 0
+    completedDataCount: 0,
   }
 );
 
@@ -64,8 +64,8 @@ export function rootCauseAnalysisDataReducer(
         completedDataCount: state.completedDataCount + 1,
         notification: {
           completed: true,
-          message: 'Root Cause Analysis Data Loaded'
-        }
+          message: 'Root Cause Analysis Data Loaded',
+        },
       });
     }
 
@@ -79,11 +79,11 @@ export function rootCauseAnalysisDataReducer(
           id: action.rootCauseAnalysisData
             ? action.rootCauseAnalysisData.id
             : null,
-          changes: action.rootCauseAnalysisData
+          changes: action.rootCauseAnalysisData,
         },
         {
           ...state,
-          savingColor: '#F7F49A'
+          savingColor: '#F7F49A',
         }
       );
     }
@@ -97,8 +97,8 @@ export function rootCauseAnalysisDataReducer(
           showNotification: false,
           notification: {
             completed: true,
-            message: `Data has been successfully updated`
-          }
+            message: `Data has been successfully updated`,
+          },
         }
       );
     }
@@ -115,8 +115,8 @@ export function rootCauseAnalysisDataReducer(
       return {
         ...state,
         notification: {
-          message: null
-        }
+          message: null,
+        },
       };
     }
 
@@ -126,8 +126,8 @@ export function rootCauseAnalysisDataReducer(
         showNotification: true,
         notification: {
           completed: false,
-          message: 'Deleting Root Cause Analysis Data'
-        }
+          message: 'Deleting Root Cause Analysis Data',
+        },
       });
     }
 
@@ -143,8 +143,8 @@ export function rootCauseAnalysisDataReducer(
         showNotification: true,
         notification: {
           completed: false,
-          message: 'Loading Root Cause Analysis Data'
-        }
+          message: 'Loading Root Cause Analysis Data',
+        },
       });
     }
 
@@ -153,22 +153,32 @@ export function rootCauseAnalysisDataReducer(
     }
 
     case RootCauseAnalysisDataActionTypes.LoadRootCauseAnalysisDatasFail: {
-      return { ...state, loading: false, hasError: true, error: action.error };
+      return {
+        ...state,
+        loading: false,
+        hasError: true,
+        error: action.error,
+        showNotification: true,
+        notification: {
+          completed: true,
+          message: 'Error Loading Root Cause Analysis Data',
+        },
+      };
     }
 
     case RootCauseAnalysisDataActionTypes.SaveRootCauseAnalysisData: {
       return adapter.updateOne(
         {
           id: action.rootCauseAnalysisData.id,
-          changes: action.rootCauseAnalysisData
+          changes: action.rootCauseAnalysisData,
         },
         {
           ...state,
           isActive: true,
           showNotification: true,
           notification: {
-            message: `Saving Analysis Data `
-          }
+            message: `Saving Analysis Data `,
+          },
         }
       );
     }
@@ -177,7 +187,7 @@ export function rootCauseAnalysisDataReducer(
       return adapter.updateOne(
         {
           id: action.rootCauseAnalysisData.id,
-          changes: { isNew: false, savingColor: 'green' }
+          changes: { isNew: false, savingColor: 'green' },
         },
         {
           ...state,
@@ -185,8 +195,8 @@ export function rootCauseAnalysisDataReducer(
           showNotification: false,
           notification: {
             completed: true,
-            message: `Data has been successfully saved`
-          }
+            message: `Data has been successfully saved`,
+          },
         }
       );
     }
@@ -197,9 +207,9 @@ export function rootCauseAnalysisDataReducer(
         isActive: true,
         showNotification: false,
         notification: {
-          message: `Could not update data : ${action.error.message}`
+          message: `Could not update data : ${action.error.message}`,
         },
-        savingColor: 'red'
+        savingColor: 'red',
       };
     }
 
@@ -211,8 +221,8 @@ export function rootCauseAnalysisDataReducer(
           showNotification: true,
           notification: {
             completed: false,
-            message: `Saving Analysis Data `
-          }
+            message: `Saving Analysis Data `,
+          },
         }
       );
     }
@@ -224,9 +234,9 @@ export function rootCauseAnalysisDataReducer(
         showNotification: false,
         notification: {
           completed: true,
-          message: `Data successfully saved`
+          message: `Data successfully saved`,
         },
-        savingColor: 'green'
+        savingColor: 'green',
       });
     }
 
@@ -237,9 +247,9 @@ export function rootCauseAnalysisDataReducer(
         notification: {
           completed: false,
           errored: true,
-          message: `Could not save data ${action.error.message}`
+          message: `Could not save data ${action.error.message}`,
         },
-        savingColor: 'red'
+        savingColor: 'red',
       };
     }
 

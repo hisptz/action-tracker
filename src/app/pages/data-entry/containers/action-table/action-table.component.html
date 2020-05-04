@@ -1,5 +1,10 @@
 <div>
-  <div *ngIf="!(configurationLoaded$ | async) || !(configuration$ | async)">
+  <div
+    *ngIf="
+      (!(configurationLoaded$ | async) || !(configuration$ | async)) &&
+      !(configurationHasError$ | async)
+    "
+  >
     <mat-card>
       <mat-card-content>
         <div>Discovering Configurations</div>
@@ -8,9 +13,17 @@
     </mat-card>
   </div>
 
+  <div *ngIf="configurationHasError$ | async">
+    <mat-card>
+      <mat-card-content>
+        <div>{{ (configurationError$ | async).message }}</div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
   <div
     class="action-table-container border-top border-left border-right"
-    *ngIf="configurationLoaded$ | async"
+    *ngIf="(configurationLoaded$ | async) && !(configurationHasError$ | async)"
   >
     <div class="action-table-header d-print-none">
       <div class="d-flex">

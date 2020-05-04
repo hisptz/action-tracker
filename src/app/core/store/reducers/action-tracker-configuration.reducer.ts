@@ -81,6 +81,16 @@ export function actionTrackerConfigurationReducer(
       };
     }
 
+    case ActionTrackerConfigurationActionTypes.LoadActionTrackerConfigurationFail: {
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        hasError: true,
+        error: action.error,
+      };
+    }
+
     case ActionTrackerConfigurationActionTypes.AddActionTrackerConfiguration: {
       if (!action.actionTrackerConfig) {
         return state;

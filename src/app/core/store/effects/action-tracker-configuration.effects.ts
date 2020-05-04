@@ -9,7 +9,8 @@ import {
   ActionTrackerConfigurationActionTypes,
   AddActionTrackerConfigurationAction,
   LoadActionTrackerConfigurationAction,
-  UploadActionTrackerConfiguration
+  LoadActionTrackerConfigurationFail,
+  UploadActionTrackerConfiguration,
 } from '../actions/action-tracker-configuration.actions';
 import { LoadRootCauseAnalysisConfigurationAction } from '../actions/root-cause-analysis-configuration.actions';
 import { UserActionTypes } from '../actions/user.actions';
@@ -45,14 +46,19 @@ export class ActionTrackerConfigurationEffects {
               new AddActionTrackerConfigurationAction(actionTrackerConfig)
           ),
           catchError((error: any) => {
-            set(
-              defaultActionTrackerProgram,
-              'programs[0].organisationUnits',
-              currentUserOrgunits
-            );
-            return of(
-              new UploadActionTrackerConfiguration(defaultActionTrackerProgram)
-            );
+            if (error.status == 404) {
+              set(
+                defaultActionTrackerProgram,
+                'programs[0].organisationUnits',
+                currentUserOrgunits
+              );
+              return of(
+                new UploadActionTrackerConfiguration(
+                  defaultActionTrackerProgram
+                )
+              );
+            }
+            return of(new LoadActionTrackerConfigurationFail(error));
           })
         );
       }

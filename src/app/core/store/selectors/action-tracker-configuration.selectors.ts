@@ -6,7 +6,11 @@ import {
   adapter,
   ActionTrackerConfigurationState,
 } from '../reducers/action-tracker-configuration.reducer';
-import { getCurrentRootCauseAnalysisConfiguration } from './root-cause-analysis-configuration.selectors';
+import {
+  getCurrentRootCauseAnalysisConfiguration,
+  getConfigurationHasErrorStatus,
+  getConfigurationErrorStatus,
+} from './root-cause-analysis-configuration.selectors';
 
 import { getAttributeByNameAndValue } from '../../helpers/get-attribute-by-name-and-value.helper';
 const getActionTrackerConfigurationState = createSelector(
@@ -21,6 +25,16 @@ export const {
 export const getCurrentActionTrackerConfigId = createSelector(
   getActionTrackerConfigurationState,
   (state: ActionTrackerConfigurationState) => state.currentConfig
+);
+
+export const getActionTrackerConfigHasErrorStatus = createSelector(
+  getActionTrackerConfigurationState,
+  (state: ActionTrackerConfigurationState) => state.hasError
+);
+
+export const getActionTrackerConfigErrorStatus = createSelector(
+  getActionTrackerConfigurationState,
+  (state: ActionTrackerConfigurationState) => state.error
 );
 
 export const getCurrentActionTrackerConfig = createSelector(
@@ -148,6 +162,20 @@ export const getConfigurationDataElementsFromProgramStageDEs = createSelector(
       : []
 );
 
+export const getMergedActionTrackerErrorStatusConfiguration = createSelector(
+  getActionTrackerConfigurationState,
+  getActionTrackerConfigHasErrorStatus,
+  getConfigurationHasErrorStatus,
+  (state, actionTrackerHasError, rcaHasError) =>
+    actionTrackerHasError || rcaHasError
+);
+
+export const getMergedActionTrackerConfigurationErrors = createSelector(
+  getActionTrackerConfigurationState,
+  getActionTrackerConfigErrorStatus,
+  getConfigurationErrorStatus,
+  (state, actionTrackerError, rcaError) => actionTrackerError || rcaError
+);
 export const getMergedActionTrackerConfiguration = createSelector(
   getCurrentActionTrackerConfig,
   getConfigurationDataElementsFromTEAs,

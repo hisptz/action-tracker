@@ -34,6 +34,8 @@ import { State } from 'src/app/core/store/reducers';
 import {
   getConfigurationDataElementsFromProgramStageDEs,
   getMergedActionTrackerConfiguration,
+  getMergedActionTrackerErrorStatusConfiguration,
+  getMergedActionTrackerConfigurationErrors,
 } from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
 import {
   getActionTrackerDataLoadedStatus,
@@ -89,6 +91,8 @@ export class ActionTableComponent implements OnInit {
   legendSet$: Observable<any>;
 
   configurationLoaded$: Observable<boolean>;
+  configurationHasError$: Observable<boolean>;
+  configurationError$: Observable<boolean>;
 
   selectedAction: any;
   initialActionStatus: '';
@@ -133,6 +137,13 @@ export class ActionTableComponent implements OnInit {
       .subscribe((selectedPeriod) => {
         this.periodSelection = selectedPeriod;
       });
+
+    this.configurationHasError$ = this.store.select(
+      getMergedActionTrackerErrorStatusConfiguration
+    );
+    this.configurationError$ = this.store.select(
+      getMergedActionTrackerConfigurationErrors
+    );
 
     this.configurationLoaded$ = store.select(getConfigurationLoadedStatus);
     this.legendSet$ = this.store.select(getActionStatusLegendSet);
