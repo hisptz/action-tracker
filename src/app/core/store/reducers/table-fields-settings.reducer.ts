@@ -12,6 +12,7 @@ export interface TableFieldsSettingsState extends EntityState<any> {
   hasError: boolean;
   error: any;
   currentConfig: string;
+  errorType?: string;
 }
 export const adapter: EntityAdapter<any> = createEntityAdapter<any>();
 export const initialState: any = adapter.getInitialState({
@@ -19,7 +20,8 @@ export const initialState: any = adapter.getInitialState({
   loaded: false,
   hasError: false,
   error: null,
-  currentConfig: 'ROSaojkGieB'
+  currentConfig: 'ROSaojkGieB',
+  errorType: null
 });
 
 export function tableFieldsSettingsReducer(
@@ -38,7 +40,7 @@ export function tableFieldsSettingsReducer(
     }
 
     case TableFieldsSettingsTypes.CheckMandatorySettingsExistFailure: {
-      return { ...state, loading: false, hasError: true };
+      return { ...state, loading: false, hasError: true, error: action.error, errorType: 'check' };
     }
     case TableFieldsSettingsTypes.LoadMandatoryFieldsForTheTable: {
       return {
@@ -54,7 +56,7 @@ export function tableFieldsSettingsReducer(
       );
     }
     case TableFieldsSettingsTypes.LoadMandatoryFieldsForTheTableFailure: {
-      return { ...state, loading: false, hasError: true };
+      return { ...state, loading: false, hasError: true, error: action.error, errorType: 'check' };
     }
 
     case TableFieldsSettingsTypes.CreateMandatoryFieldsForTheTable: {
@@ -71,7 +73,7 @@ export function tableFieldsSettingsReducer(
       );
     }
     case TableFieldsSettingsTypes.CreateMandatoryFieldsForTheTableFailure: {
-      return { ...state, loading: false, hasError: true };
+      return { ...state, loading: false, hasError: true, error: action.error, errorType: 'create' };
     }
     case TableFieldsSettingsTypes.UpdateMandatoryFieldsForTheTable: {
       return {
@@ -87,7 +89,7 @@ export function tableFieldsSettingsReducer(
       );
     }
     case TableFieldsSettingsTypes.UpdateMandatoryFieldsForTheTableFailure: {
-      return { ...state, loading: false, hasError: true };
+      return { ...state, loading: false, hasError: true, error: action.error, errorType: 'update' };
     }
     default: {
       return state;
