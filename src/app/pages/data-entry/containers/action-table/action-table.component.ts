@@ -43,6 +43,8 @@ import {
   getNotificationMessageStatus,
   getOveralLoadingStatus,
   getYearOfCurrentPeriodSelection,
+  getActionTrackerDataErrorStatus,
+  getActionTrackerDataError,
 } from 'src/app/core/store/selectors/action-tracker-data.selectors';
 import { getColumnSettingsData } from 'src/app/core/store/selectors/column-settings.selectors';
 import { getConfigurationLoadedStatus } from 'src/app/core/store/selectors/root-cause-analysis-configuration.selectors';
@@ -90,10 +92,13 @@ export class ActionTableComponent implements OnInit {
 
   configurationLoaded$: Observable<boolean>;
 
+  actionTrackerDataError$: Observable<any>;
+
   selectedAction: any;
   initialActionStatus: '';
   toBeDeleted = {};
   selectedStatus: any;
+  JSON: any;
 
   @Output() download: EventEmitter<string> = new EventEmitter<string>();
 
@@ -103,6 +108,7 @@ export class ActionTableComponent implements OnInit {
     private dialog: MatDialog,
     private _snackBar: MatSnackBar
   ) {
+    this.JSON = JSON;
     this.configuration$ = this.store.select(
       getMergedActionTrackerConfiguration
     );
@@ -151,6 +157,10 @@ export class ActionTableComponent implements OnInit {
 
     this.reportVisualizations$ = this.store.pipe(
       select(getReportVisualizations)
+    );
+
+    this.actionTrackerDataError$ = this.store.pipe(
+      select(getActionTrackerDataError)
     );
   }
 
@@ -246,6 +256,9 @@ export class ActionTableComponent implements OnInit {
         ? this.store.dispatch(new SaveActionTrackerData(actionTrackerData))
         : null;
     });
+  }
+  openMessage() {
+    this._snackBar.open('Message');
   }
   generateAttributePayload(formValues, formDataElements) {
     const attributes = [];
