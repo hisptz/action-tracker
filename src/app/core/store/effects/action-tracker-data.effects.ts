@@ -47,7 +47,6 @@ export class ActionTrackerDataEffects {
               );
             }),
             catchError((error: any) => {
-              this.store.dispatch(new LoadActionTrackerDatasFail(error));
               const { message } = error;
 
               const showMessage = message
