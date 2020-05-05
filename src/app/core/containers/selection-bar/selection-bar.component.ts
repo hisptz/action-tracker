@@ -60,6 +60,7 @@ export class SelectionBarComponent implements OnInit {
           'Close',
           {
             duration: 2000,
+            verticalPosition: 'top'
           }
         );
       }
