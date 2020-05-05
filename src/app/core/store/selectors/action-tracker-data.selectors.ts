@@ -33,6 +33,19 @@ export const getActionTrackerDataNotificationStatus = createSelector(
   getActionTrackerDataState,
   (state: ActionTrackerDataState) => state.notification
 );
+export const getActionTrackerDataErrorStatus = createSelector(
+  getActionTrackerDataState,
+  (state: ActionTrackerDataState) => state.hasError
+);
+
+export const getActionTrackerDataError = createSelector(
+  getActionTrackerDataState,
+  getActionTrackerDataErrorStatus,
+  (state, errorStatus) => {
+    const {error, errorType} = state;
+    return errorStatus ? {...{}, error, errorType} : '';
+  }
+);
 
 export const getActionTrackerShowNotificationStatus = createSelector(
   getActionTrackerDataState,
@@ -175,7 +188,7 @@ export const getActionTrackingReportData = createSelector(
     return _.map(actionTrackerDatas, (actionTrackerData: ActionTrackerData) => {
       // TODO: Andre create this structure from the period selection
 
-      let trackerData = {
+      const trackerData = {
         ...actionTrackerData,
         isCurrentYear: yearOfCurrentPeriodSelection === getYear(new Date()),
         hasQuarters: quartersOfSelectedPeriod.length > 0,
