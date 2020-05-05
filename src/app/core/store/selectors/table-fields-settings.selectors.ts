@@ -7,10 +7,6 @@ import {
   TableFieldsSettingsState,
 } from '../reducers/table-fields-settings.reducer';
 
-import {
-  getMergedActionTrackerConfiguration,
-  getDataElementsFromConfiguration,
-} from './action-tracker-configuration.selectors';
 const getFieldsSettingsState = createSelector(
   getRootState,
   (state: RootState) => state.tableFieldsSettings
@@ -50,4 +46,15 @@ export const tableFieldsSettingsLoadingStatus = createSelector(
 export const tableFieldsSettingsLoadedStatus = createSelector(
   getFieldsSettingsState,
   (state) => state.loaded
+);
+export const tableFieldsSettingsErrorStatus = createSelector(
+  getFieldsSettingsState,
+  (state) => state.hasError
+);
+export const tableFieldsSettingsError = createSelector(
+  getFieldsSettingsState,
+  tableFieldsSettingsErrorStatus,
+  (state, errorStatus) => {
+    return state.hasError ? { ...{}, error: state.error, errorStatus } : '';
+  }
 );
