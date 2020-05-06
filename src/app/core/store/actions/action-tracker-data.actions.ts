@@ -4,7 +4,7 @@ import { ActionTrackerData } from '../../models/action-tracker-data.model';
 
 export enum ActionTrackerDataActionTypes {
   LoadActionTrackerDatas = '[ActionTrackerData] Load ActionTrackerDatas',
-  LoadActionTrackerDatasFail = '[ActionTrackerData] Load ActionTrackerData fail',
+  LoadActionTrackerDatasFail = '[ActionTrackerData] Load ActionTrackerData Fail',
   AddActionTrackerData = '[ActionTrackerData] Add ActionTrackerData',
   AddActionTrackerDataFail = '[ActionTrackerData] Add ActionTrackerData Fail',
   AddActionTrackerDataSuccess = '[ActionTrackerData] Add ActionTrackerData Success',
@@ -24,7 +24,7 @@ export enum ActionTrackerDataActionTypes {
   SaveActionTrackerData = '[ActionTrackerData] Save ActionTrackerData',
   SaveActionTrackerDataSuccess = '[ActionTrackerData] Save ActionTrackerData Success',
   SaveActionTrackerDataFail = '[ActionTrackerData] Save ActionTrackerData Fail',
-  ResetNotifications = '[ActionTrackerData] Reset Notifications'
+  ResetNotifications = '[ActionTrackerData] Reset Notifications',
 }
 
 export class LoadActionTrackerDatas implements Action {

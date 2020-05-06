@@ -1,5 +1,10 @@
 <div>
-  <div *ngIf="!(configurationLoaded$ | async) || !(configuration$ | async)">
+  <div
+    *ngIf="
+      (!(configurationLoaded$ | async) || !(configuration$ | async)) &&
+      !(configurationHasError$ | async)
+    "
+  >
     <mat-card>
       <mat-card-content>
         <div>Discovering Configurations</div>
@@ -8,9 +13,17 @@
     </mat-card>
   </div>
 
+  <div *ngIf="configurationHasError$ | async">
+    <mat-card>
+      <mat-card-content>
+        <div>{{ (configurationError$ | async).message }}</div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
   <div
     class="action-table-container border-top border-left border-right"
-    *ngIf="configurationLoaded$ | async"
+    *ngIf="(configurationLoaded$ | async) && !(configurationHasError$ | async)"
   >
     <div class="action-table-header d-print-none">
       <div class="d-flex">
@@ -127,26 +140,24 @@
       </tbody>
       <!-- Loading Table Body Ends-->
 
+      <!-- Data Loading Error Table Body -->
+      <tbody *ngIf="dataHasError$ | async">
+        <tr>
+          <td colspan="100%">
+            <div>{{ (dataError$ | async)?.message }}</div>
+          </td>
+        </tr>
+      </tbody>
+      <!-- Data Loading Error Table Body Ends-->
+
       <!-- Table instance on start up with explanations of how to fetch data -->
       <tbody
         *ngIf="
           !(dataLoading$ | async) &&
-          (actionTrackerDataError$ | async)?.errorType === 'load'
+          !(dataLoaded$ | async) &&
+          !(dataHasError$ | async)
         "
       >
-        <tr>
-          <td colspan="100%">
-            <span>
-              <i>
-                {{ (actionTrackerDataError$ | async)?.error?.message }}
-              </i>
-            </span>
-          </td>
-        </tr>
-      </tbody>
-
-      <!-- Table instance on start up with explanations of how to fetch data -->
-      <tbody *ngIf="!(dataLoading$ | async) && !(dataLoaded$ | async)">
         <tr>
           <td colspan="100%">
             <span>
@@ -167,8 +178,7 @@
             data$
             | async
             | filterByAttribute: 'latestStatus':selectedStatus?.id
-          )?.length &&
-          (actionTrackerDataError$ | async)?.errorType !== 'load'
+          )?.length
         "
       >
         <tr>
@@ -183,12 +193,7 @@
       </tbody>
       <!-- Body for there is no data ends here -->
 
-      <tbody
-        *ngIf="
-          (actionTrackerDataError$ | async)?.errorType !== 'load' &&
-            columnSettings$ | async as columnSettings
-        "
-      >
+      <tbody *ngIf="columnSettings$ | async as columnSettings">
         <tr
           *ngFor="
             let actionDataItem of data$
@@ -287,7 +292,6 @@
               >
                 <mat-icon>bar_chart</mat-icon>
               </button>
-
               <button
                 class="ml-2 text-muted"
                 matTooltip="Click to add new action"

@@ -47,14 +47,6 @@ export class ActionTrackerDataEffects {
               );
             }),
             catchError((error: any) => {
-              const { message } = error;
-
-              const showMessage = message
-                ? this.showSnackbar(message)
-                : this.showSnackbar(
-                    'Failed to load action tracker data, Please check your internet connection or try again later'
-                  );
-
               return of(new LoadActionTrackerDatasFail(error));
             })
           );

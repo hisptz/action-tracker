@@ -7,7 +7,7 @@ import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import * as _ from 'lodash';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TrackedEntityInstanceService {
   teiUrl: string;
@@ -48,12 +48,17 @@ export class TrackedEntityInstanceService {
       ),
       (id: string) => id.trim() !== ''
     );
-    return new Observable(observer => {
+    // const error = {
+    //   status: 700,
+    //   message: 'Forged',
+    // };
+    // return throwError(error);
+    return new Observable((observer) => {
       this.getSearchedTrackedEntityInstances(
         referrencedAttributeId,
         programId,
         attributeValues
-      ).subscribe(d => {
+      ).subscribe((d) => {
         observer.next(d);
         observer.complete();
       });
@@ -112,8 +117,8 @@ export class TrackedEntityInstanceService {
     );
     return rows && rows.length > 0 && teiIdColumnIndex > -1
       ? _.filter(
-          _.map(rows, row => row[teiIdColumnIndex] || ''),
-          value => value.trim() !== ''
+          _.map(rows, (row) => row[teiIdColumnIndex] || ''),
+          (value) => value.trim() !== ''
         )
       : [];
   }

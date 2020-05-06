@@ -87,7 +87,12 @@ export function actionTrackerDataReducer(
         loading: false,
         hasError: true,
         error: action.error,
-        errorType: 'load'
+        errorType: 'load',
+        showNotification: true,
+        notification: {
+          completed: true,
+          message: 'Error Loading Action Tracker Data',
+        },
       };
     }
 

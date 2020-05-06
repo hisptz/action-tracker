@@ -34,6 +34,8 @@ import { State } from 'src/app/core/store/reducers';
 import {
   getConfigurationDataElementsFromProgramStageDEs,
   getMergedActionTrackerConfiguration,
+  getMergedActionTrackerErrorStatusConfiguration,
+  getMergedActionTrackerConfigurationErrors,
 } from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
 import {
   getActionTrackerDataLoadedStatus,
@@ -46,6 +48,10 @@ import {
   getActionTrackerDataErrorStatus,
   getActionTrackerDataError,
 } from 'src/app/core/store/selectors/action-tracker-data.selectors';
+import {
+  getRootCauseAnalysisDataHasErrorStatus,
+  getRootCauseAnalysisDataErrorStatus,
+} from 'src/app/core/store/selectors/root-cause-analysis-data.selectors';
 import { getColumnSettingsData } from 'src/app/core/store/selectors/column-settings.selectors';
 import { getConfigurationLoadedStatus } from 'src/app/core/store/selectors/root-cause-analysis-configuration.selectors';
 import { DeleteConfirmationDialogueComponent } from 'src/app/shared/components/delete-confirmation-dialogue/delete-confirmation-dialogue.component';
@@ -91,6 +97,10 @@ export class ActionTableComponent implements OnInit {
   legendSet$: Observable<any>;
 
   configurationLoaded$: Observable<boolean>;
+  configurationHasError$: Observable<boolean>;
+  configurationError$: Observable<boolean>;
+  dataHasError$: Observable<boolean>;
+  dataError$: Observable<boolean>;
 
   actionTrackerDataError$: Observable<any>;
 
@@ -139,6 +149,18 @@ export class ActionTableComponent implements OnInit {
       .subscribe((selectedPeriod) => {
         this.periodSelection = selectedPeriod;
       });
+
+    this.configurationHasError$ = this.store.select(
+      getMergedActionTrackerErrorStatusConfiguration
+    );
+    this.configurationError$ = this.store.select(
+      getMergedActionTrackerConfigurationErrors
+    );
+
+    this.dataHasError$ = this.store.select(
+      getRootCauseAnalysisDataHasErrorStatus
+    );
+    this.dataError$ = this.store.select(getRootCauseAnalysisDataErrorStatus);
 
     this.configurationLoaded$ = store.select(getConfigurationLoadedStatus);
     this.legendSet$ = this.store.select(getActionStatusLegendSet);
