@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -9,8 +9,8 @@ export class TableFieldsSettingsService {
   private dataStoreUrl: string;
   private tableSettingsNamespace: string;
   private mandatorySettingsKey: string;
-  constructor(private http: HttpClient) {
-    this.dataStoreUrl = '/api/dataStore';
+  constructor(private http: NgxDhis2HttpClientService) {
+    this.dataStoreUrl = 'dataStore';
     this.tableSettingsNamespace = 'table-fields-settings';
     this.mandatorySettingsKey = 'fields-mandatory-settings';
   }
@@ -20,7 +20,7 @@ export class TableFieldsSettingsService {
   getTableFieldsSettingsNamespaceKeys(): Observable<any> {
     return this.http.get(`${this.dataStoreUrl}/${this.tableSettingsNamespace}`);
   }
-  createMandatorySettingsKey(data = {fieldsSettings: []}): Observable<any> {
+  createMandatorySettingsKey(data = { fieldsSettings: [] }): Observable<any> {
     return this.http.post(
       `${this.dataStoreUrl}/${this.tableSettingsNamespace}/${this.mandatorySettingsKey}`,
       data

@@ -44,12 +44,13 @@ export function tableFieldsSettingsReducer(
       return {
         ...state,
         loading: true,
+        loaded: false
       };
     }
     case TableFieldsSettingsTypes.LoadMandatoryFieldsForTheTableSuccess: {
       return adapter.upsertMany(
        action.payload,
-        state
+       {...state, loaded: true, loading: false}
       );
     }
     case TableFieldsSettingsTypes.LoadMandatoryFieldsForTheTableFailure: {
@@ -60,12 +61,13 @@ export function tableFieldsSettingsReducer(
       return {
         ...state,
         loading: true,
+        loaded: false
       };
     }
     case TableFieldsSettingsTypes.CreateMandatoryFieldsForTheTableSuccess: {
       return adapter.setAll(
       action.payload,
-        state
+      {...state, loaded: true, loading: false}
       );
     }
     case TableFieldsSettingsTypes.CreateMandatoryFieldsForTheTableFailure: {
@@ -75,12 +77,13 @@ export function tableFieldsSettingsReducer(
       return {
         ...state,
         loading: true,
+        loaded: false
       };
     }
     case TableFieldsSettingsTypes.UpdateMandatoryFieldsForTheTableSuccess: {
       return adapter.upsertMany(
        action.payload,
-        state
+        {...state, loaded: true, loading: false}
       );
     }
     case TableFieldsSettingsTypes.UpdateMandatoryFieldsForTheTableFailure: {

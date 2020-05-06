@@ -62,17 +62,11 @@
             </mat-radio-button>
           </mat-radio-group>
         </mat-menu>
-        <button *ngIf="false" class="ml-2" mat-stroked-button>
-          <div class="d-flex justify-content-between align-items-center">
-            <span>Responsible Person</span>
-            <mat-icon inline="true">keyboard_arrow_down</mat-icon>
-          </div>
-        </button>
-        <!-- <app-legend></app-legend> -->
       </div>
       <div>
         <button
           class="text-muted"
+          matTooltip="Open column settings"
           mat-icon-button
           *ngIf="columnSettings$ | async as columnSettings"
         >
@@ -81,11 +75,12 @@
           >
         </button>
         <button
-          class="text-muted"
+          class="text-muted download-btn"
+          matTooltip="Open download options"
           [matMenuTriggerFor]="moreTableOptions"
           mat-icon-button
         >
-          <mat-icon>more_horiz</mat-icon>
+          <mat-icon>publish</mat-icon>
         </button>
 
         <mat-menu class="d-print-none" #moreTableOptions="matMenu">
@@ -103,7 +98,7 @@
       *ngIf="configuration$ | async as configuration"
     >
       <tr>
-        <th class="text-muted">#</th>
+        <th class="text-muted table-count-column">#</th>
         <th
           *ngFor="let dataElement of configuration.dataElements"
           [hidden]="
@@ -377,7 +372,7 @@
                   "
                 >
                   <button
-                    class="text-muted"
+                    class="text-muted d-print-none"
                     matTooltip="Click to add new review"
                     mat-icon-button
                     (click)="

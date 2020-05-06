@@ -121,7 +121,7 @@
 
 .selected-item-block {
   border-left: solid 2px #147cd7;
-  padding-left: 5px;
+  padding-left: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
