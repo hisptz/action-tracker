@@ -20,7 +20,7 @@ import {
   DeleteActionTrackerDataFail,
   DeleteActionTrackerDataSuccess,
   LoadActionTrackerDatas,
-  LoadActionTrackerDatasFail
+  LoadActionTrackerDatasFail,
 } from '../actions/action-tracker-data.actions';
 import { State } from '../reducers';
 import { getRootCauseAnalysisDatas } from '../selectors/root-cause-analysis-data.selectors';
@@ -45,9 +45,10 @@ export class ActionTrackerDataEffects {
                 new AddActionTrackerDatas(_.flatten(actionTrackerDatas))
               );
             }),
-            catchError((error: any) =>
-              of(new LoadActionTrackerDatasFail(error))
-            )
+            catchError((error: any) => {
+              console.log(error);
+              return of(new LoadActionTrackerDatasFail(error));
+            })
           );
       }
     )
