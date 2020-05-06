@@ -156,6 +156,7 @@ export function rootCauseAnalysisDataReducer(
       return {
         ...state,
         loading: false,
+        loaded: true,
         hasError: true,
         error: action.error,
         showNotification: true,

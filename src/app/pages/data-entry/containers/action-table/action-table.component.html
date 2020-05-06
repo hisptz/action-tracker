@@ -145,8 +145,24 @@
       </tbody>
       <!-- Loading Table Body Ends-->
 
+      <!-- Data Loading Error Table Body -->
+      <tbody *ngIf="dataHasError$ | async">
+        <tr>
+          <td colspan="100%">
+            <div>{{ (dataError$ | async)?.message }}</div>
+          </td>
+        </tr>
+      </tbody>
+      <!-- Data Loading Error Table Body Ends-->
+
       <!-- Table instance on start up with explanations of how to fetch data -->
-      <tbody *ngIf="!(dataLoading$ | async) && !(dataLoaded$ | async)">
+      <tbody
+        *ngIf="
+          !(dataLoading$ | async) &&
+          !(dataLoaded$ | async) &&
+          !(dataHasError$ | async)
+        "
+      >
         <tr>
           <td colspan="100%">
             <span>

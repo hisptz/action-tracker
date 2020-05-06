@@ -46,6 +46,10 @@ import {
   getOveralLoadingStatus,
   getYearOfCurrentPeriodSelection,
 } from 'src/app/core/store/selectors/action-tracker-data.selectors';
+import {
+  getRootCauseAnalysisDataHasErrorStatus,
+  getRootCauseAnalysisDataErrorStatus,
+} from 'src/app/core/store/selectors/root-cause-analysis-data.selectors';
 import { getColumnSettingsData } from 'src/app/core/store/selectors/column-settings.selectors';
 import { getConfigurationLoadedStatus } from 'src/app/core/store/selectors/root-cause-analysis-configuration.selectors';
 import { DeleteConfirmationDialogueComponent } from 'src/app/shared/components/delete-confirmation-dialogue/delete-confirmation-dialogue.component';
@@ -93,6 +97,8 @@ export class ActionTableComponent implements OnInit {
   configurationLoaded$: Observable<boolean>;
   configurationHasError$: Observable<boolean>;
   configurationError$: Observable<boolean>;
+  dataHasError$: Observable<boolean>;
+  dataError$: Observable<boolean>;
 
   selectedAction: any;
   initialActionStatus: '';
@@ -144,6 +150,11 @@ export class ActionTableComponent implements OnInit {
     this.configurationError$ = this.store.select(
       getMergedActionTrackerConfigurationErrors
     );
+
+    this.dataHasError$ = this.store.select(
+      getRootCauseAnalysisDataHasErrorStatus
+    );
+    this.dataError$ = this.store.select(getRootCauseAnalysisDataErrorStatus);
 
     this.configurationLoaded$ = store.select(getConfigurationLoadedStatus);
     this.legendSet$ = this.store.select(getActionStatusLegendSet);
