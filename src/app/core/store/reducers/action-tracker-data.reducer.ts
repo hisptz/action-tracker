@@ -55,12 +55,18 @@ export function actionTrackerDataReducer(
     }
 
     case ActionTrackerDataActionTypes.AddActionTrackerDataFail: {
+      let { message } = action.error;
+      message = message ? message : 'Failed to add action';
       return {
         ...state,
         loading: false,
         hasError: true,
         error: action.error,
-        errorType: 'add'
+        errorType: 'add',
+        notification: {
+          completed: true,
+          message
+        }
       };
     }
 
@@ -82,6 +88,8 @@ export function actionTrackerDataReducer(
     }
 
     case ActionTrackerDataActionTypes.LoadActionTrackerDatasFail: {
+      let { message } = action.error;
+      message = message ? message : 'Error Loading Action Tracker Data';
       return {
         ...state,
         loading: false,
@@ -91,7 +99,7 @@ export function actionTrackerDataReducer(
         showNotification: true,
         notification: {
           completed: true,
-          message: 'Error Loading Action Tracker Data',
+          message,
         },
       };
     }
@@ -118,7 +126,20 @@ export function actionTrackerDataReducer(
     }
     case ActionTrackerDataActionTypes.CancelActionTrackerDataFail: {
       // openEntryForm(action.actionTrackerData);
-      return { ...state, loading: false, hasError: true, error: action.error, errorType: 'cancel' };
+      let { message } = action.error;
+      message = message ? message : 'Error on Cancelling';
+      return {
+        ...state,
+        loading: false,
+        hasError: true,
+        error: action.error,
+        errorType: 'cancel',
+        showNotification: true,
+        notification: {
+          completed: true,
+          message,
+        },
+      };
     }
 
     case ActionTrackerDataActionTypes.DeleteActionTrackerData: {
@@ -147,7 +168,20 @@ export function actionTrackerDataReducer(
       });
     }
     case ActionTrackerDataActionTypes.DeleteActionTrackerDataFail: {
-      return { ...state, loading: false, hasError: true, error: action.error };
+      let { message } = action.error;
+      message = message ? message : 'Error Deleting Action';
+      return {
+        ...state,
+        loading: false,
+        hasError: true,
+        error: action.error,
+        errorType: 'delete',
+        showNotification: true,
+        notification: {
+          completed: true,
+          message,
+        },
+      };
     }
 
     case ActionTrackerDataActionTypes.DeleteActionTrackerDatas: {
@@ -183,12 +217,18 @@ export function actionTrackerDataReducer(
       });
     }
     case ActionTrackerDataActionTypes.SaveActionTrackerDataFail: {
+      let { message } = action.error;
+      message = message ? message : 'Failed to save action';
       return {
         ...state,
         loading: false,
         hasError: true,
         error: action.error,
-        errorType: 'save'
+        errorType: 'save',
+        notification: {
+          completed: true,
+          message,
+        },
       };
     }
 
