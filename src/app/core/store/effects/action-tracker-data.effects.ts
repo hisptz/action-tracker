@@ -46,9 +46,7 @@ export class ActionTrackerDataEffects {
                 new AddActionTrackerDatas(_.flatten(actionTrackerDatas))
               );
             }),
-            catchError((error: any) => {
-              return of(new LoadActionTrackerDatasFail(error));
-            })
+            catchError((error: any) => of(new LoadActionTrackerDatasFail(error)))
           );
       }
     )
@@ -68,17 +66,7 @@ export class ActionTrackerDataEffects {
             (actionTrackerData: any) =>
               new SaveActionTrackerDataSuccess(actionTrackerDataValues)
           ),
-          catchError((error: any) => {
-            const { message } = error;
-
-            const showMessage = message
-              ? this.showSnackbar(message)
-              : this.showSnackbar(
-                  'Failed to save action, Please check your internet connection or try again later'
-                );
-
-            return of(new SaveActionTrackerDataFail(error));
-          })
+          catchError((error: any) => of(new SaveActionTrackerDataFail(error)))
         );
     })
   );
@@ -92,17 +80,7 @@ export class ActionTrackerDataEffects {
           (actionTrackerData: any) =>
             new AddActionTrackerDataSuccess(actionTrackerData)
         ),
-        catchError((error: any) => {
-          const { message } = error;
-
-          const showMessage = message
-            ? this.showSnackbar(message)
-            : this.showSnackbar(
-                'Failed to add action, Please check your internet connection or try again later'
-              );
-
-          return of(new AddActionTrackerDataFail(error));
-        })
+        catchError((error: any) => of(new AddActionTrackerDataFail(error)))
       );
     })
   );
@@ -117,34 +95,18 @@ export class ActionTrackerDataEffects {
           map(
             () => new DeleteActionTrackerDataSuccess(action.actionTrackerDataId)
           ),
-          catchError((error: any) => {
-            const { message } = error;
-
-            const showMessage = message
-              ? this.showSnackbar(message)
-              : this.showSnackbar(
-                  'Failed to delete action, Please check your internet connection or try again later'
-                );
-
-            return of(
+          catchError((error: any) => of(
               new DeleteActionTrackerDataFail(action.actionTrackerDataId, error)
-            );
-          })
+            ))
         );
     })
   );
 
-  showSnackbar(message: string, action = 'Dismiss', duration = 3000) {
-    this._snackbar.open(message, action, {
-      verticalPosition: 'top',
-    });
-  }
 
   constructor(
     private actions$: Actions,
     private store: Store<State>,
     private actionTrackerDataService: ActionTrackerDataService,
     private trackedEntityInstanceService: TrackedEntityInstanceService,
-    private _snackbar: MatSnackBar
   ) {}
 }
