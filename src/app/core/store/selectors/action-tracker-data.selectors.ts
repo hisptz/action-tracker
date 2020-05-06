@@ -17,6 +17,8 @@ import {
   getRootCauseAnalysisDataLoadingStatus,
   getRootCauseAnalysisDataNotificationStatus,
   getRootCauseAnalysisDatas,
+  getRootCauseAnalysisDataHasErrorStatus,
+  getRootCauseAnalysisDataErrorStatus,
 } from './root-cause-analysis-data.selectors';
 
 export const getActionTrackerDataState = createSelector(
@@ -42,8 +44,34 @@ export const getActionTrackerDataError = createSelector(
   getActionTrackerDataState,
   getActionTrackerDataErrorStatus,
   (state, errorStatus) => {
-    const {error, errorType} = state;
-    return errorStatus ? {...{}, error, errorType} : '';
+    const { error, errorType } = state;
+    return errorStatus ? { ...{}, error, errorType } : '';
+  }
+);
+export const getMergedDataErrorStatus = createSelector(
+  getActionTrackerDataErrorStatus,
+  getRootCauseAnalysisDataHasErrorStatus,
+  (actionTrackerErrorStatus, rcaErrorStatus) => {
+    return actionTrackerErrorStatus || rcaErrorStatus ? true : false;
+  }
+);
+export const getMergedDataError = createSelector(
+  getActionTrackerDataError,
+  getRootCauseAnalysisDataErrorStatus,
+  (actionTrackerError, rcaError) => {
+    const errors = [];
+    if (
+      actionTrackerError &&
+      actionTrackerError.error &&
+      actionTrackerError.errorType === 'load'
+    ) {
+      const { error } = actionTrackerError;
+      errors.push({ ...{}, ...error });
+    }
+    if (rcaError) {
+      errors.push({ ...{}, ...rcaError });
+    }
+    return errors || [];
   }
 );
 
