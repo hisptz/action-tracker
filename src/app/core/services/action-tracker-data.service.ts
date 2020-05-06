@@ -6,7 +6,7 @@ import { zip, of, throwError } from 'rxjs';
 import { generateUid } from '../helpers/generate-uid.helper';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ActionTrackerDataService {
   private _dataStoreUrl = 'dataStore/action-tracker-data';
@@ -61,7 +61,7 @@ export class ActionTrackerDataService {
       id: dataValueId,
       dataValues: actionTrackerDataValues,
       rootCauseDataId,
-      actionTrackerConfigId: actionTrackerConfig.id
+      actionTrackerConfigId: actionTrackerConfig.id,
     };
   }
 }

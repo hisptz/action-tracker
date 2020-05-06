@@ -3,7 +3,7 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { ActionTrackerData } from '../../models/action-tracker-data.model';
 import {
   ActionTrackerDataActions,
-  ActionTrackerDataActionTypes
+  ActionTrackerDataActionTypes,
 } from '../actions/action-tracker-data.actions';
 
 export interface ActionTrackerDataState extends EntityState<ActionTrackerData> {
@@ -23,7 +23,7 @@ export interface ActionTrackerDataState extends EntityState<ActionTrackerData> {
 export const adapter: EntityAdapter<ActionTrackerData> = createEntityAdapter<
   ActionTrackerData
 >({
-  selectId: (action: ActionTrackerData) => action.trackedEntityInstance
+  selectId: (action: ActionTrackerData) => action.trackedEntityInstance,
 });
 
 export const initialState: ActionTrackerDataState = adapter.getInitialState({
@@ -37,7 +37,7 @@ export const initialState: ActionTrackerDataState = adapter.getInitialState({
   showNotification: false,
   savingColor: 'transparent',
   hasError: false,
-  error: null
+  error: null,
 });
 
 export function actionTrackerDataReducer(
@@ -65,13 +65,24 @@ export function actionTrackerDataReducer(
         showNotification: false,
         notification: {
           completed: true,
-          message: 'Action Data Loaded'
-        }
+          message: 'Action Data Loaded',
+        },
       });
     }
 
     case ActionTrackerDataActionTypes.LoadActionTrackerDatasFail: {
-      return { ...state, loading: false, hasError: true, error: action.error };
+      console.log(action);
+      return {
+        ...state,
+        showNotification: true,
+        notification: {
+          completed: true,
+          message: 'Error Loading Action Tracker Data',
+        },
+        loading: false,
+        hasError: true,
+        error: action.error,
+      };
     }
 
     case ActionTrackerDataActionTypes.UpsertActionTrackerDatas: {
@@ -104,8 +115,8 @@ export function actionTrackerDataReducer(
         showNotification: true,
         notification: {
           completed: true,
-          message: 'Deleting Action Data ' + action.actionTrackerDataId
-        }
+          message: 'Deleting Action Data ' + action.actionTrackerDataId,
+        },
       });
     }
 
@@ -115,8 +126,9 @@ export function actionTrackerDataReducer(
         showNotification: true,
         notification: {
           completed: true,
-          message: 'Action Data ' + action.id + ' Has been Successfully Deleted'
-        }
+          message:
+            'Action Data ' + action.id + ' Has been Successfully Deleted',
+        },
       });
     }
 
@@ -134,8 +146,8 @@ export function actionTrackerDataReducer(
         showNotification: true,
         notification: {
           completed: true,
-          message: 'Saving Action Data'
-        }
+          message: 'Saving Action Data',
+        },
       };
     }
 
@@ -148,8 +160,8 @@ export function actionTrackerDataReducer(
         showNotification: true,
         notification: {
           completed: true,
-          message: 'Action Data Successfully Saved'
-        }
+          message: 'Action Data Successfully Saved',
+        },
       });
     }
 
@@ -159,8 +171,8 @@ export function actionTrackerDataReducer(
         showNotification: false,
         notification: {
           completed: true,
-          message: 'Reseting notification'
-        }
+          message: 'Reseting notification',
+        },
       };
     }
 
@@ -172,8 +184,8 @@ export function actionTrackerDataReducer(
         showNotification: false,
         notification: {
           completed: false,
-          message: 'Loading Action Tracker Data'
-        }
+          message: 'Loading Action Tracker Data',
+        },
       });
     }
 
@@ -187,5 +199,5 @@ export const {
   selectIds,
   selectEntities,
   selectAll,
-  selectTotal
+  selectTotal,
 } = adapter.getSelectors();

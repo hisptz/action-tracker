@@ -6,7 +6,7 @@ import { throwError, zip, of } from 'rxjs';
 import * as _ from 'lodash';
 import { RootCauseAnalysisData } from '../models/root-cause-analysis-data.model';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RootCauseAnalysisDataService {
   configurationId: string;
@@ -54,7 +54,7 @@ export class RootCauseAnalysisDataService {
         'isActive',
         'unsaved',
         'savingColor',
-        'isNew'
+        'isNew',
       ])
     );
   }
@@ -70,7 +70,7 @@ export class RootCauseAnalysisDataService {
       'isActive',
       'unsaved',
       'savingColor',
-      'isNew'
+      'isNew',
     ]);
 
     return this.addRootCauseAnalysisData(

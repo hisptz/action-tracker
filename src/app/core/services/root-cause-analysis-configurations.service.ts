@@ -1,22 +1,22 @@
-import { Injectable } from "@angular/core";
-import * as _ from "lodash";
-import { NgxDhis2HttpClientService } from "@hisptz/ngx-dhis2-http-client";
-import { RootCauseAnalysisConfiguration } from "../models/root-cause-analysis-configuration.model";
-import { catchError, map, switchMap } from "rxjs/operators";
-import { throwError, zip, of } from "rxjs";
-import { defaultDataSetElementDetails } from "../../shared/modules/action-tracker-table/constants/default-configurations";
-import { HandlerService } from "./handler.service";
+import { Injectable } from '@angular/core';
+import * as _ from 'lodash';
+import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
+import { RootCauseAnalysisConfiguration } from '../models/root-cause-analysis-configuration.model';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { throwError, zip, of } from 'rxjs';
+import { defaultDataSetElementDetails } from '../../shared/modules/action-tracker-table/constants/default-configurations';
+import { HandlerService } from './handler.service';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root',
 })
 export class RootCauseAnalysisConfigurationsService {
   private _dataStoreUrl: string;
   constructor(private http: NgxDhis2HttpClientService) {
-    this._dataStoreUrl = "dataStore/rca-config";
+    this._dataStoreUrl = 'dataStore/rca-config';
   }
   getConfigurationId() {
-    return "rcaconfig";
+    return 'rcaconfig';
   }
 
   findById(rootCauseConfigId: string) {
@@ -47,8 +47,8 @@ export class RootCauseAnalysisConfigurationsService {
 
         const configurationObject: RootCauseAnalysisConfiguration = {
           id: configId,
-          name: "Root Cause Analysis Widget",
-          dataElements: defaultDataSetElementDetails
+          name: 'Root Cause Analysis Widget',
+          dataElements: defaultDataSetElementDetails,
         };
         return this.http
           .post(
