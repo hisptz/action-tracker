@@ -2,7 +2,7 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { RootCauseAnalysisConfiguration } from '../../models/root-cause-analysis-configuration.model';
 import {
   RootCauseAnalysisConfigurationActions,
-  RootCauseAnalysisConfigurationActionTypes
+  RootCauseAnalysisConfigurationActionTypes,
 } from '../actions/root-cause-analysis-configuration.actions';
 
 export interface RootCauseAnalysisConfigurationState
@@ -28,7 +28,7 @@ export const initialState: RootCauseAnalysisConfigurationState = adapter.getInit
     hasError: false,
     error: null,
     notification: '',
-    currentConfig: ''
+    currentConfig: '',
   }
 );
 
@@ -52,7 +52,7 @@ export function rootCauseAnalysisConfigurationReducer(
         ...state,
         loading: false,
         loaded: true,
-        currentConfig: action.rootCauseAnalysisConfiguration.id
+        currentConfig: action.rootCauseAnalysisConfiguration.id,
       });
     }
 
@@ -60,7 +60,7 @@ export function rootCauseAnalysisConfigurationReducer(
       return {
         ...state,
         loading: false,
-        loaded: true
+        loaded: true,
       };
     }
 
@@ -96,10 +96,10 @@ export function rootCauseAnalysisConfigurationReducer(
     case RootCauseAnalysisConfigurationActionTypes.LoadRootCauseAnalysisConfigurationFail: {
       return {
         ...state,
-        loading: true,
-        loaded: false,
+        loading: false,
+        loaded: true,
         hasError: true,
-        error: action.error
+        error: action.error,
       };
     }
 
