@@ -47,7 +47,7 @@ export class AddActionTrackerData implements Action {
 export class AddActionTrackerDataFail implements Action {
   readonly type = ActionTrackerDataActionTypes.AddActionTrackerDataFail;
 
-  constructor(public actionTrackerData: ActionTrackerData) {}
+  constructor(public error: any) {}
 }
 
 export class AddActionTrackerDataSuccess implements Action {
@@ -64,7 +64,7 @@ export class CancelActionTrackerData implements Action {
 export class CancelActionTrackerDataFail implements Action {
   readonly type = ActionTrackerDataActionTypes.CancelActionTrackerDataFail;
 
-  constructor(public actionTrackerData: ActionTrackerData) {}
+  constructor(public error: any) {}
 }
 
 export class CancelActionTrackerDataSuccess implements Action {

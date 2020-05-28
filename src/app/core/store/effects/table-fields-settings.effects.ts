@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
-import {  Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {
   map,
   switchMap,
@@ -24,10 +24,9 @@ import {
   UpdateMandatoryFieldsForTheTableAction,
 } from '../actions/table-fields-settings.actions';
 import { getDataElementsFromConfiguration } from '../selectors/action-tracker-configuration.selectors';
-import {
-  ActionTrackerConfigurationActionTypes,
-} from '../actions/action-tracker-configuration.actions';
+import { ActionTrackerConfigurationActionTypes } from '../actions/action-tracker-configuration.actions';
 import { getConfigurationLoadedStatus } from '../selectors/root-cause-analysis-configuration.selectors';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class TableFieldsSettingsEffects {
@@ -65,9 +64,16 @@ export class TableFieldsSettingsEffects {
           return new LoadMandatoryFieldsForTheTableAction();
         }),
         catchError((error) => {
-          console.log(error);
-          return of(new CheckMandatorySettingsExistFailureAction(error));
-        })
+          const { message } = error;
+
+          const showMessage = message
+            ? this.showSnackbar(message)
+            : this.showSnackbar(
+                'Failed to load mandatory settings, Please check your internet connection or try again later'
+              );
+         return of(new CheckMandatorySettingsExistFailureAction(error))
+        }
+        )
       );
     })
   );
@@ -85,10 +91,9 @@ export class TableFieldsSettingsEffects {
           }
           return new LoadMandatoryFieldsForTheTableSuccessAction([]);
         }),
-        catchError((error) => {
-          console.log(error);
-          return of(new LoadMandatoryFieldsForTheTableFailureAction(error));
-        })
+        catchError((error) =>
+          of(new LoadMandatoryFieldsForTheTableFailureAction(error))
+        )
       );
     })
   );
@@ -102,7 +107,13 @@ export class TableFieldsSettingsEffects {
           return new LoadMandatoryFieldsForTheTableAction();
         }),
         catchError((error) => {
-          console.log(error);
+          const { message } = error;
+
+          const showMessage = message
+            ? this.showSnackbar(message)
+            : this.showSnackbar(
+                'Failed to create settings, Please check your internet connection or try again later'
+              );
           return of(new CreateMandatoryFieldsForTheTableFailureAction(error));
         })
       );
@@ -118,7 +129,13 @@ export class TableFieldsSettingsEffects {
           return new LoadMandatoryFieldsForTheTableAction();
         }),
         catchError((error) => {
-          console.log(error);
+          const { message } = error;
+
+          const showMessage = message
+            ? this.showSnackbar(message)
+            : this.showSnackbar(
+                'Failed to update mandatory settings, Please check your internet connection or try again later'
+              );
           return of(new UpdateMandatoryFieldsForTheTableFailureAction(error));
         })
       );
@@ -145,9 +162,15 @@ export class TableFieldsSettingsEffects {
       ) || []
     );
   }
+  showSnackbar(message: string, action = 'Dismiss', duration = 3000) {
+    this._snackbar.open(message, action, {
+      verticalPosition: 'top',
+    });
+  }
   constructor(
     private actions$: Actions,
     private store: Store<State>,
-    private tableFieldsService: TableFieldsSettingsService
+    private tableFieldsService: TableFieldsSettingsService,
+    private _snackbar: MatSnackBar
   ) {}
 }

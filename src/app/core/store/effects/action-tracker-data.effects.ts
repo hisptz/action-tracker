@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
 
@@ -28,6 +28,7 @@ import { TrackedEntityInstanceService } from '../../services';
 import { getCurrentActionTrackerConfig } from '../selectors/action-tracker-configuration.selectors';
 
 import * as _ from 'lodash';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Injectable()
 export class ActionTrackerDataEffects {
   @Effect({ dispatch: false })
@@ -45,10 +46,7 @@ export class ActionTrackerDataEffects {
                 new AddActionTrackerDatas(_.flatten(actionTrackerDatas))
               );
             }),
-            catchError((error: any) => {
-              console.log(error);
-              return of(new LoadActionTrackerDatasFail(error));
-            })
+            catchError((error: any) => of(new LoadActionTrackerDatasFail(error)))
           );
       }
     )
@@ -97,19 +95,18 @@ export class ActionTrackerDataEffects {
           map(
             () => new DeleteActionTrackerDataSuccess(action.actionTrackerDataId)
           ),
-          catchError((error: any) =>
-            of(
+          catchError((error: any) => of(
               new DeleteActionTrackerDataFail(action.actionTrackerDataId, error)
-            )
-          )
+            ))
         );
     })
   );
+
 
   constructor(
     private actions$: Actions,
     private store: Store<State>,
     private actionTrackerDataService: ActionTrackerDataService,
-    private trackedEntityInstanceService: TrackedEntityInstanceService
+    private trackedEntityInstanceService: TrackedEntityInstanceService,
   ) {}
 }

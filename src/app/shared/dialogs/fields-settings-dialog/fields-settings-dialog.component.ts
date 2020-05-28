@@ -4,7 +4,7 @@ import { Store, select } from '@ngrx/store';
 import { State } from 'src/app/core/store/reducers';
 import * as _ from 'lodash';
 import { getDataElementsFromConfiguration } from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
-import { getTableFieldsSettings, tableFieldsSettingsLoadingStatus, tableFieldsSettingsLoadedStatus } from 'src/app/core/store/selectors/table-fields-settings.selectors';
+import { getTableFieldsSettings, tableFieldsSettingsLoadingStatus, tableFieldsSettingsLoadedStatus, tableFieldsSettingsError } from 'src/app/core/store/selectors/table-fields-settings.selectors';
 import {
   CheckMandatorySettingsExistAction,
   UpdateMandatoryFieldsForTheTableAction,
@@ -20,6 +20,7 @@ export class FieldsSettingsDialogComponent implements OnInit {
   tableFields$: Observable<any>;
   dataLoading$: Observable<boolean>;
   dataLoaded$: Observable<boolean>;
+  errorStatus$: Observable<any>;
   
   constructor(
     private store: Store<State>,
@@ -32,6 +33,7 @@ export class FieldsSettingsDialogComponent implements OnInit {
     this.tableFields$ = this.store.pipe(
       select(getTableFieldsSettings)
     );
+    this.errorStatus$ = this.store.pipe(select(tableFieldsSettingsError));
   }
   saveSettings(form, fields) {
     if (form && form.hasOwnProperty('form')) {

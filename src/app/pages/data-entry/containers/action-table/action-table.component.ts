@@ -45,11 +45,9 @@ import {
   getNotificationMessageStatus,
   getOveralLoadingStatus,
   getYearOfCurrentPeriodSelection,
+  getMergedDataErrorStatus,
+  getMergedDataError,
 } from 'src/app/core/store/selectors/action-tracker-data.selectors';
-import {
-  getRootCauseAnalysisDataHasErrorStatus,
-  getRootCauseAnalysisDataErrorStatus,
-} from 'src/app/core/store/selectors/root-cause-analysis-data.selectors';
 import { getColumnSettingsData } from 'src/app/core/store/selectors/column-settings.selectors';
 import { getConfigurationLoadedStatus } from 'src/app/core/store/selectors/root-cause-analysis-configuration.selectors';
 import { DeleteConfirmationDialogueComponent } from 'src/app/shared/components/delete-confirmation-dialogue/delete-confirmation-dialogue.component';
@@ -98,7 +96,9 @@ export class ActionTableComponent implements OnInit {
   configurationHasError$: Observable<boolean>;
   configurationError$: Observable<boolean>;
   dataHasError$: Observable<boolean>;
-  dataError$: Observable<boolean>;
+  dataError$: Observable<any[]>;
+
+
 
   selectedAction: any;
   initialActionStatus: '';
@@ -152,9 +152,9 @@ export class ActionTableComponent implements OnInit {
     );
 
     this.dataHasError$ = this.store.select(
-      getRootCauseAnalysisDataHasErrorStatus
+      getMergedDataErrorStatus
     );
-    this.dataError$ = this.store.select(getRootCauseAnalysisDataErrorStatus);
+    this.dataError$ = this.store.select(getMergedDataError);
 
     this.configurationLoaded$ = store.select(getConfigurationLoadedStatus);
     this.legendSet$ = this.store.select(getActionStatusLegendSet);
@@ -174,6 +174,7 @@ export class ActionTableComponent implements OnInit {
     this.reportVisualizations$ = this.store.pipe(
       select(getReportVisualizations)
     );
+
   }
 
   ngOnInit() {}
@@ -268,6 +269,9 @@ export class ActionTableComponent implements OnInit {
         ? this.store.dispatch(new SaveActionTrackerData(actionTrackerData))
         : null;
     });
+  }
+  openMessage() {
+    this._snackBar.open('Message');
   }
   generateAttributePayload(formValues, formDataElements) {
     const attributes = [];

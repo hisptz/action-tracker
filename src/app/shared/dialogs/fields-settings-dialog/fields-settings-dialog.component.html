@@ -17,7 +17,22 @@
         <i>There are no fields settings to be displayed</i>
       </tr>
     </tbody>
-    <tbody *ngIf="(dataLoading$ | async) && !(dataLoaded$ | async)">
+    <tbody
+      *ngIf="
+        !(dataLoading$ | async) && (errorStatus$ | async)?.errorType === 'load'
+      "
+    >
+      <tr>
+        <i>{{ (errorStatus$ | async)?.error?.message }}</i>
+      </tr>
+    </tbody>
+    <tbody
+      *ngIf="
+        (dataLoading$ | async) &&
+        !(dataLoaded$ | async) &&
+        (errorStatus$ | async)?.errorType !== 'load'
+      "
+    >
       <tr style="margin-top: 0.5em;">
         <mat-card>
           <mat-card-content>

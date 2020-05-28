@@ -142,9 +142,9 @@
 
       <!-- Data Loading Error Table Body -->
       <tbody *ngIf="dataHasError$ | async">
-        <tr>
+        <tr  *ngFor="let error of dataError$ | async">
           <td colspan="100%">
-            <div>{{ (dataError$ | async)?.message }}</div>
+            <div>{{ error?.message }}</div>
           </td>
         </tr>
       </tbody>
