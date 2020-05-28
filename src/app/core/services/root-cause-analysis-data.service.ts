@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { RootCauseAnalysisConfigurationsService } from './root-cause-analysis-configurations.service';
 import { catchError, switchMap } from 'rxjs/operators';
 import { throwError, zip, of } from 'rxjs';
