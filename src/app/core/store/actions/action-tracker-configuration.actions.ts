@@ -5,6 +5,7 @@ import { ActionTrackerConfiguration } from '../../models/action-tracker-configur
 export enum ActionTrackerConfigurationActionTypes {
   LoadActionTrackerConfiguration = '[ActionTrackerConfiguration] Load ActionTrackerConfiguration',
   LoadActionTrackerConfigurationSuccess = '[ActionTrackerConfiguration] Load ActionTrackerConfiguration Success',
+  LoadActionTrackerConfigurationFail = '[ActionTrackerConfiguration] Load ActionTrackerConfiguration Fail',
   AddActionTrackerConfiguration = '[ActionTrackerConfiguration] Add ActionTrackerConfiguration',
   UpsertActionTrackerConfiguration = '[ActionTrackerConfiguration] Upsert ActionTrackerConfiguration',
   AddActionTrackerConfigurations = '[ActionTrackerConfiguration] Add ActionTrackerConfigurations',
@@ -14,12 +15,18 @@ export enum ActionTrackerConfigurationActionTypes {
   UploadActionTrackerConfiguration = '[ActionTrackerConfiguration] Upload ActionTrackerConfiguration',
   DeleteActionTrackerConfiguration = '[ActionTrackerConfiguration] Delete ActionTrackerConfiguration',
   DeleteActionTrackerConfigurations = '[ActionTrackerConfiguration] Delete ActionTrackerConfigurations',
-  ClearActionTrackerConfigurations = '[ActionTrackerConfiguration] Clear ActionTrackerConfigurations'
+  ClearActionTrackerConfigurations = '[ActionTrackerConfiguration] Clear ActionTrackerConfigurations',
 }
 
 export class LoadActionTrackerConfigurationAction implements Action {
   readonly type =
     ActionTrackerConfigurationActionTypes.LoadActionTrackerConfiguration;
+}
+
+export class LoadActionTrackerConfigurationFail implements Action {
+  readonly type =
+    ActionTrackerConfigurationActionTypes.LoadActionTrackerConfigurationFail;
+  constructor(public error: any) {}
 }
 
 export class AddActionTrackerConfigurationAction implements Action {
@@ -108,6 +115,7 @@ export class ClearActionTrackerConfigurations implements Action {
 
 export type ActionTrackerConfigurationActions =
   | LoadActionTrackerConfigurationAction
+  | LoadActionTrackerConfigurationFail
   | AddActionTrackerConfigurationAction
   | UpsertActionTrackerConfiguration
   | AddActionTrackerConfigurations
