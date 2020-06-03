@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
-import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { RootCauseAnalysisConfiguration } from '../models/root-cause-analysis-configuration.model';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { throwError, zip, of } from 'rxjs';
