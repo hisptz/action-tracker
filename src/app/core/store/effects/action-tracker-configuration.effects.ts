@@ -2,8 +2,14 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { defer, Observable, of } from 'rxjs';
-import { map, switchMap, withLatestFrom, catchError } from 'rxjs/operators';
-import { set } from 'lodash';
+import {
+  map,
+  switchMap,
+  withLatestFrom,
+  catchError,
+  mergeMap,
+} from 'rxjs/operators';
+import { set, head } from 'lodash';
 import { ActionTrackerConfigurationService } from '../../services';
 import {
   ActionTrackerConfigurationActionTypes,
@@ -46,16 +52,22 @@ export class ActionTrackerConfigurationEffects {
               new AddActionTrackerConfigurationAction(actionTrackerConfig)
           ),
           catchError((error: any) => {
-            if (error.status == 404) {
-              set(
-                defaultActionTrackerProgram,
-                'programs[0].organisationUnits',
-                currentUserOrgunits
-              );
+            let defaultTrackerProgram = head(
+              defaultActionTrackerProgram['programs']
+            );
+
+            defaultTrackerProgram = {
+              ...defaultTrackerProgram,
+              organisationUnits: currentUserOrgunits,
+            };
+            const fullTrackerObject = {
+              ...defaultActionTrackerProgram,
+              programs: [defaultTrackerProgram],
+            };
+
+            if (error.status === 404) {
               return of(
-                new UploadActionTrackerConfiguration(
-                  defaultActionTrackerProgram
-                )
+                new UploadActionTrackerConfiguration(fullTrackerObject)
               );
             }
             return of(new LoadActionTrackerConfigurationFail(error));
