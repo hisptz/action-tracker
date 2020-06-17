@@ -321,15 +321,23 @@ export class ActionTableComponent implements OnInit {
     return generateEvent(this.selectedAction, eventData);
   }
 
-  onDeleteAction(event, dataItem) {
+  onDeleteAction(event, dataItem, dataElements) {
     if (event) {
       event.stopPropagation();
     }
-
+    let actionDescription = _.find(
+      dataElements || [],
+      (element) => element.formControlName === 'actionDescription'
+    );
+    const value =
+      actionDescription && actionDescription.hasOwnProperty('id')
+        ? dataItem.dataValues[actionDescription.id] || ''
+        : '';
+    actionDescription = {...actionDescription, value};
     const dialogRef = this.dialog.open(DeleteConfirmationDialogueComponent, {
       width: '600px',
-      height: `${100 + 55 * 1}px`,
-      data: {},
+      height: `${150 + 55 * 1}px`,
+      data: actionDescription,
       disableClose: true,
     });
 
