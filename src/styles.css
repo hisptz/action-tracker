@@ -41,3 +41,7 @@ tr {
   .mat-checkbox-checked.mat-accent.mat-checkbox-disabled .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
     background-color:  #ccc !important;
 }
+.delete-btn {
+  background-color: #D7000F;
+  color: #fff;
+}
