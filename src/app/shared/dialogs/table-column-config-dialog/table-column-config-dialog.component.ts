@@ -3,7 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Store, select } from '@ngrx/store';
 import * as _ from 'lodash';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { RootCauseAnalysisConfiguration } from 'src/app/core/models/root-cause-analysis-configuration.model';
 import { SetColumnSettingsAction } from 'src/app/core/store/actions/columns-settings.actions';
 import { State } from 'src/app/core/store/reducers';
@@ -12,6 +12,7 @@ import { take } from 'rxjs/operators';
 import {
   getColumnSettingsData,
   getColumnSettingsInitialData,
+  getTableColumnSettings,
 } from 'src/app/core/store/selectors/column-settings.selectors';
 import {
   getFieldsSettingsData,
@@ -30,12 +31,17 @@ export class TableColumnConfigDialogComponent implements OnInit {
   columnsMap;
   columnSettings$: Observable<any>;
   fieldsSettings$: Observable<any>;
-  checkAll;
-  unCheckAll;
+  checkManagementColumnSettingsSource = new BehaviorSubject([]);
+  checkManagementColumnSettings = this.checkManagementColumnSettingsSource.asObservable();
+  checkAllSource = new BehaviorSubject(true);
+  checkAll = this.checkAllSource.asObservable();
+  unCheckAllSource = new BehaviorSubject(false);
+  unCheckAll = this.unCheckAllSource.asObservable();
   checkSettings = {
     checkAll: true,
     uncheckAll: false,
   };
+
   tableFieldsSettingsLoading$: Observable<boolean>;
   tableFieldsSettingsLoaded$: Observable<boolean>;
   constructor(
@@ -47,15 +53,19 @@ export class TableColumnConfigDialogComponent implements OnInit {
 
   ngOnInit() {
     this.initilizeData();
-    this.tableFieldsSettingsLoading$ = this.store.pipe(select(tableFieldsSettingsLoadingStatus));
-    this.tableFieldsSettingsLoaded$ = this.store.pipe(select(tableFieldsSettingsLoadedStatus));
+    this.tableFieldsSettingsLoading$ = this.store.pipe(
+      select(tableFieldsSettingsLoadingStatus)
+    );
+    this.tableFieldsSettingsLoaded$ = this.store.pipe(
+      select(tableFieldsSettingsLoadedStatus)
+    );
   }
   initilizeData() {
     this.checkInitialCheckStatus();
     this.configuration$ = this.store.select(
       getMergedActionTrackerConfiguration
     );
-    this.columnSettings$ = this.store.select(getColumnSettingsInitialData);
+    this.columnSettings$ = this.store.select(getTableColumnSettings);
     this.fieldsSettings$ = this.store.pipe(select(getTableFieldsSettings));
   }
   checkInitialCheckStatus() {
@@ -63,32 +73,37 @@ export class TableColumnConfigDialogComponent implements OnInit {
       return item && !this.data[item];
     });
     if (!uncheckedArr.length) {
-      this.checkAll = true;
-      this.unCheckAll = false;
+      this.checkAllSource.next(true);
+      this.unCheckAllSource.next(false);
     } else if (uncheckedArr.length === Object.keys(this.data).length) {
-      this.unCheckAll = true;
-      this.checkAll = false;
+      this.checkAllSource.next(true);
+      this.unCheckAllSource.next(false);
     } else {
-      this.unCheckAll = false;
-      this.checkAll = false;
+      this.checkAllSource.next(false);
+      this.unCheckAllSource.next(false);
     }
   }
-  saveColumns(form, columnSettings) {
-    const { value } = form;
+  saveColumns(savingData) {
+    const { form, columnSettings } = savingData;
+    const { value } = form || {};
+
 
     const data = _.flattenDeep(
       _.map(columnSettings || [], (setting) => {
         if (
           setting &&
           setting.hasOwnProperty('id') &&
+          setting.hasOwnProperty('name') &&
           setting.hasOwnProperty('isVisible') &&
           setting.hasOwnProperty('columnMandatory')
         ) {
-          const { id, isVisible, columnMandatory } = setting;
+          const { id, name, isVisible, columnMandatory } = setting;
           if (value.hasOwnProperty('id') && value.hasOwnProperty('isVisible')) {
-            return { id, isVisible: value.isVisible, columnMandatory } || [];
+            return (
+              { id, name, isVisible: value.isVisible, columnMandatory } || []
+            );
           } else {
-            return { id, isVisible, columnMandatory } || [];
+            return { id, name, isVisible, columnMandatory } || [];
           }
         } else {
           return [];
@@ -101,36 +116,40 @@ export class TableColumnConfigDialogComponent implements OnInit {
   closeDialog(action: string) {
     this.dialogRef.close(action);
   }
-  manageCheckboxes(settings, fieldsSettings, type) {
+  manageCheckboxes({ settings, fieldsSettings, type }) {
     switch (type) {
       case 'checkAll': {
         if (this.checkAll) {
-          this.unCheckAll = false;
+          this.checkAllSource.next(true);
+          this.unCheckAllSource.next(false);
           for (const setting of settings) {
-            const disableStatus = this.getDisableStatusOfCheckbox(
-              setting.id,
-              fieldsSettings
-            );
+            const disableStatus = this.getDisableStatusOfCheckbox({
+              id: setting.id,
+              fieldsSettings,
+            });
             if (setting && !disableStatus) {
               setting.isVisible = true;
             }
           }
         }
+        this.checkManagementColumnSettingsSource.next(settings);
         break;
       }
       case 'uncheckAll': {
         if (this.unCheckAll) {
-          this.checkAll = false;
+          this.unCheckAllSource.next(true);
+          this.checkAllSource.next(false);
           for (const setting of settings) {
-            const disableStatus = this.getDisableStatusOfCheckbox(
-              setting.id,
-              fieldsSettings
-            );
+            const disableStatus = this.getDisableStatusOfCheckbox({
+              id: setting.id,
+              fieldsSettings,
+            });
             if (setting && !disableStatus) {
               setting.isVisible = false;
             }
           }
         }
+        this.checkManagementColumnSettingsSource.next(settings);
         break;
       }
       default:
@@ -142,17 +161,23 @@ export class TableColumnConfigDialogComponent implements OnInit {
       return item && !item.isVisible;
     });
     if (!uncheckedArr.length) {
-      this.checkAll = true;
-      this.unCheckAll = false;
+      this.checkAllSource.next(true);
+      this.unCheckAllSource.next(false);
     } else if (uncheckedArr.length === settings.length) {
-      this.unCheckAll = true;
-      this.checkAll = false;
+      this.unCheckAllSource.next(true);
+      this.checkAllSource.next(false);
     } else {
-      this.unCheckAll = false;
-      this.checkAll = false;
+      this.unCheckAllSource.next(false);
+      this.checkAllSource.next(false);
     }
   }
-  getDisableStatusOfCheckbox(id: string, fieldsSettings): boolean {
+  getDisableStatusOfCheckbox(event): boolean {
+    const { id, fieldsSettings } =
+      event &&
+      event.hasOwnProperty('id') &&
+      event.hasOwnProperty('fieldsSettings')
+        ? event
+        : { id: '', fieldsSettings: {} };
     let fieldsArr = [];
     if (fieldsSettings && fieldsSettings.length) {
       for (const setting of fieldsSettings) {
