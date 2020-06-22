@@ -32,6 +32,7 @@ import { FilterByAttributePipe } from './pipes/filter-by-attribute.pipe';
 import { LegendConfigurationDialogComponent } from './dialogs/legend-configuration-dialog/legend-configuration-dialog.component';
 import { FieldsSettingsDialogComponent } from './dialogs/fields-settings-dialog/fields-settings-dialog.component';
 import { MatListModule } from '@angular/material/list';
+import { ColumnSettingsListComponent } from './dialogs/table-column-config-dialog/column-settings-list/column-settings-list.component';
 
 @NgModule({
   imports: [
@@ -105,6 +106,7 @@ import { MatListModule } from '@angular/material/list';
     FilterByAttributePipe,
     LegendConfigurationDialogComponent,
     FieldsSettingsDialogComponent,
+    ColumnSettingsListComponent
   ],
 })
 export class SharedModule {}

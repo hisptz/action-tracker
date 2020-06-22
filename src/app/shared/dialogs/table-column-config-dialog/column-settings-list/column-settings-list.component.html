@@ -1,0 +1,63 @@
+<mat-selection-list *ngIf="fieldsSettings" #checkSettings>
+  <mat-list-item>
+    <mat-checkbox
+      style="font-size: 0.9em; width: 100%; font-weight: 500;"
+      [(ngModel)]="checkAll"
+      (change)="manageCheckboxes('checkAll')"
+      >Check all</mat-checkbox
+    >
+
+    <mat-divider></mat-divider>
+  </mat-list-item>
+  <mat-list-item>
+    <mat-checkbox
+      style="font-size: 0.9em; width: 100%; font-weight: 500;"
+      [(ngModel)]="unCheckAll"
+      (change)="manageCheckboxes('uncheckAll')"
+      >Uncheck all
+      <span class="text-muted">(except mandatory columns)</span></mat-checkbox
+    >
+    <!-- <mat-icon style="float: right;">menu</mat-icon> -->
+    <mat-divider></mat-divider>
+  </mat-list-item>
+
+  <form
+    #columnForm="ngForm"
+    *ngIf="newColumnSettings"
+    (ngSubmit)="saveColumns(columnForm, newColumnSettings)"
+  >
+    <mat-selection-list *ngIf="fieldsSettings">
+      <mat-list-item
+        *ngFor="let columnSetting of newColumnSettings; let i = index"
+      >
+        <mat-checkbox
+          style="font-size: 0.9em; width: 100%;"
+          name="{{ columnSetting.id }}"
+          [disabled]="
+            getDisableStatusOfCheckbox(columnSetting?.id, fieldsSettings)
+          "
+          (change)="checkCheckAllStatus(newColumnSettings)"
+          [(ngModel)]="columnSetting.isVisible"
+        >
+          {{ columnSetting.name }}
+          <!-- <mat-icon style="float: right;">menu</mat-icon> -->
+        </mat-checkbox>
+        <mat-divider></mat-divider>
+      </mat-list-item>
+    </mat-selection-list>
+    <p style="float: right;" class="mt-4">
+      <button
+        mat-stroked-button
+        type="button"
+        (click)="closeDialog('Cancelled')"
+      >
+        Close
+      </button>
+      &nbsp;
+
+      <button type="submit" mat-stroked-button color="primary">
+        Update
+      </button>
+    </p>
+  </form></mat-selection-list
+>
