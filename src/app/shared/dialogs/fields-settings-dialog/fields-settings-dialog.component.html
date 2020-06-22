@@ -32,7 +32,7 @@
       *ngIf="
         (dataLoaded$ | async) &&
         !(dataLoading$ | async) &&
-        (tableFields$ | async)
+        (tableFields$ | async) 
       "
     >
       <tr *ngFor="let field of tableFields$ | async">
@@ -51,15 +51,18 @@
     <button type="button" (click)="closeDialog('Close')" mat-stroked-button>
       Cancel
     </button>
-    <button
+    <div *ngIf="columnSettings$ |async as columnSettings">
+      <button
       *ngIf="tableFields$ | async as fields"
       type="submit"
       style="margin-left: 0.5em;"
-      mat-stroked-button
+      mat-flat-button
       color="primary"
-      (click)="saveSettings(fieldsSettingsForm, fields)"
+      (click)="saveSettings(fieldsSettingsForm, fields, columnSettings)"
     >
       Update
     </button>
+    </div>
+  
   </div>
 </form>

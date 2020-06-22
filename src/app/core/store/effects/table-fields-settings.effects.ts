@@ -65,7 +65,6 @@ export class TableFieldsSettingsEffects {
           return new LoadMandatoryFieldsForTheTableAction();
         }),
         catchError((error) => {
-          console.log(error);
           return of(new CheckMandatorySettingsExistFailureAction(error));
         })
       );
@@ -86,7 +85,6 @@ export class TableFieldsSettingsEffects {
           return new LoadMandatoryFieldsForTheTableSuccessAction([]);
         }),
         catchError((error) => {
-          console.log(error);
           return of(new LoadMandatoryFieldsForTheTableFailureAction(error));
         })
       );
@@ -102,7 +100,6 @@ export class TableFieldsSettingsEffects {
           return new LoadMandatoryFieldsForTheTableAction();
         }),
         catchError((error) => {
-          console.log(error);
           return of(new CreateMandatoryFieldsForTheTableFailureAction(error));
         })
       );
@@ -118,7 +115,6 @@ export class TableFieldsSettingsEffects {
           return new LoadMandatoryFieldsForTheTableAction();
         }),
         catchError((error) => {
-          console.log(error);
           return of(new UpdateMandatoryFieldsForTheTableFailureAction(error));
         })
       );
@@ -137,7 +133,7 @@ export class TableFieldsSettingsEffects {
             !element?.isHidden
           ) {
             const { id, name } = element;
-            return { ...{}, id, name, columnMandatory: false };
+            return { ...{}, id, name, columnMandatory: false, isVisible: true };
           } else {
             return [];
           }
