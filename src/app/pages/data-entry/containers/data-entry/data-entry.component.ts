@@ -11,7 +11,7 @@ import * as _ from 'lodash';
 @Component({
   selector: 'app-data-entry',
   templateUrl: './data-entry.component.html',
-  styleUrls: ['./data-entry.component.css']
+  styleUrls: ['./data-entry.component.css'],
 })
 export class DataEntryComponent implements OnInit {
   isLinear: true;
@@ -49,7 +49,7 @@ export class DataEntryComponent implements OnInit {
           this.printPDF(filename, el);
         } else if (downloadFormat === 'XLSX') {
           const item = el.cloneNode(true);
-          _.map(item.querySelectorAll('.hide-on-export'), elementNotExport =>
+          _.map(item.querySelectorAll('.hide-on-export'), (elementNotExport) =>
             elementNotExport.remove()
           );
           this.downloadService.exportXLS(filename, item.outerHTML);
@@ -69,8 +69,9 @@ export class DataEntryComponent implements OnInit {
     // });
   }
 
-  onToggleActionTracking(e) {
+  onToggleActionTracking(e, module) {
     e.stopPropagation();
-    this.isActionTracking = !this.isActionTracking;
+
+    this.isActionTracking = module === 'tracking' ? true : false;
   }
 }

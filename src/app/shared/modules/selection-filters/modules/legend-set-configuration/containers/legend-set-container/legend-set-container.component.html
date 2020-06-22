@@ -8,15 +8,27 @@
     </div>
     <div class="legend-set-group_list" *ngIf="legendSetLoaded">
       <!-- legend set group item -->
-      <div class="legend-set-group_item" *ngFor="let legendSet of legendSetEntities; let first = first">
+      <div
+        class="legend-set-group_item"
+        *ngFor="let legendSet of legendSetEntities; let first = first"
+      >
         <!-- content -->
-        <div class="legend-set-group_item-content" *ngIf="
+        <div
+          class="legend-set-group_item-content"
+          *ngIf="
             legendSet.id == currentLegendSet || (!currentLegendSet && first)
-          ">
+          "
+        >
           <div class="legend-set-group_item-member-list">
-            <div class="legend-set-group_item-member-item" *ngIf="legendSet.legends.length > 0">
-              <app-legend-set (legendSetUpdates)="onLegendSetUpdates($event)" [legendSet]="legendSet"
-                [showDeleteIcon]="showDeleteIcon"></app-legend-set>
+            <div
+              class="legend-set-group_item-member-item"
+              *ngIf="legendSet.legends.length > 0"
+            >
+              <app-legend-set
+                (legendSetUpdates)="onLegendSetUpdates($event)"
+                [legendSet]="legendSet"
+                [showDeleteIcon]="showDeleteIcon"
+              ></app-legend-set>
             </div>
             <!-- <div class="add-new-legend">
               <button
@@ -36,8 +48,9 @@
   </div>
   <div class="legend-set-btns">
     <button mat-stroked-button (click)="onClose($event)">
-      Close</button>&nbsp;
-    <button mat-stroked-button color="primary" (click)="onUpdate($event)">
+      Close</button
+    >&nbsp;
+    <button mat-flat-button color="primary" (click)="onUpdate($event)">
       Update
     </button>
   </div>
