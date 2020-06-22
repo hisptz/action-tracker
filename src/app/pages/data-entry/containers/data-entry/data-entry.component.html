@@ -1,8 +1,23 @@
 <div class="data-entry-container">
   <mat-card>
     <div class="data-entry-header d-print-none">
-      <h4>{{isActionTracking ? 'Action Tracking' : 'Action Planning'}}</h4>
-      <button *ngIf="!isActionTracking" class="text-muted" mat-stroked-button (click)="onToggleActionTracking($event)">
+      <h4>{{ isActionTracking ? 'Action Tracking' : 'Action Planning' }}</h4>
+      <mat-button-toggle-group color="'#00796b'">
+        <mat-button-toggle
+          [checked]="!isActionTracking"
+          (click)="onToggleActionTracking($event, 'planning')"
+        >
+          Action Planning
+        </mat-button-toggle>
+        <mat-button-toggle
+          [checked]="isActionTracking"
+          (click)="onToggleActionTracking($event, 'tracking')"
+        >
+          Action Tracking
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+
+      <!-- <button *ngIf="!isActionTracking" class="text-muted" mat-stroked-button (click)="onToggleActionTracking($event)">
         <span class="mr-2">Action Tracking</span>
         <mat-icon>arrow_forward</mat-icon>
       </button>
@@ -10,11 +25,15 @@
       <button *ngIf="isActionTracking" class="text-muted" mat-stroked-button (click)="onToggleActionTracking($event)">
         <mat-icon class="mr-2">arrow_backward</mat-icon>
         <span>Back to Planning</span>
-      </button>
+      </button> -->
     </div>
     <mat-divider class="d-print-none"></mat-divider>
     <div class="data-entry-content">
-      <app-action-table [isActionTracking]="isActionTracking" (download)="onDownloadActions($event)" id="pdfExport">
+      <app-action-table
+        [isActionTracking]="isActionTracking"
+        (download)="onDownloadActions($event)"
+        id="pdfExport"
+      >
       </app-action-table>
     </div>
   </mat-card>

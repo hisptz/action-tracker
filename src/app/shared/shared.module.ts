@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -42,6 +43,7 @@ import { MatListModule } from '@angular/material/list';
     MatProgressBarModule,
     MatIconModule,
     MatButtonModule,
+    MatButtonToggleModule,
     MatDialogModule,
     MatDividerModule,
     MatFormFieldModule,
@@ -73,6 +75,7 @@ import { MatListModule } from '@angular/material/list';
     MatProgressBarModule,
     MatIconModule,
     MatButtonModule,
+    MatButtonToggleModule,
     MatDialogModule,
     MatDividerModule,
     MatFormFieldModule,

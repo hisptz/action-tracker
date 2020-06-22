@@ -9,3 +9,8 @@
 .data-entry-content {
   padding-top: 15px;
 }
+
+.mat-button-toggle-checked {
+  background-color: #00796b !important;
+  color: #fff;
+}

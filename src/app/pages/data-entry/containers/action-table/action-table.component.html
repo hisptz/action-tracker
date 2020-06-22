@@ -22,7 +22,7 @@
   </div>
 
   <div
-    class="action-table-container border-top border-left border-right"
+    class="action-table-container border"
     *ngIf="(configurationLoaded$ | async) && !(configurationHasError$ | async)"
   >
     <div class="action-table-header d-print-none">
@@ -94,7 +94,7 @@
     </div>
     <table
       #tableElement
-      class="table action-table"
+      class="table action-table table-responsive mb-0"
       *ngIf="configuration$ | async as configuration"
     >
       <tr>
@@ -111,11 +111,11 @@
         >
           {{ dataElement.name }}
         </th>
-        <th class="text-muted" *ngIf="!isActionTracking">Status</th>
+        <th class="text-muted" *ngIf="!isActionTracking">Latest Status</th>
         <th class="hide-on-export d-print-none" *ngIf="!isActionTracking"></th>
         <th
           class="text-muted hide-on-export d-print-none"
-          style="border-left: 1px solid #dee2e6;"
+          style="border: 1px solid #dee2e6;"
           *ngIf="!isActionTracking"
         ></th>
         <ng-container *ngIf="isActionTracking">
@@ -132,7 +132,7 @@
       <!-- Loading Table Body -->
       <tbody *ngIf="dataLoading$ | async">
         <tr>
-          <td colspan="100%">
+          <td colspan="100%" style="border-right: 1px solid #dee2e6;">
             <div>{{ (notification$ | async)?.message }}</div>
             <mat-progress-bar mode="indeterminate"></mat-progress-bar>
           </td>
@@ -143,7 +143,7 @@
       <!-- Data Loading Error Table Body -->
       <tbody *ngIf="dataHasError$ | async">
         <tr>
-          <td colspan="100%">
+          <td colspan="100%" style="border-right: 1px solid #dee2e6;">
             <div>{{ (dataError$ | async)?.message }}</div>
           </td>
         </tr>
@@ -159,7 +159,7 @@
         "
       >
         <tr>
-          <td colspan="100%">
+          <td colspan="100%" style="border-right: 1px solid #dee2e6;">
             <span>
               <i>
                 Select Intervention, Period and Organization Unit to see actions
@@ -182,7 +182,7 @@
         "
       >
         <tr>
-          <td colspan="100%">
+          <td colspan="100%" style="border-right: 1px solid #dee2e6;">
             <span>
               <i>
                 There are no possible solutions based on parameters selected.
@@ -203,6 +203,7 @@
           "
         >
           <td>{{ i + 1 }}</td>
+
           <td
             matTooltip="Click row to see full text or truncate"
             [matTooltipPosition]="'after'"
@@ -213,15 +214,24 @@
             [hidden]="
               actionDataElement.isHidden ||
               (actionDataElement.isNotTrackingColumn && isActionTracking) ||
-              !(columnSettings$ | async)[actionDataElement.id]
+              !(columnSettings$ | async)[actionDataElement.id] ||
+              (!actionDataItem.rowspan &&
+                !actionDataElement?.isActionTrackerColumn)
             "
             (click)="toggleTruncationStatus(actionDataItem)"
+            [attr.rowspan]="
+              actionDataItem.rowspan &&
+              !actionDataElement?.isActionTrackerColumn
+                ? actionDataItem.rowspan
+                : 'none'
+            "
           >
             {{
               (actionDataItem?.dataValues)[actionDataElement.id]
                 | textTruncate: 40:actionDataItem.truncateStatus
             }}
           </td>
+
           <td
             *ngIf="!isActionTracking"
             class="px-1"
@@ -245,7 +255,7 @@
             <ng-container *ngIf="actionDataItem.attributes">
               <span
                 title="Click to edit action"
-                class="text-success mr-1"
+                class="text-muted mr-1"
                 style="cursor: pointer;"
                 mat-icon-button
                 (click)="
@@ -270,10 +280,10 @@
             </ng-container>
           </td>
           <td
-            class="action-controls-column hide-on-export d-print-none"
             *ngIf="actionDataItem.rowspan && !isActionTracking"
             [attr.rowspan]="actionDataItem.rowspan"
             style="border-left: 1px solid #dee2e6;"
+            class="action-controls-column hide-on-export d-print-none align-text-bottom"
           >
             <div class="add-action-block">
               <button
