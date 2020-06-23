@@ -51,6 +51,17 @@ export const getColumnSettingsInitialData = createSelector(
     }
   }
 );
+export const getTableColumnSettings = createSelector(
+  getColumnSettingsState,
+  getColumnSettingsInitialData,
+  (state, initialData) => {
+    const columnSettingsData = getColumneSettingsDatas(state);
+    const newCalumnSettings = [...[], ...columnSettingsData ];
+    return newCalumnSettings && newCalumnSettings.length
+      ? newCalumnSettings || []
+      : initialData || [];
+  }
+);
 export const getColumnSettingsData = createSelector(
   getColumnSettingsState,
   getColumnSettingsInitialData,

@@ -31,9 +31,6 @@ tr {
   top: -25px !important;
   z-index: 1410 !important;
 }
-.custom-dialog-container .mat-dialog-container {
-  /* padding-top: 0 !important; */
-}
 
 .mat-button.mat-primary,
 .mat-icon-button.mat-primary,
@@ -48,4 +45,15 @@ tr {
   color: #00000042;
   background-color: #0000001f;
   border: 0;
+}
+.mat-checkbox-ripple .mat-ripple-element,.mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background-color: #00907B !important;
+}
+  
+  .mat-checkbox-checked.mat-accent.mat-checkbox-disabled .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+    background-color:  #ccc !important;
+}
+.delete-btn {
+  background-color: #D7000F;
+  color: #fff;
 }
