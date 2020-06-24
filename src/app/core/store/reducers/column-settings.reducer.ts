@@ -46,7 +46,8 @@ export function columnSettingsReducer(
     }
 
     case ColumnSettingsTypes.SetColumnSettingsSuccess: {
-        return adapter.addAll(action.payload, state);
+      const newPayload = {...{}, ...action.payload};
+        return adapter.addAll(newPayload, state);
       }
 
       case ColumnSettingsTypes.SetColumnSettingsFailure: {
