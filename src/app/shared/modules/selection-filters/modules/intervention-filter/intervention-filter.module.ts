@@ -10,6 +10,7 @@ import { InterventionEffects } from './store/effects/intervention.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [...containers],
@@ -18,6 +19,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     FormsModule,
     MatButtonModule,
     MatTooltipModule,
+    MatIconModule,
     CommonModule,
     StoreModule.forFeature('intervention', reducer),
     EffectsModule.forFeature([InterventionEffects])
