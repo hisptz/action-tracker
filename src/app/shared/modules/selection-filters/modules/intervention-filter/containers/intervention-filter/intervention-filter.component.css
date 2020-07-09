@@ -155,3 +155,8 @@
 .intervention-loading-block img {
   height: 60px;
 }
+.selected-active {
+  background-color: #00796b !important;
+  color: #fff !important;
+}
+

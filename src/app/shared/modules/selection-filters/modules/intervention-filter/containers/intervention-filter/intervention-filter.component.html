@@ -50,7 +50,18 @@
           *ngFor="let availableIntervention of availableInterventions$ | async"
           matTooltip="Select {{ availableIntervention.name }}"
         >
-          <a (click)="onSelectIntervention(availableIntervention, $event)">
+          <a  
+          *ngIf="availableInterventions$ | async as availableInterventions"
+          [ngClass]="{
+            'selected-active': isInArray(
+              selectedItemsList,
+              availableIntervention?.id
+            )
+          }"
+          (click)="
+          onClickToSelectData(availableIntervention,availableInterventions, $event, 'SELECT')
+        "
+          (dblclick)="moveSingleSelectedDataItem(availableIntervention, $event)">
             {{ availableIntervention.name }}
           </a>
         </li>
@@ -60,7 +71,8 @@
       <button
       type="button"
       class="transfer-btn"
-
+      (click)="moveSelectedItems($event)"
+      [disabled]="!selectedItemsList.length"
       mat-icon-button
     >
       <mat-icon>arrow_forward</mat-icon>
@@ -68,6 +80,8 @@
     <button
       type="button"
       class="transfer-btn"
+      (click)="moveDeselectedItems($event)"
+      [disabled]="!deselectedItemsList.length"
       mat-icon-button
     >
       <mat-icon>arrow_back</mat-icon>
@@ -79,7 +93,16 @@
           *ngFor="let selectedIntervention of selectedInterventions"
           matTooltip="Remove {{ selectedIntervention.name }}"
         >
-          <a (click)="onDeselectIntervention(selectedIntervention, $event)">
+          <a 
+          *ngIf="availableInterventions$ | async as availableInterventions"
+          [ngClass]="{
+            'selected-active': isInArray(
+              deselectedItemsList,
+              selectedIntervention?.id
+            )
+          }"
+          (click)="onClickToSelectData(selectedIntervention,availableInterventions, $event, 'DESELECT')"
+          (dblclick)="moveSingleDeselectedDataItem(selectedIntervention,$event)">
             <span class="badge badge-info">{{ selectedIntervention.type }}</span
             >&nbsp;
             <span>{{ selectedIntervention.name }}</span>
