@@ -95,7 +95,7 @@
     <table
       #tableElement
       style="width: 100%;"
-      class="table action-table table-responsive mb-0"
+      class="table table-borderless action-table table-responsive mb-0"
       *ngIf="configuration$ | async as configuration"
     >
       <tr >
@@ -207,9 +207,15 @@
               | filterByAttribute: 'latestStatus':selectedStatus?.id as datas;
             let i = index;
             trackBy: actionDataItem?.rootCauseDataId
+            
           "
+    
+          [ngClass]="{
+            'border-less-tr': datas[i]?.rootCauseDataId === datas[i - 1]?.rootCauseDataId,
+            'border-bottom-less-tr':  datas[i]?.rootCauseDataId !== datas[i - 1]?.rootCauseDataId
+          }"
         >
-          <td style="border-top: none !important; border-bottom: none !important" >
+          <td  >
             <span
               *ngIf="
                 (datas[i]?.rootCauseDataId !== datas[i - 1]?.rootCauseDataId) && getDataValueLength(datas, actionDataItem)
