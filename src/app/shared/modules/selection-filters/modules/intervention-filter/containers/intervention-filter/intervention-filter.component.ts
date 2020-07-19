@@ -45,6 +45,7 @@ export class InterventionFilterComponent
   interventionTypes: any[];
   selectedItemsList = [];
   deselectedItemsList = [];
+  searchText = '';
 
   constructor(private store: Store<State>) {}
 

@@ -46,8 +46,14 @@
   justify-content: space-between;
   border: solid 1px #dddddd;
  
-  padding: 5px;
+  padding: 9px;
   font-size: 13px;
+}
+.intervention-selected-header p {
+  font-weight: 500;
+  font-size: 14px;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .intervention-badge {
@@ -88,7 +94,7 @@
   border: 1px solid #e0e0e0;
   border-radius: 3px !important;
 }
-.intervention-transfer-body button:first-child {
+.intervention-transfer-body button:not(:last-child) {
   margin-bottom: 1em;
 }
 
@@ -159,6 +165,7 @@
 .selected-active {
   background-color: #00796b !important;
   color: #fff !important;
+  border-radius: 5px;
 }
 li {
   margin-top: 0.2em;

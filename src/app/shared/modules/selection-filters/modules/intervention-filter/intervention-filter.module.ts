@@ -11,9 +11,12 @@ import { EffectsModule } from '@ngrx/effects';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FilterPipe } from 'src/app/shared/pipes/filter.pipe';
 
 @NgModule({
-  declarations: [...containers],
+  declarations: [...containers, FilterPipe],
   exports: [...containers],
   imports: [
     FormsModule,
@@ -21,6 +24,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatTooltipModule,
     MatIconModule,
     CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
     StoreModule.forFeature('intervention', reducer),
     EffectsModule.forFeature([InterventionEffects])
   ],
