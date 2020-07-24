@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -31,6 +32,7 @@ import { FilterByAttributePipe } from './pipes/filter-by-attribute.pipe';
 import { LegendConfigurationDialogComponent } from './dialogs/legend-configuration-dialog/legend-configuration-dialog.component';
 import { FieldsSettingsDialogComponent } from './dialogs/fields-settings-dialog/fields-settings-dialog.component';
 import { MatListModule } from '@angular/material/list';
+import { ColumnSettingsListComponent } from './dialogs/table-column-config-dialog/column-settings-list/column-settings-list.component';
 
 @NgModule({
   imports: [
@@ -42,6 +44,7 @@ import { MatListModule } from '@angular/material/list';
     MatProgressBarModule,
     MatIconModule,
     MatButtonModule,
+    MatButtonToggleModule,
     MatDialogModule,
     MatDividerModule,
     MatFormFieldModule,
@@ -73,6 +76,7 @@ import { MatListModule } from '@angular/material/list';
     MatProgressBarModule,
     MatIconModule,
     MatButtonModule,
+    MatButtonToggleModule,
     MatDialogModule,
     MatDividerModule,
     MatFormFieldModule,
@@ -102,6 +106,7 @@ import { MatListModule } from '@angular/material/list';
     FilterByAttributePipe,
     LegendConfigurationDialogComponent,
     FieldsSettingsDialogComponent,
+    ColumnSettingsListComponent
   ],
 })
 export class SharedModule {}

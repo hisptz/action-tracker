@@ -104,6 +104,7 @@ export class ActionTableComponent implements OnInit {
   initialActionStatus: '';
   toBeDeleted = {};
   selectedStatus: any;
+  OBJECT = Object;
 
   @Output() download: EventEmitter<string> = new EventEmitter<string>();
 
@@ -177,6 +178,23 @@ export class ActionTableComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  getDataValueLength(data, actionDataItem): number {
+    let rootCauseDataIds = [];
+    if (data && data.length) {
+      for (const dataItem of data) {
+        rootCauseDataIds =
+          dataItem && dataItem.rootCauseDataId
+            ? _.uniq([...rootCauseDataIds, dataItem.rootCauseDataId])
+            : [...[], rootCauseDataIds];
+      }
+      const rootCauseId = actionDataItem && actionDataItem.rootCauseDataId ? actionDataItem.rootCauseDataId || '' : '';
+      const newIndex = rootCauseDataIds.indexOf(rootCauseId) + 1 || 0;
+      return newIndex;
+    }
+
+    return 0;
+  }
 
   toggleTruncationStatus(actionDataItem) {
     actionDataItem.truncateStatus = !actionDataItem.truncateStatus;
@@ -321,15 +339,23 @@ export class ActionTableComponent implements OnInit {
     return generateEvent(this.selectedAction, eventData);
   }
 
-  onDeleteAction(event, dataItem) {
+  onDeleteAction(event, dataItem, dataElements) {
     if (event) {
       event.stopPropagation();
     }
-
+    let actionDescription = _.find(
+      dataElements || [],
+      (element) => element.formControlName === 'actionDescription'
+    );
+    const value =
+      actionDescription && actionDescription.hasOwnProperty('id')
+        ? dataItem.dataValues[actionDescription.id] || ''
+        : '';
+    actionDescription = { ...actionDescription, value };
     const dialogRef = this.dialog.open(DeleteConfirmationDialogueComponent, {
       width: '600px',
-      height: `${100 + 55 * 1}px`,
-      data: {},
+      height: `${150 + 55 * 1}px`,
+      data: actionDescription,
       disableClose: true,
     });
 
