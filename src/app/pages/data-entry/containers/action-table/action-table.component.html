@@ -198,11 +198,10 @@
           }}
             </td>
 
-            <td *ngIf="!isActionTracking" class="px-1 border-bottom" style="-webkit-print-color-adjust: exact;"
-              [style.background-color]="
-            actionDataItem.latestStatus
-              | colorize: (legendSetStatus$ | async):'#fff'
-          ">
+            <td *ngIf="!isActionTracking" class="px-1 border-bottom" style="-webkit-print-color-adjust: exact !important;"
+            [attr.style]="'background-color: '+  (actionDataItem.latestStatus
+            | colorize: (legendSetStatus$ | async) :'#fff') + ' !important' | safeStyle"   
+          >
               <span class="d-flex align-content-center p-1" style="font-size: 12px;">
                 {{
               (actionDataItem.latestStatus

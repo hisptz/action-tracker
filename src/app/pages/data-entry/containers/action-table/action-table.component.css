@@ -59,6 +59,7 @@
 
 @media print {
   .action-table {
+    overflow: visible;
     word-wrap: break-word;
     table-layout: fixed;
   }
