@@ -1,188 +1,102 @@
 <div class="intervention-filter-container">
-  <!--intervention available and selected section-->
-  <div class="intervention-header">
-    <div class="intervention-available-header">
-      <mat-form-field class="w-100">
-        <mat-label>Search Interventions</mat-label>
-        <input matInput [(ngModel)]="searchText" />
-      </mat-form-field>
-      <p>{{ searchText }}</p>
-      <!-- <span
-        [matTooltip]="
-          (availableInterventions$ | async)?.length + ' Available for selection'
-        "
-        class="badge badge-secondary intervention-badge"
-        >{{ (availableInterventions$ | async)?.length }} Available</span
-      >
-      <button
-        matTooltip="Select all interventions"
-        *ngIf="availableInterventions$ | async as availableInterventions"
-        mat-icon-button
-        (click)="onSelectAllInterventions($event, availableInterventions)"
-      >
-        <i class="fa fa-arrow-right"></i>
-      </button> -->
-    </div>
-    <div class="intervention-selected-header">
-      <p>Selected Interventions</p>
-      <!-- <button
-        matTooltip="Unselect all interventions"
-        mat-icon-button
-        (click)="onDeselectAllInterventions($event)"
-      >
-        <i class="fa fa-arrow-left"></i>
-      </button>
-      <span class="badge badge-primary intervention-badge">
-        {{ selectedInterventions.length }} Selected</span
-      > -->
-    </div>
-  </div>
-  <!--end of intervention available and selected section-->
-
   <!--intervention body-->
   <div class="intervention-body">
     <div class="intervention-available-body">
+      <div class="p-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Search Interventions</mat-label>
+          <input matInput [(ngModel)]="searchText" />
+        </mat-form-field>
+      </div>
+      <mat-divider></mat-divider>
       <ul class="intervention-list">
-        <li
-          class="intervention-loading-block"
-          *ngIf="loadingInterventions$ | async"
-        >
+        <li class="intervention-loading-block" *ngIf="loadingInterventions$ | async">
           <div>
             <img src="assets/icons/balls-3.svg" alt="" />
             <div>Discovering interventions...</div>
           </div>
         </li>
-        <li
-          *ngFor="
+        <li *ngFor="
             let availableIntervention of availableInterventions$
               | async
               | filter: searchText:'name'
-          "
-        >
-          <a
-            *ngIf="availableInterventions$ | async as availableInterventions"
-            [ngClass]="{
+          ">
+          <a *ngIf="availableInterventions$ | async as availableInterventions" [ngClass]="{
               'selected-active': isInArray(
                 selectedItemsList,
                 availableIntervention?.id
               )
-            }"
-            (click)="
+            }" (click)="
               onClickToSelectData(
                 availableIntervention,
                 availableInterventions,
                 $event,
                 'SELECT'
               )
-            "
-            (dblclick)="
+            " (dblclick)="
               moveSingleSelectedDataItem(availableIntervention, $event)
-            "
-          >
+            ">
             {{ availableIntervention?.name }}
           </a>
         </li>
       </ul>
     </div>
 
-    <div
-      class="intervention-transfer-body"
-      *ngIf="availableInterventions$ | async as availableInterventions"
-    >
-      <button type="button" (click)="onSelectAllInterventions($event, availableInterventions)" class="transfer-btn" mat-icon-button>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 16 16"
-          data-test="dhis2-uicore-transfer-actions-addall-iconaddall"
-          fill="#404B5A"
-          class="jsx-114231192"
-        >
+    <div class="intervention-transfer-buttons" *ngIf="availableInterventions$ | async as availableInterventions">
+      <button type="button" (click)="onSelectAllInterventions($event, availableInterventions)" class="transfer-btn"
+        mat-icon-button>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
+          data-test="dhis2-uicore-transfer-actions-addall-iconaddall" fill="#404B5A" class="jsx-114231192">
           <g fill-rule="evenodd" class="jsx-114231192">
-            <polygon
-              fill-rule="nonzero"
-              points="6 2 4.94 3.06 9.13 7.25 0 7.25 0 8.75 9.13 8.75 4.94 12.94 6 14 12 8"
-              class="jsx-114231192"
-            ></polygon>
-            <polygon
-              fill-rule="nonzero"
-              points="10 2 8.94 3.06 13.13 7.25 13.9 8 13.13 8.75 8.94 12.94 10 14 16 8"
-              class="jsx-114231192"
-            ></polygon>
+            <polygon fill-rule="nonzero" points="6 2 4.94 3.06 9.13 7.25 0 7.25 0 8.75 9.13 8.75 4.94 12.94 6 14 12 8"
+              class="jsx-114231192"></polygon>
+            <polygon fill-rule="nonzero" points="10 2 8.94 3.06 13.13 7.25 13.9 8 13.13 8.75 8.94 12.94 10 14 16 8"
+              class="jsx-114231192"></polygon>
           </g>
         </svg>
       </button>
-      <button
-        type="button"
-        class="transfer-btn"
-        (click)="moveSelectedItems($event)"
-        [disabled]="!selectedItemsList.length"
-        mat-icon-button
-      >
+      <button type="button" class="transfer-btn" (click)="moveSelectedItems($event)"
+        [disabled]="!selectedItemsList.length" mat-icon-button>
         <mat-icon>arrow_forward</mat-icon>
       </button>
-      <button
-        type="button"
-        class="transfer-btn"
-        (click)="moveDeselectedItems($event)"
-        [disabled]="!deselectedItemsList.length"
-        mat-icon-button
-      >
+      <button type="button" class="transfer-btn" (click)="moveDeselectedItems($event)"
+        [disabled]="!deselectedItemsList.length" mat-icon-button>
         <mat-icon>arrow_back</mat-icon>
       </button>
       <button type="button" (click)="onDeselectAllInterventions($event)" class="transfer-btn" mat-icon-button>
-        <svg
-          fill="#6e7a8a"
-          width="16px"
-          height="16px"
-          viewBox="0 0 16 16"
-          data-test="dhis2-uicore-transfer-actions-removeall-iconremoveall"
-          xmlns="http://www.w3.org/2000/svg"
-          class="jsx-114231192"
-        >
+        <svg fill="#6e7a8a" width="16px" height="16px" viewBox="0 0 16 16"
+          data-test="dhis2-uicore-transfer-actions-removeall-iconremoveall" xmlns="http://www.w3.org/2000/svg"
+          class="jsx-114231192">
           <g fill-rule="evenodd" class="jsx-114231192">
-            <polygon
-              fill-rule="nonzero"
+            <polygon fill-rule="nonzero"
               points="10 2 8.94 3.06 13.13 7.25 4 7.25 4 8.75 13.13 8.75 8.94 12.94 10 14 16 8"
-              transform="matrix(-1 0 0 1 20 0)"
-              class="jsx-114231192"
-            ></polygon>
-            <polygon
-              fill-rule="nonzero"
-              points="1.06 2 0 3.06 4.19 7.25 4.96 8 4.19 8.75 0 12.94 1.06 14 7.06 8"
-              transform="matrix(-1 0 0 1 7.06 0)"
-              class="jsx-114231192"
-            ></polygon>
+              transform="matrix(-1 0 0 1 20 0)" class="jsx-114231192"></polygon>
+            <polygon fill-rule="nonzero" points="1.06 2 0 3.06 4.19 7.25 4.96 8 4.19 8.75 0 12.94 1.06 14 7.06 8"
+              transform="matrix(-1 0 0 1 7.06 0)" class="jsx-114231192"></polygon>
           </g>
         </svg>
       </button>
     </div>
     <div class="intervention-selected-body">
+      <div class="p-3">Selected Interventions</div>
       <ul class="intervention-list">
         <li *ngFor="let selectedIntervention of selectedInterventions">
-          <a
-            *ngIf="availableInterventions$ | async as availableInterventions"
-            [ngClass]="{
+          <a *ngIf="availableInterventions$ | async as availableInterventions" [ngClass]="{
               'selected-active': isInArray(
                 deselectedItemsList,
                 selectedIntervention?.id
               )
-            }"
-            (click)="
+            }" (click)="
               onClickToSelectData(
                 selectedIntervention,
                 availableInterventions,
                 $event,
                 'DESELECT'
               )
-            "
-            (dblclick)="
+            " (dblclick)="
               moveSingleDeselectedDataItem(selectedIntervention, $event)
-            "
-          >
-            <span class="badge badge-info">{{ selectedIntervention.type }}</span
-            >&nbsp;
+            ">
+            <span class="badge badge-info">{{ selectedIntervention.type }}</span>&nbsp;
             <span>{{ selectedIntervention.name }}</span>
           </a>
         </li>
@@ -195,14 +109,9 @@
   <div class="ngx-dhis2-intervention__intervention-buttons">
     <div>
       <button mat-stroked-button (click)="onClose($event)">
-        Close</button
-      >&nbsp;
-      <button
-        mat-flat-button
-        color="primary"
-        [disabled]="selectedInterventions?.length === 0"
-        (click)="onUpdate($event)"
-      >
+        Close</button>&nbsp;
+      <button mat-flat-button color="primary" [disabled]="selectedInterventions?.length === 0"
+        (click)="onUpdate($event)">
         Update
       </button>
     </div>
