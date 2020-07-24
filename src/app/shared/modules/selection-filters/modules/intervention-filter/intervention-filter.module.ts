@@ -10,18 +10,27 @@ import { InterventionEffects } from './store/effects/intervention.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FilterPipe } from 'src/app/shared/pipes/filter.pipe';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
-  declarations: [...containers],
+  declarations: [...containers, FilterPipe],
   exports: [...containers],
   imports: [
     FormsModule,
     MatButtonModule,
     MatTooltipModule,
+    MatIconModule,
+    MatDividerModule,
     CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
     StoreModule.forFeature('intervention', reducer),
-    EffectsModule.forFeature([InterventionEffects])
+    EffectsModule.forFeature([InterventionEffects]),
   ],
-  providers: [...services]
+  providers: [...services],
 })
 export class InterventionFilterModule {}
