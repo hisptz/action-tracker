@@ -1,5 +1,5 @@
 .add-action-block {
-  /* margin-top: 100%; */
+  position: absolute;
   display: flex;
   bottom: 10px;
 }

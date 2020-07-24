@@ -67,283 +67,286 @@
         </mat-menu>
       </div>
     </div>
-    <table #tableElement style="width: 100%;" class="table table-borderless action-table table-responsive mb-0"
-      *ngIf="configuration$ | async as configuration">
-      <tr>
-        <th class="text-muted table-count-column">#</th>
-        <th *ngFor="let dataElement of configuration.dataElements" [hidden]="
-            dataElement.isHidden || !(columnSettings$ | async)[dataElement.id]
-          " [ngClass]="{
-            'bna-column': !dataElement?.isActionTrackerColumn,
-            'text-muted': true
-          }">
-          {{ dataElement.name }}
-        </th>
-        <th class="text-muted" *ngIf="!isActionTracking">Latest Status</th>
-        <th class="hide-on-export d-print-none" *ngIf="!isActionTracking"></th>
-        <th class="text-muted hide-on-export d-print-none" style="border: 1px solid #dee2e6; width: 10% !important;"
-          *ngIf="!isActionTracking"></th>
-        <ng-container *ngIf="isActionTracking">
-          <th class="text-muted border-left" *ngFor="let quarter of actionTrackingQuarters$ | async"
-            style="width: 7% !important;">
-            {{ quarter.name || 'Quarters Not Supported' }}
+    <div class="table-responsive">
+      <table #tableElement style="width: 100%;" class="table table-borderless action-table mb-0"
+        *ngIf="configuration$ | async as configuration">
+        <tr>
+          <th class="text-muted table-count-column">#</th>
+          <th *ngFor="let dataElement of configuration.dataElements" [hidden]="
+          dataElement.isHidden || !(columnSettings$ | async)[dataElement.id]
+        " [ngClass]="{
+          'bna-column': !dataElement?.isActionTrackerColumn,
+          'text-muted': true
+        }">
+            {{ dataElement.name }}
           </th>
-        </ng-container>
-      </tr>
-
-      <!-- Loading Table Body -->
-      <tbody *ngIf="dataLoading$ | async">
-        <tr>
-          <td colspan="100%" style="border-right: 1px solid #dee2e6;">
-            <div>{{ (notification$ | async)?.message }}</div>
-            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-          </td>
+          <th class="text-muted" *ngIf="!isActionTracking">Latest Status</th>
+          <th class="hide-on-export d-print-none" *ngIf="!isActionTracking"></th>
+          <th class="text-muted hide-on-export d-print-none" style="border: 1px solid #dee2e6; width: 10% !important;"
+            *ngIf="!isActionTracking"></th>
+          <ng-container *ngIf="isActionTracking">
+            <th class="text-muted border-left" *ngFor="let quarter of actionTrackingQuarters$ | async"
+              style="width: 7% !important;">
+              {{ quarter.name || 'Quarters Not Supported' }}
+            </th>
+          </ng-container>
         </tr>
-      </tbody>
-      <!-- Loading Table Body Ends-->
 
-      <!-- Data Loading Error Table Body -->
-      <tbody *ngIf="dataHasError$ | async">
-        <tr>
-          <td colspan="100%" style="border-right: 1px solid #dee2e6;">
-            <div>{{ (dataError$ | async)?.message }}</div>
-          </td>
-        </tr>
-      </tbody>
-      <!-- Data Loading Error Table Body Ends-->
+        <!-- Loading Table Body -->
+        <tbody *ngIf="dataLoading$ | async">
+          <tr>
+            <td colspan="100%" style="border-right: 1px solid #dee2e6;">
+              <div>{{ (notification$ | async)?.message }}</div>
+              <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+            </td>
+          </tr>
+        </tbody>
+        <!-- Loading Table Body Ends-->
 
-      <!-- Table instance on start up with explanations of how to fetch data -->
-      <tbody *ngIf="
-          !(dataLoading$ | async) &&
-          !(dataLoaded$ | async) &&
-          !(dataHasError$ | async)
-        ">
-        <tr>
-          <td colspan="100%" style="border-right: 1px solid #dee2e6;">
-            <span>
-              <i>
-                Select Intervention, Period and Organization Unit to see actions
-              </i>
-            </span>
-          </td>
-        </tr>
-      </tbody>
+        <!-- Data Loading Error Table Body -->
+        <tbody *ngIf="dataHasError$ | async">
+          <tr>
+            <td colspan="100%" style="border-right: 1px solid #dee2e6;">
+              <div>{{ (dataError$ | async)?.message }}</div>
+            </td>
+          </tr>
+        </tbody>
+        <!-- Data Loading Error Table Body Ends-->
 
-      <tbody *ngIf="
-          (dataLoaded$ | async) &&
-          !(dataLoading$ | async) &&
-          !(
-            data$
-            | async
-            | filterByAttribute: 'latestStatus':selectedStatus?.id
-          )?.length
-        ">
-        <tr>
-          <td colspan="100%" style="border-right: 1px solid #dee2e6;">
-            <span>
-              <i>
-                There are no possible solutions based on parameters selected.
-              </i>
-            </span>
-            <br />
-            <span class="text-muted">
-              <i>
-                Is the correct period selected?
-              </i>
-            </span>
-          </td>
-        </tr>
-      </tbody>
-      <!-- Body for there is no data ends here -->
-
-      <tbody *ngIf="columnSettings$ | async as columnSettings">
-        <tr *ngFor="
-            let actionDataItem of data$
-              | async
-              | filterByAttribute: 'latestStatus':selectedStatus?.id as datas;
-            let i = index;
-            trackBy: actionDataItem?.rootCauseDataId
-
-          " [ngClass]="{
-            'border-less-tr': datas[i]?.rootCauseDataId === datas[i - 1]?.rootCauseDataId,
-            'border-bottom-less-tr':  datas[i]?.rootCauseDataId !== datas[i - 1]?.rootCauseDataId
-          }">
-          <td>
-            <span *ngIf="
-                (datas[i]?.rootCauseDataId !== datas[i - 1]?.rootCauseDataId) && getDataValueLength(datas, actionDataItem)
-              ">
-              {{ getDataValueLength(datas, actionDataItem) }}</span>
-          </td>
-
-          <td matTooltip="Click row to see full text or truncate" [matTooltipPosition]="'after'"
-            *ngFor="let actionDataElement of configuration.dataElements" [ngClass]="{
-              'bna-column': !actionDataElement?.isActionTrackerColumn,
-              'border-bottom':true
-            }" [hidden]="
-              actionDataElement.isHidden ||
-              (actionDataElement.isNotTrackingColumn && isActionTracking) ||
-              !(columnSettings$ | async)[actionDataElement.id] ||
-              (!actionDataItem.rowspan &&
-                !actionDataElement?.isActionTrackerColumn)
-            " (click)="toggleTruncationStatus(actionDataItem)" [attr.rowspan]="
-              actionDataItem.rowspan &&
-              !actionDataElement?.isActionTrackerColumn
-                ? actionDataItem.rowspan
-                : 'none'
-            ">
-            {{
-              (actionDataItem?.dataValues)[actionDataElement.id]
-                | textTruncate: 40:actionDataItem.truncateStatus
-            }}
-          </td>
-
-          <td *ngIf="!isActionTracking" class="px-1 border-bottom" style="-webkit-print-color-adjust: exact;"
-            [style.background-color]="
-              actionDataItem.latestStatus
-                | colorize: (legendSetStatus$ | async):'#fff'
-            ">
-            <span class="d-flex align-content-center p-1" style="font-size: 12px;">
-              {{
-                (actionDataItem.latestStatus
-                  | convertLegendId: (legendSetStatus$ | async)) || 'Not Set'
-              }}
-            </span>
-          </td>
-
-          <td *ngIf=" !isActionTracking" class="px-1 border-bottom hide-on-export d-print-none" style="width: 70px;">
-            <ng-container *ngIf="actionDataItem.attributes">
-              <span title="Click to edit or delete action" class="text-muted mr-1 pull-right" style="cursor: pointer;"
-                mat-icon-button [matMenuTriggerFor]="menu">
-                <mat-icon>more_vert</mat-icon>
+        <!-- Table instance on start up with explanations of how to fetch data -->
+        <tbody *ngIf="
+        !(dataLoading$ | async) &&
+        !(dataLoaded$ | async) &&
+        !(dataHasError$ | async)
+      ">
+          <tr>
+            <td colspan="100%" style="border-right: 1px solid #dee2e6;">
+              <span>
+                <i>
+                  Select Intervention, Period and Organization Unit to see actions
+                </i>
               </span>
-              <mat-menu #menu="matMenu">
-                <button (click)="
-                    onEditAction(
-                      $event,
-                      actionDataItem,
-                      configuration?.dataElements
-                    )
-                  " mat-menu-item>
-                  Edit
-                </button>
-                <button style="color: #d7000f;"
-                  (click)="onDeleteAction($event, actionDataItem, configuration?.dataElements)" mat-menu-item>
-                  Delete
-                </button>
-              </mat-menu>
+            </td>
+          </tr>
+        </tbody>
 
-              <!-- <span
-                title="Click to edit action"
-                class="text-muted mr-1"
-                style="cursor: pointer;"
-                mat-icon-button
-                (click)="
+        <tbody *ngIf="
+        (dataLoaded$ | async) &&
+        !(dataLoading$ | async) &&
+        !(
+          data$
+          | async
+          | filterByAttribute: 'latestStatus':selectedStatus?.id
+        )?.length
+      ">
+          <tr>
+            <td colspan="100%" style="border-right: 1px solid #dee2e6;">
+              <span>
+                <i>
+                  There are no possible solutions based on parameters selected.
+                </i>
+              </span>
+              <br />
+              <span class="text-muted">
+                <i>
+                  Is the correct period selected?
+                </i>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+        <!-- Body for there is no data ends here -->
+
+        <tbody *ngIf="columnSettings$ | async as columnSettings">
+          <tr *ngFor="
+          let actionDataItem of data$
+            | async
+            | filterByAttribute: 'latestStatus':selectedStatus?.id as datas;
+          let i = index;
+          trackBy: actionDataItem?.rootCauseDataId
+
+        " [ngClass]="{
+          'border-less-tr': datas[i]?.rootCauseDataId === datas[i - 1]?.rootCauseDataId,
+          'border-bottom-less-tr':  datas[i]?.rootCauseDataId !== datas[i - 1]?.rootCauseDataId
+        }">
+            <td>
+              <span *ngIf="
+              (datas[i]?.rootCauseDataId !== datas[i - 1]?.rootCauseDataId) && getDataValueLength(datas, actionDataItem)
+            ">
+                {{ getDataValueLength(datas, actionDataItem) }}</span>
+            </td>
+
+            <td matTooltip="Click row to see full text or truncate" [matTooltipPosition]="'after'"
+              *ngFor="let actionDataElement of configuration.dataElements" [ngClass]="{
+            'bna-column': !actionDataElement?.isActionTrackerColumn,
+            'border-bottom':true
+          }" [hidden]="
+            actionDataElement.isHidden ||
+            (actionDataElement.isNotTrackingColumn && isActionTracking) ||
+            !(columnSettings$ | async)[actionDataElement.id] ||
+            (!actionDataItem.rowspan &&
+              !actionDataElement?.isActionTrackerColumn)
+          " (click)="toggleTruncationStatus(actionDataItem)" [attr.rowspan]="
+            actionDataItem.rowspan &&
+            !actionDataElement?.isActionTrackerColumn
+              ? actionDataItem.rowspan
+              : 'none'
+          ">
+              {{
+            (actionDataItem?.dataValues)[actionDataElement.id]
+              | textTruncate: 40:actionDataItem.truncateStatus
+          }}
+            </td>
+
+            <td *ngIf="!isActionTracking" class="px-1 border-bottom" style="-webkit-print-color-adjust: exact;"
+              [style.background-color]="
+            actionDataItem.latestStatus
+              | colorize: (legendSetStatus$ | async):'#fff'
+          ">
+              <span class="d-flex align-content-center p-1" style="font-size: 12px;">
+                {{
+              (actionDataItem.latestStatus
+                | convertLegendId: (legendSetStatus$ | async)) || 'Not Set'
+            }}
+              </span>
+            </td>
+
+            <td *ngIf=" !isActionTracking" class="px-1 border-bottom hide-on-export d-print-none" style="width: 70px;">
+              <ng-container *ngIf="actionDataItem.attributes">
+                <span title="Click to edit or delete action" class="text-muted mr-1 pull-right" style="cursor: pointer;"
+                  mat-icon-button [matMenuTriggerFor]="menu">
+                  <mat-icon>more_vert</mat-icon>
+                </span>
+                <mat-menu #menu="matMenu">
+                  <button (click)="
                   onEditAction(
                     $event,
                     actionDataItem,
-                    configuration.dataElements
+                    configuration?.dataElements
                   )
-                "
-              >
-                <mat-icon>edit</mat-icon>
-              </span>
-              <span
-                title="Click to delete action"
-                class="text-danger ml-1"
-                style="cursor: pointer;"
-                mat-icon-button
-                (click)="onDeleteAction($event, actionDataItem)"
-              >
-                <mat-icon>delete</mat-icon>
-              </span> -->
-            </ng-container>
-          </td>
-          <td *ngIf="actionDataItem.rowspan && !isActionTracking" [attr.rowspan]="actionDataItem.rowspan"
-            style="border-left: 1px solid #dee2e6;"
-            class="action-controls-column hide-on-export d-print-none align-text-bottom">
-            <div class="add-action-block">
-              <button class="text-muted" *ngIf="reportVisualizations$ | async as reportVisualizations" (click)="
-                  onViewProgress(
-                    $event,
-                    reportVisualizations,
-                    actionDataItem,
-                    configuration.dataElements
-                  )
-                " mat-icon-button matTooltip="View indicator progress">
-                <mat-icon>bar_chart</mat-icon>
-              </button>
-              <button class="ml-2 text-muted" matTooltip="Click to add new action" mat-icon-button (click)="
-                  onAddAction(
-                    $event,
-                    actionDataItem,
-                    configuration.dataElements
-                  )
-                ">
-                <mat-icon>add</mat-icon>
-              </button>
-            </div>
-          </td>
+                " mat-menu-item>
+                    Edit
+                  </button>
+                  <button style="color: #d7000f;"
+                    (click)="onDeleteAction($event, actionDataItem, configuration?.dataElements)" mat-menu-item>
+                    Delete
+                  </button>
+                </mat-menu>
 
-          <ng-container *ngIf="isActionTracking">
-            <ng-container *ngIf="
-                programStageConfiguration$
-                  | async as actionTrackingConfigurations
+                <!-- <span
+              title="Click to edit action"
+              class="text-muted mr-1"
+              style="cursor: pointer;"
+              mat-icon-button
+              (click)="
+                onEditAction(
+                  $event,
+                  actionDataItem,
+                  configuration.dataElements
+                )
+              "
+            >
+              <mat-icon>edit</mat-icon>
+            </span>
+            <span
+              title="Click to delete action"
+              class="text-danger ml-1"
+              style="cursor: pointer;"
+              mat-icon-button
+              (click)="onDeleteAction($event, actionDataItem)"
+            >
+              <mat-icon>delete</mat-icon>
+            </span> -->
+              </ng-container>
+            </td>
+            <td *ngIf="actionDataItem.rowspan && !isActionTracking" [attr.rowspan]="actionDataItem.rowspan"
+              style="border-left: 1px solid #dee2e6;"
+              class="action-controls-column hide-on-export d-print-none align-text-bottom">
+              <div class="add-action-block">
+                <button class="text-muted" *ngIf="reportVisualizations$ | async as reportVisualizations" (click)="
+                onViewProgress(
+                  $event,
+                  reportVisualizations,
+                  actionDataItem,
+                  configuration.dataElements
+                )
+              " mat-icon-button matTooltip="View indicator progress">
+                  <mat-icon>bar_chart</mat-icon>
+                </button>
+                <button class="ml-2 text-muted" matTooltip="Click to add new action" mat-icon-button (click)="
+                onAddAction(
+                  $event,
+                  actionDataItem,
+                  configuration.dataElements
+                )
               ">
-              <td class="action-tracking-column" *ngFor="
-                  let actionTrackingItem of actionDataItem.actionTrackingColumns;
-                  let first = first
-                " (click)="toggleTruncationStatus(actionDataItem)">
-                <div *ngFor="
-                    let actionTrackingConfiguration of actionTrackingConfigurations
-                  " [hidden]="!actionTrackingItem.hasEvent" (dblclick)="
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+            </td>
+
+            <ng-container *ngIf="isActionTracking">
+              <ng-container *ngIf="
+              programStageConfiguration$
+                | async as actionTrackingConfigurations
+            ">
+                <td class="action-tracking-column" *ngFor="
+                let actionTrackingItem of actionDataItem.actionTrackingColumns;
+                let first = first
+              " (click)="toggleTruncationStatus(actionDataItem)">
+                  <div *ngFor="
+                  let actionTrackingConfiguration of actionTrackingConfigurations
+                " [hidden]="!actionTrackingItem.hasEvent" (dblclick)="
+                  onEditActionTracking(
+                    $event,
+                    actionDataItem,
+                    actionTrackingItem,
+                    actionTrackingConfigurations
+                  )
+                " matTooltip="Double Click to Edit" matTooltipDisabled="{{
+                  actionTrackingItem.isCurrentQuater ? false : true
+                }}" [matTooltipPosition]="'after'">
+                    <p class="my-0">
+                      <b>{{
+                    actionTrackingConfiguration.shortName ||
+                      actionTrackingConfiguration.name
+                  }}</b>
+                    </p>
+                    <p class="mb-1" [style.color]="
+                    actionTrackingItem[
+                      actionTrackingConfiguration.formControlName
+                    ] | colorize: (legendSetStatus$ | async):'#000'
+                  ">
+                      {{
+                    actionTrackingItem[
+                      actionTrackingConfiguration.formControlName
+                    ]
+                      | convertLegendId: (legendSetStatus$ | async)
+                      | textTruncate: 40:actionDataItem.truncateStatus
+                  }}
+                    </p>
+                  </div>
+                  <div *ngIf="
+                  !actionTrackingItem.hasEvent && actionDataItem.hasQuarters
+                ">
+                    <button class="text-muted d-print-none" matTooltip="Click to add new review" mat-icon-button
+                      (click)="
                     onEditActionTracking(
                       $event,
                       actionDataItem,
                       actionTrackingItem,
                       actionTrackingConfigurations
                     )
-                  " matTooltip="Double Click to Edit" matTooltipDisabled="{{
-                    actionTrackingItem.isCurrentQuater ? false : true
-                  }}" [matTooltipPosition]="'after'">
-                  <p class="my-0">
-                    <b>{{
-                      actionTrackingConfiguration.shortName ||
-                        actionTrackingConfiguration.name
-                    }}</b>
-                  </p>
-                  <p class="mb-1" [style.color]="
-                      actionTrackingItem[
-                        actionTrackingConfiguration.formControlName
-                      ] | colorize: (legendSetStatus$ | async):'#000'
-                    ">
-                    {{
-                      actionTrackingItem[
-                        actionTrackingConfiguration.formControlName
-                      ]
-                        | convertLegendId: (legendSetStatus$ | async)
-                        | textTruncate: 40:actionDataItem.truncateStatus
-                    }}
-                  </p>
-                </div>
-                <div *ngIf="
-                    !actionTrackingItem.hasEvent && actionDataItem.hasQuarters
                   ">
-                  <button class="text-muted d-print-none" matTooltip="Click to add new review" mat-icon-button (click)="
-                      onEditActionTracking(
-                        $event,
-                        actionDataItem,
-                        actionTrackingItem,
-                        actionTrackingConfigurations
-                      )
-                    ">
-                    <mat-icon>add</mat-icon>
-                  </button>
-                </div>
-              </td>
+                      <mat-icon>add</mat-icon>
+                    </button>
+                  </div>
+                </td>
+              </ng-container>
             </ng-container>
-          </ng-container>
-        </tr>
-      </tbody>
-    </table>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
