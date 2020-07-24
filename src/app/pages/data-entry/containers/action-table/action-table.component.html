@@ -202,13 +202,15 @@
               actionDataItem.latestStatus
                 | colorize: (legendSetStatus$ | async):'#fff'
             ">
-            {{
-              (actionDataItem.latestStatus
-                | convertLegendId: (legendSetStatus$ | async)) || 'Not Set'
-            }}
+            <span class="d-flex align-content-center p-1" style="font-size: 12px;">
+              {{
+                (actionDataItem.latestStatus
+                  | convertLegendId: (legendSetStatus$ | async)) || 'Not Set'
+              }}
+            </span>
           </td>
 
-          <td *ngIf="!isActionTracking" class="px-1 border-bottom hide-on-export d-print-none" style="width: 70px;">
+          <td *ngIf=" !isActionTracking" class="px-1 border-bottom hide-on-export d-print-none" style="width: 70px;">
             <ng-container *ngIf="actionDataItem.attributes">
               <span title="Click to edit or delete action" class="text-muted mr-1 pull-right" style="cursor: pointer;"
                 mat-icon-button [matMenuTriggerFor]="menu">
