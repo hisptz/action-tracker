@@ -117,6 +117,7 @@ export class ActionTableComponent implements OnInit {
   initialActionStatus: '';
   toBeDeleted = {};
   selectedStatus: any;
+  OBJECT = Object;
 
   @Output() download: EventEmitter<string> = new EventEmitter<string>();
 
@@ -200,6 +201,23 @@ export class ActionTableComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  getDataValueLength(data, actionDataItem): number {
+    let rootCauseDataIds = [];
+    if (data && data.length) {
+      for (const dataItem of data) {
+        rootCauseDataIds =
+          dataItem && dataItem.rootCauseDataId
+            ? _.uniq([...rootCauseDataIds, dataItem.rootCauseDataId])
+            : [...[], rootCauseDataIds];
+      }
+      const rootCauseId = actionDataItem && actionDataItem.rootCauseDataId ? actionDataItem.rootCauseDataId || '' : '';
+      const newIndex = rootCauseDataIds.indexOf(rootCauseId) + 1 || 0;
+      return newIndex;
+    }
+
+    return 0;
+  }
 
   toggleTruncationStatus(actionDataItem) {
     actionDataItem.truncateStatus = !actionDataItem.truncateStatus;
