@@ -240,10 +240,11 @@
           <td
             *ngIf="!isActionTracking"
             class="px-1"
-            style="-webkit-print-color-adjust: exact;"
-            [style.background-color]="
-              actionDataItem.latestStatus
-                | colorize: (legendSetStatus$ | async):'#fff'
+            [attr.style]="
+              'background-color: ' +
+                (actionDataItem.latestStatus
+                  | colorize: (legendSetStatus$ | async):'#fff') +
+                ' !important' | safeStyle
             "
           >
             {{
