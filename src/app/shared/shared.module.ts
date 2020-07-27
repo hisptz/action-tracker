@@ -93,6 +93,7 @@ import { SafeStylePipe } from './pipes/safe-style.pipe';
     MatListModule,
     MatRadioModule,
     FilterByAttributePipe,
+    SafeStylePipe,
     LegendConfigurationDialogComponent,
     SafeStylePipe
   ],
