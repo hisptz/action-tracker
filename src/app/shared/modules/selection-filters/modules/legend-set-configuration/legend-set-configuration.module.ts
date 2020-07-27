@@ -10,6 +10,7 @@ import { legendSetReducer } from './store/reducers/legend-set.reducer';
 import { LegendSetEffects } from './store/effects/legend-set.effects';
 
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { components } from './components';
@@ -24,6 +25,7 @@ import { MatInputModule } from '@angular/material/input';
     CommonModule,
     FormsModule,
     MatButtonModule,
+    MatIconModule,
     MatTooltipModule,
     MatFormFieldModule,
     MatInputModule,
