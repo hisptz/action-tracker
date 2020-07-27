@@ -10,7 +10,7 @@
       <!-- legend set group item -->
       <div
         class="legend-set-group_item"
-        *ngFor="let legendSet of legendSetEntities; let first = first"
+        *ngFor="let legendSet of legendSets; let first = first"
       >
         <!-- content -->
         <div
@@ -30,15 +30,23 @@
                 [showDeleteIcon]="showDeleteIcon"
               ></app-legend-set>
             </div>
-            <!-- <div class="add-new-legend">
-              <button
+            <div class="add-new-legend">
+              <!-- <button
                 title="Add new legend"
                 class="add-new-legend-button"
                 (click)="addNewLegend($event, legendSet.id)"
               >
                 Add
+              </button> -->
+              <button
+                mat-mini-fab
+                color="primary"
+                title="Add new legend"
+                (click)="addNewLegend($event, legendSet.id)"
+              >
+                <mat-icon>add</mat-icon>
               </button>
-            </div> -->
+            </div>
           </div>
         </div>
         <!-- end of content -->
@@ -46,6 +54,7 @@
       <!-- end of legend set group item -->
     </div>
   </div>
+
   <div class="legend-set-btns">
     <button mat-stroked-button (click)="onClose($event)">
       Close</button
