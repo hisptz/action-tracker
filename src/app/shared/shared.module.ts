@@ -95,6 +95,7 @@ import { SafeStylePipe } from './pipes/safe-style.pipe';
     FilterByAttributePipe,
     SafeStylePipe,
     LegendConfigurationDialogComponent,
+    SafeStylePipe
   ],
   declarations: [
     ...components,

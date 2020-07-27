@@ -1,5 +1,5 @@
 .add-action-block {
-  /* margin-top: 100%; */
+  position: absolute;
   display: flex;
   bottom: 10px;
 }
@@ -49,6 +49,12 @@
 
 .download-btn mat-icon {
   transform: rotate(180deg);
+}
+.border-less-tr {
+  border: none !important;
+}
+.border-bottom-less-tr {
+  border-bottom: none !important;
 }
 
 @media print {
