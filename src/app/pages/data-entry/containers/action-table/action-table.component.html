@@ -198,9 +198,15 @@
           }}
             </td>
 
-            <td *ngIf="!isActionTracking" class="px-1 border-bottom" style="-webkit-print-color-adjust: exact !important;"
-            [attr.style]="'background-color: '+  (actionDataItem.latestStatus
-            | colorize: (legendSetStatus$ | async) :'#fff') + ' !important' | safeStyle"   
+          <td
+            *ngIf="!isActionTracking"
+            class="px-1"
+            [attr.style]="
+              'background-color: ' +
+                (actionDataItem.latestStatus
+                  | colorize: (legendSetStatus$ | async):'#fff') +
+                ' !important' | safeStyle
+            "
           >
               <span class="d-flex align-content-center p-1" style="font-size: 12px;">
                 {{
@@ -210,27 +216,80 @@
               </span>
             </td>
 
-            <td *ngIf=" !isActionTracking" class="px-1 border-bottom hide-on-export d-print-none" style="width: 70px;">
-              <ng-container *ngIf="actionDataItem.attributes">
-                <span title="Click to edit or delete action" class="text-muted mr-1 pull-right" style="cursor: pointer;"
-                  mat-icon-button [matMenuTriggerFor]="menu">
-                  <mat-icon>more_vert</mat-icon>
-                </span>
-                <mat-menu #menu="matMenu">
-                  <button (click)="
+          <td
+            *ngIf="!isActionTracking"
+            class="px-1 hide-on-export d-print-none"
+            style="width: 70px; text-align: right;"
+          >
+            <ng-container *ngIf="actionDataItem.attributes">
+              <span
+                title="Click to edit action"
+                class="text-muted mr-1"
+                style="cursor: pointer;"
+                *ngIf="canEditActions$ | async"
+                mat-icon-button
+                (click)="
                   onEditAction(
                     $event,
                     actionDataItem,
                     configuration?.dataElements
                   )
-                " mat-menu-item>
-                    Edit
-                  </button>
-                  <button style="color: #d7000f;"
-                    (click)="onDeleteAction($event, actionDataItem, configuration?.dataElements)" mat-menu-item>
-                    Delete
-                  </button>
-                </mat-menu>
+                "
+              >
+                <mat-icon>edit</mat-icon>
+              </span>
+              <span
+                title="Click to delete action"
+                class="text-danger ml-1"
+                style="cursor: pointer;"
+                *ngIf="canDeleteActions$ | async"
+                mat-icon-button
+                (click)="onDeleteAction($event, actionDataItem)"
+              >
+                <mat-icon>delete</mat-icon>
+              </span>
+            </ng-container>
+          </td>
+          <td
+            *ngIf="actionDataItem.rowspan && !isActionTracking"
+            [attr.rowspan]="actionDataItem.rowspan"
+            style="border-left: 1px solid #dee2e6; text-align: right;"
+            class="action-controls-column hide-on-export d-print-none align-text-bottom"
+          >
+            <div class="add-action-block">
+              <button
+                class="text-muted"
+                *ngIf="reportVisualizations$ | async as reportVisualizations"
+                (click)="
+                  onViewProgress(
+                    $event,
+                    reportVisualizations,
+                    actionDataItem,
+                    configuration.dataElements
+                  )
+                "
+                mat-icon-button
+                matTooltip="View indicator progress"
+              >
+                <mat-icon>bar_chart</mat-icon>
+              </button>
+              <button
+                class="ml-2 text-muted"
+                *ngIf="canCreateActions$ | async"
+                matTooltip="Click to add new action"
+                mat-icon-button
+                (click)="
+                  onAddAction(
+                    $event,
+                    actionDataItem,
+                    configuration.dataElements
+                  )
+                "
+              >
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+          </td>
 
                 <!-- <span
               title="Click to edit action"
@@ -336,12 +395,59 @@
                       actionTrackingItem,
                       actionTrackingConfigurations
                     )
-                  ">
-                      <mat-icon>add</mat-icon>
-                    </button>
-                  </div>
-                </td>
-              </ng-container>
+               "
+                  matTooltip="Double Click to Edit"
+                  matTooltipDisabled="{{
+                    actionTrackingItem.isCurrentQuater ? false : true
+                  }}"
+                  [matTooltipPosition]="'after'"
+                >
+                  <p class="my-0">
+                    <b>{{
+                      actionTrackingConfiguration.shortName ||
+                        actionTrackingConfiguration.name
+                    }}</b>
+                  </p>
+                  <p
+                    class="mb-1"
+                    [style.color]="
+                      actionTrackingItem[
+                        actionTrackingConfiguration.formControlName
+                      ] | colorize: (legendSetStatus$ | async):'#000'
+                    "
+                  >
+                    {{
+                      actionTrackingItem[
+                        actionTrackingConfiguration.formControlName
+                      ]
+                        | convertLegendId: (legendSetStatus$ | async)
+                        | textTruncate: 40:actionDataItem.truncateStatus
+                    }}
+                  </p>
+                </div>
+                <div
+                  *ngIf="
+                    !actionTrackingItem.hasEvent && actionDataItem.hasQuarters
+                  "
+                >
+                  <button
+                    *ngIf="canCreateActionProgress$ | async"
+                    class="text-muted d-print-none"
+                    matTooltip="Click to add new review"
+                    mat-icon-button
+                    (click)="
+                      onEditActionTracking(
+                        $event,
+                        actionDataItem,
+                        actionTrackingItem,
+                        actionTrackingConfigurations
+                      )
+                    "
+                  >
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+              </td>
             </ng-container>
           </tr>
         </tbody>
