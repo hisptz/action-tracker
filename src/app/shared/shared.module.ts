@@ -33,6 +33,7 @@ import { LegendConfigurationDialogComponent } from './dialogs/legend-configurati
 import { FieldsSettingsDialogComponent } from './dialogs/fields-settings-dialog/fields-settings-dialog.component';
 import { MatListModule } from '@angular/material/list';
 import { ColumnSettingsListComponent } from './dialogs/table-column-config-dialog/column-settings-list/column-settings-list.component';
+import { SafeStylePipe } from './pipes/safe-style.pipe';
 
 @NgModule({
   imports: [
@@ -89,11 +90,12 @@ import { ColumnSettingsListComponent } from './dialogs/table-column-config-dialo
     MatSnackBarModule,
     MatStepperModule,
     MatCheckboxModule,
-    FilterPipe,
     MatListModule,
     MatRadioModule,
     FilterByAttributePipe,
+    SafeStylePipe,
     LegendConfigurationDialogComponent,
+    SafeStylePipe
   ],
   declarations: [
     ...components,
@@ -102,11 +104,11 @@ import { ColumnSettingsListComponent } from './dialogs/table-column-config-dialo
     ExportBarComponent,
     TableColumnConfigDialogComponent,
     LegendConfigurationDialogComponent,
-    FilterPipe,
     FilterByAttributePipe,
     LegendConfigurationDialogComponent,
     FieldsSettingsDialogComponent,
-    ColumnSettingsListComponent
+    ColumnSettingsListComponent,
+    SafeStylePipe
   ],
 })
 export class SharedModule {}

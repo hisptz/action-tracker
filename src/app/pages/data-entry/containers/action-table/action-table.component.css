@@ -59,12 +59,13 @@
 
 @media print {
   .action-table {
+    overflow: visible;
     word-wrap: break-word;
     table-layout: fixed;
   }
   .action-table th,
   .action-table td {
-    border: solid thin gray;
+    border: solid thin gray;  
   }
   .table-count-column {
     width: 4%;

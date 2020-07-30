@@ -4,7 +4,7 @@ import { SelectionFilterConfig } from 'src/app/shared/modules/selection-filters/
 import { LegendConfigurationDialogComponent } from 'src/app/shared/dialogs/legend-configuration-dialog/legend-configuration-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { getCurrentUserManagementAuthoritiesStatus } from '../../store/selectors/user.selectors';
-import { Store, select} from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { State } from '../../store/reducers';
 import { FieldsSettingsDialogComponent } from 'src/app/shared/dialogs/fields-settings-dialog/fields-settings-dialog.component';
 import { getTableFieldsSettings } from '../../store/selectors/table-fields-settings.selectors';
@@ -23,14 +23,18 @@ export class SelectionBarComponent implements OnInit {
   isAdmin$: Observable<any>;
   tableFields$: Observable<any>;
   @Output() filterUpdate: EventEmitter<any> = new EventEmitter<any>();
-  constructor(private dialog: MatDialog, private store: Store<State>,  private _snackBar: MatSnackBar) {}
+  constructor(
+    private dialog: MatDialog,
+    private store: Store<State>,
+    private _snackBar: MatSnackBar
+  ) {}
 
   ngOnInit() {
-    this.isAdmin$ = this.store.pipe(select(getCurrentUserManagementAuthoritiesStatus));
-    // this.store.dispatch(new CheckMandatorySettingsExistAction());
-    this.tableFields$ = this.store.pipe(
-      select(getTableFieldsSettings)
+    this.isAdmin$ = this.store.pipe(
+      select(getCurrentUserManagementAuthoritiesStatus)
     );
+    // this.store.dispatch(new CheckMandatorySettingsExistAction());
+    this.tableFields$ = this.store.pipe(select(getTableFieldsSettings));
   }
 
   onFilterUpdate(selections: any) {
@@ -39,8 +43,8 @@ export class SelectionBarComponent implements OnInit {
 
   openLegendDialog() {
     this.dialog.open(LegendConfigurationDialogComponent, {
-      height: '400px',
-      disableClose: true
+      height: '450px',
+      disableClose: true,
     });
   }
   openFieldsSettingsDialog() {
@@ -48,21 +52,21 @@ export class SelectionBarComponent implements OnInit {
       width: '600px',
       height: '850px',
       panelClass: 'custom-dialog-container',
-      disableClose: true
+      disableClose: true,
     });
     dialogRef
-    .afterClosed()
-    .pipe(take(1))
-    .subscribe((result) => {
-      if (result === 'Saved') {
-        this._snackBar.open(
-          'Fields Settings configured successfully!',
-          'Close',
-          {
-            duration: 2000,
-          }
-        );
-      }
-    });
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((result) => {
+        if (result === 'Saved') {
+          this._snackBar.open(
+            'Fields Settings configured successfully!',
+            'Close',
+            {
+              duration: 2000,
+            }
+          );
+        }
+      });
   }
 }

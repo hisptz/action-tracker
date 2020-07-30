@@ -2,7 +2,7 @@ import { createSelector } from '@ngrx/store';
 import { getRootState, State } from '../reducers';
 import { selectAllUsers } from '../reducers/user.reducer';
 import { User } from '../../models';
-import { map } from 'lodash';
+import { indexOf } from 'lodash';
 export const getUserState = createSelector(
   getRootState,
   (state: State) => state.user
@@ -31,5 +31,69 @@ export const getCurrentUserManagementAuthoritiesStatus = createSelector(
     return currentUser && currentUser.authorities
       ? currentUser.authorities.includes('ALL')
       : false;
+  }
+);
+
+export const getCanCreateActions = createSelector(
+  getUserState,
+  getCurrentUser,
+  (state, user) => {
+    if (
+      user &&
+      indexOf(user.authorities, 'ACTION_TRACKER_CREATE_ACTION') > -1
+    ) {
+      return true;
+    }
+    return false;
+  }
+);
+export const getCanEditActions = createSelector(
+  getUserState,
+  getCurrentUser,
+  (state, user) => {
+    if (user && indexOf(user.authorities, 'ACTION_TRACKER_EDIT_ACTION') > -1) {
+      return true;
+    }
+    return false;
+  }
+);
+export const getCanDeleteActions = createSelector(
+  getUserState,
+  getCurrentUser,
+  (state, user) => {
+    if (
+      user &&
+      indexOf(user.authorities, 'ACTION_TRACKER_DELETE_ACTION') > -1
+    ) {
+      return true;
+    }
+    return false;
+  }
+);
+
+export const getCanCreateActionProgress = createSelector(
+  getUserState,
+  getCurrentUser,
+  (state, user) => {
+    if (
+      user &&
+      indexOf(user.authorities, 'ACTION_TRACKER_CREATE_PROGRESS') > -1
+    ) {
+      return true;
+    }
+    return false;
+  }
+);
+export const getCanEditActionProgress = createSelector(
+  getUserState,
+  getCurrentUser,
+  (state, user) => {
+    if (
+      user &&
+      indexOf(user.authorities, 'ACTION_TRACKER_EDIT_PROGRESS') > -1
+    ) {
+      return true;
+    }
+    return false;
   }
 );
