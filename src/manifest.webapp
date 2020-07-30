@@ -1,6 +1,6 @@
 
 {
-    "version": "1.0.0-rc.1",
+    "version": "1.0.0-rc.2",
     "name": "Action Tracker",
     "description": "Action Tracker",
     "appType": "APP",
@@ -21,8 +21,8 @@
         }
     },
      "authorities": [
-         "ACTION_TRACKER_CREATE_ACTION", 
-         "ACTION_TRACKER_CREATE_PROGRESS", 
+         "ACTION_TRACKER_CREATE_ACTION",
+         "ACTION_TRACKER_CREATE_PROGRESS",
          "ACTION_TRACKER_EDIT_ACTION",
          "ACTION_TRACKER_EDIT_PROGRESS",
          "ACTION_TRACKER_DELETE_ACTION"
