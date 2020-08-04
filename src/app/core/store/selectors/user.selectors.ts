@@ -40,7 +40,9 @@ export const getCanCreateActions = createSelector(
   (state, user) => {
     if (
       user &&
-      indexOf(user.authorities, 'ACTION_TRACKER_CREATE_ACTION') > -1
+      user.authorities &&
+      (user.authorities.includes('ALL') ||
+        user.authorities.includes('ACTION_TRACKER_CREATE_ACTION'))
     ) {
       return true;
     }
@@ -51,7 +53,13 @@ export const getCanEditActions = createSelector(
   getUserState,
   getCurrentUser,
   (state, user) => {
-    if (user && indexOf(user.authorities, 'ACTION_TRACKER_EDIT_ACTION') > -1) {
+    if (
+      user &&
+      user.authorities &&
+      (user.authorities.includes('ALL') ||
+        user.authorities.includes('ACTION_TRACKER_EDIT_ACTION'))
+    )
+    {
       return true;
     }
     return false;
@@ -63,7 +71,9 @@ export const getCanDeleteActions = createSelector(
   (state, user) => {
     if (
       user &&
-      indexOf(user.authorities, 'ACTION_TRACKER_DELETE_ACTION') > -1
+      user.authorities &&
+      (user.authorities.includes('ALL') ||
+        user.authorities.includes('ACTION_TRACKER_DELETE_ACTION'))
     ) {
       return true;
     }
@@ -77,8 +87,10 @@ export const getCanCreateActionProgress = createSelector(
   (state, user) => {
     if (
       user &&
-      indexOf(user.authorities, 'ACTION_TRACKER_CREATE_PROGRESS') > -1
-    ) {
+      user.authorities &&
+      (user.authorities.includes('ALL') ||
+        user.authorities.includes('ACTION_TRACKER_CREATE_PROGRESS'))
+    )  {
       return true;
     }
     return false;
@@ -90,8 +102,10 @@ export const getCanEditActionProgress = createSelector(
   (state, user) => {
     if (
       user &&
-      indexOf(user.authorities, 'ACTION_TRACKER_EDIT_PROGRESS') > -1
-    ) {
+      user.authorities &&
+      (user.authorities.includes('ALL') ||
+        user.authorities.includes('ACTION_TRACKER_EDIT_PROGRESS'))
+    )  {
       return true;
     }
     return false;
