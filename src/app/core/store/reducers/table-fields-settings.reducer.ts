@@ -12,6 +12,7 @@ export interface TableFieldsSettingsState extends EntityState<any> {
   hasError: boolean;
   error: any;
   currentConfig: string;
+  notification: any;
 }
 export const adapter: EntityAdapter<any> = createEntityAdapter<any>();
 export const initialState: any = adapter.getInitialState({
@@ -19,7 +20,8 @@ export const initialState: any = adapter.getInitialState({
   loaded: false,
   hasError: false,
   error: null,
-  currentConfig: 'ROSaojkGieB'
+  currentConfig: 'ROSaojkGieB',
+  notification: null
 });
 
 export function tableFieldsSettingsReducer(

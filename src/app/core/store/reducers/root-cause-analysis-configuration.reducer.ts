@@ -94,12 +94,20 @@ export function rootCauseAnalysisConfigurationReducer(
     }
 
     case RootCauseAnalysisConfigurationActionTypes.LoadRootCauseAnalysisConfigurationFail: {
+      const message =
+      action && action.error && action.error.message
+        ? action.error.message
+        : 'Failed to delete action, Please try again later!';
       return {
         ...state,
         loading: false,
         loaded: true,
         hasError: true,
         error: action.error,
+        notification: {
+          completed: true,
+          message,
+        },
       };
     }
 

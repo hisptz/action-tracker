@@ -52,6 +52,23 @@ export function actionTrackerDataReducer(
     case ActionTrackerDataActionTypes.AddActionTrackerDataSuccess: {
       return state;
     }
+    case ActionTrackerDataActionTypes.AddActionTrackerDataFail: {
+      const message =
+        action && action.error && action.error.message
+          ? action.error.message
+          : 'Failed to load Action Tracker data, Please try again later!';
+      return {
+        ...state,
+        showNotification: true,
+        notification: {
+          completed: true,
+          message,
+        },
+        loading: false,
+        hasError: true,
+        error: action.error,
+      };
+    }
 
     case ActionTrackerDataActionTypes.UpsertActionTrackerData: {
       return adapter.upsertOne(action.payload.actionTrackerData, state);
@@ -132,6 +149,24 @@ export function actionTrackerDataReducer(
       });
     }
 
+    case ActionTrackerDataActionTypes.DeleteActionTrackerDataFail: {
+      const message =
+        action && action.error && action.error.message
+          ? action.error.message
+          : 'Failed to delete action, Please try again later!';
+      return {
+        ...state,
+        showNotification: true,
+        notification: {
+          completed: true,
+          message,
+        },
+        loading: false,
+        hasError: true,
+        error: action.error,
+      };
+    }
+
     case ActionTrackerDataActionTypes.DeleteActionTrackerDatas: {
       return adapter.removeMany(action.payload.ids, state);
     }
@@ -163,6 +198,23 @@ export function actionTrackerDataReducer(
           message: 'Action Data Successfully Saved',
         },
       });
+    }
+    case ActionTrackerDataActionTypes.SaveActionTrackerDataFail: {
+      const message =
+        action && action.error && action.error.message
+          ? action.error.message
+          : 'Failed to save Action, Please try again later!';
+      return {
+        ...state,
+        showNotification: true,
+        notification: {
+          completed: true,
+          message,
+        },
+        loading: false,
+        hasError: true,
+        error: action.error,
+      };
     }
 
     case ActionTrackerDataActionTypes.ResetNotifications: {

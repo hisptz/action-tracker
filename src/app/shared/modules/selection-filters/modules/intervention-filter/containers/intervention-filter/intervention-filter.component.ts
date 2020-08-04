@@ -111,27 +111,14 @@ export class InterventionFilterComponent
   onSelectAllInterventions(e, availableInterventions: any[]) {
     e.stopPropagation();
 
-    // Add all intervention to selected bucket
-    this.selectedInterventions = availableInterventions;
-
-    this._setAvailableInterventions();
-
-    if (this.interventionFilterConfig.emitOnSelection) {
-      this._onUpdateIntervention();
-    }
+    this.selectedItemsList = availableInterventions;
+    this.moveSelectedItems(e);
   }
 
   onDeselectAllInterventions(e) {
     e.stopPropagation();
-    // remove all items from selected bucket
-    this.selectedInterventions = [];
-
-    // add to available intervention bucket
-    this._setAvailableInterventions();
-
-    if (this.interventionFilterConfig.emitOnSelection) {
-      this._onUpdateIntervention();
-    }
+    this.deselectedItemsList = this.selectedInterventions;
+    this.moveDeselectedItems(e);
   }
 
   onUpdate(e) {
