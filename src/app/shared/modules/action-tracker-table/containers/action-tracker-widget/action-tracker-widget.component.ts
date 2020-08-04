@@ -13,34 +13,34 @@ import { State } from 'src/app/core/store/reducers';
 import {
   getCurrentActionTrackerConfig,
   getMergedActionTrackerConfiguration,
-  getConfigurationDataElementsFromProgramStageDEs
+  getConfigurationDataElementsFromProgramStageDEs,
 } from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
 import {
   LegendSetState,
   getActionStatusLegendSet,
-  getActionStatusLegendSetItems
+  getActionStatusLegendSetItems,
 } from '../../../selection-filters/modules/legend-set-configuration/store';
 import { getDataSelections } from 'src/app/core/store/selectors/global-selection.selectors';
 import {
   getConfigurationLoadedStatus,
-  getConfigurationLoadingStatus
+  getConfigurationLoadingStatus,
 } from 'src/app/core/store/selectors/root-cause-analysis-configuration.selectors';
 import {
   getRootCauseAnalysisDataLoadedStatus,
-  getAllRootCauseAnalysisData
+  getAllRootCauseAnalysisData,
 } from 'src/app/core/store/selectors/root-cause-analysis-data.selectors';
 
 import {
   getAllDataNotification,
   getOveralLoadingStatus,
-  getMergedActionTrackerDatasWithRowspanAttribute
+  getMergedActionTrackerDatasWithRowspanAttribute,
 } from 'src/app/core/store/selectors/action-tracker-data.selectors';
 
 import {
   AddActionTrackerData,
   CancelActionTrackerData,
   DeleteActionTrackerData,
-  SaveActionTrackerData
+  SaveActionTrackerData,
 } from 'src/app/core/store/actions/action-tracker-data.actions';
 
 import * as fromRootCauseAnalysisDataActions from '../../../../../core/store/actions/root-cause-analysis-data.actions';
@@ -60,14 +60,14 @@ import domtoimage from 'dom-to-image';
       transition(':enter', [
         // :enter is alias to 'void => *'
         style({ opacity: 0 }),
-        animate(500, style({ opacity: 1 }))
+        animate(500, style({ opacity: 1 })),
       ]),
       transition(':leave', [
         // :leave is alias to '* => void'
-        animate(500, style({ opacity: 0 }))
-      ])
-    ])
-  ]
+        animate(500, style({ opacity: 0 })),
+      ]),
+    ]),
+  ],
 })
 export class ActionTrackerWidgetComponent implements OnInit {
   @Input()
@@ -122,7 +122,9 @@ export class ActionTrackerWidgetComponent implements OnInit {
     private downloadWidgetService: DownloadWidgetService,
     private contextMenuService: ContextMenuService
   ) {
-    this.data$ = store.select(getMergedActionTrackerDatasWithRowspanAttribute);
+    this.data$ = store.select(
+      getMergedActionTrackerDatasWithRowspanAttribute()
+    );
 
     this.configuration$ = store.select(getMergedActionTrackerConfiguration);
     this.actionTrackerConfiguration$ = store.select(
@@ -163,7 +165,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
         dataValues: emptyDataValues,
         isNewRow: true,
         rootCauseDataId: dataItem.rootCauseDataId,
-        parentAction: dataItem.id
+        parentAction: dataItem.id,
       };
       this.openModal(newDataItem);
     }
@@ -213,7 +215,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
         // Optional - if unspecified, all context menu components will open
         contextMenu: this.extraActions,
         event: event,
-        item: dataItem
+        item: dataItem,
       });
       event.preventDefault();
       event.stopPropagation();
@@ -227,7 +229,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
       const dataItemColumns = dataItemToDelete.querySelectorAll(
         '.action-tracker-column, .solution-column'
       );
-      _.map(dataItemColumns, dataItemColumn => {
+      _.map(dataItemColumns, (dataItemColumn) => {
         dataItemColumn.hasAttribute('rowspan')
           ? null
           : dataItemColumn.setAttribute('hidden', 'true');
@@ -242,7 +244,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
       const dataItemColumns = dataItemToDelete.querySelectorAll(
         '.action-tracker-column, .solution-column'
       );
-      _.map(dataItemColumns, dataItemColumn => {
+      _.map(dataItemColumns, (dataItemColumn) => {
         !dataItemColumn.hasAttribute('rowspan') &&
         dataItemColumn.classList.contains('forDisplay')
           ? dataItemColumn.removeAttribute('hidden')
@@ -281,7 +283,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
   }
 
   printPDF(filename, htmlElement) {
-    domtoimage.toJpeg(htmlElement, { quality: 1 }).then(function(dataUrl) {
+    domtoimage.toJpeg(htmlElement, { quality: 1 }).then(function (dataUrl) {
       let pdf = new jsPDF('p', 'pt', 'a4');
       pdf.addImage(dataUrl, 'JPEG', 40, 40, 520, 150);
       pdf.save(filename + '.pdf');
@@ -298,7 +300,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
           this.printPDF(filename, el);
         } else if (downloadFormat === 'XLSX') {
           const item = el.cloneNode(true);
-          _.map(item.querySelectorAll('.hide-on-export'), elementNotExport =>
+          _.map(item.querySelectorAll('.hide-on-export'), (elementNotExport) =>
             elementNotExport.remove()
           );
           this.downloadWidgetService.exportXLS(filename, item.outerHTML);
@@ -313,7 +315,7 @@ export class ActionTrackerWidgetComponent implements OnInit {
     _.map(dataItem.dataValues, (dataValue, index) => {
       return _.find(configurationDataElements, {
         isActionTrackerColumn: true,
-        id: index
+        id: index,
       })
         ? _.set(dataItem.dataValues, `${index}`, '')
         : null;
@@ -325,8 +327,8 @@ export class ActionTrackerWidgetComponent implements OnInit {
     this.store.dispatch(
       new fromRootCauseAnalysisDataActions.ResetRootCauseAnalysisData({
         notification: {
-          message: emptyNotificationMessage.message
-        }
+          message: emptyNotificationMessage.message,
+        },
       })
     );
   }
