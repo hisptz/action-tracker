@@ -320,23 +320,31 @@ export const getMergedActionTrackerDatas = createSelector(
   }
 );
 
-export const getMergedActionTrackerDatasWithRowspanAttribute = createSelector(
-  getMergedActionTrackerDatas,
-  (mergedActionTrackerDatas) => {
+export const getMergedActionTrackerDatasWithRowspanAttribute = (
+  latestStatus?: any
+) =>
+  createSelector(getMergedActionTrackerDatas, (mergedActionTrackerDatas) => {
+    const statusFilteredActionTrackerDatas = latestStatus
+      ? (mergedActionTrackerDatas || []).filter(
+          (item: any) => item['latestStatus'] === latestStatus.id
+        )
+      : mergedActionTrackerDatas;
+
+    console.log(statusFilteredActionTrackerDatas);
     _.map(
-      _.groupBy(mergedActionTrackerDatas, 'rootCauseDataId'),
+      _.groupBy(statusFilteredActionTrackerDatas, 'rootCauseDataId'),
       (groupedActions, index) => {
         const firstElementOfGroup = _.head(groupedActions);
         firstElementOfGroup.id
           ? _.set(
-              _.find(mergedActionTrackerDatas, {
+              _.find(statusFilteredActionTrackerDatas, {
                 id: firstElementOfGroup.id,
               }),
               'rowspan',
               groupedActions.length
             )
           : _.set(
-              _.find(mergedActionTrackerDatas, {
+              _.find(statusFilteredActionTrackerDatas, {
                 rootCauseDataId: firstElementOfGroup.rootCauseDataId,
               }),
               'rowspan',
@@ -350,6 +358,5 @@ export const getMergedActionTrackerDatasWithRowspanAttribute = createSelector(
         });
       }
     );
-    return mergedActionTrackerDatas;
-  }
-);
+    return statusFilteredActionTrackerDatas;
+  });
