@@ -64,6 +64,25 @@
         </mat-form-field>
         <!-- end of percent input -->
 
+        <!-- start zero or positive input -->
+        <mat-form-field
+          class="w-100"
+          *ngIf="
+            dataElement.valueType === formFieldType.INTEGER_ZERO_OR_POSITIVE
+          "
+        >
+          <mat-label>{{ dataElement.name }}</mat-label>
+          <input
+            matInput
+            type="number"
+            [min]="0"
+            [formControlName]="dataElement.id"
+            id="{{ dataElement?.id }}"
+            required="{{ dataElement.required }}"
+          />
+        </mat-form-field>
+        <!-- end of zero or positive input -->
+
         <!-- text area -->
         <mat-form-field
           class="w-100"
