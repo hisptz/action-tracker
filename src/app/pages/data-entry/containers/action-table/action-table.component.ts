@@ -131,7 +131,7 @@ export class ActionTableComponent implements OnInit {
       getMergedActionTrackerConfiguration
     );
     this.data$ = this.store.pipe(
-      select(getMergedActionTrackerDatasWithRowspanAttribute)
+      select(getMergedActionTrackerDatasWithRowspanAttribute())
     );
 
     this.programStageConfiguration$ = this.store.pipe(
@@ -211,7 +211,10 @@ export class ActionTableComponent implements OnInit {
             ? _.uniq([...rootCauseDataIds, dataItem.rootCauseDataId])
             : [...[], rootCauseDataIds];
       }
-      const rootCauseId = actionDataItem && actionDataItem.rootCauseDataId ? actionDataItem.rootCauseDataId || '' : '';
+      const rootCauseId =
+        actionDataItem && actionDataItem.rootCauseDataId
+          ? actionDataItem.rootCauseDataId || ''
+          : '';
       const newIndex = rootCauseDataIds.indexOf(rootCauseId) + 1 || 0;
       return newIndex;
     }
@@ -434,6 +437,9 @@ export class ActionTableComponent implements OnInit {
     if (e) {
       this.selectedStatus = (actionStatuses || []).find(
         (status: any) => status.id === e.value
+      );
+      this.data$ = this.store.select(
+        getMergedActionTrackerDatasWithRowspanAttribute(this.selectedStatus)
       );
     }
   }

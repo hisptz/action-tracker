@@ -84,6 +84,9 @@ export class FormDialogComponent implements OnInit {
             dataElement.valueType === 'PERCENTAGE'
               ? Validators.min(0)
               : Validators.nullValidator,
+            dataElement.valueType === 'INTEGER_ZERO_OR_POSITIVE'
+              ? Validators.min(0)
+              : Validators.nullValidator,
           ],
         ];
       });
