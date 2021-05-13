@@ -194,7 +194,7 @@ export const getActionTrackingReportData = createSelector(
         'actionStatus',
       ]);
 
-      const latestEvent = _.head(actionEvents);
+      const latestEvent = _.head(_.reverse(actionEvents)); //Fixes the latest status issue
 
       const latestStatusEvent = _.find(
         latestEvent ? latestEvent.dataValues : [],
@@ -329,8 +329,7 @@ export const getMergedActionTrackerDatasWithRowspanAttribute = (
           (item: any) => item['latestStatus'] === latestStatus.id
         )
       : mergedActionTrackerDatas;
-
-    console.log(statusFilteredActionTrackerDatas);
+    console.log(mergedActionTrackerDatas);
     _.map(
       _.groupBy(statusFilteredActionTrackerDatas, 'rootCauseDataId'),
       (groupedActions, index) => {
