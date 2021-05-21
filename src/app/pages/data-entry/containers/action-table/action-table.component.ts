@@ -119,7 +119,7 @@ export class ActionTableComponent implements OnInit {
   selectedStatus: any;
   OBJECT = Object;
 
-  @Output() download: EventEmitter<string> = new EventEmitter<string>();
+  @Output() download: EventEmitter<object> = new EventEmitter<object>();
 
   constructor(
     private store: Store<State>,
@@ -430,7 +430,9 @@ export class ActionTableComponent implements OnInit {
   }
   onDownload(e, downloadType) {
     e.stopPropagation();
-    this.download.emit(downloadType);
+    this.data$.pipe(take(1)).subscribe((data) => {
+      this.download.emit({downloadType, data });
+    });
   }
 
   onChangeStatus(e, actionStatuses: any) {

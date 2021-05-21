@@ -329,7 +329,6 @@ export const getMergedActionTrackerDatasWithRowspanAttribute = (
           (item: any) => item['latestStatus'] === latestStatus.id
         )
       : mergedActionTrackerDatas;
-    console.log(mergedActionTrackerDatas);
     _.map(
       _.groupBy(statusFilteredActionTrackerDatas, 'rootCauseDataId'),
       (groupedActions, index) => {
