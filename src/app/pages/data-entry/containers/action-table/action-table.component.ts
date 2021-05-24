@@ -428,10 +428,10 @@ export class ActionTableComponent implements OnInit {
         }
       });
   }
-  onDownload(e, downloadType) {
+  onDownload(e, downloadType, allowIds) {
     e.stopPropagation();
     this.data$.pipe(take(1)).subscribe((data) => {
-      this.download.emit({downloadType, data });
+      this.download.emit({downloadType, data, allowIds });
     });
   }
 

@@ -84,11 +84,19 @@
         </button>
 
         <mat-menu class="d-print-none" #moreTableOptions="matMenu">
-          <button mat-menu-item (click)="onDownload($event, 'XLSX')">
+          <button mat-menu-item [matMenuTriggerFor]="downloadOptionsXlsx"  >
             Excel
           </button>
-          <button mat-menu-item (click)="onDownload($event, 'CSV')">CSV</button>
-          <button mat-menu-item (click)="onDownload($event, 'PDF')">PDF</button>
+          <mat-menu #downloadOptionsXlsx="matMenu">
+            <button mat-menu-item (click)="onDownload($event, 'XLSX', true)"  >Download with IDs</button>
+            <button mat-menu-item (click)="onDownload($event, 'XLSX', false)">Download without IDs</button>
+          </mat-menu>
+          <button mat-menu-item [matMenuTriggerFor]="downloadOptionsCsv" >CSV</button>
+          <mat-menu #downloadOptionsCsv="matMenu">
+            <button mat-menu-item (click)="onDownload($event, 'CSV', true)"  >Download with IDs</button>
+            <button mat-menu-item (click)="onDownload($event, 'CSV', false)">Download without IDs</button>
+          </mat-menu>
+          <button mat-menu-item (click)="onDownload($event, 'PDF', false)">PDF</button>
         </mat-menu>
       </div>
     </div>
