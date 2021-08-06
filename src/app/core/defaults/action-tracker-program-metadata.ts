@@ -502,24 +502,7 @@ export const defaultActionTrackerProgram: any = {
       legendSets: [],
     },
   ],
-  categoryCombos: [
-    {
-      code: 'default',
-      name: 'default',
-      id: 'bjDvmb4bfuf',
-      dataDimensionType: 'DISAGGREGATION',
-      publicAccess: 'rw------',
-      skipTotal: false,
-      userGroupAccesses: [],
-      translations: [],
-      userAccesses: [],
-      categories: [
-        {
-          id: 'GLevLNI9wkl',
-        },
-      ],
-    },
-  ],
+  
   programTrackedEntityAttributes: [
     {
       id: 'UPiRHleMEsi',
@@ -796,25 +779,7 @@ export const defaultActionTrackerProgram: any = {
       userAccesses: [],
     },
   ],
-  categories: [
-    {
-      code: 'default',
-      name: 'default',
-      id: 'GLevLNI9wkl',
-      dataDimensionType: 'DISAGGREGATION',
-      publicAccess: 'rw------',
-      dataDimension: false,
-      userGroupAccesses: [],
-      attributeValues: [],
-      translations: [],
-      userAccesses: [],
-      categoryOptions: [
-        {
-          id: 'xYerKDKCefk',
-        },
-      ],
-    },
-  ],
+ 
   dataElements: [
     {
       id: 'DRFRXS9YGDw',
@@ -827,9 +792,7 @@ export const defaultActionTrackerProgram: any = {
       valueType: 'TEXT',
       formName: 'Action Status',
       zeroIsSignificant: false,
-      categoryCombo: {
-        id: 'bjDvmb4bfuf',
-      },
+      
 
       translations: [],
       userGroupAccesses: [],
@@ -868,9 +831,7 @@ export const defaultActionTrackerProgram: any = {
       valueType: 'LONG_TEXT',
       formName: 'Action Comments',
       zeroIsSignificant: false,
-      categoryCombo: {
-        id: 'bjDvmb4bfuf',
-      },
+      
 
       translations: [],
       userGroupAccesses: [],
@@ -887,37 +848,7 @@ export const defaultActionTrackerProgram: any = {
       aggregationLevels: [],
     },
   ],
-  categoryOptions: [
-    {
-      code: 'default',
-      name: 'default',
-      id: 'xYerKDKCefk',
-      publicAccess: 'rwrw----',
-      userGroupAccesses: [],
-      attributeValues: [],
-      translations: [],
-      userAccesses: [],
-      organisationUnits: [],
-    },
-  ],
-  categoryOptionCombos: [
-    {
-      code: 'default',
-      name: 'default',
-      id: 'HllvX50cXC0',
-      ignoreApproval: false,
-      categoryCombo: {
-        id: 'bjDvmb4bfuf',
-      },
-      translations: [],
-      attributeValues: [],
-      categoryOptions: [
-        {
-          id: 'xYerKDKCefk',
-        },
-      ],
-    },
-  ],
+  
   programs: [
     {
       id: 'ROSaojkGieB',
@@ -939,9 +870,7 @@ export const defaultActionTrackerProgram: any = {
       selectEnrollmentDatesInFuture: false,
       expiryDays: 0,
       useFirstStageDuringRegistration: false,
-      categoryCombo: {
-        id: 'bjDvmb4bfuf',
-      },
+      
 
       trackedEntityType: {
         id: 'WQLx9VNVeZU',
