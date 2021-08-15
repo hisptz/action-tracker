@@ -16,7 +16,9 @@
   <div *ngIf="configurationHasError$ | async">
     <mat-card>
       <mat-card-content>
-        <div>{{ (configurationError$ | async).message }}</div>
+        <div>
+          <b> ERROR : </b>
+          {{ (configurationError$ | async).message || (configurationError$ | async) }}</div>
       </mat-card-content>
     </mat-card>
   </div>

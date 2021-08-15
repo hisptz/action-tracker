@@ -46,7 +46,7 @@ export class ActionTrackerConfigurationService {
           console.warn(
             'Problem creating action tracker configuration: ' + error.message
           );
-          return of(actionTrackerConfig);
+          return of(error);
         })
       );
   }
