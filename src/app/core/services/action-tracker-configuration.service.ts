@@ -23,6 +23,7 @@ export class ActionTrackerConfigurationService {
       )
       .pipe(
         switchMap((res: any) => {
+          console.log('HERE WE ARE LOADING');
           if (res) {
             res.rootCauseConfigurationId = 'rcaconfig';
           }

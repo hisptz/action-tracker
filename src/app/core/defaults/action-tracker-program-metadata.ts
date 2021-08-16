@@ -37,10 +37,6 @@ export const defaultActionTrackerProgram: any = {
       dataElementGroupSetAttribute: false,
       organisationUnitGroupSetAttribute: false,
       optionAttribute: false,
-
-      translations: [],
-      userGroupAccesses: [],
-      userAccesses: [],
     },
     {
       id: 'GvW2Wtw6L5l',
@@ -79,10 +75,6 @@ export const defaultActionTrackerProgram: any = {
       dataElementGroupSetAttribute: false,
       organisationUnitGroupSetAttribute: false,
       optionAttribute: false,
-
-      translations: [],
-      userGroupAccesses: [],
-      userAccesses: [],
     },
     {
       id: 'GOcsBWoi35g',
@@ -121,10 +113,6 @@ export const defaultActionTrackerProgram: any = {
       dataElementGroupSetAttribute: false,
       organisationUnitGroupSetAttribute: false,
       optionAttribute: false,
-
-      translations: [],
-      userGroupAccesses: [],
-      userAccesses: [],
     },
     {
       id: 'e444SAZc6Qg',
@@ -163,10 +151,6 @@ export const defaultActionTrackerProgram: any = {
       dataElementGroupSetAttribute: false,
       organisationUnitGroupSetAttribute: false,
       optionAttribute: false,
-
-      translations: [],
-      userGroupAccesses: [],
-      userAccesses: [],
     },
     {
       id: 'ryc6MHoA88m',
@@ -205,26 +189,26 @@ export const defaultActionTrackerProgram: any = {
       dataElementGroupSetAttribute: false,
       organisationUnitGroupSetAttribute: false,
       optionAttribute: false,
-
-      translations: [],
-      userGroupAccesses: [],
-      userAccesses: [],
     },
   ],
   userGroups: [
     {
-      code: 'Action Tracker users',
-      created: '2020-01-22T11:56:37.957',
-      lastUpdated: '2020-05-04T14:06:09.298',
+      code: 'ACTION_TRACKER_USERS',
       name: 'Action Tracker users',
       id: 't7Gi00eBwdQ',
       publicAccess: 'rw------',
-      userGroupAccesses: [],
-      attributeValues: [],
-
-      managedGroups: [],
-      translations: [],
-      userAccesses: [],
+    },
+  ],
+  trackedEntityTypes: [
+    {
+      name: 'Action',
+      id: 'WQLx9VNVeZU',
+      publicAccess: 'rwrw----',
+      description: 'Action Item',
+      maxTeiCountToReturn: 0,
+      allowAuditLog: false,
+      featureType: 'NONE',
+      minAttributesRequiredToSearch: 1,
     },
   ],
   trackedEntityAttributes: [
@@ -245,9 +229,6 @@ export const defaultActionTrackerProgram: any = {
       confidential: false,
       unique: false,
       inherit: false,
-
-      translations: [],
-      userGroupAccesses: [],
       attributeValues: [
         {
           value: 'true',
@@ -256,8 +237,6 @@ export const defaultActionTrackerProgram: any = {
           },
         },
       ],
-      userAccesses: [],
-      legendSets: [],
     },
     {
       code: 'BNA_REF',
@@ -277,9 +256,6 @@ export const defaultActionTrackerProgram: any = {
       confidential: false,
       unique: false,
       inherit: false,
-
-      translations: [],
-      userGroupAccesses: [],
       attributeValues: [
         {
           value: 'true',
@@ -288,8 +264,6 @@ export const defaultActionTrackerProgram: any = {
           },
         },
       ],
-      userAccesses: [],
-      legendSets: [],
     },
     {
       id: 'dhr6wl8F7So',
@@ -308,9 +282,6 @@ export const defaultActionTrackerProgram: any = {
       confidential: false,
       unique: false,
       inherit: false,
-
-      translations: [],
-      userGroupAccesses: [],
       attributeValues: [
         {
           value: 'true',
@@ -319,8 +290,6 @@ export const defaultActionTrackerProgram: any = {
           },
         },
       ],
-      userAccesses: [],
-      legendSets: [],
     },
     {
       id: 'qTXUUntafIX',
@@ -339,9 +308,6 @@ export const defaultActionTrackerProgram: any = {
       confidential: false,
       unique: false,
       inherit: false,
-
-      translations: [],
-      userGroupAccesses: [],
       attributeValues: [
         {
           value: 'true',
@@ -356,8 +322,6 @@ export const defaultActionTrackerProgram: any = {
           },
         },
       ],
-      userAccesses: [],
-      legendSets: [],
     },
     {
       id: 'P7qIYtQIeoK',
@@ -376,9 +340,6 @@ export const defaultActionTrackerProgram: any = {
       confidential: false,
       unique: false,
       inherit: false,
-
-      translations: [],
-      userGroupAccesses: [],
       attributeValues: [
         {
           value: 'true',
@@ -393,8 +354,6 @@ export const defaultActionTrackerProgram: any = {
           },
         },
       ],
-      userAccesses: [],
-      legendSets: [],
     },
     {
       id: 'knMPFmtAM29',
@@ -413,9 +372,6 @@ export const defaultActionTrackerProgram: any = {
       confidential: false,
       unique: false,
       inherit: false,
-
-      translations: [],
-      userGroupAccesses: [],
       attributeValues: [
         {
           value: 'true',
@@ -430,8 +386,6 @@ export const defaultActionTrackerProgram: any = {
           },
         },
       ],
-      userAccesses: [],
-      legendSets: [],
     },
     {
       id: 'ge6NMvlcYx5',
@@ -450,9 +404,6 @@ export const defaultActionTrackerProgram: any = {
       confidential: false,
       unique: false,
       inherit: false,
-
-      translations: [],
-      userGroupAccesses: [],
       attributeValues: [
         {
           value: 'false',
@@ -467,8 +418,6 @@ export const defaultActionTrackerProgram: any = {
           },
         },
       ],
-      userAccesses: [],
-      legendSets: [],
     },
     {
       id: 'AuW5NppdH5e',
@@ -487,9 +436,6 @@ export const defaultActionTrackerProgram: any = {
       confidential: false,
       unique: false,
       inherit: false,
-
-      translations: [],
-      userGroupAccesses: [],
       attributeValues: [
         {
           value: 'true',
@@ -498,131 +444,61 @@ export const defaultActionTrackerProgram: any = {
           },
         },
       ],
-      userAccesses: [],
-      legendSets: [],
     },
   ],
-  
-  programTrackedEntityAttributes: [
+
+  dataElements: [
     {
-      id: 'UPiRHleMEsi',
-      mandatory: false,
-      searchable: false,
-      renderOptionsAsRadio: false,
-      displayInList: true,
-      sortOrder: 4,
-      program: {
-        id: 'ROSaojkGieB',
-      },
-      trackedEntityAttribute: {
-        id: 'ge6NMvlcYx5',
-      },
-      programTrackedEntityAttributeGroups: [],
+      id: 'DRFRXS9YGDw',
+      name: 'Action Tracker : Action Status',
+      shortName: 'Action Tracker : Action Status',
+      aggregationType: 'NONE',
+      domainType: 'TRACKER',
+      publicAccess: 'rw------',
+      description: 'Field to capture the status of the action execution',
+      valueType: 'TEXT',
+      formName: 'Action Status',
+      zeroIsSignificant: false,
+      attributeValues: [
+        {
+          value: 'true',
+          attribute: {
+            id: 'GOcsBWoi35g',
+          },
+        },
+        {
+          value: 'true',
+          attribute: {
+            id: 'GvW2Wtw6L5l',
+          },
+        },
+        {
+          value: 'true',
+          attribute: {
+            id: 'xsOK0ms8YJv',
+          },
+        },
+      ],
     },
     {
-      id: 'LecLymPquue',
-      mandatory: false,
-      searchable: true,
-      renderOptionsAsRadio: false,
-      displayInList: false,
-      sortOrder: 1,
-      program: {
-        id: 'ROSaojkGieB',
-      },
-      trackedEntityAttribute: {
-        id: 'blOw6mjuv6j',
-      },
-      programTrackedEntityAttributeGroups: [],
-    },
-    {
-      id: 'XajRri3534V',
-      mandatory: true,
-      searchable: false,
-      renderOptionsAsRadio: false,
-      displayInList: true,
-      sortOrder: 5,
-      program: {
-        id: 'ROSaojkGieB',
-      },
-      trackedEntityAttribute: {
-        id: 'AuW5NppdH5e',
-      },
-      programTrackedEntityAttributeGroups: [],
-    },
-    {
-      id: 'xh38fmO5BmB',
-      mandatory: false,
-      searchable: true,
-      renderOptionsAsRadio: false,
-      displayInList: true,
-      sortOrder: 7,
-      program: {
-        id: 'ROSaojkGieB',
-      },
-      trackedEntityAttribute: {
-        id: 'P7qIYtQIeoK',
-      },
-      programTrackedEntityAttributeGroups: [],
-    },
-    {
-      id: 'hUaP4U5Wwvj',
-      mandatory: false,
-      searchable: true,
-      renderOptionsAsRadio: false,
-      displayInList: true,
-      sortOrder: 8,
-      program: {
-        id: 'ROSaojkGieB',
-      },
-      trackedEntityAttribute: {
-        id: 'knMPFmtAM29',
-      },
-      programTrackedEntityAttributeGroups: [],
-    },
-    {
-      id: 'DfT0JC0VKA3',
-      mandatory: true,
-      searchable: false,
-      renderOptionsAsRadio: false,
-      displayInList: true,
-      sortOrder: 2,
-      program: {
-        id: 'ROSaojkGieB',
-      },
-      trackedEntityAttribute: {
-        id: 'dhr6wl8F7So',
-      },
-      programTrackedEntityAttributeGroups: [],
-    },
-    {
-      id: 'ydN3ekUUT2m',
-      mandatory: true,
-      searchable: false,
-      renderOptionsAsRadio: false,
-      displayInList: true,
-      sortOrder: 3,
-      program: {
-        id: 'ROSaojkGieB',
-      },
-      trackedEntityAttribute: {
-        id: 'qTXUUntafIX',
-      },
-      programTrackedEntityAttributeGroups: [],
-    },
-    {
-      id: 'fzISmkQRgcb',
-      mandatory: false,
-      searchable: false,
-      renderOptionsAsRadio: false,
-      displayInList: true,
-      sortOrder: 6,
-      program: {
-        id: 'ROSaojkGieB',
-      },
-      trackedEntityAttribute: {
-        id: 'Ua9aBlFUHXb',
-      },
-      programTrackedEntityAttributeGroups: [],
+      id: 'D8uK000mWtr',
+      name: 'Action Tracker : Comments',
+      shortName: 'Action Tracker : Comments',
+      aggregationType: 'NONE',
+      domainType: 'TRACKER',
+      publicAccess: 'rw------',
+      description: 'Field to capture the action comments',
+      valueType: 'LONG_TEXT',
+      formName: 'Action Comments',
+      zeroIsSignificant: false,
+      attributeValues: [
+        {
+          value: 'true',
+          attribute: {
+            id: 'xsOK0ms8YJv',
+          },
+        },
+      ],
     },
   ],
   programStages: [
@@ -647,8 +523,6 @@ export const defaultActionTrackerProgram: any = {
       program: {
         id: 'ROSaojkGieB',
       },
-
-      notificationTemplates: [],
       programStageDataElements: [
         {
           id: 'kmzE1H2Vc2b',
@@ -669,17 +543,9 @@ export const defaultActionTrackerProgram: any = {
             write: true,
             manage: true,
           },
-          programStage: {
-            id: 'TppfLBfs95i',
-          },
           dataElement: {
             id: 'DRFRXS9YGDw',
           },
-          favorites: [],
-          translations: [],
-          userGroupAccesses: [],
-          attributeValues: [],
-          userAccesses: [],
         },
         {
           id: 'Y4OIrJp8WOA',
@@ -700,160 +566,27 @@ export const defaultActionTrackerProgram: any = {
             write: true,
             manage: true,
           },
-          programStage: {
-            id: 'TppfLBfs95i',
-          },
           dataElement: {
             id: 'D8uK000mWtr',
           },
-          favorites: [],
-          translations: [],
-          userGroupAccesses: [],
-          attributeValues: [],
-          userAccesses: [],
         },
       ],
-      translations: [],
       userGroupAccesses: [
         {
           access: 'rw------',
           userGroupUid: 't7Gi00eBwdQ',
-          displayName: 'Action Tracker users',
+          name: 'Action Tracker users',
           id: 't7Gi00eBwdQ',
         },
       ],
-      attributeValues: [],
-      userAccesses: [],
-      programStageSections: [],
     },
   ],
-  programStageDataElements: [
-    {
-      id: 'kmzE1H2Vc2b',
-      displayInReports: true,
-      skipSynchronization: false,
-      renderOptionsAsRadio: false,
-      compulsory: false,
-      allowProvidedElsewhere: false,
-      sortOrder: 1,
-      allowFutureDate: false,
-      programStage: {
-        id: 'TppfLBfs95i',
-      },
-      dataElement: {
-        id: 'DRFRXS9YGDw',
-      },
-    },
-    {
-      id: 'Y4OIrJp8WOA',
-      displayInReports: true,
-      skipSynchronization: false,
-      renderOptionsAsRadio: false,
-      compulsory: false,
-      allowProvidedElsewhere: false,
-      sortOrder: 2,
-      allowFutureDate: false,
-      programStage: {
-        id: 'TppfLBfs95i',
-      },
-      dataElement: {
-        id: 'D8uK000mWtr',
-      },
-    },
-  ],
-  trackedEntityTypes: [
-    {
-      name: 'Action',
-      id: 'WQLx9VNVeZU',
-      publicAccess: 'rwrw----',
-      description: 'Action Item',
-      maxTeiCountToReturn: 0,
-      allowAuditLog: false,
-      featureType: 'NONE',
-      minAttributesRequiredToSearch: 1,
 
-      userGroupAccesses: [],
-      attributeValues: [],
-      trackedEntityTypeAttributes: [],
-      translations: [],
-      userAccesses: [],
-    },
-  ],
- 
-  dataElements: [
-    {
-      id: 'DRFRXS9YGDw',
-      name: 'Action Tracker : Action Status',
-      shortName: 'Action Tracker : Action Status',
-      aggregationType: 'NONE',
-      domainType: 'TRACKER',
-      publicAccess: 'rw------',
-      description: 'Field to capture the status of the action execution',
-      valueType: 'TEXT',
-      formName: 'Action Status',
-      zeroIsSignificant: false,
-      
-
-      translations: [],
-      userGroupAccesses: [],
-      attributeValues: [
-        {
-          value: 'true',
-          attribute: {
-            id: 'GOcsBWoi35g',
-          },
-        },
-        {
-          value: 'true',
-          attribute: {
-            id: 'GvW2Wtw6L5l',
-          },
-        },
-        {
-          value: 'true',
-          attribute: {
-            id: 'xsOK0ms8YJv',
-          },
-        },
-      ],
-      userAccesses: [],
-      legendSets: [],
-      aggregationLevels: [],
-    },
-    {
-      id: 'D8uK000mWtr',
-      name: 'Action Tracker : Comments',
-      shortName: 'Action Tracker : Comments',
-      aggregationType: 'NONE',
-      domainType: 'TRACKER',
-      publicAccess: 'rw------',
-      description: 'Field to capture the action comments',
-      valueType: 'LONG_TEXT',
-      formName: 'Action Comments',
-      zeroIsSignificant: false,
-      
-
-      translations: [],
-      userGroupAccesses: [],
-      attributeValues: [
-        {
-          value: 'true',
-          attribute: {
-            id: 'xsOK0ms8YJv',
-          },
-        },
-      ],
-      userAccesses: [],
-      legendSets: [],
-      aggregationLevels: [],
-    },
-  ],
-  
   programs: [
     {
       id: 'ROSaojkGieB',
-      name: 'Action Tracker v1',
-      shortName: 'Action Tracker v1',
+      name: 'BNA Linked Action Tracker',
+      shortName: 'BNA Linked Action Tracker',
       publicAccess: '--r-----',
       completeEventsExpiryDays: 0,
       ignoreOverdueEvents: false,
@@ -863,15 +596,12 @@ export const defaultActionTrackerProgram: any = {
       onlyEnrollOnce: true,
       programType: 'WITH_REGISTRATION',
       accessLevel: 'OPEN',
-      version: 26,
       maxTeiCountToReturn: 0,
       selectIncidentDatesInFuture: false,
       displayIncidentDate: false,
       selectEnrollmentDatesInFuture: false,
       expiryDays: 0,
       useFirstStageDuringRegistration: false,
-      
-
       trackedEntityType: {
         id: 'WQLx9VNVeZU',
       },
@@ -879,10 +609,9 @@ export const defaultActionTrackerProgram: any = {
       programTrackedEntityAttributes: [
         {
           id: 'LecLymPquue',
-          name: 'Action Tracker v1 BNA Reference',
-          displayName: 'Action Tracker v1 BNA Reference',
+          name: 'BNA Linked Action Tracker BNA Reference',
           mandatory: false,
-          displayShortName: 'Action Tracker v1 BNA Reference',
+          shortName: 'BNA Reference',
           externalAccess: false,
           renderOptionsAsRadio: false,
           valueType: 'TEXT',
@@ -898,25 +627,15 @@ export const defaultActionTrackerProgram: any = {
             write: true,
             manage: true,
           },
-          program: {
-            id: 'ROSaojkGieB',
-          },
           trackedEntityAttribute: {
             id: 'blOw6mjuv6j',
           },
-          favorites: [],
-          programTrackedEntityAttributeGroups: [],
-          translations: [],
-          userGroupAccesses: [],
-          attributeValues: [],
-          userAccesses: [],
         },
         {
           id: 'DfT0JC0VKA3',
-          name: 'Action Tracker v1 Action Description',
-          displayName: 'Action Tracker v1 Action Description',
+          name: 'BNA Linked Action Tracker Action Description',
           mandatory: true,
-          displayShortName: 'Action Tracker v1 Action Description',
+          shortName: 'Action Description',
           externalAccess: false,
           renderOptionsAsRadio: false,
           valueType: 'LONG_TEXT',
@@ -932,25 +651,15 @@ export const defaultActionTrackerProgram: any = {
             write: true,
             manage: true,
           },
-          program: {
-            id: 'ROSaojkGieB',
-          },
           trackedEntityAttribute: {
             id: 'dhr6wl8F7So',
           },
-          favorites: [],
-          programTrackedEntityAttributeGroups: [],
-          translations: [],
-          userGroupAccesses: [],
-          attributeValues: [],
-          userAccesses: [],
         },
         {
           id: 'ydN3ekUUT2m',
-          name: 'Action Tracker v1 Start Date',
-          displayName: 'Action Tracker v1 Start Date',
+          name: 'BNA Linked Action Tracker Start Date',
           mandatory: true,
-          displayShortName: 'Action Tracker v1 Start Date',
+          shortName: 'Start Date',
           externalAccess: false,
           renderOptionsAsRadio: false,
           valueType: 'DATE',
@@ -966,25 +675,15 @@ export const defaultActionTrackerProgram: any = {
             write: true,
             manage: true,
           },
-          program: {
-            id: 'ROSaojkGieB',
-          },
           trackedEntityAttribute: {
             id: 'qTXUUntafIX',
           },
-          favorites: [],
-          programTrackedEntityAttributeGroups: [],
-          translations: [],
-          userGroupAccesses: [],
-          attributeValues: [],
-          userAccesses: [],
         },
         {
           id: 'UPiRHleMEsi',
-          name: 'Action Tracker v1 End Date',
-          displayName: 'Action Tracker v1 End Date',
+          name: 'BNA Linked Action Tracker End Date',
           mandatory: false,
-          displayShortName: 'Action Tracker v1 End Date',
+          shortName: 'End Date',
           externalAccess: false,
           renderOptionsAsRadio: false,
           valueType: 'DATE',
@@ -1000,25 +699,15 @@ export const defaultActionTrackerProgram: any = {
             write: true,
             manage: true,
           },
-          program: {
-            id: 'ROSaojkGieB',
-          },
           trackedEntityAttribute: {
             id: 'ge6NMvlcYx5',
           },
-          favorites: [],
-          programTrackedEntityAttributeGroups: [],
-          translations: [],
-          userGroupAccesses: [],
-          attributeValues: [],
-          userAccesses: [],
         },
         {
           id: 'XajRri3534V',
-          name: 'Action Tracker v1 Responsible Person',
-          displayName: 'Action Tracker v1 Responsible Person',
+          name: 'BNA Linked Action Tracker Responsible Person',
           mandatory: true,
-          displayShortName: 'Action Tracker v1 Responsible Person',
+          shortName: 'Responsible Person',
           externalAccess: false,
           renderOptionsAsRadio: false,
           valueType: 'TEXT',
@@ -1034,25 +723,15 @@ export const defaultActionTrackerProgram: any = {
             write: true,
             manage: true,
           },
-          program: {
-            id: 'ROSaojkGieB',
-          },
           trackedEntityAttribute: {
             id: 'AuW5NppdH5e',
           },
-          favorites: [],
-          programTrackedEntityAttributeGroups: [],
-          translations: [],
-          userGroupAccesses: [],
-          attributeValues: [],
-          userAccesses: [],
         },
         {
           id: 'fzISmkQRgcb',
-          name: 'Action Tracker v1 Designation Title',
-          displayName: 'Action Tracker v1 Designation Title',
+          name: 'BNA Linked Action Tracker Designation Title',
           mandatory: false,
-          displayShortName: 'Action Tracker v1 Designation Title',
+          shortName: 'Designation Title',
           externalAccess: false,
           renderOptionsAsRadio: false,
           valueType: 'TEXT',
@@ -1068,25 +747,15 @@ export const defaultActionTrackerProgram: any = {
             write: true,
             manage: true,
           },
-          program: {
-            id: 'ROSaojkGieB',
-          },
           trackedEntityAttribute: {
             id: 'Ua9aBlFUHXb',
           },
-          favorites: [],
-          programTrackedEntityAttributeGroups: [],
-          translations: [],
-          userGroupAccesses: [],
-          attributeValues: [],
-          userAccesses: [],
         },
         {
           id: 'xh38fmO5BmB',
-          name: 'Action Tracker v1 Budget',
-          displayName: 'Action Tracker v1 Budget',
+          name: 'BNA Linked Action Tracker Budget',
           mandatory: false,
-          displayShortName: 'Action Tracker v1 Budget',
+          shortName: 'Budget',
           externalAccess: false,
           renderOptionsAsRadio: false,
           valueType: 'INTEGER_ZERO_OR_POSITIVE',
@@ -1102,25 +771,15 @@ export const defaultActionTrackerProgram: any = {
             write: true,
             manage: true,
           },
-          program: {
-            id: 'ROSaojkGieB',
-          },
           trackedEntityAttribute: {
             id: 'P7qIYtQIeoK',
           },
-          favorites: [],
-          programTrackedEntityAttributeGroups: [],
-          translations: [],
-          userGroupAccesses: [],
-          attributeValues: [],
-          userAccesses: [],
         },
         {
           id: 'hUaP4U5Wwvj',
-          name: 'Action Tracker v1 BNA Target',
-          displayName: 'Action Tracker v1 BNA Target',
+          name: 'BNA Linked Action Tracker BNA Target',
           mandatory: false,
-          displayShortName: 'Action Tracker v1 BNA Target',
+          shortName: 'BNA Target',
           externalAccess: false,
           renderOptionsAsRadio: false,
           valueType: 'PERCENTAGE',
@@ -1136,38 +795,24 @@ export const defaultActionTrackerProgram: any = {
             write: true,
             manage: true,
           },
-          program: {
-            id: 'ROSaojkGieB',
-          },
           trackedEntityAttribute: {
             id: 'knMPFmtAM29',
           },
-          favorites: [],
-          programTrackedEntityAttributeGroups: [],
-          translations: [],
-          userGroupAccesses: [],
-          attributeValues: [],
-          userAccesses: [],
         },
       ],
-      notificationTemplates: [],
-      translations: [],
       userGroupAccesses: [
         {
           access: 'rwrw----',
           userGroupUid: 't7Gi00eBwdQ',
-          displayName: 'Action Tracker users',
+          name: 'Action Tracker users',
           id: 't7Gi00eBwdQ',
         },
       ],
-      programSections: [],
-      attributeValues: [],
       programStages: [
         {
           id: 'TppfLBfs95i',
         },
       ],
-      userAccesses: [],
     },
   ],
 };
