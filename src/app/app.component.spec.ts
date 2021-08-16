@@ -1,4 +1,4 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxDhis2MenuModule } from '@iapps/ngx-dhis2-menu';
@@ -9,7 +9,7 @@ import { CoreModule } from './core';
 import { SharedModule } from './shared/shared.module';
 
 describe('AppComponent', () => {
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         NgxDhis2MenuModule,

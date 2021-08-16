@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { VisualizationTypesSectionComponent } from './visualization-types-section.component';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -9,7 +9,7 @@ describe('VisualizationTypesSectionComponent', () => {
   let component: VisualizationTypesSectionComponent;
   let fixture: ComponentFixture<VisualizationTypesSectionComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientModule,

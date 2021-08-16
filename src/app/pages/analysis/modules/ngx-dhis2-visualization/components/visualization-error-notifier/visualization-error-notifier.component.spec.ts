@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { VisualizationErrorNotifierComponent } from './visualization-error-notifier.component';
 import { SafePipe } from '../../pipes/safe';
@@ -7,7 +7,7 @@ describe('VisualizationErrorNotifierComponent', () => {
   let component: VisualizationErrorNotifierComponent;
   let fixture: ComponentFixture<VisualizationErrorNotifierComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [VisualizationErrorNotifierComponent, SafePipe]
     }).compileComponents();

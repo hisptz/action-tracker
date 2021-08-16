@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ExportBarComponent } from './export-bar.component';
 
@@ -6,7 +6,7 @@ describe('ExportBarComponent', () => {
   let component: ExportBarComponent;
   let fixture: ComponentFixture<ExportBarComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ExportBarComponent ]
     })

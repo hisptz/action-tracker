@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { WidgetContextMenuComponent } from './widget-context-menu.component';
 
@@ -6,7 +6,7 @@ describe('WidgetContextMenuComponent', () => {
   let component: WidgetContextMenuComponent;
   let fixture: ComponentFixture<WidgetContextMenuComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [WidgetContextMenuComponent]
     }).compileComponents();
