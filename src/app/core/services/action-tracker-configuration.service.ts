@@ -42,12 +42,6 @@ export class ActionTrackerConfigurationService {
       .pipe(
         map((importSummary) => {
           return importSummary;
-        }),
-        catchError((error: any) => {
-          console.warn(
-            'Problem creating action tracker configuration: ' + error.message
-          );
-          return of(actionTrackerConfig);
         })
       );
   }

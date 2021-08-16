@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import {
   RootCauseAnalysisConfigurationState,
-  adapter
+  adapter,
 } from '../reducers/root-cause-analysis-configuration.reducer';
 import { getRootState, State as RootState } from '../reducers';
 
@@ -10,9 +10,8 @@ export const getRootCauseAnalysisConfigurationState = createSelector(
   (state: RootState) => state.rootCauseAnalysisConfiguration
 );
 
-export const {
-  selectEntities: getRootCauseAnalysisConfigurationEntities
-} = adapter.getSelectors(getRootCauseAnalysisConfigurationState);
+export const { selectEntities: getRootCauseAnalysisConfigurationEntities } =
+  adapter.getSelectors(getRootCauseAnalysisConfigurationState);
 
 export const getCurrentConfigId = createSelector(
   getRootCauseAnalysisConfigurationState,

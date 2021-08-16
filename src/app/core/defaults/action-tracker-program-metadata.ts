@@ -335,7 +335,7 @@ export const defaultActionTrackerProgram: any = {
       skipSynchronization: false,
       generated: false,
       displayOnVisitSchedule: false,
-      valueType: 'POS',
+      valueType: 'INTEGER_POSITIVE',
       orgunitScope: false,
       confidential: false,
       unique: false,

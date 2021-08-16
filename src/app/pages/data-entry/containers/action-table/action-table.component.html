@@ -2,7 +2,8 @@
   <div
     *ngIf="
       (!(configurationLoaded$ | async) || !(configuration$ | async)) &&
-      !(configurationHasError$ | async)
+      !(configurationHasError$ | async) &&
+      !(actionConfigurationHasError$ | async)
     "
   >
     <mat-card>
@@ -13,10 +14,29 @@
     </mat-card>
   </div>
 
-  <div *ngIf="configurationHasError$ | async">
+  <div
+    *ngIf="
+      (configurationHasError$ | async) || (actionConfigurationHasError$ | async)
+    "
+  >
     <mat-card>
       <mat-card-content>
-        <div>{{ (configurationError$ | async).message }}</div>
+        <h5 class="d-flex align-items-center">
+          <mat-icon color="warn">error</mat-icon>
+          <span class="ml-2">Problem loading configuration</span>
+        </h5>
+        <div
+          class="text-muted"
+          *ngIf="{
+            configurationError: configurationError$ | async,
+            actionConfigurationHasError: actionConfigurationHasError$ | async
+          } as errorParams"
+        >
+          {{
+            errorParams.configurationError?.message ||
+              errorParams.actionConfigurationHasError?.message
+          }}
+        </div>
       </mat-card-content>
     </mat-card>
   </div>
@@ -51,9 +71,7 @@
             class="action-status-options"
             (change)="onChangeStatus($event, legendSet.legends)"
           >
-            <mat-radio-button checked value="">
-              All
-            </mat-radio-button>
+            <mat-radio-button checked value=""> All </mat-radio-button>
             <mat-radio-button
               *ngFor="let legend of legendSet.legends"
               [value]="legend.id"
@@ -95,7 +113,7 @@
     <div class="table-responsive">
       <table
         #tableElement
-        style="width: 100%;"
+        style="width: 100%"
         class="table table-borderless action-table mb-0"
         *ngIf="configuration$ | async as configuration"
       >
@@ -120,14 +138,14 @@
           ></th>
           <th
             class="text-muted hide-on-export d-print-none"
-            style="border: 1px solid #dee2e6; width: 10% !important;"
+            style="border: 1px solid #dee2e6; width: 10% !important"
             *ngIf="!isActionTracking"
           ></th>
           <ng-container *ngIf="isActionTracking">
             <th
               class="text-muted border-left"
               *ngFor="let quarter of actionTrackingQuarters$ | async"
-              style="width: 7% !important;"
+              style="width: 7% !important"
             >
               {{ quarter.name || 'Quarters Not Supported' }}
             </th>
@@ -137,7 +155,7 @@
         <!-- Loading Table Body -->
         <tbody *ngIf="dataLoading$ | async">
           <tr>
-            <td colspan="100%" style="border-right: 1px solid #dee2e6;">
+            <td colspan="100%" style="border-right: 1px solid #dee2e6">
               <div>{{ (notification$ | async)?.message }}</div>
               <mat-progress-bar mode="indeterminate"></mat-progress-bar>
             </td>
@@ -148,7 +166,7 @@
         <!-- Data Loading Error Table Body -->
         <tbody *ngIf="dataHasError$ | async">
           <tr>
-            <td colspan="100%" style="border-right: 1px solid #dee2e6;">
+            <td colspan="100%" style="border-right: 1px solid #dee2e6">
               <div>{{ (dataError$ | async)?.message }}</div>
             </td>
           </tr>
@@ -164,7 +182,7 @@
           "
         >
           <tr>
-            <td colspan="100%" style="border-right: 1px solid #dee2e6;">
+            <td colspan="100%" style="border-right: 1px solid #dee2e6">
               <span>
                 <i>
                   Select Intervention, Period and Organization Unit to see
@@ -183,7 +201,7 @@
           "
         >
           <tr>
-            <td colspan="100%" style="border-right: 1px solid #dee2e6;">
+            <td colspan="100%" style="border-right: 1px solid #dee2e6">
               <span>
                 <i>
                   There are no possible solutions based on parameters selected.
@@ -191,9 +209,7 @@
               </span>
               <br />
               <span class="text-muted">
-                <i>
-                  Is the correct period selected?
-                </i>
+                <i> Is the correct period selected? </i>
               </span>
             </td>
           </tr>
@@ -257,7 +273,7 @@
             <td
               *ngIf="!isActionTracking"
               class="px-1 border-bottom"
-              style="-webkit-print-color-adjust: exact !important;"
+              style="-webkit-print-color-adjust: exact !important"
               [attr.style]="
                 'background-color: ' +
                   (actionDataItem.latestStatus
@@ -267,7 +283,7 @@
             >
               <span
                 class="d-flex align-content-center p-1"
-                style="font-size: 12px;"
+                style="font-size: 12px"
               >
                 {{
                   (actionDataItem.latestStatus
@@ -279,7 +295,7 @@
             <td
               *ngIf="!isActionTracking"
               class="px-1 border-bottom hide-on-export d-print-none"
-              style="width: 70px;"
+              style="width: 70px"
             >
               <ng-container *ngIf="actionDataItem.attributes">
                 <span
@@ -288,7 +304,7 @@
                     (canEditActions$ | async) || (canDeleteActions$ | async)
                   "
                   class="text-muted mr-1 pull-right"
-                  style="cursor: pointer;"
+                  style="cursor: pointer"
                   mat-icon-button
                   [matMenuTriggerFor]="menu"
                 >
@@ -309,7 +325,7 @@
                     Edit
                   </button>
                   <button
-                    style="color: #d7000f;"
+                    style="color: #d7000f"
                     *ngIf="canDeleteActions$ | async"
                     (click)="
                       onDeleteAction(
@@ -353,8 +369,13 @@
             <td
               *ngIf="actionDataItem.rowspan && !isActionTracking"
               [attr.rowspan]="actionDataItem.rowspan"
-              style="border-left: 1px solid #dee2e6;"
-              class="action-controls-column hide-on-export d-print-none align-text-bottom"
+              style="border-left: 1px solid #dee2e6"
+              class="
+                action-controls-column
+                hide-on-export
+                d-print-none
+                align-text-bottom
+              "
             >
               <div class="add-action-block">
                 <button

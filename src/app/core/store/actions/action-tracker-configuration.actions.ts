@@ -13,6 +13,7 @@ export enum ActionTrackerConfigurationActionTypes {
   UpdateActionTrackerConfiguration = '[ActionTrackerConfiguration] Update ActionTrackerConfiguration',
   UpdateActionTrackerConfigurations = '[ActionTrackerConfiguration] Update ActionTrackerConfigurations',
   UploadActionTrackerConfiguration = '[ActionTrackerConfiguration] Upload ActionTrackerConfiguration',
+  UploadActionTrackerConfigurationFail = '[ActionTrackerConfiguration] Upload ActionTrackerConfiguration Fail',
   DeleteActionTrackerConfiguration = '[ActionTrackerConfiguration] Delete ActionTrackerConfiguration',
   DeleteActionTrackerConfigurations = '[ActionTrackerConfiguration] Delete ActionTrackerConfigurations',
   ClearActionTrackerConfigurations = '[ActionTrackerConfiguration] Clear ActionTrackerConfigurations',
@@ -83,6 +84,13 @@ export class UploadActionTrackerConfiguration implements Action {
   constructor(public defaultActionTrackerProgram) {}
 }
 
+export class UploadActionTrackerConfigurationFail implements Action {
+  readonly type =
+    ActionTrackerConfigurationActionTypes.UploadActionTrackerConfigurationFail;
+
+  constructor(public error) {}
+}
+
 export class UpdateActionTrackerConfigurations implements Action {
   readonly type =
     ActionTrackerConfigurationActionTypes.UpdateActionTrackerConfigurations;
@@ -123,6 +131,7 @@ export type ActionTrackerConfigurationActions =
   | UpdateActionTrackerConfiguration
   | UpdateActionTrackerConfigurations
   | UploadActionTrackerConfiguration
+  | UploadActionTrackerConfigurationFail
   | DeleteActionTrackerConfiguration
   | DeleteActionTrackerConfigurations
   | ClearActionTrackerConfigurations;

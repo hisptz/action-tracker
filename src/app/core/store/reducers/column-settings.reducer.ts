@@ -2,7 +2,7 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { ActionTrackerConfiguration } from '../../models/action-tracker-configuration.model';
 import {
   ColumnSettingsActions,
-  ColumnSettingsTypes
+  ColumnSettingsTypes,
 } from '../actions/columns-settings.actions';
 
 export interface ColumnSettingsState extends EntityState<any> {
@@ -19,7 +19,7 @@ export const initialState: any = adapter.getInitialState({
   loaded: false,
   hasError: false,
   error: null,
-  currentConfig: 'ROSaojkGieB'
+  currentConfig: 'ROSaojkGieB',
 });
 
 export function columnSettingsReducer(
@@ -30,11 +30,11 @@ export function columnSettingsReducer(
     case ColumnSettingsTypes.LoadColumnSettings: {
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     }
     case ColumnSettingsTypes.LoadColumnSettingsSuccess: {
-      return adapter.addAll(action.payload, state);
+      return adapter.setAll(action.payload, state);
     }
 
     case ColumnSettingsTypes.LoadColumnSettingsFailure: {
@@ -46,13 +46,13 @@ export function columnSettingsReducer(
     }
 
     case ColumnSettingsTypes.SetColumnSettingsSuccess: {
-      const newPayload = {...{}, ...action.payload};
-        return adapter.addAll(newPayload, state);
-      }
+      const newPayload = { ...{}, ...action.payload };
+      return adapter.setAll(newPayload, state);
+    }
 
-      case ColumnSettingsTypes.SetColumnSettingsFailure: {
-        return { ...state, loading: false, hasError: true };
-      }
+    case ColumnSettingsTypes.SetColumnSettingsFailure: {
+      return { ...state, loading: false, hasError: true };
+    }
 
     default: {
       return state;
