@@ -17,6 +17,7 @@ import {
   LoadActionTrackerConfigurationAction,
   LoadActionTrackerConfigurationFail,
   UploadActionTrackerConfiguration,
+  UploadActionTrackerConfigurationFail,
 } from '../actions/action-tracker-configuration.actions';
 import { LoadRootCauseAnalysisConfigurationAction } from '../actions/root-cause-analysis-configuration.actions';
 import { UserActionTypes } from '../actions/user.actions';
@@ -85,7 +86,17 @@ export class ActionTrackerConfigurationEffects {
     switchMap((action: UploadActionTrackerConfiguration) => {
       return this.actionTrackerConfigService
         .add(action.defaultActionTrackerProgram)
-        .pipe(map(() => new LoadActionTrackerConfigurationAction()));
+        .pipe(map((res) => {
+        
+        if(res.status == "500" || res.status == "ERROR"  || res.status != "OK"  ){
+          return (new UploadActionTrackerConfigurationFail(res.message))} 
+        else {
+            return new LoadActionTrackerConfigurationAction();
+          }
+        
+        }
+        )
+        );
     })
   );
 
