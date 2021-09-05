@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { TableColumnConfigDialogComponent } from './table-column-config-dialog.component';
 
@@ -6,7 +6,7 @@ describe('TableColumnConfigDialogComponent', () => {
   let component: TableColumnConfigDialogComponent;
   let fixture: ComponentFixture<TableColumnConfigDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ TableColumnConfigDialogComponent ]
     })

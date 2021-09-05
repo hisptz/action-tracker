@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { FieldsSettingsDialogComponent } from './fields-settings-dialog.component';
 
@@ -6,7 +6,7 @@ describe('FieldsSettingsDialogComponent', () => {
   let component: FieldsSettingsDialogComponent;
   let fixture: ComponentFixture<FieldsSettingsDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ FieldsSettingsDialogComponent ]
     })

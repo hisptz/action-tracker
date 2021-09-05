@@ -15,19 +15,17 @@ export interface ActionTrackerConfigurationState
   currentConfig: string;
 }
 
-export const adapter: EntityAdapter<ActionTrackerConfiguration> = createEntityAdapter<
-  ActionTrackerConfiguration
->();
+export const adapter: EntityAdapter<ActionTrackerConfiguration> =
+  createEntityAdapter<ActionTrackerConfiguration>();
 
-export const initialState: ActionTrackerConfigurationState = adapter.getInitialState(
-  {
+export const initialState: ActionTrackerConfigurationState =
+  adapter.getInitialState({
     loading: false,
     loaded: false,
     hasError: false,
     error: null,
     currentConfig: 'ROSaojkGieB',
-  }
-);
+  });
 
 export function actionTrackerConfigurationReducer(
   state = initialState,
@@ -101,6 +99,10 @@ export function actionTrackerConfigurationReducer(
 
     case ActionTrackerConfigurationActionTypes.ClearActionTrackerConfigurations: {
       return adapter.removeAll(state);
+    }
+
+    case ActionTrackerConfigurationActionTypes.UploadActionTrackerConfigurationFail: {
+      return { ...state, loaded: false, loading: false, error: action.error };
     }
 
     default: {

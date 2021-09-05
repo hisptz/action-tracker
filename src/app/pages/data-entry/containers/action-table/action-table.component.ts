@@ -36,6 +36,8 @@ import {
   getMergedActionTrackerConfiguration,
   getMergedActionTrackerErrorStatusConfiguration,
   getMergedActionTrackerConfigurationErrors,
+  getActionTrackerConfigLoadedStatus,
+  getActionTrackerConfigErrorStatus,
 } from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
 import {
   getActionTrackerDataLoadedStatus,
@@ -104,6 +106,7 @@ export class ActionTableComponent implements OnInit {
 
   configurationLoaded$: Observable<boolean>;
   configurationHasError$: Observable<boolean>;
+  actionConfigurationHasError$: Observable<boolean>;
   configurationError$: Observable<boolean>;
   dataHasError$: Observable<boolean>;
   dataError$: Observable<boolean>;
@@ -112,6 +115,7 @@ export class ActionTableComponent implements OnInit {
   canCreateActionProgress$: Observable<boolean>;
   canEditActionProgress: boolean;
   canDeleteActions$: Observable<boolean>;
+  actionConfigurationLoaded$: Observable<boolean>;
 
   selectedAction: any;
   initialActionStatus: '';
@@ -171,6 +175,9 @@ export class ActionTableComponent implements OnInit {
     this.dataError$ = this.store.select(getRootCauseAnalysisDataErrorStatus);
 
     this.configurationLoaded$ = store.select(getConfigurationLoadedStatus);
+    this.actionConfigurationHasError$ = store.select(
+      getActionTrackerConfigErrorStatus
+    );
     this.legendSet$ = this.store.select(getActionStatusLegendSet);
 
     this.store

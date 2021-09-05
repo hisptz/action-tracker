@@ -17,6 +17,7 @@ import {
   LoadActionTrackerConfigurationAction,
   LoadActionTrackerConfigurationFail,
   UploadActionTrackerConfiguration,
+  UploadActionTrackerConfigurationFail,
 } from '../actions/action-tracker-configuration.actions';
 import { LoadRootCauseAnalysisConfigurationAction } from '../actions/root-cause-analysis-configuration.actions';
 import { UserActionTypes } from '../actions/user.actions';
@@ -85,7 +86,12 @@ export class ActionTrackerConfigurationEffects {
     switchMap((action: UploadActionTrackerConfiguration) => {
       return this.actionTrackerConfigService
         .add(action.defaultActionTrackerProgram)
-        .pipe(map(() => new LoadActionTrackerConfigurationAction()));
+        .pipe(
+          map(() => new LoadActionTrackerConfigurationAction()),
+          catchError((error) =>
+            of(new UploadActionTrackerConfigurationFail(error))
+          )
+        );
     })
   );
 
@@ -104,6 +110,7 @@ export class ActionTrackerConfigurationEffects {
 
   @Effect()
   init$: Observable<Action> = defer(() => {
+    console.log('WE ARE OPENING HERE');
     return of(new LoadActionTrackerConfigurationAction());
   });
 

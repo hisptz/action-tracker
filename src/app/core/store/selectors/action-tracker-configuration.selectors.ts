@@ -18,9 +18,8 @@ const getActionTrackerConfigurationState = createSelector(
   (state: RootState) => state.actionTrackerConfigurations
 );
 
-export const {
-  selectEntities: getActionTrackerConfigurationEntities,
-} = adapter.getSelectors(getActionTrackerConfigurationState);
+export const { selectEntities: getActionTrackerConfigurationEntities } =
+  adapter.getSelectors(getActionTrackerConfigurationState);
 
 export const getCurrentActionTrackerConfigId = createSelector(
   getActionTrackerConfigurationState,
@@ -35,6 +34,11 @@ export const getActionTrackerConfigHasErrorStatus = createSelector(
 export const getActionTrackerConfigErrorStatus = createSelector(
   getActionTrackerConfigurationState,
   (state: ActionTrackerConfigurationState) => state.error
+);
+
+export const getActionTrackerConfigLoadedStatus = createSelector(
+  getActionTrackerConfigurationState,
+  (state: ActionTrackerConfigurationState) => state.loaded
 );
 
 export const getCurrentActionTrackerConfig = createSelector(
@@ -185,9 +189,10 @@ export const getMergedActionTrackerConfiguration = createSelector(
     actionTrackerConfigTrackedEntityAttributes,
     currentRootCauseAnalysisConfiguration
   ) => {
-    currentRootCauseAnalysisConfiguration = currentRootCauseAnalysisConfiguration
-      ? currentRootCauseAnalysisConfiguration
-      : {};
+    currentRootCauseAnalysisConfiguration =
+      currentRootCauseAnalysisConfiguration
+        ? currentRootCauseAnalysisConfiguration
+        : {};
 
     const dataElements = [];
 
