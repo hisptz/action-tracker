@@ -43,7 +43,7 @@
     "@ngrx/store-devtools": "^12.4.0",
     "@ngx-translate/core": "^12.1.2",
     "@ngx-translate/http-loader": "^5.0.0",
-    "bootstrap": "^4.6.0",
+    "bootstrap": "^5.1.1",
     "core-js": "^3.6.5",
     "d2": "^31.8.1",
     "date-fns": "^2.15.0",
