@@ -110,7 +110,6 @@ export class ActionTrackerConfigurationEffects {
 
   @Effect()
   init$: Observable<Action> = defer(() => {
-    console.log('WE ARE OPENING HERE');
     return of(new LoadActionTrackerConfigurationAction());
   });
 

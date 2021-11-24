@@ -1,43 +1,25 @@
-import {
-  Component,
-  ElementRef,
-  Input,
-  OnInit,
-  ViewChild,
-  Output,
-  EventEmitter,
-} from '@angular/core';
-import { find } from 'lodash';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { select, Store } from '@ngrx/store';
-import {
-  endOfQuarter,
-  endOfYear,
-  isDate,
-  startOfQuarter,
-  startOfYear,
-} from 'date-fns';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild,} from '@angular/core';
 import * as _ from 'lodash';
-import { Observable } from 'rxjs';
-import { generateEvent } from 'src/app/core/helpers/generate-event-payload.helper';
-import { getFormattedDate } from 'src/app/core/helpers/generate-formatted-date.helper';
-import { generateTEI } from 'src/app/core/helpers/generate-tracked-entity-instance.helper';
-import { generateUid } from 'src/app/core/helpers/generate-uid.helper';
-import { upsertEnrollmentPayload } from 'src/app/core/helpers/upsert-enrollment-payload.helper';
-import { RootCauseAnalysisConfiguration } from 'src/app/core/models/root-cause-analysis-configuration.model';
+import {find} from 'lodash';
+import {MatDialog} from '@angular/material/dialog';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {select, Store} from '@ngrx/store';
+import {endOfQuarter, endOfYear, isDate, startOfQuarter, startOfYear,} from 'date-fns';
+import {Observable} from 'rxjs';
+import {generateEvent} from 'src/app/core/helpers/generate-event-payload.helper';
+import {getFormattedDate} from 'src/app/core/helpers/generate-formatted-date.helper';
+import {generateTEI} from 'src/app/core/helpers/generate-tracked-entity-instance.helper';
+import {generateUid} from 'src/app/core/helpers/generate-uid.helper';
+import {upsertEnrollmentPayload} from 'src/app/core/helpers/upsert-enrollment-payload.helper';
+import {RootCauseAnalysisConfiguration} from 'src/app/core/models/root-cause-analysis-configuration.model';
+import {DeleteActionTrackerData, SaveActionTrackerData,} from 'src/app/core/store/actions/action-tracker-data.actions';
+import {State} from 'src/app/core/store/reducers';
 import {
-  DeleteActionTrackerData,
-  SaveActionTrackerData,
-} from 'src/app/core/store/actions/action-tracker-data.actions';
-import { State } from 'src/app/core/store/reducers';
-import {
+  getActionTrackerConfigErrorStatus,
   getConfigurationDataElementsFromProgramStageDEs,
   getMergedActionTrackerConfiguration,
-  getMergedActionTrackerErrorStatusConfiguration,
   getMergedActionTrackerConfigurationErrors,
-  getActionTrackerConfigLoadedStatus,
-  getActionTrackerConfigErrorStatus,
+  getMergedActionTrackerErrorStatusConfiguration,
 } from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
 import {
   getActionTrackerDataLoadedStatus,
@@ -49,34 +31,34 @@ import {
   getYearOfCurrentPeriodSelection,
 } from 'src/app/core/store/selectors/action-tracker-data.selectors';
 import {
-  getRootCauseAnalysisDataHasErrorStatus,
   getRootCauseAnalysisDataErrorStatus,
+  getRootCauseAnalysisDataHasErrorStatus,
 } from 'src/app/core/store/selectors/root-cause-analysis-data.selectors';
 
 import {
-  getCanCreateActions,
-  getCanEditActions,
-  getCanDeleteActions,
   getCanCreateActionProgress,
+  getCanCreateActions,
+  getCanDeleteActions,
   getCanEditActionProgress,
+  getCanEditActions,
 } from 'src/app/core/store/selectors/user.selectors';
-import { getColumnSettingsData } from 'src/app/core/store/selectors/column-settings.selectors';
-import { getConfigurationLoadedStatus } from 'src/app/core/store/selectors/root-cause-analysis-configuration.selectors';
-import { DeleteConfirmationDialogueComponent } from 'src/app/shared/components/delete-confirmation-dialogue/delete-confirmation-dialogue.component';
-import { FormDialogComponent } from 'src/app/shared/components/form-dialog/form-dialog.component';
-import { NotificationSnackbarComponent } from 'src/app/shared/components/notification-snackbar/notification-snackbar.component';
-import { generateActionDataValue } from 'src/app/shared/helpers/generate-action-data-values.helper';
+import {getColumnSettingsData} from 'src/app/core/store/selectors/column-settings.selectors';
+import {getConfigurationLoadedStatus} from 'src/app/core/store/selectors/root-cause-analysis-configuration.selectors';
+import {DeleteConfirmationDialogueComponent} from 'src/app/shared/components/delete-confirmation-dialogue/delete-confirmation-dialogue.component';
+import {FormDialogComponent} from 'src/app/shared/components/form-dialog/form-dialog.component';
+import {NotificationSnackbarComponent} from 'src/app/shared/components/notification-snackbar/notification-snackbar.component';
+import {generateActionDataValue} from 'src/app/shared/helpers/generate-action-data-values.helper';
 
 import {
   getActionStatusLegendSet,
   LegendSetState,
 } from '../../../../shared/modules/selection-filters/modules/legend-set-configuration/store';
-import { TableColumnConfigDialogComponent } from 'src/app/shared/dialogs/table-column-config-dialog/table-column-config-dialog.component';
-import { take, first } from 'rxjs/operators';
-import { ProgressVisualizationDialogComponent } from '../../components/progress-visualization-dialog/progress-visualization-dialog.component';
-import { Visualization } from 'src/app/pages/analysis/modules/ngx-dhis2-visualization/models';
-import { getReportVisualizations } from 'src/app/core/store/selectors/report-visualization.selectors';
-import { getVisualizationForAction } from '../../helpers/get-visualization-for-action.helper';
+import {TableColumnConfigDialogComponent} from 'src/app/shared/dialogs/table-column-config-dialog/table-column-config-dialog.component';
+import {take} from 'rxjs/operators';
+import {ProgressVisualizationDialogComponent} from '../../components/progress-visualization-dialog/progress-visualization-dialog.component';
+import {Visualization} from 'src/app/pages/analysis/modules/ngx-dhis2-visualization/models';
+import {getReportVisualizations} from 'src/app/core/store/selectors/report-visualization.selectors';
+import {getVisualizationForAction} from '../../helpers/get-visualization-for-action.helper';
 
 @Component({
   selector: 'app-action-table',
@@ -85,7 +67,7 @@ import { getVisualizationForAction } from '../../helpers/get-visualization-for-a
 })
 export class ActionTableComponent implements OnInit {
   @Input() isActionTracking;
-  @ViewChild('tableElement', { static: false })
+  @ViewChild('tableElement', {static: false})
   table: ElementRef;
   searchText;
 
@@ -207,7 +189,8 @@ export class ActionTableComponent implements OnInit {
     this.canDeleteActions$ = this.store.select(getCanDeleteActions);
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   getDataValueLength(data, actionDataItem): number {
     let rootCauseDataIds = [];
@@ -232,6 +215,7 @@ export class ActionTableComponent implements OnInit {
   toggleTruncationStatus(actionDataItem) {
     actionDataItem.truncateStatus = !actionDataItem.truncateStatus;
   }
+
   onEditActionTracking(e, dataItem, actionTrackingItem, dataElements) {
     if (
       !this.isActionTracking ||
@@ -242,6 +226,7 @@ export class ActionTableComponent implements OnInit {
       this.dataEntryDialogBoxOperations(dataElements, actionTrackingItem);
     }
   }
+
   onEditAction(e, dataItem: any, dataElements: any[]) {
     e.stopPropagation();
     this.dataEntryDialogBoxOperations(dataElements, dataItem);
@@ -250,6 +235,7 @@ export class ActionTableComponent implements OnInit {
   getTableElement() {
     return this.table ? this.table.nativeElement : null;
   }
+
   onAddAction(e, dataItem: any, dataElements: any[]) {
     e.stopPropagation();
     const emptyDataValues = generateActionDataValue(dataElements, dataItem);
@@ -262,7 +248,7 @@ export class ActionTableComponent implements OnInit {
       orgUnit: _.get(
         dataItem,
         `dataValues[${_.get(
-          _.find(dataElements, { name: 'orgUnitId' }),
+          _.find(dataElements, {name: 'orgUnitId'}),
           'id'
         )}]`
       ),
@@ -293,13 +279,13 @@ export class ActionTableComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((formResponse) => {
       if (formResponse && !this.isActionTracking) {
-        const { formValues, formAction } = formResponse;
+        const {formValues, formAction} = formResponse;
         dataItem.attributes = this.generateAttributePayload(
           formValues,
           formDataElements
         );
       } else if (this.selectedAction && formResponse && this.isActionTracking) {
-        const { formValues, formAction } = formResponse;
+        const {formValues, formAction} = formResponse;
         const eventPayload = this.createEventPayload(
           dataItem,
           formValues,
@@ -325,12 +311,13 @@ export class ActionTableComponent implements OnInit {
         : null;
     });
   }
+
   generateAttributePayload(formValues, formDataElements) {
     const attributes = [];
     _.forEach(formValues, (formValue, index) => {
       attributes.push({
         attribute: index,
-        code: _.get(_.find(formDataElements, { id: index }), 'code'),
+        code: _.get(_.find(formDataElements, {id: index}), 'code'),
         value: isDate(formValue) ? getFormattedDate(formValue) : formValue,
       });
     });
@@ -343,16 +330,16 @@ export class ActionTableComponent implements OnInit {
     _.forEach(formDataElements, (formDataElement) =>
       formDataElement.id
         ? eventDataValues.push({
-            dataElement: formDataElement.id,
-            value: formValues[formDataElement.id],
-          })
+          dataElement: formDataElement.id,
+          value: formValues[formDataElement.id],
+        })
         : _.set(
-            eventData,
-            'eventDate',
-            isDate(formValues[formDataElement.formControlName])
-              ? getFormattedDate(formValues[formDataElement.formControlName])
-              : formValues[formDataElement.formControlName]
-          )
+          eventData,
+          'eventDate',
+          isDate(formValues[formDataElement.formControlName])
+            ? getFormattedDate(formValues[formDataElement.formControlName])
+            : formValues[formDataElement.formControlName]
+        )
     );
     eventData.eventDataValues = eventDataValues;
     return eventData;
@@ -360,7 +347,7 @@ export class ActionTableComponent implements OnInit {
 
   createEventPayload(dataItem, formValues, formDataElements) {
     const actionStatusId = _.get(
-      _.find(formDataElements, { isActionStatus: true }),
+      _.find(formDataElements, {isActionStatus: true}),
       'id'
     );
     const eventData = this.sanitizeActionTrackingData(
@@ -369,7 +356,7 @@ export class ActionTableComponent implements OnInit {
       formDataElements
     );
     const currentActionStatus = _.get(
-      _.find(eventData.eventDataValues, { dataElement: actionStatusId }),
+      _.find(eventData.eventDataValues, {dataElement: actionStatusId}),
       'value'
     );
     eventData.eventId = dataItem.eventId;
@@ -389,7 +376,7 @@ export class ActionTableComponent implements OnInit {
       actionDescription && actionDescription.hasOwnProperty('id')
         ? dataItem.dataValues[actionDescription.id] || ''
         : '';
-    actionDescription = { ...actionDescription, value };
+    actionDescription = {...actionDescription, value};
     const dialogRef = this.dialog.open(DeleteConfirmationDialogueComponent, {
       width: '600px',
       height: `${150 + 55 * 1}px`,
@@ -413,6 +400,7 @@ export class ActionTableComponent implements OnInit {
       window.alert('There is no action registered for this solution yet.');
     }
   }
+
   openColumnConfigDialog(settings) {
     const dialogRef = this.dialog.open(TableColumnConfigDialogComponent, {
       width: '600px',
@@ -435,10 +423,11 @@ export class ActionTableComponent implements OnInit {
         }
       });
   }
+
   onDownload(e, downloadType, allowIds) {
     e.stopPropagation();
     this.data$.pipe(take(1)).subscribe((data) => {
-      this.download.emit({downloadType, data, allowIds });
+      this.download.emit({downloadType, data, allowIds});
     });
   }
 
@@ -491,7 +480,7 @@ export class ActionTableComponent implements OnInit {
       const width = visualization.uiConfig ? visualization.uiConfig.width : 0;
       this.dialog.open(ProgressVisualizationDialogComponent, {
         width: width + 'px',
-        data: { visualization },
+        data: {visualization},
         disableClose: true,
       });
     }

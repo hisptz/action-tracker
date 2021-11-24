@@ -1,18 +1,15 @@
-import { createSelector } from '@ngrx/store';
-import { getQuarter, getYear, isSameQuarter, setQuarter } from 'date-fns';
+import {createSelector} from '@ngrx/store';
+import {getQuarter, getYear, isSameQuarter, setQuarter} from 'date-fns';
 import * as _ from 'lodash';
 
-import { ActionTrackerData } from '../../models/action-tracker-data.model';
-import { getRootState, State as RootState } from '../reducers';
-import {
-  ActionTrackerDataState,
-  adapter,
-} from '../reducers/action-tracker-data.reducer';
+import {ActionTrackerData} from '../../models/action-tracker-data.model';
+import {getRootState, State as RootState} from '../reducers';
+import {ActionTrackerDataState, adapter,} from '../reducers/action-tracker-data.reducer';
 import {
   getConfigurationDataElementsFromProgramStageDEs,
   getMergedActionTrackerConfiguration,
 } from './action-tracker-configuration.selectors';
-import { getDataSelections } from './global-selection.selectors';
+import {getDataSelections} from './global-selection.selectors';
 import {
   getRootCauseAnalysisDataLoadingStatus,
   getRootCauseAnalysisDataNotificationStatus,
@@ -107,7 +104,7 @@ export const getYearOfCurrentPeriodSelection = createSelector(
   (state, dataSelections) => {
     const periodSelectionId =
       _.get(
-        _.head(_.get(_.find(dataSelections, { dimension: 'pe' }), 'items')),
+        _.head(_.get(_.find(dataSelections, {dimension: 'pe'}), 'items')),
         'id'
       ) || '';
     return periodSelectionId.substring(0, 4);
@@ -127,7 +124,7 @@ export const getActionTrackingQuarters = createSelector(
       _.sortBy(
         _.map(
           _.get(
-            _.head(_.get(_.find(dataSelections, { dimension: 'pe' }), 'items')),
+            _.head(_.get(_.find(dataSelections, {dimension: 'pe'}), 'items')),
             'quarterly'
           ) || [],
           (quarter: any) => {
@@ -283,38 +280,38 @@ export const getMergedActionTrackerDatas = createSelector(
         );
         return actions.length > 0
           ? _.map(actions, (action: any) => {
-              let dataValues = { ...rootCauseData.dataValues };
-              const newAction = {
-                ...action,
-                rootCauseDataId: rootCauseData.id,
-                id: action.trackedEntityInstance,
-              };
+            let dataValues = {...rootCauseData.dataValues};
+            const newAction = {
+              ...action,
+              rootCauseDataId: rootCauseData.id,
+              id: action.trackedEntityInstance,
+            };
 
-              _.forEach(action.attributes, (trackedEntityAttribute) => {
-                if (
-                  _.find(actionTrackerConfig.dataElements, {
-                    id: trackedEntityAttribute.attribute,
-                  })
-                ) {
-                  dataValues = {
-                    ...dataValues,
-                    [trackedEntityAttribute.attribute]:
-                      trackedEntityAttribute.value,
-                  };
-                }
-              });
+            _.forEach(action.attributes, (trackedEntityAttribute) => {
+              if (
+                _.find(actionTrackerConfig.dataElements, {
+                  id: trackedEntityAttribute.attribute,
+                })
+              ) {
+                dataValues = {
+                  ...dataValues,
+                  [trackedEntityAttribute.attribute]:
+                  trackedEntityAttribute.value,
+                };
+              }
+            });
 
-              return {
-                ...newAction,
-                dataValues,
-              };
-            })
+            return {
+              ...newAction,
+              dataValues,
+            };
+          })
           : [
-              {
-                ...rootCauseData,
-                rootCauseDataId: rootCauseData.id,
-              },
-            ];
+            {
+              ...rootCauseData,
+              rootCauseDataId: rootCauseData.id,
+            },
+          ];
       })
     );
   }
@@ -324,30 +321,32 @@ export const getMergedActionTrackerDatasWithRowspanAttribute = (
   latestStatus?: any
 ) =>
   createSelector(getMergedActionTrackerDatas, (mergedActionTrackerDatas) => {
+
+    const sanitizedTrackerData = _.map(mergedActionTrackerDatas, (value) => _.omit(value, ['rowSpan']));
     const statusFilteredActionTrackerDatas = latestStatus
-      ? (mergedActionTrackerDatas || []).filter(
-          (item: any) => item['latestStatus'] === latestStatus.id
-        )
-      : mergedActionTrackerDatas;
+      ? (sanitizedTrackerData || []).filter(
+        (item: any) => item['latestStatus'] === latestStatus.id
+      )
+      : sanitizedTrackerData;
     _.map(
       _.groupBy(statusFilteredActionTrackerDatas, 'rootCauseDataId'),
       (groupedActions, index) => {
         const firstElementOfGroup = _.head(groupedActions);
         firstElementOfGroup.id
           ? _.set(
-              _.find(statusFilteredActionTrackerDatas, {
-                id: firstElementOfGroup.id,
-              }),
-              'rowspan',
-              groupedActions.length
-            )
+            _.find(statusFilteredActionTrackerDatas, {
+              id: firstElementOfGroup.id,
+            }),
+            'rowspan',
+            groupedActions.length
+          )
           : _.set(
-              _.find(statusFilteredActionTrackerDatas, {
-                rootCauseDataId: firstElementOfGroup.rootCauseDataId,
-              }),
-              'rowspan',
-              groupedActions.length
-            );
+            _.find(statusFilteredActionTrackerDatas, {
+              rootCauseDataId: firstElementOfGroup.rootCauseDataId,
+            }),
+            'rowspan',
+            groupedActions.length
+          );
 
         _.map(groupedActions, (actionElement) => {
           if (firstElementOfGroup.id !== actionElement.id) {

@@ -36,7 +36,6 @@ export class FavoriteService {
     },
     namespace: string = 'favorites'
   ): Observable<any> {
-    console.log('here we are to check');
     return configurations.useDataStoreAsSource
       ? this.getFromDataStore(namespace, favorite.id)
       : configurations.useBothSources
