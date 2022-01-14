@@ -46,7 +46,6 @@ export class ActionTrackerDataEffects {
               );
             }),
             catchError((error: any) => {
-              console.log(error);
               return of(new LoadActionTrackerDatasFail(error));
             })
           );

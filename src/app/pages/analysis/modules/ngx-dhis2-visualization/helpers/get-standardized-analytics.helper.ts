@@ -22,7 +22,6 @@ export function getStandardizedAnalyticsObject(analyticsObject: any, preferNorma
           const newHeader: any = header;
           sanitizedAnalyticsObject.headers.push(newHeader);
         } catch (e) {
-          console.warn('Invalid header object');
         }
       });
     }

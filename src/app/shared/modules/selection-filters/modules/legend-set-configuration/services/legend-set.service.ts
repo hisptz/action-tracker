@@ -16,8 +16,6 @@ export class LegendSetService {
       this.http.get(legendUrl).subscribe(
         (response: any) => {
           const legendSets = response.legendSets;
-
-          console.log(response);
           observer.next(legendSets);
           observer.complete();
         },

@@ -133,7 +133,6 @@ export class ActionTableComponent implements OnInit {
     this.data$ = this.store.pipe(
       select(getMergedActionTrackerDatasWithRowspanAttribute())
     );
-
     this.programStageConfiguration$ = this.store.pipe(
       select(getConfigurationDataElementsFromProgramStageDEs)
     );
@@ -216,9 +215,10 @@ export class ActionTableComponent implements OnInit {
           ? actionDataItem.rootCauseDataId || ''
           : '';
       const newIndex = rootCauseDataIds.indexOf(rootCauseId) + 1 || 0;
+     
+
       return newIndex;
     }
-
     return 0;
   }
 
