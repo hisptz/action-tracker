@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { RootCauseAnalysisConfigurationsService } from './root-cause-analysis-configurations.service';
-import { catchError, switchMap } from 'rxjs/operators';
-import { throwError, zip, of } from 'rxjs';
+import { catchError, switchMap, take } from 'rxjs/operators';
+import { throwError, zip, of, Observable } from 'rxjs';
 import * as _ from 'lodash';
 import { RootCauseAnalysisData } from '../models/root-cause-analysis-data.model';
 @Injectable({
@@ -10,7 +10,8 @@ import { RootCauseAnalysisData } from '../models/root-cause-analysis-data.model'
 })
 export class RootCauseAnalysisDataService {
   configurationId: string;
-  private _dataStoreUrl = 'dataStore/rca-data';
+  // private nameSpaceReferenceBNA:string = 'dataStore/hisptz-bna';
+  private _dataStoreUrl = 'dataStore/hisptz-bna';
   constructor(
     private http: NgxDhis2HttpClientService,
     public rcaConfigurationService: RootCauseAnalysisConfigurationsService
@@ -82,29 +83,20 @@ export class RootCauseAnalysisDataService {
   }
 
   getRootCauseAnalysisData(
-    configurationId: string,
-    orgUnitId,
-    periodId,
     dashBoardId
   ) {
-    return this.http.get(this._dataStoreUrl).pipe(
-      switchMap((dataIds: string[]) => {
-        const filteredDataIds = _.filter(dataIds, (dataId: string) => {
-          const spliteDataId = dataId.split('_');
-          return (
-            configurationId === spliteDataId[0] &&
-            orgUnitId === spliteDataId[1] &&
-            periodId.toString() === spliteDataId[2] &&
-            dashBoardId === spliteDataId[3]
-          );
-        });
+    return this.http.get(`${this._dataStoreUrl}/${dashBoardId}_rcadata`)
+    .pipe(
+      switchMap((data: any[]) => {
+        if (data) {
+         return zip(...[..._.uniq([..._.flattenDeep(data)])].map((rootCauseObject)=>{
+     let newRootCauseobserver =new Observable((observer)=>{
+       observer.next(rootCauseObject);
+       observer.unsubscribe()
+     })
 
-        if (filteredDataIds.length > 0) {
-          return zip(
-            ..._.map(filteredDataIds, (dataId: string) => {
-              return this.http.get(`${this._dataStoreUrl}/${dataId}`);
-            })
-          );
+           return newRootCauseobserver;
+         }))
         } else {
           return of([]);
         }
@@ -117,4 +109,5 @@ export class RootCauseAnalysisDataService {
       })
     );
   }
+
 }

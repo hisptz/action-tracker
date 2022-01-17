@@ -88,7 +88,6 @@ export function actionTrackerDataReducer(
     }
 
     case ActionTrackerDataActionTypes.LoadActionTrackerDatasFail: {
-      console.log(action);
       return {
         ...state,
         showNotification: true,

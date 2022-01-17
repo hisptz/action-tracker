@@ -14,7 +14,6 @@ export class WidgetNotificationBarComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    console.log(this.notification);
     setTimeout(() => {
       this.resetNotification.emit({
         message: null

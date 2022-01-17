@@ -3,6 +3,7 @@ import { Observable, of } from 'rxjs';
 
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { LegendSet } from '../models/legend-set';
+import { legendSetMetadata } from 'src/app/core/defaults/action-tracker-legendset-metadata';
 
 @Injectable({ providedIn: 'root' })
 export class LegendSetService {
@@ -14,12 +15,12 @@ export class LegendSetService {
     return new Observable(observer => {
       this.http.get(legendUrl).subscribe(
         (response: any) => {
-          const legendSets = response.legendSets || [];
+          const legendSets = response.legendSets;
           observer.next(legendSets);
           observer.complete();
         },
         () => {
-          const legendSets = [];
+          const legendSets = legendSetMetadata;
           this.http.post(legendUrl, { legendSets }).subscribe(
             () => {
               observer.next([]);

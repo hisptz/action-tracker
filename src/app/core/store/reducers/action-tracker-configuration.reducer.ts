@@ -88,6 +88,15 @@ export function actionTrackerConfigurationReducer(
         error: action.error,
       };
     }
+    case ActionTrackerConfigurationActionTypes.UploadActionTrackerConfigurationFail: {
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        hasError: true,
+        error: action.error,
+      };
+    }
 
     case ActionTrackerConfigurationActionTypes.AddActionTrackerConfiguration: {
       if (!action.actionTrackerConfig) {
