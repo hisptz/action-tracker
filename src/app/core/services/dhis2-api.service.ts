@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { init, getInstance } from 'd2';
+import { getInstance } from 'd2';
 
 @Injectable({ providedIn: 'root' })
 export class Dhis2ApiService {
