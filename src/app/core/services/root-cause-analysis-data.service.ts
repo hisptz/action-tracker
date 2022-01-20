@@ -10,8 +10,7 @@ import { RootCauseAnalysisData } from '../models/root-cause-analysis-data.model'
 })
 export class RootCauseAnalysisDataService {
   configurationId: string;
-  // private nameSpaceReferenceBNA:string = 'dataStore/hisptz-bna';
-  private _dataStoreUrl = 'dataStore/hisptz-bna';
+  private _dataStoreUrl = 'dataStore/hisptz-bna-rcadata';
   constructor(
     private http: NgxDhis2HttpClientService,
     public rcaConfigurationService: RootCauseAnalysisConfigurationsService
