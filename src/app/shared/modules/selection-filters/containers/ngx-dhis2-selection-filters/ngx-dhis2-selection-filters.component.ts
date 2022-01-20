@@ -27,7 +27,7 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
   @Input()
   layout: any;
   @Input()
-  selectionFilterConfig: SelectionFilterConfig;
+  selectionFilterConfig: SelectionFilterConfig 
   @Input()
   saving: boolean;
 
@@ -100,11 +100,18 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
       'layout'
     );
   }
-
+get filteredDataWithByPassDefault (){
+  return {
+    ...this.filterConfig?.periodFilterConfig,
+    allowRelativePeriodSelection: false
+  }
+}
   get filterConfig(): SelectionFilterConfig {
+  
     return {
       ...SELECTION_FILTER_CONFIG,
       ...(this.selectionFilterConfig || {}),
+      
     };
   }
 
