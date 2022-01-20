@@ -82,18 +82,21 @@ export class RootCauseAnalysisDataService {
   }
 
   getRootCauseAnalysisData(
-    dashBoardId
+    dashBoardId,
+    period
   ) {
     return this.http.get(`${this._dataStoreUrl}/${dashBoardId}_rcadata`)
     .pipe(
       switchMap((data: any[]) => {
-        if (data) {
-         return zip(...[..._.uniq([..._.flattenDeep(data)])].map((rootCauseObject)=>{
+        let dataFiltered = _.filter([..._.uniq([..._.flattenDeep(data)])],function (singleRootCauseObject){
+          return singleRootCauseObject['dataValues']['skBBrbmML4S'] === period
+        });
+        if (dataFiltered.length >0) {
+         return zip(...[...dataFiltered].map((rootCauseObject)=>{
      let newRootCauseobserver =new Observable((observer)=>{
        observer.next(rootCauseObject);
        observer.unsubscribe()
      })
-
            return newRootCauseobserver;
          }))
         } else {
