@@ -28,7 +28,7 @@
     "@angular/pwa": "^13.2.0",
     "@angular/router": "^12.2.1",
     "@angular/service-worker": "^12.2.1",
-    "@iapps/function-analytics": "^1.0.0-beta.21",
+    "@iapps/function-analytics": "^1.0.0-beta.24",
     "@iapps/ngx-dhis2-data-filter": "^1.0.0-beta.18",
     "@iapps/ngx-dhis2-http-client": "^2.0.8-rc.2",
     "@iapps/ngx-dhis2-menu": "^1.0.11-beta.8",
