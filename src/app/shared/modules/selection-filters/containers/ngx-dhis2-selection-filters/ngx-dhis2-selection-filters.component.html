@@ -109,7 +109,7 @@
           <!--period filter-->
           <ngx-dhis2-period-filter
             [selectedPeriods]="selectedPeriods"
-            [periodFilterConfig]="filterConfig?.periodFilterConfig"
+            [periodFilterConfig]="filteredDataWithByPassDefault"
             (close)="onFilterClose($event, 'PERIOD')"
             (update)="onFilterUpdate($event, 'PERIOD')"
           >

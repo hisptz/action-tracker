@@ -1,5 +1,5 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
@@ -10,7 +10,7 @@ describe('LegendColorPickerComponent', () => {
   let component: LegendColorPickerComponent;
   let fixture: ComponentFixture<LegendColorPickerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [ColorPickerModule],
       declarations: [LegendColorPickerComponent]

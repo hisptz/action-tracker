@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { InterventionFilterComponent } from './intervention-filter.component';
 import { StoreModule } from '@ngrx/store';
@@ -14,7 +14,7 @@ describe('InterventionFilterComponent', () => {
   let component: InterventionFilterComponent;
   let fixture: ComponentFixture<InterventionFilterComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientModule,

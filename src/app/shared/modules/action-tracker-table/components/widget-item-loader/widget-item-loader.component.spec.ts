@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { WidgetItemLoaderComponent } from './widget-item-loader.component';
 
@@ -6,7 +6,7 @@ describe('WidgetItemLoaderComponent', () => {
   let component: WidgetItemLoaderComponent;
   let fixture: ComponentFixture<WidgetItemLoaderComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ WidgetItemLoaderComponent ]
     })

@@ -23,6 +23,7 @@ export class ActionTrackerConfigurationService {
       )
       .pipe(
         switchMap((res: any) => {
+          console.log('HERE WE ARE LOADING');
           if (res) {
             res.rootCauseConfigurationId = 'rcaconfig';
           }
@@ -35,18 +36,12 @@ export class ActionTrackerConfigurationService {
   }
 
   add(actionTrackerConfig: any) {
-    // console.log(actionTrackerConfig);
+
     return this.http
       .post(`${this._metadataImportURL}`, actionTrackerConfig)
       .pipe(
         map((importSummary) => {
           return importSummary;
-        }),
-        catchError((error: any) => {
-          console.warn(
-            'Problem creating action tracker configuration: ' + error.message
-          );
-          return of(error);
         })
       );
   }

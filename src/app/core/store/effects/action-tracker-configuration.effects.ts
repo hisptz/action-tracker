@@ -86,16 +86,11 @@ export class ActionTrackerConfigurationEffects {
     switchMap((action: UploadActionTrackerConfiguration) => {
       return this.actionTrackerConfigService
         .add(action.defaultActionTrackerProgram)
-        .pipe(map((res) => {
-        
-        if(res.status == "500" || res.status == "ERROR"  || res.status != "OK"  ){
-          return (new UploadActionTrackerConfigurationFail(res.message))} 
-        else {
-            return new LoadActionTrackerConfigurationAction();
-          }
-        
-        }
-        )
+        .pipe(
+          map(() => new LoadActionTrackerConfigurationAction()),
+          catchError((error) =>
+            of(new UploadActionTrackerConfigurationFail(error))
+          )
         );
     })
   );
@@ -115,6 +110,7 @@ export class ActionTrackerConfigurationEffects {
 
   @Effect()
   init$: Observable<Action> = defer(() => {
+    console.log('WE ARE OPENING HERE');
     return of(new LoadActionTrackerConfigurationAction());
   });
 

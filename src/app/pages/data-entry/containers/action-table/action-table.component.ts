@@ -36,6 +36,8 @@ import {
   getMergedActionTrackerConfiguration,
   getMergedActionTrackerErrorStatusConfiguration,
   getMergedActionTrackerConfigurationErrors,
+  getActionTrackerConfigLoadedStatus,
+  getActionTrackerConfigErrorStatus,
 } from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
 import {
   getActionTrackerDataLoadedStatus,
@@ -104,6 +106,7 @@ export class ActionTableComponent implements OnInit {
 
   configurationLoaded$: Observable<boolean>;
   configurationHasError$: Observable<boolean>;
+  actionConfigurationHasError$: Observable<boolean>;
   configurationError$: Observable<boolean>;
   dataHasError$: Observable<boolean>;
   dataError$: Observable<boolean>;
@@ -112,6 +115,7 @@ export class ActionTableComponent implements OnInit {
   canCreateActionProgress$: Observable<boolean>;
   canEditActionProgress: boolean;
   canDeleteActions$: Observable<boolean>;
+  actionConfigurationLoaded$: Observable<boolean>;
 
   selectedAction: any;
   initialActionStatus: '';
@@ -119,7 +123,7 @@ export class ActionTableComponent implements OnInit {
   selectedStatus: any;
   OBJECT = Object;
 
-  @Output() download: EventEmitter<string> = new EventEmitter<string>();
+  @Output() download: EventEmitter<object> = new EventEmitter<object>();
 
   constructor(
     private store: Store<State>,
@@ -133,7 +137,6 @@ export class ActionTableComponent implements OnInit {
     this.data$ = this.store.pipe(
       select(getMergedActionTrackerDatasWithRowspanAttribute())
     );
-
     this.programStageConfiguration$ = this.store.pipe(
       select(getConfigurationDataElementsFromProgramStageDEs)
     );
@@ -171,6 +174,9 @@ export class ActionTableComponent implements OnInit {
     this.dataError$ = this.store.select(getRootCauseAnalysisDataErrorStatus);
 
     this.configurationLoaded$ = store.select(getConfigurationLoadedStatus);
+    this.actionConfigurationHasError$ = store.select(
+      getActionTrackerConfigErrorStatus
+    );
     this.legendSet$ = this.store.select(getActionStatusLegendSet);
 
     this.store
@@ -216,9 +222,10 @@ export class ActionTableComponent implements OnInit {
           ? actionDataItem.rootCauseDataId || ''
           : '';
       const newIndex = rootCauseDataIds.indexOf(rootCauseId) + 1 || 0;
+     
+
       return newIndex;
     }
-
     return 0;
   }
 
@@ -428,9 +435,11 @@ export class ActionTableComponent implements OnInit {
         }
       });
   }
-  onDownload(e, downloadType) {
+  onDownload(e, downloadType, allowIds) {
     e.stopPropagation();
-    this.download.emit(downloadType);
+    this.data$.pipe(take(1)).subscribe((data) => {
+      this.download.emit({downloadType, data, allowIds });
+    });
   }
 
   onChangeStatus(e, actionStatuses: any) {

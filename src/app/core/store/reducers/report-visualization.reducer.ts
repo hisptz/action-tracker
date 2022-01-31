@@ -1,7 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import {
   addReportVisualizations,
-  loadReportVisualizations
+  loadReportVisualizations,
 } from '../actions/report-visualization.actions';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
@@ -12,15 +12,15 @@ export interface ReportVisualizationState extends EntityState<any> {
 export const adapter: EntityAdapter<any> = createEntityAdapter<any>();
 
 const initialState: ReportVisualizationState = adapter.getInitialState({
-  loading: false
+  loading: false,
 });
 
 const reducer = createReducer(
   initialState,
   on(addReportVisualizations, (state, { visualizations }) => {
-    return adapter.addAll(visualizations, { ...state, loading: false });
+    return adapter.setAll(visualizations, { ...state, loading: false });
   }),
-  on(loadReportVisualizations, state => ({ ...state, loading: true }))
+  on(loadReportVisualizations, (state) => ({ ...state, loading: true }))
 );
 
 export function reportVisualizationReducer(state, action: Action) {

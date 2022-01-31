@@ -87,7 +87,8 @@ export class UploadActionTrackerConfiguration implements Action {
 export class UploadActionTrackerConfigurationFail implements Action {
   readonly type =
     ActionTrackerConfigurationActionTypes.UploadActionTrackerConfigurationFail;
-  constructor(public error: any) {}
+
+  constructor(public error) {}
 }
 
 export class UpdateActionTrackerConfigurations implements Action {

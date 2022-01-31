@@ -33,10 +33,8 @@ export class RootCauseAnalysisDataEffects {
         this.rootStore.dispatch(loadReportVisualizations());
         return this.rootCauseAnalysisDataService
           .getRootCauseAnalysisData(
-            action.dataParams.rootCauseConfig,
-            action.dataParams.orgUnit,
-            action.dataParams.period,
-            action.dataParams.intervention
+            action.dataParams.intervention,
+            action.dataParams.period
           )
           .pipe(
             map((rootCauseAnalysisData: RootCauseAnalysisData[]) => {

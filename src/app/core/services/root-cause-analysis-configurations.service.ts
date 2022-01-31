@@ -13,7 +13,7 @@ import { HandlerService } from './handler.service';
 export class RootCauseAnalysisConfigurationsService {
   private _dataStoreUrl: string;
   constructor(private http: NgxDhis2HttpClientService) {
-    this._dataStoreUrl = 'dataStore/rca-config';
+    this._dataStoreUrl = 'dataStore/hisptz-bna-rcadata';
   }
   getConfigurationId() {
     return 'rcaconfig';
