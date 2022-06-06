@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Store} from '@ngrx/store';
+import {Observable, of} from 'rxjs';
+import {catchError, map, mergeMap, withLatestFrom} from 'rxjs/operators';
 
-import { ActionTrackerData } from '../../models/action-tracker-data.model';
-import { ActionTrackerDataService } from '../../services/action-tracker-data.service';
+import {ActionTrackerData} from '../../models/action-tracker-data.model';
+import {ActionTrackerDataService} from '../../services/action-tracker-data.service';
 
 import {
   ActionTrackerDataActionTypes,
@@ -22,15 +22,17 @@ import {
   LoadActionTrackerDatas,
   LoadActionTrackerDatasFail,
 } from '../actions/action-tracker-data.actions';
-import { State } from '../reducers';
-import { getRootCauseAnalysisDatas } from '../selectors/root-cause-analysis-data.selectors';
-import { TrackedEntityInstanceService } from '../../services';
-import { getCurrentActionTrackerConfig } from '../selectors/action-tracker-configuration.selectors';
+import {State} from '../reducers';
+import {getRootCauseAnalysisDatas} from '../selectors/root-cause-analysis-data.selectors';
+import {TrackedEntityInstanceService} from '../../services';
+import {getCurrentActionTrackerConfig} from '../selectors/action-tracker-configuration.selectors';
 
 import * as _ from 'lodash';
+import {ImportSummaryHelper} from '../../helpers/analyze-import-summary.helper';
+
 @Injectable()
 export class ActionTrackerDataEffects {
-  @Effect({ dispatch: false })
+  @Effect({dispatch: false})
   loadActionTrackerDatas$: Observable<any> = this.actions$.pipe(
     ofType(ActionTrackerDataActionTypes.LoadActionTrackerDatas),
     withLatestFrom(this.store.select(getRootCauseAnalysisDatas)),
@@ -65,8 +67,14 @@ export class ActionTrackerDataEffects {
         .savingTEI(actionTrackerDataValues)
         .pipe(
           map(
-            (actionTrackerData: any) =>
-              new SaveActionTrackerDataSuccess(actionTrackerDataValues)
+            (actionTrackerData: any) => {
+              const dataUploadStatus = ImportSummaryHelper.analyzeImportSummary(actionTrackerData);
+              if (dataUploadStatus.status === 'SUCCESS') {
+                return new SaveActionTrackerDataSuccess(actionTrackerDataValues);
+              }
+              console.log(Error(dataUploadStatus.errors?.join(', ')));
+              return new SaveActionTrackerDataFail(new Error(dataUploadStatus.errors?.join('\n')));
+            }
           ),
           catchError((error: any) => of(new SaveActionTrackerDataFail(error)))
         );
@@ -111,5 +119,6 @@ export class ActionTrackerDataEffects {
     private store: Store<State>,
     private actionTrackerDataService: ActionTrackerDataService,
     private trackedEntityInstanceService: TrackedEntityInstanceService
-  ) {}
+  ) {
+  }
 }
