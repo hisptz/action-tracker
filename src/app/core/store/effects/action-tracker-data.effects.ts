@@ -72,7 +72,7 @@ export class ActionTrackerDataEffects {
               if (dataUploadStatus.status === 'SUCCESS') {
                 return new SaveActionTrackerDataSuccess(actionTrackerDataValues);
               }
-              console.log(Error(dataUploadStatus.errors?.join(', ')));
+              console.error(Error(dataUploadStatus.errors?.join(', ')));
               return new SaveActionTrackerDataFail(new Error(dataUploadStatus.errors?.join('\n')));
             }
           ),
