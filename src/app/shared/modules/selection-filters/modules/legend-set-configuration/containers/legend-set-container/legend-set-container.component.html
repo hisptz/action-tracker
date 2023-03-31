@@ -30,31 +30,30 @@
                 [showDeleteIcon]="showDeleteIcon"
               ></app-legend-set>
             </div>
-            <div class="add-new-legend">
-              <!-- <button
-                title="Add new legend"
-                class="add-new-legend-button"
-                (click)="addNewLegend($event, legendSet.id)"
-              >
-                Add
-              </button> -->
-              <button
-                mat-mini-fab
-                color="primary"
-                title="Add new legend"
-                (click)="addNewLegend($event, legendSet.id)"
-              >
-                <mat-icon>add</mat-icon>
-              </button>
-            </div>
           </div>
         </div>
         <!-- end of content -->
       </div>
       <!-- end of legend set group item -->
     </div>
+    <div class="add-new-legend">
+      <!-- <button
+        title="Add new legend"
+        class="add-new-legend-button"
+        (click)="addNewLegend($event, legendSet.id)"
+      >
+        Add
+      </button> -->
+      <button
+        (click)="addNewLegend($event)"
+        color="primary"
+        mat-mini-fab
+        title="Add new legend"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
   </div>
-
   <div class="legend-set-btns">
     <button mat-stroked-button (click)="onClose($event)">
       Close</button
