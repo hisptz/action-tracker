@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4000",
-    "build": "ng build --configuration production --aot && cd dist/action-tracker && zip -r -D action-tracker.zip .",
+    "build": "./build.sh",
     "test": "ng test --source-map=false",
     "test:travis": "ng test --source-map=false --no-watch --no-progress --browsers=ChromeHeadlessCI",
     "lint": "ng lint",
