@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-widget-notification-bar',
@@ -14,7 +14,6 @@ export class WidgetNotificationBarComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    console.log(this.notification);
     setTimeout(() => {
       this.resetNotification.emit({
         message: null

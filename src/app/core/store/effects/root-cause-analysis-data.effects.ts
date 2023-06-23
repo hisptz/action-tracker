@@ -1,23 +1,17 @@
-import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
+import {Injectable} from '@angular/core';
+import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Store} from '@ngrx/store';
 import * as _ from 'lodash';
-import { Observable, of } from 'rxjs';
-import {
-  catchError,
-  map,
-  mergeMap,
-  switchMap,
-  withLatestFrom,
-} from 'rxjs/operators';
-import { State } from 'src/app/core/store/reducers';
+import {Observable, of} from 'rxjs';
+import {catchError, map, mergeMap, switchMap, withLatestFrom,} from 'rxjs/operators';
+import {State} from 'src/app/core/store/reducers';
 
-import { RootCauseAnalysisData } from '../../models/root-cause-analysis-data.model';
-import { RootCauseAnalysisDataService } from '../../services/root-cause-analysis-data.service';
+import {RootCauseAnalysisData} from '../../models/root-cause-analysis-data.model';
+import {RootCauseAnalysisDataService} from '../../services/root-cause-analysis-data.service';
 import * as fromRootCauseAnalysisDataActions from '../actions/root-cause-analysis-data.actions';
-import { LoadActionTrackerDatas } from '../actions/action-tracker-data.actions';
-import { getRouterParams } from '../selectors';
-import { loadReportVisualizations } from '../actions/report-visualization.actions';
+import {LoadActionTrackerDatas} from '../actions/action-tracker-data.actions';
+import {getRouterParams} from '../selectors';
+import {loadReportVisualizations} from '../actions/report-visualization.actions';
 
 @Injectable()
 export class RootCauseAnalysisDataEffects {
@@ -33,10 +27,8 @@ export class RootCauseAnalysisDataEffects {
         this.rootStore.dispatch(loadReportVisualizations());
         return this.rootCauseAnalysisDataService
           .getRootCauseAnalysisData(
-            action.dataParams.rootCauseConfig,
-            action.dataParams.orgUnit,
-            action.dataParams.period,
-            action.dataParams.intervention
+            action.dataParams.intervention,
+            action.dataParams.period
           )
           .pipe(
             map((rootCauseAnalysisData: RootCauseAnalysisData[]) => {

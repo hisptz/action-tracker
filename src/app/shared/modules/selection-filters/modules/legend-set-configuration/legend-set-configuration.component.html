@@ -1,7 +1,9 @@
-<div>
+<div style="overflow: hidden">
   <h5>Action Status Settings</h5>
   <app-legend-set-container [legendItems]="legendItems" [showDeleteIcon]="false"
-    [legendSetLoaded]="legendSetLoadedState$ | async" [legendSetEntities]="legendSetEntities$ | async"
-    (legendSetConfigurationClose)="onLegendSetConfigurationClose($event)"
-    (legendSetConfigurationUpdate)="onLegendSetConfigurationUpdate($event)"></app-legend-set-container>
+                            (legendSetConfigurationClose)="onLegendSetConfigurationClose($event)"
+                            (legendSetConfigurationUpdate)="onLegendSetConfigurationUpdate($event)"
+                            [legendSetEntities]="legendSetEntities$ | async"
+                            [legendSetLoaded]="legendSetLoadedState$ | async"></app-legend-set-container>
 </div>
+

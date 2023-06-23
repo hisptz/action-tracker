@@ -1,16 +1,15 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Observable } from 'rxjs';
-import { SelectionFilterConfig } from 'src/app/shared/modules/selection-filters/models/selected-filter-config.model';
-import { LegendConfigurationDialogComponent } from 'src/app/shared/dialogs/legend-configuration-dialog/legend-configuration-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
-import { getCurrentUserManagementAuthoritiesStatus } from '../../store/selectors/user.selectors';
-import { Store, select } from '@ngrx/store';
-import { State } from '../../store/reducers';
-import { FieldsSettingsDialogComponent } from 'src/app/shared/dialogs/fields-settings-dialog/fields-settings-dialog.component';
-import { getTableFieldsSettings } from '../../store/selectors/table-fields-settings.selectors';
-import { CheckMandatorySettingsExistAction } from '../../store/actions/table-fields-settings.actions';
-import { take } from 'rxjs/operators';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Observable} from 'rxjs';
+import {SelectionFilterConfig} from 'src/app/shared/modules/selection-filters/models/selected-filter-config.model';
+import {LegendConfigurationDialogComponent} from 'src/app/shared/dialogs/legend-configuration-dialog/legend-configuration-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
+import {getCurrentUserManagementAuthoritiesStatus} from '../../store/selectors/user.selectors';
+import {select, Store} from '@ngrx/store';
+import {State} from '../../store/reducers';
+import {FieldsSettingsDialogComponent} from 'src/app/shared/dialogs/fields-settings-dialog/fields-settings-dialog.component';
+import {getTableFieldsSettings} from '../../store/selectors/table-fields-settings.selectors';
+import {take} from 'rxjs/operators';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-selection-bar',
@@ -43,7 +42,6 @@ export class SelectionBarComponent implements OnInit {
 
   openLegendDialog() {
     this.dialog.open(LegendConfigurationDialogComponent, {
-      height: '450px',
       disableClose: true,
     });
   }

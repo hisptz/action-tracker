@@ -1,35 +1,13 @@
-import { Injectable } from '@angular/core';
-import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
-import * as _ from 'lodash';
-import { Observable, of, zip } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {NgxDhis2HttpClientService} from '@iapps/ngx-dhis2-http-client';
+import {Observable} from 'rxjs';
 
 @Injectable()
 export class InterventionService {
-  constructor(private http: NgxDhis2HttpClientService) {}
+  constructor(private http: NgxDhis2HttpClientService) {
+  }
 
-  loadAll(settings: any = { namespace: 'bna-dashboard' }): Observable<any[]> {
-    return this.http.get('dataStore/dashboards').pipe(
-      switchMap((dashboardIds: Array<string>) => {
-        const filteredDashboardIds = _.filter(
-          dashboardIds,
-          (dashboardId: string) => {
-            const splitedDashboardId = dashboardId.split('_');
-            const dashboardNamespace = splitedDashboardId[0] || '';
-            return dashboardNamespace === settings.namespace;
-          }
-        );
-
-        if (filteredDashboardIds.length === 0) {
-          return of([]);
-        }
-        return zip(
-          ..._.map(filteredDashboardIds, dashboardId => {
-            return this.http.get(`dataStore/dashboards/${dashboardId}`);
-          })
-        );
-      }),
-      catchError(() => of([]))
-    );
+  loadAll(settings: any = {namespace: 'hisptz-bna'}): Observable<any[]> {
+    return this.http.get('dataStore/hisptz-bna/interventions-summary');
   }
 }

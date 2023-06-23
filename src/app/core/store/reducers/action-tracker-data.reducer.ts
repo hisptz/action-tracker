@@ -1,10 +1,7 @@
-import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 
-import { ActionTrackerData } from '../../models/action-tracker-data.model';
-import {
-  ActionTrackerDataActions,
-  ActionTrackerDataActionTypes,
-} from '../actions/action-tracker-data.actions';
+import {ActionTrackerData} from '../../models/action-tracker-data.model';
+import {ActionTrackerDataActions, ActionTrackerDataActionTypes,} from '../actions/action-tracker-data.actions';
 
 export interface ActionTrackerDataState extends EntityState<ActionTrackerData> {
   // additional entities state properties
@@ -88,7 +85,6 @@ export function actionTrackerDataReducer(
     }
 
     case ActionTrackerDataActionTypes.LoadActionTrackerDatasFail: {
-      console.log(action);
       return {
         ...state,
         showNotification: true,

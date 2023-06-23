@@ -1,12 +1,13 @@
 .legend-set-container {
-  position: relative;
+  /*position: relative;   */
+  overflow: hidden;
 }
 
 .legend-set-body {
   padding-top: 10px;
   display: flex;
-  overflow: auto;
-  height: 320px;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .legend-set-loading-block {
@@ -51,11 +52,9 @@
 }
 
 .legend-set-group_list {
-  max-height: 400px;
   width: 100%;
-  margin-top: 0px;
   overflow: auto;
-  padding: 0px;
+  max-height: 60vh;
 }
 
 .legend-set-group_item-title {
@@ -245,7 +244,6 @@
 }
 
 .legend-set-btns {
-  position: absolute;
   /* bottom: 0; */
   width: 100%;
   font-size: 14px;

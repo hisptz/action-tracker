@@ -33,13 +33,6 @@ export const legendSetMetadata: any = [
           'startValue': 39
         },
         {
-          'id': 'K6MgTEEwX4a',
-          'name': 'Untitled',
-          'color': '#fff',
-          'endValue': 59,
-          'startValue': 49
-        },
-        {
           'id': 'OvFddinrsw5',
           'name': 'Not in progress',
           'color': '#c21a1a',

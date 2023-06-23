@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+
 export function getStandardizedAnalyticsObject(analyticsObject: any, preferNormalStructure: boolean = false) {
   if (analyticsObject && analyticsObject.count) {
     return analyticsObject;
@@ -22,7 +23,6 @@ export function getStandardizedAnalyticsObject(analyticsObject: any, preferNorma
           const newHeader: any = header;
           sanitizedAnalyticsObject.headers.push(newHeader);
         } catch (e) {
-          console.warn('Invalid header object');
         }
       });
     }

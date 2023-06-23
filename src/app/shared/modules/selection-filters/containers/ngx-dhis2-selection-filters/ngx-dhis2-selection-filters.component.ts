@@ -1,18 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import * as _ from 'lodash';
 
-import { SELECTION_FILTER_CONFIG } from '../../constants/selection-filter-config.constant';
-import {
-  ARROW_DOWN_ICON,
-  ARROW_LEFT_ICON,
-  ARROW_RIGHT_ICON,
-  DATA_ICON,
-  FILTER_ICON,
-  PERIOD_ICON,
-  TREE_ICON,
-} from '../../icons';
-import { SelectionFilterConfig } from '../../models/selected-filter-config.model';
-import { PeriodFilterConfig } from '@iapps/ngx-dhis2-period-filter';
+import {SELECTION_FILTER_CONFIG} from '../../constants/selection-filter-config.constant';
+import {ARROW_DOWN_ICON, ARROW_LEFT_ICON, ARROW_RIGHT_ICON, DATA_ICON, FILTER_ICON, PERIOD_ICON, TREE_ICON,} from '../../icons';
+import {SelectionFilterConfig} from '../../models/selected-filter-config.model';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -101,10 +92,19 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
     );
   }
 
+  get filteredDataWithByPassDefault() {
+    return {
+      ...this.filterConfig?.periodFilterConfig,
+      allowRelativePeriodSelection: false
+    };
+  }
+
   get filterConfig(): SelectionFilterConfig {
+
     return {
       ...SELECTION_FILTER_CONFIG,
       ...(this.selectionFilterConfig || {}),
+
     };
   }
 
