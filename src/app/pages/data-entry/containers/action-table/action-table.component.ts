@@ -1,43 +1,25 @@
-import {
-  Component,
-  ElementRef,
-  Input,
-  OnInit,
-  ViewChild,
-  Output,
-  EventEmitter,
-} from '@angular/core';
-import { find } from 'lodash';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { select, Store } from '@ngrx/store';
-import {
-  endOfQuarter,
-  endOfYear,
-  isDate,
-  startOfQuarter,
-  startOfYear,
-} from 'date-fns';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild,} from '@angular/core';
 import * as _ from 'lodash';
-import { Observable } from 'rxjs';
-import { generateEvent } from 'src/app/core/helpers/generate-event-payload.helper';
-import { getFormattedDate } from 'src/app/core/helpers/generate-formatted-date.helper';
-import { generateTEI } from 'src/app/core/helpers/generate-tracked-entity-instance.helper';
-import { generateUid } from 'src/app/core/helpers/generate-uid.helper';
-import { upsertEnrollmentPayload } from 'src/app/core/helpers/upsert-enrollment-payload.helper';
-import { RootCauseAnalysisConfiguration } from 'src/app/core/models/root-cause-analysis-configuration.model';
+import {find} from 'lodash';
+import {MatDialog} from '@angular/material/dialog';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {select, Store} from '@ngrx/store';
+import {endOfQuarter, endOfYear, isDate, startOfQuarter, startOfYear,} from 'date-fns';
+import {Observable} from 'rxjs';
+import {generateEvent} from 'src/app/core/helpers/generate-event-payload.helper';
+import {getFormattedDate} from 'src/app/core/helpers/generate-formatted-date.helper';
+import {generateTEI} from 'src/app/core/helpers/generate-tracked-entity-instance.helper';
+import {generateUid} from 'src/app/core/helpers/generate-uid.helper';
+import {upsertEnrollmentPayload} from 'src/app/core/helpers/upsert-enrollment-payload.helper';
+import {RootCauseAnalysisConfiguration} from 'src/app/core/models/root-cause-analysis-configuration.model';
+import {DeleteActionTrackerData, SaveActionTrackerData,} from 'src/app/core/store/actions/action-tracker-data.actions';
+import {State} from 'src/app/core/store/reducers';
 import {
-  DeleteActionTrackerData,
-  SaveActionTrackerData,
-} from 'src/app/core/store/actions/action-tracker-data.actions';
-import { State } from 'src/app/core/store/reducers';
-import {
+  getActionTrackerConfigErrorStatus,
   getConfigurationDataElementsFromProgramStageDEs,
   getMergedActionTrackerConfiguration,
-  getMergedActionTrackerErrorStatusConfiguration,
   getMergedActionTrackerConfigurationErrors,
-  getActionTrackerConfigLoadedStatus,
-  getActionTrackerConfigErrorStatus,
+  getMergedActionTrackerErrorStatusConfiguration,
 } from 'src/app/core/store/selectors/action-tracker-configuration.selectors';
 import {
   getActionTrackerDataLoadedStatus,
@@ -49,34 +31,36 @@ import {
   getYearOfCurrentPeriodSelection,
 } from 'src/app/core/store/selectors/action-tracker-data.selectors';
 import {
-  getRootCauseAnalysisDataHasErrorStatus,
   getRootCauseAnalysisDataErrorStatus,
+  getRootCauseAnalysisDataHasErrorStatus,
 } from 'src/app/core/store/selectors/root-cause-analysis-data.selectors';
 
 import {
-  getCanCreateActions,
-  getCanEditActions,
-  getCanDeleteActions,
   getCanCreateActionProgress,
+  getCanCreateActions,
+  getCanDeleteActions,
   getCanEditActionProgress,
+  getCanEditActions,
 } from 'src/app/core/store/selectors/user.selectors';
-import { getColumnSettingsData } from 'src/app/core/store/selectors/column-settings.selectors';
-import { getConfigurationLoadedStatus } from 'src/app/core/store/selectors/root-cause-analysis-configuration.selectors';
-import { DeleteConfirmationDialogueComponent } from 'src/app/shared/components/delete-confirmation-dialogue/delete-confirmation-dialogue.component';
-import { FormDialogComponent } from 'src/app/shared/components/form-dialog/form-dialog.component';
-import { NotificationSnackbarComponent } from 'src/app/shared/components/notification-snackbar/notification-snackbar.component';
-import { generateActionDataValue } from 'src/app/shared/helpers/generate-action-data-values.helper';
+import {getColumnSettingsData} from 'src/app/core/store/selectors/column-settings.selectors';
+import {getConfigurationLoadedStatus} from 'src/app/core/store/selectors/root-cause-analysis-configuration.selectors';
+import {
+  DeleteConfirmationDialogueComponent
+} from 'src/app/shared/components/delete-confirmation-dialogue/delete-confirmation-dialogue.component';
+import {FormDialogComponent} from 'src/app/shared/components/form-dialog/form-dialog.component';
+import {NotificationSnackbarComponent} from 'src/app/shared/components/notification-snackbar/notification-snackbar.component';
+import {generateActionDataValue} from 'src/app/shared/helpers/generate-action-data-values.helper';
 
 import {
   getActionStatusLegendSet,
   LegendSetState,
 } from '../../../../shared/modules/selection-filters/modules/legend-set-configuration/store';
-import { TableColumnConfigDialogComponent } from 'src/app/shared/dialogs/table-column-config-dialog/table-column-config-dialog.component';
-import { take, first } from 'rxjs/operators';
-import { ProgressVisualizationDialogComponent } from '../../components/progress-visualization-dialog/progress-visualization-dialog.component';
-import { Visualization } from 'src/app/pages/analysis/modules/ngx-dhis2-visualization/models';
-import { getReportVisualizations } from 'src/app/core/store/selectors/report-visualization.selectors';
-import { getVisualizationForAction } from '../../helpers/get-visualization-for-action.helper';
+import {TableColumnConfigDialogComponent} from 'src/app/shared/dialogs/table-column-config-dialog/table-column-config-dialog.component';
+import {take} from 'rxjs/operators';
+import {ProgressVisualizationDialogComponent} from '../../components/progress-visualization-dialog/progress-visualization-dialog.component';
+import {Visualization} from 'src/app/pages/analysis/modules/ngx-dhis2-visualization/models';
+import {getReportVisualizations} from 'src/app/core/store/selectors/report-visualization.selectors';
+import {getVisualizationForAction} from '../../helpers/get-visualization-for-action.helper';
 
 @Component({
   selector: 'app-action-table',
@@ -222,7 +206,7 @@ export class ActionTableComponent implements OnInit {
           ? actionDataItem.rootCauseDataId || ''
           : '';
       const newIndex = rootCauseDataIds.indexOf(rootCauseId) + 1 || 0;
-     
+
 
       return newIndex;
     }

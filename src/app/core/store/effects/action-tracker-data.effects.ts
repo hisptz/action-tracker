@@ -9,18 +9,18 @@ import {ActionTrackerDataService} from '../../services/action-tracker-data.servi
 
 import {
   ActionTrackerDataActionTypes,
-  AddActionTrackerDatas,
   AddActionTrackerData,
   AddActionTrackerDataFail,
+  AddActionTrackerDatas,
   AddActionTrackerDataSuccess,
-  SaveActionTrackerData,
-  SaveActionTrackerDataFail,
-  SaveActionTrackerDataSuccess,
   DeleteActionTrackerData,
   DeleteActionTrackerDataFail,
   DeleteActionTrackerDataSuccess,
   LoadActionTrackerDatas,
   LoadActionTrackerDatasFail,
+  SaveActionTrackerData,
+  SaveActionTrackerDataFail,
+  SaveActionTrackerDataSuccess,
 } from '../actions/action-tracker-data.actions';
 import {State} from '../reducers';
 import {getRootCauseAnalysisDatas} from '../selectors/root-cause-analysis-data.selectors';

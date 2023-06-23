@@ -1,10 +1,9 @@
-import { Injectable } from '@angular/core';
-import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
-import { of, throwError } from 'rxjs';
-import { catchError, mergeMap, map, switchMap } from 'rxjs/operators';
-import { HandlerService } from './handler.service';
-import { defaultActionTrackerProgram } from '../defaults/action-tracker-program-metadata';
-import * as _ from 'lodash';
+import {Injectable} from '@angular/core';
+import {NgxDhis2HttpClientService} from '@iapps/ngx-dhis2-http-client';
+import {of, throwError} from 'rxjs';
+import {catchError, map, switchMap} from 'rxjs/operators';
+import {defaultActionTrackerProgram} from '../defaults/action-tracker-program-metadata';
+
 @Injectable({
   providedIn: 'root',
 })

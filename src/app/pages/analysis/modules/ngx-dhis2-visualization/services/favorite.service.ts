@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import * as _ from 'lodash';
-import { Observable, of, throwError, zip } from 'rxjs';
-import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
+import {Observable, of, throwError, zip} from 'rxjs';
+import {NgxDhis2HttpClientService} from '@iapps/ngx-dhis2-http-client';
 
-import { getFavoriteUrl } from '../helpers';
-import { map, catchError, switchMap } from 'rxjs/operators';
-import { FavoriteConfiguration } from '../models/favorite-configurations.model';
-import { HttpClient } from '@angular/common/http';
+import {getFavoriteUrl} from '../helpers';
+import {catchError, map, switchMap} from 'rxjs/operators';
+import {FavoriteConfiguration} from '../models/favorite-configurations.model';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class FavoriteService {

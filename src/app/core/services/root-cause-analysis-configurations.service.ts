@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import * as _ from 'lodash';
-import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
-import { RootCauseAnalysisConfiguration } from '../models/root-cause-analysis-configuration.model';
-import { catchError, map, switchMap } from 'rxjs/operators';
-import { throwError, zip, of } from 'rxjs';
-import { defaultDataSetElementDetails } from '../../shared/modules/action-tracker-table/constants/default-configurations';
-import { HandlerService } from './handler.service';
+import {NgxDhis2HttpClientService} from '@iapps/ngx-dhis2-http-client';
+import {RootCauseAnalysisConfiguration} from '../models/root-cause-analysis-configuration.model';
+import {catchError, map, switchMap} from 'rxjs/operators';
+import {of, throwError, zip} from 'rxjs';
+import {defaultDataSetElementDetails} from '../../shared/modules/action-tracker-table/constants/default-configurations';
+import {HandlerService} from './handler.service';
 
 @Injectable({
   providedIn: 'root',

@@ -1,9 +1,6 @@
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { ActionTrackerConfiguration } from '../../models/action-tracker-configuration.model';
-import {
-  ActionTrackerConfigurationActions,
-  ActionTrackerConfigurationActionTypes,
-} from '../actions/action-tracker-configuration.actions';
+import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
+import {ActionTrackerConfiguration} from '../../models/action-tracker-configuration.model';
+import {ActionTrackerConfigurationActions, ActionTrackerConfigurationActionTypes,} from '../actions/action-tracker-configuration.actions';
 
 export interface ActionTrackerConfigurationState
   extends EntityState<ActionTrackerConfiguration> {

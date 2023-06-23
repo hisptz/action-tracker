@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+
 export function getStandardizedAnalyticsObject(analyticsObject: any, preferNormalStructure: boolean = false) {
   if (analyticsObject && analyticsObject.count) {
     return analyticsObject;

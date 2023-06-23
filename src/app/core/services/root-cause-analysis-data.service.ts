@@ -1,16 +1,18 @@
-import { Injectable } from '@angular/core';
-import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
-import { RootCauseAnalysisConfigurationsService } from './root-cause-analysis-configurations.service';
-import { catchError, switchMap, take } from 'rxjs/operators';
-import { throwError, zip, of, Observable } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {NgxDhis2HttpClientService} from '@iapps/ngx-dhis2-http-client';
+import {RootCauseAnalysisConfigurationsService} from './root-cause-analysis-configurations.service';
+import {catchError, switchMap} from 'rxjs/operators';
+import {Observable, of, throwError, zip} from 'rxjs';
 import * as _ from 'lodash';
-import { RootCauseAnalysisData } from '../models/root-cause-analysis-data.model';
+import {RootCauseAnalysisData} from '../models/root-cause-analysis-data.model';
+
 @Injectable({
   providedIn: 'root',
 })
 export class RootCauseAnalysisDataService {
   configurationId: string;
   private _dataStoreUrl = 'dataStore/hisptz-bna-rcadata';
+
   constructor(
     private http: NgxDhis2HttpClientService,
     public rcaConfigurationService: RootCauseAnalysisConfigurationsService
@@ -86,23 +88,23 @@ export class RootCauseAnalysisDataService {
     period
   ) {
     return this.http.get(`${this._dataStoreUrl}/${dashBoardId}_rcadata`)
-    .pipe(
-      switchMap((data: any[]) => {
-        let dataFiltered = _.filter([..._.uniq([..._.flattenDeep(data)])],function (singleRootCauseObject){
-          return singleRootCauseObject['dataValues']['skBBrbmML4S'] === period
-        });
-        if (dataFiltered.length >0) {
-         return zip(...[...dataFiltered].map((rootCauseObject)=>{
-     let newRootCauseobserver =new Observable((observer)=>{
-       observer.next(rootCauseObject);
-       observer.unsubscribe()
-     })
-           return newRootCauseobserver;
-         }))
-        } else {
-          return of([]);
-        }
-      }),
+      .pipe(
+        switchMap((data: any[]) => {
+          let dataFiltered = _.filter([..._.uniq([..._.flattenDeep(data)])], function (singleRootCauseObject) {
+            return singleRootCauseObject['dataValues']['skBBrbmML4S'] === period;
+          });
+          if (dataFiltered.length > 0) {
+            return zip(...[...dataFiltered].map((rootCauseObject) => {
+              let newRootCauseobserver = new Observable((observer) => {
+                observer.next(rootCauseObject);
+                observer.unsubscribe();
+              });
+              return newRootCauseobserver;
+            }));
+          } else {
+            return of([]);
+          }
+        }),
       catchError((error: any) => {
         if (error.status !== 404) {
           return throwError(error);
