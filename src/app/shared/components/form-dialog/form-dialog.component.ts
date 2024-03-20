@@ -1,16 +1,12 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormFieldType } from '../../constants/form-field-types.constant';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {
-  LegendSetState,
-  getLegendSetsEntities,
-  getActionStatusLegendSetItems,
-} from '../../modules/selection-filters/modules/legend-set-configuration/store';
-import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { first } from 'rxjs/operators';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {FormFieldType} from '../../constants/form-field-types.constant';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {getActionStatusLegendSetItems, LegendSetState, } from '../../modules/selection-filters/modules/legend-set-configuration/store';
+import {Observable} from 'rxjs';
+import {Store} from '@ngrx/store';
 import * as _ from 'lodash';
+
 @Component({
   selector: 'app-form-dialog',
   templateUrl: './form-dialog.component.html',
@@ -69,11 +65,11 @@ export class FormDialogComponent implements OnInit {
           this.formDialogData.dataValues['actionStatus'] = this.formDialogData
             .dataValues['hasEvent']
             ? this.formDialogData.dataValues['actionStatus']
-            : this.defaultActionStatus.id;
+            : this.defaultActionStatus?.id;
         }
         formEntity[dataElement.id || dataElement.formControlName] = [
           this.formDialogData.dataValues[dataElement.id] ||
-            this.formDialogData.dataValues[dataElement.formControlName],
+          this.formDialogData.dataValues[dataElement.formControlName],
           [
             dataElement.required
               ? Validators.required
