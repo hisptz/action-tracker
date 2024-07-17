@@ -1,4 +1,4 @@
-#! /usr/bin/bash
+
 # Get app version from package.json
 APP_VERSION=$(node -p "require('./package.json').version")
 APP_NAME=$(node -p "require('./package.json').name")
